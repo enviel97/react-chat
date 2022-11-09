@@ -1,0 +1,58 @@
+import { ButtonTextNeumorphism } from "@components/Button";
+import { useForm } from "react-hook-form";
+import { FormDecorate } from "../decorates/decorates.form";
+import { TextFieldNeumorphism as TextField } from "@components/TextInput";
+import { forwardRef, useImperativeHandle } from "react";
+
+const LoginForm = forwardRef<FormHandler>((_, ref) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    clearErrors,
+    formState: { errors },
+  } = useForm<Account>({
+    defaultValues: { email: "", password: "" },
+  });
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      reset: reset,
+      clearError: clearErrors,
+    }),
+    [reset, clearErrors]
+  );
+
+  const onSubmit = (data: Account) => {};
+
+  return (
+    <FormDecorate onSubmit={handleSubmit(onSubmit)}>
+      <TextField
+        label='Email'
+        register={register("email", {
+          required: "* Please enter your email",
+        })}
+        errorMess={errors.email?.message}
+      />
+      <TextField
+        label='Password'
+        register={register("password", {
+          required: "* Please enter your password",
+        })}
+        errorMess={errors.password?.message}
+        security
+      />
+      <ButtonTextNeumorphism
+        width='100%'
+        color='secondaryColor'
+        type='submit'
+        text='Login'
+      />
+      <a href='/'>
+        Forgot password? <strong>Click here</strong>
+      </a>
+    </FormDecorate>
+  );
+});
+export default LoginForm;
