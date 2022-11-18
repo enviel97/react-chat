@@ -1,4 +1,5 @@
 import {
+  colorBrightness,
   neumorphismBoxShadow,
   neumorphismBoxShadowInset,
 } from "@common/helper/tools";
@@ -28,9 +29,9 @@ export const Loader = styled.span`
     inset: 0;
     border-radius: 50%;
     background: linear-gradient(
-      ${({ theme }) => theme.onBackgroundColor},
-      ${({ theme }) => theme.secondaryColor},
-      ${({ theme }) => theme.tertiaryColor}
+      ${({ theme }) => colorBrightness(theme.onBackgroundColor, 10)},
+      ${({ theme }) => colorBrightness(theme.secondaryColor, 10)},
+      ${({ theme }) => colorBrightness(theme.tertiaryColor, 10)}
     );
     filter: blur(10px);
     box-shadow: ${neumorphismBoxShadowInset(true)};

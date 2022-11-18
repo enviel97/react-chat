@@ -15,7 +15,7 @@ export const Base = styled.div<{
     border-radius: 0.3em;
     border: none;
     outline: none;
-    font-size: 1.2rem;
+    font-size: 1em;
     background-color: ${(props) => props.color ?? props.theme.secondaryColor};
     color: ${(props) => props.textColor ?? props.theme.onSecondaryColor};
     font-weight: bold;

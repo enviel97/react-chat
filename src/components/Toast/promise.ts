@@ -41,7 +41,7 @@ export const PromiseToast = async (props: PromiseToastProps) => {
   }, 2500);
   await action()
     .then((res) => {
-      onSuccess?.call(this, res);
+      onSuccess && onSuccess(res);
       toast.update(toastId, {
         render: `${res?.message ?? "Success"}`,
         ...(toastOption as any),
@@ -50,12 +50,12 @@ export const PromiseToast = async (props: PromiseToastProps) => {
       });
     })
     .catch((err) => {
+      onError && onError();
       toast.update(toastId, {
         render: `${err.message ?? "Error"}`,
         ...(toastOption as any),
         type: "error",
         autoClose: 1500,
-        onClose: onError,
       });
     });
 };

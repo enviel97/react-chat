@@ -3,6 +3,10 @@ import { useForm } from "react-hook-form";
 import { FormDecorate } from "../decorates/decorates.form";
 import { TextFieldNeumorphism as TextField } from "@components/TextInput";
 import { forwardRef, useImperativeHandle } from "react";
+import { signIn } from "../repo/authenticate/authenticate";
+import { useNavigate } from "react-router-dom";
+import { PromiseToast } from "@components/Toast/promise";
+import useAuthenticate from "@hooks/useAuthenticate";
 
 const LoginForm = forwardRef<FormHandler>((_, ref) => {
   const {
@@ -12,8 +16,10 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
     clearErrors,
     formState: { errors },
   } = useForm<Account>({
-    defaultValues: { email: "", password: "" },
+    defaultValues: { email: "nvloc.07.97@gmail.com", password: "123Admin1" },
   });
+  const navigator = useNavigate();
+  const { updateAuthUser } = useAuthenticate();
 
   useImperativeHandle(
     ref,
@@ -24,7 +30,17 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
     [reset, clearErrors]
   );
 
-  const onSubmit = (data: Account) => {};
+  const onSubmit = async (data: Account) => {
+    PromiseToast({
+      action: async () => await signIn(data),
+      onSuccess: (response) => {
+        if (response.data) {
+          updateAuthUser(response.data);
+          navigator("/", { replace: true });
+        }
+      },
+    });
+  };
 
   return (
     <FormDecorate onSubmit={handleSubmit(onSubmit)}>

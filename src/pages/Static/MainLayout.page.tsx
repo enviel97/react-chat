@@ -1,6 +1,8 @@
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import useAutoScrollTop from "@hooks/useAutoScrollTop";
+import PageLoading from "@components/Loading/PageLoading";
+import useAuthFetch from "@pages/Auth/hooks/useAuthFetch";
 
 export const MainContainer = styled.div`
   height: 100vh;
@@ -13,7 +15,15 @@ export const MainContainer = styled.div`
 
 const MainLayout = () => {
   useAutoScrollTop();
+  const { user, loading } = useAuthFetch();
+  const location = useLocation();
 
+  if (loading) {
+    return <PageLoading />;
+  }
+  if (!user) {
+    return <Navigate to={"/auth"} state={{ from: location }} replace />;
+  }
   return (
     <MainContainer id='app'>
       <Outlet />

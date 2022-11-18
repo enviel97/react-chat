@@ -11,6 +11,9 @@ interface AnimationProps {
 export const AuthPage = styled(Page)<AnimationProps>`
   width: 100vw;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   &::before {
     content: "${({ active }) => (active ? "Sign Up" : "Sign In")}";
     transition: 0.5s;

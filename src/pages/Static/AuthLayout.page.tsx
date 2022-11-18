@@ -40,6 +40,7 @@ const AuthLayout = () => {
   // if (isAuthenticate) {
   //   return <Navigate to={"/"} replace />;
   // }
+
   return (
     <AnimatePresence mode='wait'>
       <AuthContainer>

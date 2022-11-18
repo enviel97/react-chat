@@ -3,6 +3,7 @@ import { ThemeProvider as StyledTheme } from "styled-components";
 import GlobalStyle from "./styles/global.styles";
 import { palette } from "./helper/palette";
 import "normalize.css";
+import "react-toastify/dist/ReactToastify.css";
 
 const initTheme: ThemeMode = "dark";
 
