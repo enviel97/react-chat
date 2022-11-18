@@ -5,7 +5,6 @@ import { TextFieldNeumorphism as TextField } from "@components/TextInput";
 import { forwardRef, useImperativeHandle } from "react";
 import { signIn } from "../repo/authenticate/authenticate";
 import { useNavigate } from "react-router-dom";
-import { PromiseToast } from "@components/Toast/promise";
 import useAuthenticate from "@hooks/useAuthenticate";
 
 const LoginForm = forwardRef<FormHandler>((_, ref) => {
@@ -14,6 +13,7 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
     handleSubmit,
     reset,
     clearErrors,
+    setValue,
     formState: { errors },
   } = useForm<Account>({
     defaultValues: { email: "nvloc.07.97@gmail.com", password: "123Admin1" },
@@ -26,20 +26,19 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
     () => ({
       reset: reset,
       clearError: clearErrors,
+      changeValue: (name: any, value) => {
+        setValue(name, value);
+      },
     }),
     [reset, clearErrors]
   );
 
   const onSubmit = async (data: Account) => {
-    PromiseToast({
-      action: async () => await signIn(data),
-      onSuccess: (response) => {
-        if (response.data) {
-          updateAuthUser(response.data);
-          navigator("/", { replace: true });
-        }
-      },
-    });
+    const response = await signIn(data);
+    if (response.data) {
+      updateAuthUser(response.data);
+      navigator("/", { replace: true });
+    }
   };
 
   return (

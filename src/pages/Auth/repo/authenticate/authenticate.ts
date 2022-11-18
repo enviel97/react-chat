@@ -21,7 +21,7 @@ export const signUp = async (req: SignUpRequest) => {
     SIGN_UP_URL,
     req
   );
-  return response.data;
+  return response;
 };
 
 export const authStatus = async () => {

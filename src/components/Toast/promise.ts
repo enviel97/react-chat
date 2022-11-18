@@ -42,6 +42,7 @@ export const PromiseToast = async (props: PromiseToastProps) => {
   await action()
     .then((res) => {
       onSuccess && onSuccess(res);
+
       toast.update(toastId, {
         render: `${res?.message ?? "Success"}`,
         ...(toastOption as any),
