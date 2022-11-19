@@ -12,8 +12,10 @@ const BaseTextField = (props: TextFieldProps) => {
     width = "100%",
     readOnly = false,
     disabled = false,
+    filled,
+    borderColor,
   } = props;
-  const ref = useRef<HTMLInputElement>();
+  const ref = useRef<any>();
   const [isHidden, setHidden] = useState(true);
 
   useEffect(() => {
@@ -22,31 +24,53 @@ const BaseTextField = (props: TextFieldProps) => {
     }
   }, [initValue, ref, readOnly]);
 
-  const _onChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const _onChange = (event: ChangeEvent<any>) => {
     props.onChanged && props.onChanged(event.target.value);
   };
 
   return (
-    <FloatingLabel className={props.className} height={height} width={width}>
+    <FloatingLabel
+      className={`textField${props.className ? ` ${props.className}` : ""}`}
+      filled={filled}
+      height={height}
+      width={width}
+      borderColor={borderColor}
+    >
       {(disabled || readOnly) && (
         <LockIcon className='lock'>
           <TbLock />
         </LockIcon>
       )}
-      <input
-        className={props.className}
-        ref={ref}
-        type={props.type || (security && isHidden ? "password" : "text")}
-        id={id}
-        name={id}
-        placeholder={props.placeholder ?? " "}
-        defaultValue={initValue}
-        onChange={_onChange}
-        readOnly={readOnly}
-        disabled={disabled || readOnly}
-        required
-        {...props.register}
-      />
+      {props.type === "rich" ? (
+        <textarea
+          className={props.className}
+          ref={ref}
+          id={id}
+          name={id}
+          placeholder={props.placeholder ?? " "}
+          defaultValue={initValue}
+          onChange={_onChange}
+          readOnly={readOnly}
+          disabled={disabled || readOnly}
+          required
+        />
+      ) : (
+        <input
+          className={props.className}
+          ref={ref}
+          type={props.type || (security && isHidden ? "password" : "text")}
+          id={id}
+          name={id}
+          placeholder={props.placeholder ?? " "}
+          defaultValue={initValue}
+          onChange={_onChange}
+          readOnly={readOnly}
+          disabled={disabled || readOnly}
+          required
+          {...props.register}
+        />
+      )}
+
       <label htmlFor={id}>{label ?? props.register?.name ?? "Label"}</label>
       {security && (
         <Eyes onClick={() => setHidden((prev) => !prev)}>

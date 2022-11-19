@@ -33,8 +33,8 @@ export const Neumorphism = styled(FloatingLabel)<{
   & .base {
     border: none;
 
-    & input[type="text"],
-    & input[type="password"] {
+    & .textField[type="text"],
+    & .textField[type="password"] {
       &:valid,
       &:focus,
       &:disabled {

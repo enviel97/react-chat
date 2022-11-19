@@ -31,7 +31,6 @@ export const Base = styled.div<{
         colorBrightness(color ?? theme.secondaryColor, -10)}80;
 
     &:hover {
-      scale: 1.02;
       background-color: ${({ color, theme }) =>
         colorBrightness(color ?? theme.secondaryColor, 10)};
     }
@@ -40,11 +39,10 @@ export const Base = styled.div<{
       border: 2px solid
         ${({ color, theme }) =>
           colorBrightness(color ?? theme.secondaryColor, 10)};
-      scale: 1.02;
     }
 
     &:active {
-      scale: 0.98;
+      font-size: 98%;
       background-color: ${({ color, theme }) =>
         colorBrightness(color ?? theme.secondaryColor, -10)};
     }

@@ -10,7 +10,6 @@ export const ModalContainer = styled(motion.div)<{
   width: ${({ width }) => `min(90%, ${width})`};
   height: ${({ height }) => `clamp(20%, ${height} + 1vh, 90%)`};
   margin: auto;
-  padding: 1rem 2rem;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -25,4 +24,5 @@ export const CloseButtonContainer = styled.div`
   position: absolute;
   right: 1em;
   top: 1rem;
+  z-index: 100;
 `;

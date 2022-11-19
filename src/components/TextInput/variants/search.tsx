@@ -41,7 +41,7 @@ const TextFieldSearchNeumorphism = forwardRef<
     >
       <BaseTextField
         {...prop}
-        className='textfield'
+        className='searchTextField'
         placeholder={prop.placeholder ?? "Search"}
         register={register("search")}
       />

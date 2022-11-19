@@ -17,7 +17,7 @@ export const SearchNeumorphism = styled.form<{
 }>`
   position: relative;
   border: none;
-  & .textfield {
+  & .searchTextField {
     border: none;
     box-shadow: ${neumorphismBoxShadow(true, {
       x: 10,
@@ -25,7 +25,7 @@ export const SearchNeumorphism = styled.form<{
       background: "#121212",
     })};
     border-radius: 100px;
-    & input {
+    & .textField {
       padding: 0.75rem 1.2rem;
     }
     & ~ label {

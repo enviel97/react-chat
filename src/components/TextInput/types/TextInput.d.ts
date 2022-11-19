@@ -2,15 +2,18 @@ interface TextFieldProps {
   className?: string;
   id?: string;
   initValue?: string;
-  type?: "text" | "number" | "password";
+  type?: "text" | "number" | "password" | "rich";
   label?: string;
   security?: boolean;
   height?: string;
   width?: string;
   placeholder?: string;
-  filled?: string;
   readOnly?: boolean;
   disabled?: boolean;
+
+  // color
+  borderColor?: string;
+  filled?: string;
 
   register?: any;
   errorMess?: string;

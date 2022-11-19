@@ -1,5 +1,15 @@
 import styled from "styled-components";
 
+const _fillColor = ({ filled, theme }: any) => {
+  if (!filled) return theme.backgroundColor;
+  if (filled[0] === "#" || filled === "transparent") {
+    return filled;
+  }
+  return theme[filled];
+};
+const _borderColor = ({ borderColor, theme }: any) =>
+  borderColor ?? theme.disableColor;
+
 export const LockIcon = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};
   padding: 0 0.5rem;
@@ -23,15 +33,17 @@ export const Eyes = styled.div`
 export const FloatingLabel = styled.div<{
   height: string;
   width: string;
+  filled?: string;
+  borderColor?: string;
 }>`
   position: relative;
   height: ${(props) => props.height};
   width: ${(props) => props.width};
   display: flex;
   align-items: center;
-  background-color: ${({ theme }) => theme.backgroundColor};
+  background-color: ${_fillColor};
   color: ${({ theme }) => theme.disableColor};
-  border: 2px solid ${({ theme }) => theme.disableColor};
+  border: 2px solid ${_borderColor};
 
   & label {
     display: flex;
@@ -44,7 +56,7 @@ export const FloatingLabel = styled.div<{
     bottom: 0;
     top: 0;
     padding: 0 0.5rem;
-    background-color: ${({ theme }) => theme.backgroundColor};
+    background-color: ${_fillColor};
     pointer-events: none;
     color: ${({ theme }) => theme.disableColor};
     transition: 0.5s ease-in-out;
@@ -55,16 +67,22 @@ export const FloatingLabel = styled.div<{
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
-    -webkit-box-shadow: 0 0 0 30px ${({ theme }) => theme.backgroundColor} inset !important;
-    box-shadow: 0 0 0 30px ${({ theme }) => theme.backgroundColor} inset !important;
+    -webkit-box-shadow: 0 0 0 30px ${_fillColor} inset !important;
+    box-shadow: 0 0 0 30px ${_fillColor} inset !important;
 
     -webkit-text-fill-color: ${({ theme }) =>
       theme.onBackgroundColor} !important;
   }
-
-  & input[type="text"],
-  & input[type="password"],
-  & input[type="number"] {
+  & textarea {
+    height: 100%;
+    resize: none;
+    & ~ label {
+      top: 0;
+      bottom: auto;
+    }
+  }
+  & input,
+  & textarea {
     width: 100%;
     padding: 1rem 0.5rem 0.5rem;
     background-color: inherit;
@@ -95,7 +113,8 @@ export const FloatingLabel = styled.div<{
   }
 
   & input[type="text"],
-  & input[type="password"] {
+  & input[type="password"],
+  & textarea {
     &:valid,
     &:focus,
     &:disabled {
@@ -104,9 +123,6 @@ export const FloatingLabel = styled.div<{
         width: fit-content;
         color: ${({ theme }) => theme.secondaryColor};
         transform: translate(0.5rem, calc(-50%));
-
-        border-left: 2px solid currentColor;
-        border-right: 2px solid currentColor;
         font-size: 0.75rem;
       }
     }
