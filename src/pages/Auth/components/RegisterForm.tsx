@@ -33,7 +33,7 @@ const RegisterForm = forwardRef<FormHandler, RegisterFormProps>(
           setValue(name, value);
         },
       }),
-      [reset, clearErrors]
+      [reset, clearErrors, setValue]
     );
 
     const onSubmit = async (data: User) => {

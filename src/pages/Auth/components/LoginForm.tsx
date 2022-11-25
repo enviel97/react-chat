@@ -16,7 +16,7 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
     setValue,
     formState: { errors },
   } = useForm<Account>({
-    defaultValues: { email: "nvloc.07.97@gmail.com", password: "123Admin1" },
+    defaultValues: { email: "nvloc.07.97@gmail.com", password: "Tester1" },
   });
   const navigator = useNavigate();
   const { updateAuthUser } = useAuthenticate();
@@ -30,11 +30,12 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
         setValue(name, value);
       },
     }),
-    [reset, clearErrors]
+    [reset, clearErrors, setValue]
   );
 
   const onSubmit = async (data: Account) => {
     const response = await signIn(data);
+    console.log(response);
     if (response.data) {
       updateAuthUser(response.data);
       navigator("/", { replace: true });
@@ -59,9 +60,9 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
         security
       />
       <ButtonTextNeumorphism
+        type='submit'
         width='100%'
         color='secondaryColor'
-        type='submit'
         text='Login'
       />
       <a href='/'>

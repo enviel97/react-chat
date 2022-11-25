@@ -29,9 +29,9 @@ export const Loader = styled.span`
     inset: 0;
     border-radius: 50%;
     background: linear-gradient(
-      ${({ theme }) => colorBrightness(theme.onBackgroundColor, 10)},
-      ${({ theme }) => colorBrightness(theme.secondaryColor, 10)},
-      ${({ theme }) => colorBrightness(theme.tertiaryColor, 10)}
+      ${({ theme }) => colorBrightness(theme.primaryColor, 50)},
+      ${({ theme }) => colorBrightness(theme.secondaryColor, 50)},
+      ${({ theme }) => colorBrightness(theme.tertiaryColor, 50)}
     );
     filter: blur(10px);
     box-shadow: ${neumorphismBoxShadowInset(true)};
