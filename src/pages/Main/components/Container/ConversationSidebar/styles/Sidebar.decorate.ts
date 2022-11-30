@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 const widthSideBar = "350px";
-const footerSideBar = "50px";
+const heightSideBarHeader = "75px";
+// const footerSideBar = "50px";
 
 export const SidebarContainer = styled.aside`
   height: 100%;
@@ -12,21 +13,21 @@ export const SidebarContainer = styled.aside`
   left: 0;
 `;
 
-export const SideFooterContainer = styled.footer`
-  width: ${widthSideBar};
-  height: ${footerSideBar};
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  padding-left: 2rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  background-color: ${({ theme }) => theme.surfaceColor};
-`;
+// export const SideFooterContainer = styled.footer`
+//   width: ${widthSideBar};
+//   height: ${footerSideBar};
+//   display: flex;
+//   align-items: center;
+//   justify-content: flex-start;
+//   padding-left: 2rem;
+//   font-size: 1.2rem;
+//   font-weight: bold;
+//   background-color: ${({ theme }) => theme.surfaceColor};
+// `;
 
 export const SideHeaderContainer = styled.header`
   position: fixed;
-  height: 75px;
+  height: ${heightSideBarHeader};
   width: ${widthSideBar};
   left: 0;
   right: 0;
@@ -41,9 +42,10 @@ export const SideHeaderContainer = styled.header`
 
 export const SideItemsContainer = styled.div`
   margin-top: 80px;
-  height: calc(100% - ${footerSideBar} - 80px);
+  height: calc(99% - ${heightSideBarHeader});
   width: 100%;
   display: flex;
+  padding-bottom: 2em;
   flex-direction: column;
   gap: 0.3rem;
   overflow-y: auto;
@@ -77,6 +79,7 @@ export const SideItemContainer = styled.div`
       align-items: center;
       flex: 1;
       font-weight: bold;
+      font-size: 0.9em;
     }
 
     & .Content {
@@ -91,9 +94,11 @@ export const SideItemContainer = styled.div`
       }
 
       &--Time {
+        flex: 1;
         font-size: 0.8rem;
         display: flex;
         align-items: center;
+        justify-content: flex-end;
         gap: 0.5rem;
         & .Circle {
           height: 0.5rem;
@@ -104,12 +109,19 @@ export const SideItemContainer = styled.div`
       }
 
       &--Text {
+        flex: 2;
         font-size: 0.9rem;
         overflow: hidden;
         text-overflow: ellipsis;
         display: -webkit-box;
         -webkit-line-clamp: 1;
         -webkit-box-orient: vertical;
+      }
+
+      &--Default {
+        font-weight: 500;
+        font-size: 0.8rem;
+        font-style: italic;
       }
     }
   }

@@ -3,7 +3,7 @@ interface Account {
   password: string;
 }
 
-interface User extends Account {
+interface User extends Identity, Account {
   firstName: string;
   lastName: string;
 }

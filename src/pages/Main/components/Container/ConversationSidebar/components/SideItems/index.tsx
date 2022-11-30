@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { getConversations } from "@pages/Main/repo/conversation";
+import { FC, useEffect, useState } from "react";
 import {
   SideItemsContainer,
   SideItemsEmpty,
@@ -7,8 +8,16 @@ import Item from "./components/item";
 
 interface SideItemProps {}
 
-const SideItems = (props: SideItemProps) => {
-  const [channels, setChannel] = useState<Channel[]>([]);
+const SideItems: FC<SideItemProps> = (props) => {
+  const [channels, setChannel] = useState<Conversation[]>([]);
+
+  useEffect(() => {
+    getConversations()
+      .then((res) => {
+        setChannel(res.data ?? []);
+      })
+      .catch((error) => console.log(error));
+  }, []);
 
   return (
     <SideItemsContainer>
@@ -17,7 +26,12 @@ const SideItems = (props: SideItemProps) => {
       )}
       {channels.length !== 0 &&
         channels.map((channel, index) => {
-          return <Item key={`${channel.id}_${index}`} channel={channel} />;
+          return (
+            <Item
+              key={`${channel.id ?? channel._id}&${index}`}
+              channel={channel}
+            />
+          );
         })}
     </SideItemsContainer>
   );

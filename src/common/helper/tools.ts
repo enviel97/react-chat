@@ -17,7 +17,7 @@ export const colorBrightness = (color: string, percent: number) => {
   );
 };
 
-export const pxToRem = (px: number) => {
+export const pxToEm = (px: number) => {
   return `${px / 16}em`;
 };
 

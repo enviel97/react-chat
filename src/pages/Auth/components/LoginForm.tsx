@@ -35,7 +35,6 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
 
   const onSubmit = async (data: Account) => {
     const response = await signIn(data);
-    console.log(response);
     if (response.data) {
       updateAuthUser(response.data);
       navigator("/", { replace: true });

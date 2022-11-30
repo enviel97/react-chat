@@ -11,6 +11,7 @@ export const Neumorphism = styled.div<{
 }>`
   width: ${({ size }) => size ?? "fit-content"};
   aspect-ratio: 1 / 1;
+  color: ${({ textColor, theme }) => textColor ?? theme.onBackgroundColor};
 
   & button {
     position: relative;
@@ -31,7 +32,6 @@ export const Neumorphism = styled.div<{
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
-
     & svg {
       aspect-ratio: 1 / 1;
       height: 1.5rem;

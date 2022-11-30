@@ -4,3 +4,8 @@ type PageProps = Partial<{
   alignItems: "flex-end" | "flex-start" | "center" | "stretch";
   flexDirection: "horizontal" | "vertical";
 }>;
+
+type Sized = {
+  height: string;
+  width: string;
+};

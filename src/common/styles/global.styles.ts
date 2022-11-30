@@ -39,9 +39,6 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  html, body {
-    height: 100%;
-  }
   html {
 
     /* resize */ 
@@ -75,6 +72,10 @@ const GlobalStyle = createGlobalStyle`
     line-height: 1.5; 
     font-size: 16px;
     font-family: ${typography.fontFamily.regular};
+
+    /* Sized */
+    min-width: 100%;
+    min-height: 100%;
   }
 
   img, picture, svg {
@@ -139,6 +140,11 @@ const GlobalStyle = createGlobalStyle`
       border-radius: 50%;
       filter: grayscale(80%);
     }
+  }
+
+  #root {
+    height: 100vh;
+    height: calc(var(--vh, 1vh) * 100);
   }
 
   @media (prefers-reduced-motion: reduce) {

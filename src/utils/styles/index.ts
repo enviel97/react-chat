@@ -4,6 +4,7 @@ export const Page = styled.div<PageProps>`
   background-color: ${({ theme }) => theme.backgroundColor};
   height: 100%;
   width: 100%;
+
   position: relative;
   display: ${({ display }) => display};
   justify-content: ${({ justifyContent }) => justifyContent};
@@ -16,4 +17,9 @@ export const Box = styled.div<PageProps>`
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   flex-direction: ${({ flexDirection }) => flexDirection};
+`;
+
+export const Placeholder = styled.div<Sized>`
+  height: ${({ height }) => height};
+  width: ${({ width }) => width};
 `;

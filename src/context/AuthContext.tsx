@@ -1,12 +1,15 @@
+import string from "@utils/string";
 import { createContext, FC, useCallback, useState, useEffect } from "react";
 
 interface AuthenticateController {
   user?: User;
   updateAuthUser: (user: User) => void;
+  isUser: (another: User) => boolean;
 }
 
 export const AuthContext = createContext<AuthenticateController>({
   updateAuthUser: (user: User) => {},
+  isUser: (another) => false,
 });
 
 export const AuthProvider: FC<Components> = ({ children }) => {
@@ -15,6 +18,13 @@ export const AuthProvider: FC<Components> = ({ children }) => {
     setUser(user);
   }, []);
 
+  const isUser = useCallback(
+    (another: User) => {
+      return !!user && string.getId(another) === string.getId(user);
+    },
+    [user]
+  );
+
   useEffect(() => {
     if (user) {
       console.log({ user });
@@ -22,7 +32,7 @@ export const AuthProvider: FC<Components> = ({ children }) => {
   }, [user]);
 
   return (
-    <AuthContext.Provider value={{ user, updateAuthUser }}>
+    <AuthContext.Provider value={{ user, updateAuthUser, isUser }}>
       {children}
     </AuthContext.Provider>
   );

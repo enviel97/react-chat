@@ -5,11 +5,12 @@ import PageLoading from "@components/Loading/PageLoading";
 import useAuthFetch from "@pages/Auth/hooks/useAuthFetch";
 
 export const MainContainer = styled.div`
-  height: 100vh;
-  width: 100vw;
+  height: 100%;
+  width: 100%;
   background-color: ${({ theme }) => theme.backgroundColor};
   display: flex;
-  overflow: hidden;
+  /* TODO */
+  /* overflow: hidden; */
   flex-direction: row;
 `;
 

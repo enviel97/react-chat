@@ -4,6 +4,7 @@ import GlobalStyle from "./styles/global.styles";
 import { palette } from "./helper/palette";
 import "normalize.css";
 import "react-toastify/dist/ReactToastify.css";
+import "react-loading-skeleton/dist/skeleton.css";
 
 const initTheme: ThemeMode = "dark";
 

@@ -7,9 +7,13 @@ const _fillColor = ({ filled, theme }: any) => {
   }
   return theme[filled];
 };
-const _borderColor = ({ borderColor, theme }: any) =>
-  borderColor ?? theme.disableColor;
-
+const _borderColor = ({ borderColor, theme }: any) => {
+  if (!borderColor) return theme.backgroundColor;
+  if (borderColor[0] === "#" || borderColor === "transparent") {
+    return borderColor;
+  }
+  return theme[borderColor];
+};
 export const LockIcon = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};
   padding: 0 0.5rem;
