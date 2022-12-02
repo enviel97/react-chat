@@ -57,10 +57,6 @@ export const SideItemContainer = styled.div`
 `;
 
 export const SideItemContent = styled.div`
-  ${breakpoint.down("tablet")} {
-    visibility: collapse;
-    display: none;
-  }
   width: 200px;
   display: flex;
   flex-direction: column;
@@ -69,6 +65,10 @@ export const SideItemContent = styled.div`
   padding: 0.5rem 0;
   flex: 1;
 
+  ${breakpoint.down("tablet")} {
+    visibility: collapse;
+    display: none;
+  }
   & .Messenger {
     display: flex;
     align-items: center;

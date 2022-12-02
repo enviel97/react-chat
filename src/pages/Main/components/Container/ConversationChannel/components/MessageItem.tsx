@@ -1,3 +1,4 @@
+import { breakpoint } from "@common/helper/breakpoint";
 import { pxToEm } from "@common/helper/tools";
 import useAuthenticate from "@hooks/useAuthenticate";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
@@ -22,8 +23,6 @@ const MessageItemContainer = styled.div<MessageStyledProps>`
   display: flex;
   margin: 0.5em 0;
   gap: 0.5em;
-  /* justify-content: ${({ fromYou }) =>
-    fromYou ? "flex-end" : "flex-start"}; */
   align-items: center;
   flex-direction: ${({ fromYou }) => (!fromYou ? "row-reverse" : "row")};
 
@@ -37,11 +36,16 @@ const MessageItemContainer = styled.div<MessageStyledProps>`
 
 const MessageContent = styled.span<MessageStyledProps>`
   width: fit-content;
-  max-width: 50%;
+
   padding: 0.5rem 1rem;
   border-radius: 10px;
   background-color: ${({ fromYou, theme }) =>
     !fromYou ? theme.surfaceColor : theme.secondaryColor};
+
+  max-width: 50%;
+  ${breakpoint.down("tablet")} {
+    max-width: 80%;
+  }
 `;
 
 const MessageItem: FC<MessageItemProps> = ({
