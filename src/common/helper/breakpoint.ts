@@ -1,9 +1,9 @@
 export const DevicesValue = {
-  mobile: 320,
-  tablet: 640,
-  laptop: 1024,
-  desktop: 1200,
-  tv: 1980,
+  mobile: 450,
+  tablet: 800,
+  laptop: 1500,
+  desktop: 1980,
+  tv: 2560,
 };
 export type Devices = "mobile" | "tablet" | "laptop" | "desktop" | "tv";
 

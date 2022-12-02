@@ -1,12 +1,17 @@
 import SideHeader from "./components/SideHeader";
 import SideItems from "./components/SideItems";
-import { SidebarContainer } from "./styles/Sidebar.decorate";
+import {
+  SidebarContainer,
+  SideItemsContainer,
+} from "./styles/Sidebar.decorate";
 
 const ConversationSidebar = () => {
   return (
     <SidebarContainer>
       <SideHeader />
-      <SideItems />
+      <SideItemsContainer>
+        <SideItems />
+      </SideItemsContainer>
     </SidebarContainer>
   );
 };

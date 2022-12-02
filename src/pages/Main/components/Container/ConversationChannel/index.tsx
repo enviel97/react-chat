@@ -1,7 +1,7 @@
 import useAuthenticate from "@hooks/useAuthenticate";
 import { getConversation } from "@pages/Main/repo/conversation";
 import string from "@utils/string";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ChannelBody from "./components/container/ChannelBody";
 import ChannelHeader from "./components/container/ChannelHeader";
@@ -20,20 +20,12 @@ const ConversationChannel = () => {
   useEffect(() => {
     if (params.id) {
       getConversation(params.id).then((res) => {
-        setConversation(res);
+        if (res) {
+          setConversation(res);
+        }
       });
     }
   }, [params.id]);
-
-  const conversationName = useMemo(
-    () =>
-      conversation
-        ? isUser(conversation.participant)
-          ? string.getFullName(conversation.author)
-          : string.getFullName(conversation.participant)
-        : "",
-    [conversation, isUser]
-  );
 
   if (!conversation) {
     return <ChannelLoading />;
@@ -41,7 +33,13 @@ const ConversationChannel = () => {
 
   return (
     <ChannelContainer>
-      <ChannelHeader channelName={conversationName} />
+      <ChannelHeader
+        channelName={
+          isUser(conversation.participant)
+            ? string.getFullName(conversation.author)
+            : string.getFullName(conversation.participant)
+        }
+      />
       <ChannelBodyContainer>
         <ChannelBody
           messages={conversation.messages}

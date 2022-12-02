@@ -40,8 +40,8 @@ const ChannelBody: FC<ChannelBodyProps> = ({ messages, conversationId }) => {
   useLayoutEffect(() => {
     // Scroll to new messenger
     const container = document.querySelector(`${ChannelMessageContainer}`);
-    container?.scrollTo({
-      top: container.scrollHeight,
+    container!.scrollTo({
+      top: container!.scrollHeight,
       left: 0,
       behavior: "auto",
     });

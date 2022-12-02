@@ -1,9 +1,6 @@
 import { getConversations } from "@pages/Main/repo/conversation";
-import { FC, useEffect, useState } from "react";
-import {
-  SideItemsContainer,
-  SideItemsEmpty,
-} from "../../styles/Sidebar.decorate";
+import { FC, Fragment, useEffect, useState } from "react";
+import { SideItemsEmpty } from "../../styles/Sidebar.decorate";
 import Item from "./components/item";
 
 interface SideItemProps {}
@@ -20,7 +17,7 @@ const SideItems: FC<SideItemProps> = (props) => {
   }, []);
 
   return (
-    <SideItemsContainer>
+    <Fragment>
       {channels.length === 0 && (
         <SideItemsEmpty>No messenger found.</SideItemsEmpty>
       )}
@@ -33,7 +30,7 @@ const SideItems: FC<SideItemProps> = (props) => {
             />
           );
         })}
-    </SideItemsContainer>
+    </Fragment>
   );
 };
 

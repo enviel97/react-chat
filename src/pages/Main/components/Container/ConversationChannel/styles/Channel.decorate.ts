@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+const heightSideBarHeader = "4.5rem";
 export const ChannelContainer = styled.div`
   position: relative;
   height: 100%;
@@ -10,7 +11,7 @@ export const ChannelContainer = styled.div`
 
 export const ChannelHeaderContainer = styled.div`
   width: 100%;
-  height: 75px;
+  height: ${heightSideBarHeader};
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -36,7 +37,7 @@ export const ChannelBodyContainer = styled.div`
 `;
 
 export const ChannelMessageContainer = styled.div`
-  height: 82vh;
+  height: 85vh;
   padding: 4em 2em 1em;
   overflow-y: auto;
 `;

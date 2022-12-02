@@ -3,7 +3,10 @@ import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import string from "@utils/string";
 import { FC, memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { SideItemContainer } from "../../../styles/Sidebar.decorate";
+import {
+  SideItemContainer,
+  SideItemContent,
+} from "../../../styles/Sidebar.decorate";
 
 enum Status {
   New = "New",
@@ -38,7 +41,7 @@ const Item: FC<ItemProps> = ({ channel }) => {
   return (
     <SideItemContainer onClick={_seen}>
       <CircleAvatar className='avatar' />
-      <div className='Message'>
+      <SideItemContent>
         <span className='Messenger'>{conversationName}</span>
 
         <span className={`Content ${status ?? ""}`.trim()}>
@@ -57,7 +60,7 @@ const Item: FC<ItemProps> = ({ channel }) => {
             {status === Status.New && <div className='Circle' />}
           </span>
         </span>
-      </div>
+      </SideItemContent>
     </SideItemContainer>
   );
 };

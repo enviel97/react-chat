@@ -1,10 +1,12 @@
+import useBreakpoint from "@hooks/useBreakpoint";
 import { SideHeaderContainer } from "../styles/Sidebar.decorate";
 import SideAddChannelButton from "./SideAddChannelButton";
 
 const SideHeader = () => {
+  const breakpoint = useBreakpoint();
   return (
     <SideHeaderContainer>
-      <span>Conversations</span>
+      {breakpoint.up("tablet") && <span>Conversations</span>}
       <SideAddChannelButton />
     </SideHeaderContainer>
   );

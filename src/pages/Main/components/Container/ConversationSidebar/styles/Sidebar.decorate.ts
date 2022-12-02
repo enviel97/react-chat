@@ -1,34 +1,21 @@
+import { breakpoint } from "@common/helper/breakpoint";
 import styled from "styled-components";
 
-const widthSideBar = "350px";
-const heightSideBarHeader = "75px";
-// const footerSideBar = "50px";
+const heightSideBarHeader = "4.5rem";
 
 export const SidebarContainer = styled.aside`
   height: 100%;
-  width: ${widthSideBar};
+  width: fit-content;
   background-color: ${({ theme }) => theme.surfaceColor};
-  position: absolute;
+  position: relative;
   top: 0;
   left: 0;
 `;
 
-// export const SideFooterContainer = styled.footer`
-//   width: ${widthSideBar};
-//   height: ${footerSideBar};
-//   display: flex;
-//   align-items: center;
-//   justify-content: flex-start;
-//   padding-left: 2rem;
-//   font-size: 1.2rem;
-//   font-weight: bold;
-//   background-color: ${({ theme }) => theme.surfaceColor};
-// `;
-
 export const SideHeaderContainer = styled.header`
-  position: fixed;
+  position: absolute;
   height: ${heightSideBarHeader};
-  width: ${widthSideBar};
+  width: 100%;
   left: 0;
   right: 0;
   display: flex;
@@ -41,7 +28,7 @@ export const SideHeaderContainer = styled.header`
 `;
 
 export const SideItemsContainer = styled.div`
-  margin-top: 80px;
+  margin-top: calc(${heightSideBarHeader} + 10px);
   height: calc(99% - ${heightSideBarHeader});
   width: 100%;
   display: flex;
@@ -53,6 +40,7 @@ export const SideItemsContainer = styled.div`
 
 export const SideItemsEmpty = styled.div`
   height: 100%;
+  width: 19.5rem;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -66,63 +54,69 @@ export const SideItemContainer = styled.div`
   align-items: center;
   padding: 0.2rem 0.5rem;
   gap: 0.5rem;
-  & .Message {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: stretch;
-    padding: 0.5rem 0;
-    flex: 1;
+`;
 
-    & .Messenger {
-      display: flex;
-      align-items: center;
-      flex: 1;
+export const SideItemContent = styled.div`
+  ${breakpoint.down("tablet")} {
+    visibility: collapse;
+    display: none;
+  }
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: stretch;
+  padding: 0.5rem 0;
+  flex: 1;
+
+  & .Messenger {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    font-weight: bold;
+    font-size: 0.8em;
+  }
+
+  & .Content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 300;
+
+    &.New {
       font-weight: bold;
-      font-size: 0.9em;
     }
 
-    & .Content {
+    &--Time {
       flex: 1;
+      font-size: 0.8rem;
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      font-weight: 300;
-
-      &.New {
-        font-weight: bold;
+      justify-content: flex-end;
+      gap: 0.5rem;
+      & .Circle {
+        height: 0.5rem;
+        aspect-ratio: 1/1;
+        background-color: ${({ theme }) => theme.successColor};
+        border-radius: 50%;
       }
+    }
 
-      &--Time {
-        flex: 1;
-        font-size: 0.8rem;
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        gap: 0.5rem;
-        & .Circle {
-          height: 0.5rem;
-          aspect-ratio: 1/1;
-          background-color: ${({ theme }) => theme.successColor};
-          border-radius: 50%;
-        }
-      }
+    &--Text {
+      flex: 2;
+      font-size: 0.9rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      display: -webkit-box;
+      -webkit-line-clamp: 1;
+      -webkit-box-orient: vertical;
+    }
 
-      &--Text {
-        flex: 2;
-        font-size: 0.9rem;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 1;
-        -webkit-box-orient: vertical;
-      }
-
-      &--Default {
-        font-weight: 500;
-        font-size: 0.8rem;
-        font-style: italic;
-      }
+    &--Default {
+      font-weight: 500;
+      font-size: 0.8rem;
+      font-style: italic;
     }
   }
 `;

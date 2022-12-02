@@ -1,10 +1,8 @@
 import styled from "styled-components";
 
 export const Panel = styled.div`
-  position: absolute;
-  left: 350px;
-  top: 0;
-  right: 0;
+  position: relative;
+  width: 100%;
   height: 100%;
   overflow-y: auto;
   display: flex;
