@@ -1,20 +1,16 @@
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
-import string from "@utils/string";
 import { FC } from "react";
-import { useAsyncValue } from "react-router-dom";
 import { ChannelHeaderContainer } from "../../styles/Channel.decorate";
 
-interface ChannelHeaderProps {}
+interface ChannelHeaderProps {
+  channelName: string;
+}
 
-const ChannelHeader: FC<ChannelHeaderProps> = () => {
-  const conversation = useAsyncValue() as Conversation;
-
+const ChannelHeader: FC<ChannelHeaderProps> = ({ channelName }) => {
   return (
     <ChannelHeaderContainer>
       <CircleAvatar />
-      <h4 className='channelName'>
-        {string.getFullName(conversation.participant)}
-      </h4>
+      <h4 className='channelName'>{channelName}</h4>
     </ChannelHeaderContainer>
   );
 };

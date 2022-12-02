@@ -18,14 +18,14 @@ const App = () => {
   }, []);
 
   return (
-    <ThemeProvider>
-      <ModalProvider>
-        <AuthProvider>
+    <AuthProvider>
+      <ThemeProvider>
+        <ModalProvider>
           <Router />
-        </AuthProvider>
-      </ModalProvider>
-      <ToastProvider />
-    </ThemeProvider>
+        </ModalProvider>
+        <ToastProvider />
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 

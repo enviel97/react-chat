@@ -14,7 +14,7 @@ export const getConversations = async () => {
 };
 
 export const getConversation = async (id: string) => {
-  const response = await client.get<any, Response<Conversation>>(
+  const response = await client.get<any, Response<ConversationDetail>>(
     `${CONVERSATION_GET_ONE}/${id}`
   );
   if (response.data) return response.data;

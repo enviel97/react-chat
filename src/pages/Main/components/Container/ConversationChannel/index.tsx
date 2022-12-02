@@ -1,34 +1,52 @@
-import { Suspense } from "react";
-import { Await, useLoaderData } from "react-router-dom";
+import useAuthenticate from "@hooks/useAuthenticate";
+import { getConversation } from "@pages/Main/repo/conversation";
+import string from "@utils/string";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import ChannelBody from "./components/container/ChannelBody";
 import ChannelHeader from "./components/container/ChannelHeader";
-import ChannelBodyLoading from "./components/loading/ChannelBodyLoading";
-import ChannelHeaderLoading from "./components/loading/ChannelHeaderLoading";
+import ChannelLoading from "./components/container/ChannelLoading";
 import {
   ChannelBodyContainer,
   ChannelContainer,
 } from "./styles/Channel.decorate";
 
-interface LoaderData {
-  conversation: Conversation;
-}
-
 const ConversationChannel = () => {
-  const { conversation } = useLoaderData() as LoaderData;
+  const params = useParams();
+  const { isUser } = useAuthenticate();
+
+  const [conversation, setConversation] = useState<ConversationDetail>();
+
+  useEffect(() => {
+    if (params.id) {
+      getConversation(params.id).then((res) => {
+        setConversation(res);
+      });
+    }
+  }, [params.id]);
+
+  const conversationName = useMemo(
+    () =>
+      conversation
+        ? isUser(conversation.participant)
+          ? string.getFullName(conversation.author)
+          : string.getFullName(conversation.participant)
+        : "",
+    [conversation, isUser]
+  );
+
+  if (!conversation) {
+    return <ChannelLoading />;
+  }
 
   return (
     <ChannelContainer>
-      <Suspense fallback={<ChannelHeaderLoading />}>
-        <Await resolve={conversation}>
-          <ChannelHeader />
-        </Await>
-      </Suspense>
+      <ChannelHeader channelName={conversationName} />
       <ChannelBodyContainer>
-        <Suspense fallback={<ChannelBodyLoading />}>
-          <Await resolve={conversation}>
-            <ChannelBody />
-          </Await>
-        </Suspense>
+        <ChannelBody
+          messages={conversation.messages}
+          conversationId={string.getId(conversation)}
+        />
       </ChannelBodyContainer>
     </ChannelContainer>
   );

@@ -3,6 +3,7 @@ import styled from "styled-components";
 import useAutoScrollTop from "@hooks/useAutoScrollTop";
 import PageLoading from "@components/Loading/PageLoading";
 import useAuthFetch from "@pages/Auth/hooks/useAuthFetch";
+import { SocketProvider } from "@context/SocketIOContext";
 
 export const MainContainer = styled.div`
   height: 100%;
@@ -26,9 +27,11 @@ const MainLayout = () => {
     return <Navigate to={"/auth"} state={{ from: location }} replace />;
   }
   return (
-    <MainContainer id='app'>
-      <Outlet />
-    </MainContainer>
+    <SocketProvider>
+      <MainContainer id='app'>
+        <Outlet />
+      </MainContainer>
+    </SocketProvider>
   );
 };
 

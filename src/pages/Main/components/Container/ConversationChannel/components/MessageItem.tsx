@@ -4,8 +4,12 @@ import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import string from "@utils/string";
 import { Placeholder } from "@utils/styles";
 import moment from "moment";
-import { FC, useMemo } from "react";
+import { FC, memo, useMemo } from "react";
 import styled from "styled-components";
+
+interface MessageStyledProps {
+  fromYou: boolean;
+}
 
 interface MessageItemProps {
   message: Message;
@@ -13,12 +17,15 @@ interface MessageItemProps {
   lastChatter: boolean;
 }
 
-const MessageItemContainer = styled.div`
-  max-width: 50%;
+const MessageItemContainer = styled.div<MessageStyledProps>`
   height: fit-content;
   display: flex;
+  margin: 0.5em 0;
   gap: 0.5em;
-  align-items: flex-end;
+  /* justify-content: ${({ fromYou }) =>
+    fromYou ? "flex-end" : "flex-start"}; */
+  align-items: center;
+  flex-direction: ${({ fromYou }) => (!fromYou ? "row-reverse" : "row")};
 
   & .timer {
     font-weight: normal;
@@ -28,12 +35,13 @@ const MessageItemContainer = styled.div`
   }
 `;
 
-const MessageContent = styled.span<{ fromYou: boolean }>`
+const MessageContent = styled.span<MessageStyledProps>`
   width: fit-content;
+  max-width: 50%;
   padding: 0.5rem 1rem;
   border-radius: 10px;
   background-color: ${({ fromYou, theme }) =>
-    fromYou ? theme.primaryColor : theme.surfaceColor};
+    !fromYou ? theme.surfaceColor : theme.secondaryColor};
 `;
 
 const MessageItem: FC<MessageItemProps> = ({
@@ -42,18 +50,18 @@ const MessageItem: FC<MessageItemProps> = ({
   lastChatter,
 }) => {
   const { user } = useAuthenticate();
-  const formYou = useMemo(
-    () => string.getId(message) === string.getId(user!),
-    [message, user]
+  const fromYou = useMemo(
+    () => string.getId(message.author) === string.getId(user!),
+    [message.author, user]
   );
   const getAvatar =
     !preChatter || string.getId(preChatter) !== string.getId(message.author);
 
   return (
-    <MessageItemContainer>
+    <MessageItemContainer fromYou={fromYou}>
       {getAvatar && <CircleAvatar />}
       {!getAvatar && <Placeholder height={pxToEm(36)} width={pxToEm(36)} />}
-      <MessageContent fromYou={formYou}>{message.content}</MessageContent>
+      <MessageContent fromYou={fromYou}>{message.content}</MessageContent>
       {lastChatter && (
         <span className='timer'>
           {moment(message.createdAt).fromNow(false)}
@@ -63,4 +71,4 @@ const MessageItem: FC<MessageItemProps> = ({
   );
 };
 
-export default MessageItem;
+export default memo(MessageItem);

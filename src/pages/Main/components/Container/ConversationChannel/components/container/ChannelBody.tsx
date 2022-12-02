@@ -1,31 +1,69 @@
+import useSocket from "@hooks/useSocket";
 import { postMessage } from "@pages/Main/repo/message";
 import string from "@utils/string";
-import { memo, useEffect, useState } from "react";
-import { useAsyncValue } from "react-router-dom";
+import { FC, memo, useEffect, useLayoutEffect, useState } from "react";
 import { ChannelMessageContainer } from "../../styles/Channel.decorate";
+import { Event } from "@core/common/socket.define";
 import MessageItem from "../MessageItem";
 import ChannelSendForm from "./ChannelSendForm";
+import { Box } from "@utils/styles";
 
-const ChannelBody = () => {
-  const conversation = useAsyncValue() as ConversationDetail;
+interface ChannelBodyProps {
+  conversationId: string;
+  messages: Message[];
+}
 
-  const [messages, setMessages] = useState<Message[]>([]);
+const ChannelBody: FC<ChannelBodyProps> = ({ messages, conversationId }) => {
+  const [message, setMessages] = useState<Message[]>(messages);
+
+  const socket = useSocket();
 
   useEffect(() => {
-    const message = conversation.messages.sort((a, b) => {
-      return new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+    setMessages(
+      messages.sort((a, b) => {
+        return (
+          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        );
+      })
+    );
+  }, [messages]);
+
+  useEffect(() => {
+    socket.on(Event.EMIT_NOTIFICATION_MESSAGE, (msg: Message) => {
+      setMessages((prev) => [...prev, msg]);
     });
-    console.log(message);
-    setMessages(message);
-  }, [conversation.messages]);
+    return () => {
+      socket.off(Event.EMIT_NOTIFICATION_MESSAGE);
+    };
+  }, [socket]);
+
+  useLayoutEffect(() => {
+    // Scroll to new messenger
+    const container = document.querySelector(`${ChannelMessageContainer}`);
+    container?.scrollTo({
+      top: container.scrollHeight,
+      left: 0,
+      behavior: "auto",
+    });
+  }, [message]);
 
   return (
     <>
       <ChannelMessageContainer>
-        {messages.map((mess, index) => {
+        {message.length === 0 && (
+          <Box
+            style={{ height: "100%" }}
+            display='flex'
+            alignItems='center'
+            justifyContent='center'
+          >
+            <h5>Say hi to to begin conversation</h5>
+          </Box>
+        )}
+        {message.map((mess, index, arr) => {
           const presentChatter =
-            index === 0 ? undefined : messages[index - 1].author;
-          const lastChatter = index === messages.length - 1;
+            index === 0 ? undefined : arr[index - 1].author;
+          const lastChatter = index === arr.length - 1;
           return (
             <MessageItem
               key={`${string.getId(mess)}$${index}`}
@@ -39,9 +77,10 @@ const ChannelBody = () => {
 
       <ChannelSendForm
         onConfirm={async (message: string) => {
+          console.log(message);
           const response = await postMessage({
             message,
-            conversationId: string.getId(conversation),
+            conversationId,
           });
           setMessages([...messages, response]);
         }}

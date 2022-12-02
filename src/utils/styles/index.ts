@@ -17,6 +17,7 @@ export const Box = styled.div<PageProps>`
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   flex-direction: ${({ flexDirection }) => flexDirection};
+  gap: ${({ gap }) => gap};
 `;
 
 export const Placeholder = styled.div<Sized>`

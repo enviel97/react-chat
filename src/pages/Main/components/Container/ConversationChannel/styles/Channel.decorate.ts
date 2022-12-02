@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const ChannelContainer = styled.div`
-  position: absolute;
+  position: relative;
   height: 100%;
   width: 100%;
   display: flex;
@@ -30,20 +30,19 @@ export const ChannelBodyContainer = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: flex-start;
   font-weight: normal;
+  overflow: hidden;
 `;
 
 export const ChannelMessageContainer = styled.div`
-  flex: 1;
-  display: flex;
-  padding: 1rem 2rem;
-  flex-direction: column;
-  justify-content: flex-end;
-  gap: 0.5em;
+  height: 82vh;
+  padding: 4em 2em 1em;
+  overflow-y: auto;
 `;
 
 export const ChannelFormContainer = styled.div`
+  flex: 1;
   border-top: 2px solid ${({ theme }) => theme.surfaceColor};
   margin: 0 1rem;
   padding: 1em 5px 5px 5px;
