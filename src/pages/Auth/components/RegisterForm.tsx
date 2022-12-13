@@ -3,7 +3,7 @@ import { FormDecorate } from "../decorates/decorates.form";
 import { TextFieldNeumorphism as TextField } from "@components/TextInput";
 import { useForm } from "react-hook-form";
 import { forwardRef, useImperativeHandle } from "react";
-import { signUp } from "../repo/authenticate/authenticate";
+import { signUp } from "@store/repo/authenticate/authenticate";
 
 interface RegisterValue extends User {
   confirmPassword: string;

@@ -1,25 +1,29 @@
 import { ButtonIconNeumorphism } from "@components/Button";
 import { useModals } from "@components/Modal/hooks/useModals";
-import { PromiseToast } from "@components/Toast/promise";
-import { createConversation } from "@pages/Main/repo/conversation";
+// import useAppDispatch from "@hooks/useAppDispatch";
 import { TbEdit } from "react-icons/tb";
 import AddChannelModal from "./components/AddChannelModal";
+const modalKey = "CreateConversationModal";
 
 const SideAddChannelButton = () => {
   const modelController = useModals();
-  const modalKey = "CreateConversationModal";
+  // const dispatch = useAppDispatch();
+
   const _editButton = () => {
     modelController.show(
       <AddChannelModal
         onSubmitted={(data) => {
           modelController.close(modalKey);
-          PromiseToast({
-            action: () =>
-              createConversation({
-                participantId: data.user,
-                message: data.message,
-              }),
-          });
+          // dispatch(addConversation())
+          // createConversation({
+          //   participantId: data.user,
+          //   message: data.message,
+          // }),
+          // PromiseToast({
+          //   action: () => {
+
+          //   }
+          // });
         }}
       />,
       {
@@ -38,4 +42,5 @@ const SideAddChannelButton = () => {
     />
   );
 };
+
 export default SideAddChannelButton;

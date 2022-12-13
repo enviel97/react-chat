@@ -1,9 +1,5 @@
 import client from "@core/api";
-import {
-  AUTH_STATUS_URL,
-  SIGN_IN_URL,
-  SIGN_UP_URL,
-} from "@pages/Auth/common/repo";
+import { AUTH_STATUS_URL, SIGN_IN_URL, SIGN_UP_URL } from "@store/common/repo";
 
 export const signIn = async (req: SignInRequest) => {
   const response = await client.post<SignUpRequest, Response<User>>(

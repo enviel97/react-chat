@@ -1,6 +1,6 @@
 import useAuthenticate from "@hooks/useAuthenticate";
 import { useEffect, useMemo, useState } from "react";
-import { authStatus } from "../repo/authenticate/authenticate";
+import { authStatus } from "../../../store/repo/authenticate/authenticate";
 
 const useAuthFetch = () => {
   const { user, updateAuthUser } = useAuthenticate();

@@ -111,15 +111,15 @@ export const Container = styled.div`
   width: 60vw;
   height: 70vh;
   background-color: transparent;
-  ${breakpoint.down("desktop")} {
+  ${breakpoint.down("laptop")} {
     width: 80vw;
   }
 
-  ${breakpoint.down("laptop")} {
+  ${breakpoint.down("tablet")} {
     width: 90vw;
   }
 
-  ${breakpoint.down("tablet")} {
+  ${breakpoint.down("mobile")} {
     height: 80vh;
 
     & ${Box} {
@@ -147,7 +147,7 @@ export const Container = styled.div`
       box-shadow: none;
     }
   }
-  ${breakpoint.down("tablet")} {
+  ${breakpoint.down("mobile")} {
     width: 90vw;
   }
 `;

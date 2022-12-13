@@ -1,32 +1,24 @@
-import { getConversations } from "@pages/Main/repo/conversation";
-import { FC, Fragment, useEffect, useState } from "react";
+import useAppSelector from "@hooks/useAppSelector";
+import { selectConversationIds } from "@store/slices/conversationSlice";
+import { FC, Fragment } from "react";
 import { SideItemsEmpty } from "../../styles/Sidebar.decorate";
 import Item from "./components/item";
 
 interface SideItemProps {}
 
 const SideItems: FC<SideItemProps> = (props) => {
-  const [channels, setChannel] = useState<Conversation[]>([]);
-
-  useEffect(() => {
-    getConversations()
-      .then((res) => {
-        setChannel(res.data ?? []);
-      })
-      .catch((error) => console.log(error));
-  }, []);
-
+  const conversationIds = useAppSelector(selectConversationIds);
   return (
     <Fragment>
-      {channels.length === 0 && (
+      {conversationIds.length === 0 && (
         <SideItemsEmpty>No messenger found.</SideItemsEmpty>
       )}
-      {channels.length !== 0 &&
-        channels.map((channel, index) => {
+      {conversationIds.length !== 0 &&
+        conversationIds.map((conversationIds, index) => {
           return (
             <Item
-              key={`${channel.id ?? channel._id}&${index}`}
-              channel={channel}
+              key={`${conversationIds}&${index}`}
+              channelId={conversationIds.toString()}
             />
           );
         })}

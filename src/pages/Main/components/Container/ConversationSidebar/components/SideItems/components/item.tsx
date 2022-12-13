@@ -1,5 +1,7 @@
+import useAppSelector from "@hooks/useAppSelector";
 import useAuthenticate from "@hooks/useAuthenticate";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
+import { selectConversationById } from "@store/slices/conversationSlice";
 import string from "@utils/string";
 import { FC, memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -7,6 +9,7 @@ import {
   SideItemContainer,
   SideItemContent,
 } from "../../../styles/Sidebar.decorate";
+import Loading from "./loading";
 
 enum Status {
   New = "New",
@@ -14,18 +17,23 @@ enum Status {
 }
 
 interface ItemProps {
-  channel: Conversation;
+  channelId: string;
 }
 
-const Item: FC<ItemProps> = ({ channel }) => {
+const Item: FC<ItemProps> = ({ channelId }) => {
   const [status, setStatus] = useState<Status>(Status.New);
   const { isUser } = useAuthenticate();
   const navigator = useNavigate();
+  const channel = useAppSelector((state) =>
+    selectConversationById(state, channelId)
+  );
+
+  if (!channel) return <Loading />;
 
   const _seen = () => {
     // TODO: Seen
     setStatus(Status.Seen);
-    navigator(`messenger/${channel.id ?? channel._id}`);
+    navigator(`messenger/${channelId}`);
   };
 
   const conversationName = isUser(channel.participant)
@@ -44,11 +52,12 @@ const Item: FC<ItemProps> = ({ channel }) => {
       <SideItemContent>
         <span className='Messenger'>{conversationName}</span>
 
-        <span className={`Content ${status ?? ""}`.trim()}>
+        <span className={string.classList("Content", status)}>
           <span
-            className={`Content--Text${
-              channel.lastMessage ? "" : " Content--Default"
-            }`}
+            className={string.classList(
+              "Content--Text",
+              channel.lastMessage ? "" : "Content--Default"
+            )}
           >
             {lastMessenger}
             {channel.lastMessage?.content ??
@@ -57,7 +66,7 @@ const Item: FC<ItemProps> = ({ channel }) => {
 
           <span className='Content--Time'>
             {string.chatFromNow(channel.lastMessage?.createdAt)}
-            {status === Status.New && <div className='Circle' />}
+            {status === Status.New && <span className='Circle' />}
           </span>
         </span>
       </SideItemContent>

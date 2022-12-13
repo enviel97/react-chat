@@ -3,13 +3,12 @@ import {
   CONVERSATION_CREATE_SINGLE,
   CONVERSATION_GET_LIST,
   CONVERSATION_GET_ONE,
-} from "@pages/Main/common/repo";
+} from "@store/common/repo";
 
 export const getConversations = async () => {
   const response = await client.get<any, Response<Conversation[]>>(
     CONVERSATION_GET_LIST
   );
-
   return response;
 };
 

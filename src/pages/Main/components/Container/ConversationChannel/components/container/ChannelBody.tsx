@@ -1,5 +1,4 @@
 import useSocket from "@hooks/useSocket";
-import { postMessage } from "@pages/Main/repo/message";
 import string from "@utils/string";
 import { FC, memo, useEffect, useLayoutEffect, useState } from "react";
 import { ChannelMessageContainer } from "../../styles/Channel.decorate";
@@ -7,6 +6,7 @@ import { Event } from "@core/common/socket.define";
 import MessageItem from "../MessageItem";
 import ChannelSendForm from "./ChannelSendForm";
 import { Box } from "@utils/styles";
+import { postMessage } from "@store/repo/message";
 
 interface ChannelBodyProps {
   conversationId: string;

@@ -1,5 +1,5 @@
 import client from "@core/api";
-import { MESSAGE_POST } from "@pages/Main/common/repo";
+import { MESSAGE_POST } from "@store/common/repo";
 
 export const postMessage = async (req: RequestSendMessage) => {
   const response = await client.post<any, Response<Message>>(MESSAGE_POST, {

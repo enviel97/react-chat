@@ -27,7 +27,10 @@
       "@hooks": ["hooks"],
 
       "@context/*": ["context/*"],
-      "@context": ["context"]
+      "@context": ["context"],
+
+      "@store/*": ["store/*"],
+      "@store": ["store"]
     }
   }
 }

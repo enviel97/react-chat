@@ -1,0 +1,56 @@
+import {
+  createEntityAdapter,
+  createSlice,
+  PayloadAction,
+} from "@reduxjs/toolkit";
+import SliceName from "../common/sliceName";
+import string from "@utils/string";
+import { fetchConversations } from "@store/repo/conversation";
+import { State } from "@store/common/state";
+
+const conversationsAdapter = createEntityAdapter<Conversation>({
+  selectId: (conversation) => string.getId(conversation),
+  sortComparer: (a, b) =>
+    new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
+});
+
+export const conversationsSlice = createSlice({
+  name: SliceName.conversation,
+  initialState: conversationsAdapter.getInitialState({
+    process: State.IDLE,
+  }),
+  reducers: {
+    addConversation: conversationsAdapter.addOne,
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchConversations.pending, (state, action) => {
+      state.process = State.PENDING;
+    });
+    builder.addCase(fetchConversations.rejected, (state, action) => {
+      state.process = State.ERROR;
+    });
+    builder.addCase(
+      fetchConversations.fulfilled,
+      (state, action: PayloadAction<Response<any>>) => {
+        const payload = action.payload;
+        const conversation = payload.data;
+        conversationsAdapter.upsertMany(state, conversation);
+        //
+        state.process = State.FULFILLED;
+      }
+    );
+  },
+});
+
+export const { addConversation } = conversationsSlice.actions;
+
+export const {
+  selectById: selectConversationById,
+  selectIds: selectConversationIds,
+  selectEntities: selectConversationEntities,
+  selectAll: selectAllConversations,
+} = conversationsAdapter.getSelectors(
+  (state: any) => state[SliceName.conversation]
+);
+
+export default conversationsSlice.reducer;

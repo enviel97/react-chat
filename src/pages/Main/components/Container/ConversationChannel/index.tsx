@@ -1,5 +1,5 @@
 import useAuthenticate from "@hooks/useAuthenticate";
-import { getConversation } from "@pages/Main/repo/conversation";
+import { getConversation } from "@store/repo/conversation/api";
 import string from "@utils/string";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -14,7 +14,6 @@ import {
 const ConversationChannel = () => {
   const params = useParams();
   const { isUser } = useAuthenticate();
-
   const [conversation, setConversation] = useState<ConversationDetail>();
 
   useEffect(() => {

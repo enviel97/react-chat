@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { FormDecorate } from "../decorates/decorates.form";
 import { TextFieldNeumorphism as TextField } from "@components/TextInput";
 import { forwardRef, useImperativeHandle } from "react";
-import { signIn } from "../repo/authenticate/authenticate";
+import { signIn } from "@store/repo/authenticate/authenticate";
 import { useNavigate } from "react-router-dom";
 import useAuthenticate from "@hooks/useAuthenticate";
 
