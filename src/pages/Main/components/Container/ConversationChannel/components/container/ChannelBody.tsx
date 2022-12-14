@@ -8,10 +8,13 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import { MessageContainer } from "../../styles/Message.decorate";
 import useAppSelector from "@hooks/useAppSelector";
 import { addMessages, selectAllMessage } from "@store/slices/messageSlice";
+import { isLoading } from "@utils/validate";
+import MessageContainerLoading from "../ui/MessageContainerLoading";
 
 const ChannelBody = () => {
   const dispatch = useAppDispatch();
   const messages = useAppSelector(selectAllMessage);
+  const status = useAppSelector((state) => state.message.process);
   const socket = useSocket();
 
   useEffect(() => {
@@ -33,11 +36,15 @@ const ChannelBody = () => {
     });
   }, [messages]);
 
+  if (isLoading(status)) {
+    return <MessageContainerLoading />;
+  }
+
   return (
     <MessageContainer>
       {messages.length === 0 && (
         <Box
-          style={{ height: "85vh" }}
+          style={{ height: "75vh" }}
           display='flex'
           alignItems='center'
           justifyContent='center'

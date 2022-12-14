@@ -12,8 +12,8 @@ export const MessageItemContainer = styled.div<MessageStyledProps>`
   display: flex;
   margin: 0.5em 0;
   gap: 0.3em;
-  align-items: center;
-  flex-direction: ${({ fromYou }) => (!fromYou ? "row-reverse" : "row")};
+  align-items: flex-end;
+  flex-direction: ${({ fromYou }) => (fromYou ? "row-reverse" : "row")};
 
   & .timer {
     font-weight: normal;
@@ -28,7 +28,7 @@ export const MessageContent = styled.span<MessageStyledProps>`
   padding: 0.5rem 1rem;
   border-radius: 10px;
   background-color: ${({ fromYou, theme }) =>
-    !fromYou ? theme.surfaceColor : theme.secondaryColor};
+    fromYou ? theme.surfaceColor : theme.secondaryColor};
 
   max-width: 50%;
   ${breakpoint.down("tablet")} {

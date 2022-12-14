@@ -7,6 +7,7 @@ import SliceName from "../common/sliceName";
 import string from "@utils/string";
 import { fetchConversations } from "@store/repo/conversation";
 import { State } from "@store/common/state";
+import { addMessages } from "./messageSlice";
 
 const conversationsAdapter = createEntityAdapter<Conversation>({
   selectId: (conversation) => string.getId(conversation),
@@ -23,22 +24,37 @@ export const conversationsSlice = createSlice({
     addConversation: conversationsAdapter.addOne,
   },
   extraReducers: (builder) => {
-    builder.addCase(fetchConversations.pending, (state, action) => {
-      state.process = State.PENDING;
+    builder.addCase(addMessages, (state, action) => {
+      const payload = action.payload;
+
+      const conversation = conversationsAdapter
+        .getSelectors()
+        .selectById(state, payload.conversationId);
+
+      if (!conversation) return;
+      conversationsAdapter.updateOne(state, {
+        id: payload.conversationId,
+        changes: { ...conversation, lastMessage: payload },
+      });
     });
-    builder.addCase(fetchConversations.rejected, (state, action) => {
-      state.process = State.ERROR;
-    });
-    builder.addCase(
-      fetchConversations.fulfilled,
-      (state, action: PayloadAction<Response<any>>) => {
-        const payload = action.payload;
-        const conversation = payload.data;
-        conversationsAdapter.upsertMany(state, conversation);
-        //
-        state.process = State.FULFILLED;
-      }
-    );
+
+    builder
+      .addCase(fetchConversations.pending, (state, action) => {
+        state.process = State.PENDING;
+      })
+      .addCase(fetchConversations.rejected, (state, action) => {
+        state.process = State.ERROR;
+      })
+      .addCase(
+        fetchConversations.fulfilled,
+        (state, action: PayloadAction<Response<any>>) => {
+          const payload = action.payload;
+          const conversation = payload.data;
+          conversationsAdapter.upsertMany(state, conversation);
+          //
+          state.process = State.FULFILLED;
+        }
+      );
   },
 });
 

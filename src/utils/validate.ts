@@ -1,3 +1,5 @@
+import { State } from "@store/common/state";
+
 export const notEmpty = <TValue>(
   value: TValue | null | undefined
 ): value is TValue => {
@@ -5,4 +7,8 @@ export const notEmpty = <TValue>(
     return false;
   // const testDummy: TValue = value;
   return true;
+};
+
+export const isLoading = (status: number) => {
+  return status === State.PENDING;
 };

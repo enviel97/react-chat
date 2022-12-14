@@ -5,10 +5,10 @@ import { Box } from "@utils/styles";
 const MessageContainerLoading = () => (
   <SkeletonContainer>
     <Box
-      style={{ height: "100%" }}
+      style={{ height: "85vh", padding: "4em 2em 1em" }}
       display='flex'
       flexDirection='column'
-      justifyContent='flex-end'
+      justifyContent='flex-start'
       gap='1em'
     >
       {Array.from({ length: 10 }, (_, i) => (

@@ -1,5 +1,7 @@
 import { ButtonIconNeumorphism } from "@components/Button";
 import { TextFieldNeumorphism } from "@components/TextInput";
+import useAppSelector from "@hooks/useAppSelector";
+import { isLoading } from "@utils/validate";
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { TbSend } from "react-icons/tb";
@@ -15,6 +17,7 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ onConfirm }) => {
   }>({
     defaultValues: { message: "" },
   });
+  const status = useAppSelector((state) => state.message.process);
 
   useEffect(() => {
     setFocus("message");
@@ -37,11 +40,13 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ onConfirm }) => {
           label='Send message'
           register={register("message")}
           fontSize='1.2rem'
+          disabled={isLoading(status)}
         />
         <ButtonIconNeumorphism
           type='submit'
           icon={<TbSend />}
           textColor='primary'
+          disabled={isLoading(status)}
         />
       </form>
     </ChannelFormContainer>
