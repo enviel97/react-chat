@@ -10,6 +10,7 @@ interface TextFieldProps {
   placeholder?: string;
   readOnly?: boolean;
   disabled?: boolean;
+  fontSize?: string;
 
   // color
   borderColor?: string;

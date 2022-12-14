@@ -1,3 +1,4 @@
+import string from "@utils/string";
 import { ChangeEvent, memo, useEffect, useRef, useState } from "react";
 import { TbEye, TbEyeOff, TbLock } from "react-icons/tb";
 import { Eyes, FloatingLabel, LockIcon } from "../decorate/base";
@@ -14,6 +15,7 @@ const BaseTextField = (props: TextFieldProps) => {
     disabled = false,
     filled,
     borderColor,
+    fontSize,
   } = props;
   const ref = useRef<any>();
   const [isHidden, setHidden] = useState(true);
@@ -30,11 +32,12 @@ const BaseTextField = (props: TextFieldProps) => {
 
   return (
     <FloatingLabel
-      className={`textField${props.className ? ` ${props.className}` : ""}`}
+      className={string.classList("textField", props.className)}
       filled={filled}
       height={height}
       width={width}
       borderColor={borderColor}
+      fontSize={fontSize}
     >
       {(disabled || readOnly) && (
         <LockIcon className='lock'>

@@ -39,6 +39,7 @@ export const FloatingLabel = styled.div<{
   width: string;
   filled?: string;
   borderColor?: string;
+  fontSize?: string;
 }>`
   position: relative;
   height: ${(props) => props.height};
@@ -93,6 +94,7 @@ export const FloatingLabel = styled.div<{
     outline: none;
     border: none;
     color: ${({ theme }) => theme.onBackgroundColor};
+    font-size: ${({ fontSize }) => fontSize ?? "1rem"};
 
     & ~ label {
       color: ${({ theme }) => theme.disableColor};
@@ -115,6 +117,7 @@ export const FloatingLabel = styled.div<{
       }
     }
   }
+  font-size: 1rem;
 
   & input[type="text"],
   & input[type="password"],
@@ -127,7 +130,7 @@ export const FloatingLabel = styled.div<{
         width: fit-content;
         color: ${({ theme }) => theme.secondaryColor};
         transform: translate(0.5rem, calc(-50%));
-        font-size: 0.75rem;
+        font-size: 0.85rem;
       }
     }
   }
