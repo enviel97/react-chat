@@ -2,7 +2,6 @@ import client from "@core/api";
 import {
   CONVERSATION_CREATE_SINGLE,
   CONVERSATION_GET_LIST,
-  CONVERSATION_GET_ONE,
 } from "@store/common/repo";
 
 export const getConversations = async () => {
@@ -10,14 +9,6 @@ export const getConversations = async () => {
     CONVERSATION_GET_LIST
   );
   return response;
-};
-
-export const getConversation = async (id: string) => {
-  const response = await client.get<any, Response<ConversationDetail>>(
-    `${CONVERSATION_GET_ONE}/${id}`
-  );
-  if (response.data) return response.data;
-  throw new Error("Interval server error");
 };
 
 export const createConversation = async (

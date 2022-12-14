@@ -12,8 +12,8 @@ const typeOf = (object: any) => {
   return typeof object === "string";
 };
 
-const classList = (...className: string[]) => {
-  return className.filter(notEmpty).join(" ");
+const classList = (...className: any[]) => {
+  return className.filter(notEmpty<string>).join(" ");
 };
 
 const getId = (object: Identity) => {

@@ -31,19 +31,13 @@ export const ChannelBodyContainer = styled.div`
   flex: 1;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: flex-end;
   font-weight: normal;
   overflow: hidden;
 `;
 
-export const ChannelMessageContainer = styled.div`
-  height: 85vh;
-  padding: 4em 2em 1em;
-  overflow-y: auto;
-`;
-
 export const ChannelFormContainer = styled.div`
-  flex: 1;
+  height: fit-content;
   border-top: 2px solid ${({ theme }) => theme.surfaceColor};
   margin: 0 1rem;
   padding: 1em 5px 5px 5px;

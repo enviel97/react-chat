@@ -37,7 +37,12 @@ export const SkeletonElement: FC<SkeletonElementProps> = ({
   children,
   ...props
 }) => {
-  return <>{isLoading ? <Skeleton {...props} /> : children}</>;
+  return (
+    <>
+      {isLoading && <Skeleton {...props} />}
+      {!isLoading && children}
+    </>
+  );
 };
 
 export default SkeletonContainer;

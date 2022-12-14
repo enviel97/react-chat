@@ -1,49 +1,38 @@
-import useAuthenticate from "@hooks/useAuthenticate";
-import { getConversation } from "@store/repo/conversation/api";
-import string from "@utils/string";
-import { useEffect, useState } from "react";
+import useAppDispatch from "@hooks/useAppDispatch";
+import { fetchAddMessages, fetchMessages } from "@store/repo/message";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ChannelBody from "./components/container/ChannelBody";
 import ChannelHeader from "./components/container/ChannelHeader";
-import ChannelLoading from "./components/container/ChannelLoading";
+import ChannelSendForm from "./components/container/ChannelSendForm";
 import {
   ChannelBodyContainer,
   ChannelContainer,
 } from "./styles/Channel.decorate";
 
 const ConversationChannel = () => {
-  const params = useParams();
-  const { isUser } = useAuthenticate();
-  const [conversation, setConversation] = useState<ConversationDetail>();
+  const { id = "" } = useParams<{ id: string }>();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (params.id) {
-      getConversation(params.id).then((res) => {
-        if (res) {
-          setConversation(res);
-        }
-      });
-    }
-  }, [params.id]);
+    dispatch(fetchMessages(id));
+  }, [id, dispatch]);
 
-  if (!conversation) {
-    return <ChannelLoading />;
-  }
+  const _chatting = async (message: string) => {
+    dispatch(
+      fetchAddMessages({
+        conversationId: id,
+        message,
+      })
+    );
+  };
 
   return (
     <ChannelContainer>
-      <ChannelHeader
-        channelName={
-          isUser(conversation.participant)
-            ? string.getFullName(conversation.author)
-            : string.getFullName(conversation.participant)
-        }
-      />
+      <ChannelHeader conversationId={id} />
       <ChannelBodyContainer>
-        <ChannelBody
-          messages={conversation.messages}
-          conversationId={string.getId(conversation)}
-        />
+        <ChannelBody />
+        <ChannelSendForm onConfirm={_chatting} />
       </ChannelBodyContainer>
     </ChannelContainer>
   );

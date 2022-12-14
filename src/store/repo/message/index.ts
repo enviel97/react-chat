@@ -1,11 +1,12 @@
-import client from "@core/api";
-import { MESSAGE_POST } from "@store/common/repo";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getMessages, postMessage } from "./api";
 
-export const postMessage = async (req: RequestSendMessage) => {
-  const response = await client.post<any, Response<Message>>(MESSAGE_POST, {
-    conversationId: req.conversationId,
-    content: req.message,
-  });
-  if (response.data) return response.data;
-  throw new Error("Internal Server Error");
-};
+export const fetchAddMessages = createAsyncThunk(
+  "messages/addOne",
+  async (request: RequestSendMessage) => await postMessage(request)
+);
+
+export const fetchMessages = createAsyncThunk(
+  "messages/list",
+  async (id: string) => await getMessages(id)
+);

@@ -3,14 +3,11 @@ import { TextFieldNeumorphism } from "@components/TextInput";
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { TbSend } from "react-icons/tb";
-import styled from "styled-components";
 import { ChannelFormContainer } from "../../styles/Channel.decorate";
 
 interface ChannelSendFormProps {
   onConfirm: (message: string) => void;
 }
-
-const SendText = styled(TextFieldNeumorphism)``;
 
 const ChannelSendForm: FC<ChannelSendFormProps> = ({ onConfirm }) => {
   const { register, handleSubmit, reset, setFocus } = useForm<{
@@ -36,7 +33,11 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ onConfirm }) => {
         noValidate
         autoComplete='off'
       >
-        <SendText label='Send message' register={register("message")} />
+        <TextFieldNeumorphism
+          label='Send message'
+          register={register("message")}
+          fontSize='1.2rem'
+        />
         <ButtonIconNeumorphism
           type='submit'
           icon={<TbSend />}
