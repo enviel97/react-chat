@@ -34,7 +34,11 @@ export const conversationsSlice = createSlice({
       if (!conversation) return;
       conversationsAdapter.updateOne(state, {
         id: payload.conversationId,
-        changes: { ...conversation, lastMessage: payload },
+        changes: {
+          ...conversation,
+          lastMessage: payload,
+          updatedAt: payload.updatedAt,
+        },
       });
     });
 

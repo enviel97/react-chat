@@ -1,21 +1,35 @@
+import { Event } from "@core/common/socket.define";
+import useAuthenticate from "@hooks/useAuthenticate";
 import { createContext, useEffect } from "react";
 import { io } from "socket.io-client";
-import { Event } from "@core/common/socket.define";
 const socketUrl = process.env.REACT_APP_WEBSOCKET_URL ?? "";
 
-const socket = io(socketUrl);
+const socket = io(socketUrl, { withCredentials: true, autoConnect: false });
 
 export const SocketContext = createContext(socket);
 
 export const SocketProvider = ({ children }: Components) => {
-  useEffect(() => {
-    socket.on(Event.EVENT_SOCKET_CONNECTED, (status: any) => {
-      console.log("Connected");
-    });
+  const { user } = useAuthenticate();
 
+  useEffect(() => {
+    if (!user) return;
+    // TODO: Connect socket if login successful
+    socket.connect();
+  }, [user]);
+
+  useEffect(() => {
+    socket.on(Event.EVENT_SOCKET_CONNECTED, (payload: any) => {
+      console.log({
+        status: "connected",
+        payload,
+      });
+    });
     return () => {
-      socket.off(Event.EVENT_SOCKET_CONNECTED, () => {
-        console.log("Unconnected");
+      socket.off(Event.EMIT_NOTIFICATION_MESSAGE, (payload: any) => {
+        console.log({
+          status: "disconnected",
+          payload,
+        });
       });
     };
   }, []);

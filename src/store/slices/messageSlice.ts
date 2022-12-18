@@ -21,7 +21,7 @@ export const messagesSlice = createSlice({
   }),
   reducers: {
     addMessages: (state, action) => {
-      return messagesAdapter.addOne(state, action);
+      messagesAdapter.addOne(state, action);
     },
   },
   extraReducers: (builder) => {

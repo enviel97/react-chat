@@ -1,4 +1,5 @@
 import PageLoading from "@components/Loading/PageLoading";
+import MultiProvider from "@context/index";
 import {
   createBrowserRouter,
   createRoutesFromElements,
@@ -12,22 +13,24 @@ import NotFound from "./Static/NotFound.page";
 
 const Router = () => {
   return (
-    <RouterProvider
-      router={createBrowserRouter(
-        createRoutesFromElements(
-          <Route
-            path='/'
-            key='root'
-            element={<Outlet />}
-            errorElement={<NotFound />}
-          >
-            {AuthRoute}
-            {MainRoute}
-          </Route>
-        )
-      )}
-      fallbackElement={<PageLoading />}
-    />
+    <MultiProvider>
+      <RouterProvider
+        router={createBrowserRouter(
+          createRoutesFromElements(
+            <Route
+              path='/'
+              key='root'
+              element={<Outlet />}
+              errorElement={<NotFound />}
+            >
+              {AuthRoute}
+              {MainRoute}
+            </Route>
+          )
+        )}
+        fallbackElement={<PageLoading />}
+      />
+    </MultiProvider>
   );
 };
 

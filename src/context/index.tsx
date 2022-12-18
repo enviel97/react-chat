@@ -5,6 +5,7 @@ import { FC, useEffect } from "react";
 import { AuthProvider } from "./AuthContext";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "@store";
+import { SocketProvider } from "./SocketIOContext";
 
 const MultiProvider: FC<Components> = ({ children }) => {
   useEffect(() => {
@@ -20,12 +21,14 @@ const MultiProvider: FC<Components> = ({ children }) => {
   return (
     <ReduxProvider store={store}>
       <AuthProvider>
-        <ThemeProvider>
-          <ModalProvider>
-            {children}
-            <ToastProvider />
-          </ModalProvider>
-        </ThemeProvider>
+        <SocketProvider>
+          <ThemeProvider>
+            <ModalProvider>
+              {children}
+              <ToastProvider />
+            </ModalProvider>
+          </ThemeProvider>
+        </SocketProvider>
       </AuthProvider>
     </ReduxProvider>
   );

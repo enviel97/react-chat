@@ -21,6 +21,7 @@ const ChannelBody = () => {
     socket.on(Event.EMIT_NOTIFICATION_MESSAGE, (msg: Message) => {
       dispatch(addMessages(msg));
     });
+
     return () => {
       socket.off(Event.EMIT_NOTIFICATION_MESSAGE);
     };
