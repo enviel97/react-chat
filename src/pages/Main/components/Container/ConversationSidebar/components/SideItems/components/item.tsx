@@ -21,7 +21,7 @@ interface ItemProps {
 }
 
 const Item: FC<ItemProps> = ({ channelId }) => {
-  const [status, setStatus] = useState<Status>(Status.New);
+  const [status, setStatus] = useState<Status>(Status.Seen);
   const { isUser } = useAuthenticate();
   const navigator = useNavigate();
   const channel = useAppSelector((state) =>
@@ -43,8 +43,8 @@ const Item: FC<ItemProps> = ({ channelId }) => {
   const lastMessenger = !channel.lastMessage
     ? ""
     : isUser(channel.lastMessage.author)
-    ? "You "
-    : `${channel.lastMessage.author.lastName} `;
+    ? "You: "
+    : `${channel.lastMessage.author.lastName}: `;
 
   return (
     <SideItemContainer onClick={_seen}>
