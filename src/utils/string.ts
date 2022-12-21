@@ -16,8 +16,8 @@ const classList = (...className: any[]) => {
   return className.filter(notEmpty<string>).join(" ");
 };
 
-const getId = (object: Identity) => {
-  return (object.id ?? object._id).toString();
+const getId = (object?: Identity) => {
+  return (object?.id ?? object?._id ?? "").toString();
 };
 
 const string = { getFullName, chatFromNow, typeOf, classList, getId };

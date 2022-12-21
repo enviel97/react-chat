@@ -1,7 +1,5 @@
 import { ButtonIconNeumorphism } from "@components/Button";
 import { TextFieldNeumorphism } from "@components/TextInput";
-import useAppSelector from "@hooks/useAppSelector";
-import { isLoading } from "@utils/validate";
 import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { TbSend } from "react-icons/tb";
@@ -9,15 +7,25 @@ import { ChannelFormContainer } from "../../styles/Channel.decorate";
 
 interface ChannelSendFormProps {
   onConfirm: (message: string) => void;
+  onChanged: () => void;
 }
 
-const ChannelSendForm: FC<ChannelSendFormProps> = ({ onConfirm }) => {
-  const { register, handleSubmit, reset, setFocus } = useForm<{
+const ChannelSendForm: FC<ChannelSendFormProps> = ({
+  onConfirm,
+  onChanged,
+}) => {
+  const {
+    register,
+    handleSubmit,
+    reset,
+    setFocus,
+
+    formState: { isSubmitting },
+  } = useForm<{
     message: string;
   }>({
     defaultValues: { message: "" },
   });
-  const status = useAppSelector((state) => state.message.process);
 
   useEffect(() => {
     setFocus("message");
@@ -37,16 +45,19 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ onConfirm }) => {
         autoComplete='off'
       >
         <TextFieldNeumorphism
+          className='message-input'
           label='Send message'
-          register={register("message")}
           fontSize='1.2rem'
-          disabled={isLoading(status)}
+          register={register("message", {
+            disabled: isSubmitting,
+            onChange: onChanged,
+          })}
         />
         <ButtonIconNeumorphism
           type='submit'
           icon={<TbSend />}
           textColor='primary'
-          disabled={isLoading(status)}
+          disabled={isSubmitting}
         />
       </form>
     </ChannelFormContainer>

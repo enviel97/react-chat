@@ -12,3 +12,12 @@ export const notEmpty = <TValue>(
 export const isLoading = (status: number) => {
   return status === State.PENDING;
 };
+
+export const isCharacterKeyCode = (keyCode?: number) => {
+  const code = keyCode ?? -1;
+  return (
+    (code >= 48 && code <= 90) ||
+    (code >= 96 && code <= 111) ||
+    (code >= 186 && code <= 222)
+  );
+};
