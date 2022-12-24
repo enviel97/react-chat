@@ -1,7 +1,8 @@
 import { ButtonText } from "@components/Button";
 import { TextField } from "@components/TextInput";
-import { FC } from "react";
-import { useForm } from "react-hook-form";
+import { FC, useEffect } from "react";
+import { SubmitErrorHandler, useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 import styled from "styled-components";
 
 const AddChannelModalContainer = styled.div`
@@ -41,9 +42,26 @@ interface ConversationCreate {
 const AddChannelModal: FC<{
   onSubmitted: (data: ConversationCreate) => void;
 }> = ({ onSubmitted }) => {
-  const { register, handleSubmit } = useForm<ConversationCreate>();
+  const { register, handleSubmit, setFocus } = useForm<ConversationCreate>();
+
+  useEffect(() => {
+    setFocus("user", { shouldSelect: true });
+  }, [setFocus]);
+
   const onSubmit = (data: ConversationCreate) => {
     onSubmitted(data);
+  };
+
+  const onInvalid: SubmitErrorHandler<ConversationCreate> = (errors, event) => {
+    event?.preventDefault();
+    if (errors.user?.message) {
+      const id = errors.user.message.toLowerCase().replaceAll(" ", "");
+      if (!toast.isActive(id)) {
+        toast.error(errors.user.message, {
+          toastId: id,
+        });
+      }
+    }
   };
   return (
     <AddChannelModalContainer>
@@ -51,18 +69,21 @@ const AddChannelModal: FC<{
         <h5>Create a New Conversation</h5>
       </AddChannelHeader>
 
-      <AddChannelForm noValidate onSubmit={handleSubmit(onSubmit)}>
+      <AddChannelForm noValidate onSubmit={handleSubmit(onSubmit, onInvalid)}>
         <TextField
           label='To'
           borderColor='transparent'
           filled='surfaceColor'
-          register={register("user")}
+          register={register("user", {
+            required: "Enter email of participant",
+          })}
         />
         <TextField
           type='rich'
           label='Message (options)'
           borderColor='transparent'
           height='100%'
+          id='message'
           filled='surfaceColor'
           register={register("message")}
         />

@@ -1,3 +1,4 @@
+import { zIndex } from "@core/common/zIndex.define";
 import styled from "styled-components";
 
 const heightSideBarHeader = "4.5rem";
@@ -21,7 +22,7 @@ export const ChannelHeaderContainer = styled.div`
 
   background-color: ${({ theme }) => theme.backgroundColor};
   box-shadow: 0 1rem 1rem ${({ theme }) => theme.black};
-  z-index: 100000;
+  z-index: ${zIndex.ChannelHeader};
   & .channelName {
     font-size: inherit;
   }

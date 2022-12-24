@@ -1,4 +1,4 @@
 interface RequestCreateConversation {
-  participantId: string;
+  emailParticipant: string;
   message?: string;
 }

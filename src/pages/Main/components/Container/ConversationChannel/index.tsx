@@ -1,9 +1,7 @@
 import { Event } from "@core/common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
-import useAuthenticate from "@hooks/useAuthenticate";
 import useSocket from "@hooks/useSocket";
 import { fetchAddMessages, fetchMessages } from "@store/repo/message";
-import string from "@utils/string";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ChannelChattingNotification from "./components/container/ChanelChattingNotification";
@@ -19,11 +17,14 @@ const ConversationChannel = () => {
   const { id = "" } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
   const socket = useSocket();
-  const { user } = useAuthenticate();
 
   useEffect(() => {
     dispatch(fetchMessages(id));
   }, [id, dispatch]);
+
+  useEffect(() => {
+    socket.emit(Event.EVENT_CONNECT_ROOM_CONVERSATION, { conversationId: id });
+  }, [id, socket]);
 
   const _chatting = async (message: string) => {
     dispatch(
@@ -35,9 +36,8 @@ const ConversationChannel = () => {
   };
 
   const _sendTypingNotification = () => {
-    socket.emit(Event.EMIT_USER_TYPING, {
+    socket.emit(Event.EVENT_USER_TYPING, {
       conversationId: id,
-      userId: string.getId(user),
     });
   };
 

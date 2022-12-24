@@ -18,12 +18,12 @@ const ChannelBody = () => {
   const socket = useSocket();
 
   useEffect(() => {
-    socket.on(Event.EMIT_NOTIFICATION_MESSAGE, (msg: Message) => {
+    socket.on(Event.EVENT_NOTIFICATION_MESSAGE, (msg: Message) => {
       dispatch(addMessages(msg));
     });
 
     return () => {
-      socket.off(Event.EMIT_NOTIFICATION_MESSAGE);
+      socket.off(Event.EVENT_NOTIFICATION_MESSAGE);
     };
   }, [dispatch, socket]);
 

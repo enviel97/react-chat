@@ -5,7 +5,10 @@ import {
 } from "@reduxjs/toolkit";
 import SliceName from "../common/sliceName";
 import string from "@utils/string";
-import { fetchConversations } from "@store/repo/conversation";
+import {
+  fetchAddConversation,
+  fetchConversations,
+} from "@store/repo/conversation";
 import { State } from "@store/common/state";
 import { addMessages } from "./messageSlice";
 
@@ -55,6 +58,24 @@ export const conversationsSlice = createSlice({
           const payload = action.payload;
           const conversation = payload.data;
           conversationsAdapter.upsertMany(state, conversation);
+          //
+          state.process = State.FULFILLED;
+        }
+      );
+
+    builder
+      .addCase(fetchAddConversation.pending, (state, action) => {
+        state.process = State.PENDING;
+      })
+      .addCase(fetchAddConversation.rejected, (state, action) => {
+        state.process = State.ERROR;
+      })
+      .addCase(
+        fetchAddConversation.fulfilled,
+        (state, action: PayloadAction<Response<any>>) => {
+          const payload = action.payload;
+          const conversation = payload.data;
+          conversationsAdapter.upsertOne(state, conversation);
           //
           state.process = State.FULFILLED;
         }
