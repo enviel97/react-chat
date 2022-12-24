@@ -1,7 +1,12 @@
 const Button = (props: ButtonIconProps) => {
-  const { icon, disabled, onClick, type = "button" } = props;
+  const { icon, disabled, onClick, type = "button", itemType } = props;
   return (
-    <button type={type} onClick={onClick} disabled={disabled}>
+    <button
+      itemType={itemType}
+      type={type}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {icon}
     </button>
   );

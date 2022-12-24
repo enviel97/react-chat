@@ -3,4 +3,5 @@ interface ButtonIconProps {
   onClick?: () => void;
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
+  itemType?: string;
 }
