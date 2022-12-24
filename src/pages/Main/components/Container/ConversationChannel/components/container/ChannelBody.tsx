@@ -10,22 +10,26 @@ import useAppSelector from "@hooks/useAppSelector";
 import { addMessages, selectAllMessage } from "@store/slices/messageSlice";
 import { isLoading } from "@utils/validate";
 import MessageContainerLoading from "../ui/MessageContainerLoading";
+import { useParams } from "react-router-dom";
 
 const ChannelBody = () => {
+  const { id = "" } = useParams();
   const dispatch = useAppDispatch();
   const messages = useAppSelector(selectAllMessage);
   const status = useAppSelector((state) => state.message.process);
   const socket = useSocket();
 
   useEffect(() => {
-    socket.on(Event.EVENT_NOTIFICATION_MESSAGE, (msg: Message) => {
-      dispatch(addMessages(msg));
+    socket.on(Event.EVENT_MESSAGE_CREATED, (msg: Message) => {
+      if (msg.conversationId === id) {
+        dispatch(addMessages(msg));
+      }
     });
 
     return () => {
-      socket.off(Event.EVENT_NOTIFICATION_MESSAGE);
+      socket.off(Event.EVENT_MESSAGE_CREATED);
     };
-  }, [dispatch, socket]);
+  }, [dispatch, socket, id]);
 
   useLayoutEffect(() => {
     // Scroll to new messenger

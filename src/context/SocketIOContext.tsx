@@ -25,7 +25,7 @@ export const SocketProvider = ({ children }: Components) => {
       });
     });
     return () => {
-      socket.off(Event.EVENT_NOTIFICATION_MESSAGE, (payload: any) => {
+      socket.off(Event.EVENT_MESSAGE_CREATED, (payload: any) => {
         console.log({
           status: "disconnected",
           payload,

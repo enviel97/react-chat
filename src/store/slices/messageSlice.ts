@@ -20,9 +20,7 @@ export const messagesSlice = createSlice({
     process: State.IDLE,
   }),
   reducers: {
-    addMessages: (state, action) => {
-      messagesAdapter.addOne(state, action);
-    },
+    addMessages: messagesAdapter.addOne,
   },
   extraReducers: (builder) => {
     builder
