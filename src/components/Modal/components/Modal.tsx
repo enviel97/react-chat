@@ -1,5 +1,12 @@
 import { ButtonIconNeumorphism } from "@components/Button";
-import { createRef, useCallback, useEffect, useMemo } from "react";
+import {
+  createRef,
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+} from "react";
 import { RiCloseLine } from "react-icons/ri";
 import {
   CloseButtonContainer,
@@ -17,29 +24,32 @@ const Modal = (props: Props) => {
     width = "700px",
     height = "400px",
   } = props;
+  const tabRef = useRef(0);
+  const focusableModalElements = useRef<any[]>([]);
 
   const modalRef = createRef<any>();
+  useLayoutEffect(() => {
+    focusableModalElements.current = modalRef?.current.querySelectorAll(
+      'a[href], button:not([itemtype="close"]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
+    );
+  }, [modalRef]);
 
   const handleTabKey = useCallback(
     (e: any) => {
-      if (!modalRef.current) {
+      if (!modalRef.current || focusableModalElements.current.length <= 0) {
         return;
       }
-      const focusableModalElements = modalRef.current.querySelectorAll(
-        'a[href], button, textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
-      );
-      const firstElement = focusableModalElements[0];
-      const lastElement =
-        focusableModalElements[focusableModalElements.length - 1];
 
-      if (!e.shiftKey && document.activeElement !== firstElement) {
-        firstElement.focus();
+      const focusElements = focusableModalElements.current;
+
+      if (tabRef.current === 2) {
+        focusElements[0].focus();
+        tabRef.current = 0;
         return e.preventDefault();
-      }
-
-      if (e.shiftKey && document.activeElement !== lastElement) {
-        lastElement.focus();
-        e.preventDefault();
+      } else {
+        focusElements[tabRef.current + 1].focus();
+        tabRef.current = tabRef.current + 1;
+        return e.preventDefault();
       }
     },
     [modalRef]
@@ -78,15 +88,16 @@ const Modal = (props: Props) => {
         aria-modal='true'
         role={"dialog"}
       >
+        {props.children}
         {showCloseButton && (
-          <CloseButtonContainer>
+          <CloseButtonContainer tabIndex={-1}>
             <ButtonIconNeumorphism
+              itemType='close'
               icon={<RiCloseLine />}
               onClick={props.handleClose}
             />
           </CloseButtonContainer>
         )}
-        {props.children}
       </ModalContainer>
     </Backdrop>
   );
