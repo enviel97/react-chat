@@ -6,6 +6,7 @@ import { TbEdit } from "react-icons/tb";
 import AddChannelModal from "./components/AddChannelModal";
 import { useNavigate } from "react-router-dom";
 import string from "@utils/string";
+import { PromiseToast } from "@components/Toast/promise";
 const modalKey = "CreateConversationModal";
 
 const SideAddChannelButton = () => {
@@ -17,21 +18,22 @@ const SideAddChannelButton = () => {
     modelController.show(
       <AddChannelModal
         onSubmitted={(data) => {
-          console.log(data);
-          dispatch(
-            fetchAddConversation({
-              emailParticipant: data.user.trim(),
-              message: data.message ?? "",
-            })
-          )
-            .unwrap()
-            .then((res) => {
+          PromiseToast({
+            pending: "Create conversation",
+            action: async () =>
+              await dispatch(
+                fetchAddConversation({
+                  emailParticipant: data.user.trim(),
+                  message: data.message ?? "",
+                })
+              ).unwrap(),
+            onSuccess: (res) => {
               if (res.data) {
-                navigator(`messenger/${string.getId(res.data)}`);
                 modelController.close(modalKey);
+                navigator(`messenger/${string.getId(res.data)}`);
               }
-            })
-            .catch((err) => console.log(err));
+            },
+          });
         }}
       />,
       {
