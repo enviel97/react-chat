@@ -15,7 +15,6 @@ const _borderColor = ({ borderColor, theme }: any) => {
   return theme[borderColor];
 };
 export const LockIcon = styled.div`
-  background-color: ${({ theme }) => theme.backgroundColor};
   padding: 0 0.5rem;
   & svg {
     height: 1.2rem;

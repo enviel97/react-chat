@@ -16,6 +16,7 @@ const BaseTextField = (props: TextFieldProps) => {
     filled,
     borderColor,
     fontSize,
+    tabIndex = 0,
   } = props;
   const ref = useRef<any>();
   const [isHidden, setHidden] = useState(true);
@@ -55,7 +56,9 @@ const BaseTextField = (props: TextFieldProps) => {
           onChange={_onChange}
           readOnly={readOnly}
           disabled={disabled || readOnly}
+          tabIndex={tabIndex}
           required
+          {...props.register}
         />
       ) : (
         <input
@@ -69,6 +72,7 @@ const BaseTextField = (props: TextFieldProps) => {
           onChange={_onChange}
           readOnly={readOnly}
           disabled={disabled || readOnly}
+          tabIndex={tabIndex}
           required
           {...props.register}
         />

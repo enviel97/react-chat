@@ -11,6 +11,7 @@ interface TextFieldProps {
   readOnly?: boolean;
   disabled?: boolean;
   fontSize?: string;
+  tabIndex?: number;
 
   // color
   borderColor?: string;
