@@ -3,6 +3,7 @@ import {
   neumorphismBoxShadow,
   neumorphismBoxShadowInset,
 } from "@common/helper/tools";
+import { zIndex } from "@core/common/zIndex.define";
 import { Variants } from "framer-motion";
 import styled from "styled-components";
 
@@ -50,7 +51,7 @@ export const Loader = styled.span`
     background-color: #121212;
     box-shadow: ${neumorphismBoxShadowInset(true)},
       ${neumorphismBoxShadow(true)};
-    z-index: 1;
+    z-index: ${zIndex.PageLoadingShadow};
   }
 `;
 

@@ -1,4 +1,5 @@
 import { neumorphismBoxShadow } from "@common/helper/tools";
+import { zIndex } from "@core/common/zIndex.define";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
@@ -24,5 +25,5 @@ export const CloseButtonContainer = styled.div`
   position: absolute;
   right: 1em;
   top: 1rem;
-  z-index: 100;
+  z-index: ${zIndex.BaseModelCloseButton};
 `;

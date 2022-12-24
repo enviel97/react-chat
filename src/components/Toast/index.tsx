@@ -1,4 +1,5 @@
-import { neumorphismBoxShadow } from "@common/helper/tools";
+import { colorBrightness, neumorphismBoxShadow } from "@common/helper/tools";
+import { zIndex } from "@core/common/zIndex.define";
 import { ToastContainer, Bounce } from "react-toastify";
 import styled from "styled-components";
 
@@ -19,11 +20,13 @@ export const toastDefaultOption = {
 const StyledToastContainer = styled(ToastContainer)`
   color: white;
   font-size: 1rem;
+  z-index: ${zIndex.ToastContainer};
   .toast {
     color: inherit;
     background-color: ${({ theme }) => theme.backgroundColor};
-    box-shadow: ${neumorphismBoxShadow()};
-
+    box-shadow: ${neumorphismBoxShadow(false, {
+      background: "#000000",
+    })};
     transition: 0.5s;
   }
   & button[type="button"] {

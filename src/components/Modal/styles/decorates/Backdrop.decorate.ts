@@ -1,3 +1,4 @@
+import { zIndex } from "@core/common/zIndex.define";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
@@ -10,5 +11,5 @@ export const BackdropContainer = styled(motion.div)<BackdropDecorate>`
   display: flex;
   align-items: center;
   justify-content: center;
-  z-index: 10000000;
+  z-index: ${zIndex.BaseModalBackdrop};
 `;
