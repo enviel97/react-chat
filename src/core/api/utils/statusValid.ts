@@ -9,3 +9,7 @@ export const isServerError = (statusCode: number) => {
 export const isRequestError = (statusCode: number) => {
   return statusCode <= 499 && statusCode >= 400;
 };
+
+export const isLoginRequired = (status: number) => {
+  return status === 403;
+};

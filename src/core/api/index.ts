@@ -1,7 +1,7 @@
 import axios from "axios";
 import { toast } from "react-toastify";
 import { safeLog } from "./utils/logger";
-import { isServerError } from "./utils/statusValid";
+import { isLoginRequired, isServerError } from "./utils/statusValid";
 
 const showToast = (message: string) => {
   const toastId = message.toLowerCase().replaceAll(" ", "");
@@ -26,6 +26,10 @@ const errorHandler = (err: any) => {
       const { status = 500 } = err.response;
       if (isServerError(status)) {
         showToast(err.response.data?.message ?? "Internal Server Error");
+        return;
+      }
+      if (isLoginRequired(status)) {
+        showToast("You must log in first");
         return;
       }
       showToast(err.response.data?.message ?? "Server not found");
