@@ -2,7 +2,6 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { safeLog } from "./utils/logger";
 import { isLoginRequired, isServerError } from "./utils/statusValid";
-
 const showToast = (message: string) => {
   const toastId = message.toLowerCase().replaceAll(" ", "");
   if (!toast.isActive(toastId))
@@ -35,7 +34,7 @@ const errorHandler = (err: any) => {
       showToast(err.response.data?.message ?? "Server not found");
       return;
     } else if (err.request) {
-      showToast(err.request.message ?? "Bad request error");
+      showToast(err.request.message ?? "Interval Server Error");
       return;
     }
     showToast("Some error occur, we don't known");
