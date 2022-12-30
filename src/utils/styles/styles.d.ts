@@ -4,6 +4,11 @@ type PageProps = Partial<{
   alignItems: "flex-end" | "flex-start" | "center" | "stretch";
   flexDirection: "column" | "row" | "row-reverse" | "column-reverse";
   gap: string;
+  margin: string;
+  padding: string;
+  width: string;
+  height: string;
+  background: string;
 }>;
 
 type Sized = {

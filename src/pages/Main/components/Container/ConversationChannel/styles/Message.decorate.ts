@@ -7,29 +7,23 @@ export const MessageContainer = styled.div`
   overflow-y: auto;
 `;
 
-export const MessageItemContainer = styled.div<MessageStyledProps>`
-  width: 100%;
-  display: flex;
-  margin: 0.5em 0;
-  gap: 0.3em;
-  align-items: flex-end;
-  flex-direction: ${({ fromYou }) => (fromYou ? "row-reverse" : "row")};
-
-  & .timer {
-    font-weight: normal;
-    font-size: 0.9em;
-    font-style: italic;
-    color: ${({ theme }) => theme.disableColor};
-  }
+export const MessageItemTimer = styled.span<{ isLastMessage: boolean }>`
+  font-weight: normal;
+  font-size: 0.9em;
+  font-style: italic;
+  margin-top: 0.5em;
+  color: ${({ theme }) => theme.disableColor};
+  visibility: ${({ isLastMessage }) => (isLastMessage ? "visible" : "hidden")};
+  display: ${({ isLastMessage }) => (isLastMessage ? "initial" : "none")};
 `;
 
 export const MessageContent = styled.span<MessageStyledProps>`
-  width: fit-content;
   padding: 0.5rem 1rem;
   border-radius: 10px;
   background-color: ${({ fromYou, theme }) =>
     fromYou ? theme.surfaceColor : theme.secondaryColor};
 
+  width: fit-content;
   max-width: 50%;
   ${breakpoint.down("tablet")} {
     max-width: 80%;

@@ -2,13 +2,14 @@ import { pxToEm } from "@common/helper/tools";
 import useAuthenticate from "@hooks/useAuthenticate";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import string from "@utils/string";
-import { Placeholder } from "@utils/styles";
+import { Box, Placeholder } from "@utils/styles";
 import moment from "moment";
 import { FC, memo, useMemo } from "react";
 import {
   MessageContent,
-  MessageItemContainer,
+  MessageItemTimer,
 } from "../../styles/Message.decorate";
+import MessageAvatar from "./MessageAvatar";
 
 interface MessageItemProps {
   message: Message;
@@ -30,16 +31,28 @@ const MessageItem: FC<MessageItemProps> = ({
     !preChatter || string.getId(preChatter) !== string.getId(message.author);
 
   return (
-    <MessageItemContainer fromYou={fromYou}>
-      {getAvatar && <CircleAvatar />}
-      {!getAvatar && <Placeholder height={pxToEm(36)} width={pxToEm(36)} />}
-      <MessageContent fromYou={fromYou}>{message.content}</MessageContent>
-      {lastChatter && (
-        <span className='timer'>
-          {moment(message.createdAt).fromNow(false)}
-        </span>
-      )}
-    </MessageItemContainer>
+    <Box
+      display='flex'
+      gap='1em'
+      alignItems='flex-start'
+      margin='0.25em 0'
+      flexDirection={fromYou ? "row-reverse" : "row"}
+    >
+      <MessageAvatar isShow={!getAvatar} size={36} />
+      <Box
+        display='flex'
+        width='100%'
+        alignItems={fromYou ? "flex-end" : "flex-start"}
+        flexDirection='column'
+      >
+        <MessageContent fromYou={fromYou}>{message.content}</MessageContent>
+        <Box display='flex'>
+          <MessageItemTimer isLastMessage={lastChatter}>
+            {moment(message.createdAt).calendar()}
+          </MessageItemTimer>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 

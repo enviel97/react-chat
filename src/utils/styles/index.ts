@@ -18,6 +18,11 @@ export const Box = styled.div<PageProps>`
   align-items: ${({ alignItems }) => alignItems};
   flex-direction: ${({ flexDirection }) => flexDirection};
   gap: ${({ gap }) => gap};
+  margin: ${({ margin }) => margin};
+  padding: ${({ padding }) => padding};
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
+  background: ${({ background }) => background};
 `;
 
 export const Placeholder = styled.div<Sized>`
