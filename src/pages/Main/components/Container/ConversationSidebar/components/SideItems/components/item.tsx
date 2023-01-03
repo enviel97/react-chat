@@ -39,7 +39,7 @@ const Item: FC<ItemProps> = ({ channelId }) => {
   const conversationName = isUser(channel.participant)
     ? string.getFullName(channel.author)
     : string.getFullName(channel.participant);
-
+  console.log(channel);
   const lastMessenger = !channel.lastMessage
     ? ""
     : isUser(channel.lastMessage.author)

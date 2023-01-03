@@ -19,7 +19,6 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({
   const { id } = useParams();
   const {
     register,
-    handleSubmit,
     setFocus,
     resetField,
     getValues,
@@ -35,7 +34,7 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({
     resetField("message");
   };
 
-  useEffect(resetValue, [id]);
+  useEffect(resetValue, [id, setFocus, resetField]);
 
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
