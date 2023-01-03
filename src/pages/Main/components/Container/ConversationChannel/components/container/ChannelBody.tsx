@@ -7,7 +7,11 @@ import { Box } from "@utils/styles";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { MessageContainer } from "../../styles/Message.decorate";
 import useAppSelector from "@hooks/useAppSelector";
-import { addMessages, selectAllMessage } from "@store/slices/messageSlice";
+import {
+  addMessages,
+  removeMessage,
+  selectAllMessage,
+} from "@store/slices/messageSlice";
 import { isLoading } from "@utils/validate";
 import MessageContainerLoading from "../ui/MessageContainerLoading";
 import { useParams } from "react-router-dom";
@@ -32,6 +36,27 @@ const ChannelBody = () => {
         );
       }
     });
+
+    return () => {
+      socket.off(Event.EVENT_MESSAGE_CREATED);
+    };
+  }, [dispatch, socket, id]);
+
+  useEffect(() => {
+    socket.on(
+      Event.EVENT_MESSAGE_REMOVE,
+      ({ lastMessage, conversationId, messageId }) => {
+        if (conversationId === id) {
+          dispatch(removeMessage(messageId));
+          dispatch(
+            updateLastMessage({
+              conversationId: conversationId,
+              message: lastMessage,
+            })
+          );
+        }
+      }
+    );
 
     return () => {
       socket.off(Event.EVENT_MESSAGE_CREATED);

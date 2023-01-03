@@ -25,10 +25,7 @@ export const messagesSlice = createSlice({
   }),
   reducers: {
     addMessages: messagesAdapter.addOne,
-    removeMessage: (state, action: PayloadAction<RequestDeleteMessage>) => {
-      const payload = action.payload;
-      return messagesAdapter.removeOne(state, payload.messageId);
-    },
+    removeMessage: messagesAdapter.removeOne,
   },
   extraReducers: (builder) => {
     builder
