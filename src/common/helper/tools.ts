@@ -1,3 +1,5 @@
+import { DefaultTheme } from "styled-components";
+
 export const colorBrightness = (color: string, percent: number) => {
   const num = parseInt(color.replace("#", ""), 16),
     amt = Math.round(2.55 * percent),
@@ -81,4 +83,21 @@ export const neumorphismBoxShadowInset = (
     `1px 1px 0px ${colorBrightness(background, 1.5)},` +
     `0px 12px 10px -10px ${colorBrightness(background, 0.05)}`
   );
+};
+
+export const colorTheme = ({
+  color,
+  theme,
+}: {
+  color?: NameColor | string;
+  theme: DefaultTheme;
+}) => {
+  if (!color) return theme.backgroundColor;
+  if (color[0] === "#" || color === "transparent") {
+    return color;
+  }
+  const nameColor = color as NameColor;
+  const themeColor = theme[`${nameColor}Color`];
+
+  return !themeColor ? color : themeColor;
 };

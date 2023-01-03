@@ -28,8 +28,10 @@ declare module "styled-components" {
     onSecondaryColor: string;
 
     backgroundColor: string;
-    surfaceColor: string;
     onBackgroundColor: string;
+
+    surfaceColor: string;
+    onSurfaceColor: string;
 
     tertiaryColor: string;
   }
@@ -38,10 +40,13 @@ declare module "styled-components" {
 const _paletteColor = {
   black: "#000000",
   white: "#ffffff",
+
   primaryColor: "#c1a01a",
   onPrimaryColor: "#efefef",
+
   secondaryColor: "#832611",
   onSecondaryColor: "#efefef",
+
   disableColor: "#8f8f8f",
   tertiaryColor: "#b75c9e",
 
@@ -53,16 +58,24 @@ const _paletteColor = {
 export const palette: Palette = {
   dark: {
     themeMode: "dark",
+
     backgroundColor: "#121212",
-    surfaceColor: "#212121",
     onBackgroundColor: "#d6d6d6",
+
+    surfaceColor: "#212121",
+    onSurfaceColor: "#d6d6d6",
+
     ..._paletteColor,
   },
   light: {
     themeMode: "light",
+
     backgroundColor: "#eeeeee",
-    surfaceColor: "#dedede",
     onBackgroundColor: "#121212",
+
+    surfaceColor: "#dedede",
+    onSurfaceColor: "#121212",
+
     ..._paletteColor,
   },
 };

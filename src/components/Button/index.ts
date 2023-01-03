@@ -4,4 +4,4 @@ export {
   ButtonText,
 } from "./TextButton";
 
-export { ButtonIconNeumorphism, ButtonIconCore } from "./IconButton";
+export { ButtonIconNeumorphism, ButtonIcon } from "./IconButton";

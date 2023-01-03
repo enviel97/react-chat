@@ -5,6 +5,7 @@ import { palette } from "./helper/palette";
 import "normalize.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import "react-tooltip/dist/react-tooltip.css";
 
 const initTheme: ThemeMode = "dark";
 

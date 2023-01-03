@@ -4,4 +4,5 @@ interface ButtonIconProps {
   disabled?: boolean;
   type?: "button" | "submit" | "reset";
   itemType?: string;
+  circle?: boolean;
 }

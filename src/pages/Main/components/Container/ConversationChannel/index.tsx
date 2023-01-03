@@ -4,7 +4,6 @@ import useSocket from "@hooks/useSocket";
 import { fetchAddMessages, fetchMessages } from "@store/repo/message";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import ChannelChattingNotification from "./components/container/ChanelChattingNotification";
 import ChannelBody from "./components/container/ChannelBody";
 import ChannelHeader from "./components/container/ChannelHeader";
 import ChannelSendForm from "./components/container/ChannelSendForm";
@@ -46,7 +45,6 @@ const ConversationChannel = () => {
       <ChannelHeader conversationId={id} />
       <ChannelBodyContainer>
         <ChannelBody />
-        <ChannelChattingNotification />
         <ChannelSendForm
           onConfirm={_chatting}
           onChanged={_sendTypingNotification}

@@ -2,12 +2,12 @@ import { pxToEm } from "@common/helper/tools";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import { Placeholder } from "@utils/styles";
 import { FC } from "react";
-interface MessageAvatar {
+interface MessageAvatarProps {
   isShow: boolean;
   src?: string;
   size: number;
 }
-const MessageAvatar: FC<MessageAvatar> = ({ isShow, size, src }) => {
+const MessageAvatar: FC<MessageAvatarProps> = ({ isShow, size, src }) => {
   if (isShow) {
     return <Placeholder height={pxToEm(size)} width={pxToEm(size)} />;
   }

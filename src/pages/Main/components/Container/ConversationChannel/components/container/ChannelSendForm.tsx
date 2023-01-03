@@ -4,6 +4,7 @@ import { FC, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { TbSend } from "react-icons/tb";
 import { ChannelFormContainer } from "../../styles/Channel.decorate";
+import ChannelChattingNotification from "./ChanelChattingNotification";
 
 interface ChannelSendFormProps {
   onConfirm: (message: string) => void;
@@ -17,9 +18,7 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({
   const {
     register,
     handleSubmit,
-    reset,
     setFocus,
-
     formState: { isSubmitting },
   } = useForm<{
     message: string;
@@ -33,11 +32,11 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({
 
   const onSubmit = (data: { message: string }) => {
     onConfirm(data.message);
-    reset();
   };
 
   return (
     <ChannelFormContainer>
+      <ChannelChattingNotification />
       <form
         className='form'
         onSubmit={handleSubmit(onSubmit)}

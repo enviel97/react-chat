@@ -24,3 +24,12 @@ export const getMessages = async (id: string) => {
   if (response.data) return response;
   throw new Error("Internal Server Error");
 };
+
+export const deleteMessage = async (req: RequestDeleteMessage) => {
+  const { conversationId, messageId } = req;
+  const response = await client.delete<any, Response<Message[]>>(
+    messageUrl(conversationId, `${MESSAGE_GET_LIST}/${messageId}`)
+  );
+  if (response.data) return response;
+  throw new Error("Internal Server Error");
+};

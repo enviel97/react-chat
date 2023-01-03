@@ -6,7 +6,11 @@ import {
 import SliceName from "../common/sliceName";
 import string from "@utils/string";
 import { State } from "@store/common/state";
-import { fetchAddMessages, fetchMessages } from "@store/repo/message";
+import {
+  fetchAddMessages,
+  fetchDeleteMessages,
+  fetchMessages,
+} from "@store/repo/message";
 
 const messagesAdapter = createEntityAdapter<Message>({
   selectId: (message) => string.getId(message),
@@ -21,6 +25,10 @@ export const messagesSlice = createSlice({
   }),
   reducers: {
     addMessages: messagesAdapter.addOne,
+    removeMessage: (state, action: PayloadAction<RequestDeleteMessage>) => {
+      const payload = action.payload;
+      return messagesAdapter.removeOne(state, payload.messageId);
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -51,10 +59,19 @@ export const messagesSlice = createSlice({
         messagesAdapter.upsertOne(state, message);
       }
     );
+
+    builder.addCase(
+      fetchDeleteMessages.fulfilled,
+      (state, action: PayloadAction<Response<any>>) => {
+        const payload = action.payload;
+        const message = payload.data;
+        messagesAdapter.removeOne(state, string.getId(message));
+      }
+    );
   },
 });
 
-export const { addMessages } = messagesSlice.actions;
+export const { addMessages, removeMessage } = messagesSlice.actions;
 
 export const {
   selectById: selectMessageById,

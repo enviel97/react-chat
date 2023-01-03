@@ -10,7 +10,6 @@ import {
   fetchConversations,
 } from "@store/repo/conversation";
 import { State } from "@store/common/state";
-import { addMessages } from "./messageSlice";
 
 const conversationsAdapter = createEntityAdapter<Conversation>({
   selectId: (conversation) => string.getId(conversation),
@@ -25,9 +24,10 @@ export const conversationsSlice = createSlice({
   }),
   reducers: {
     addConversation: conversationsAdapter.addOne,
-  },
-  extraReducers: (builder) => {
-    builder.addCase(addMessages, (state, action) => {
+    updateLastMessage: (
+      state,
+      action: PayloadAction<UpdateLastMessageConversationPayload>
+    ) => {
       const payload = action.payload;
 
       const conversation = conversationsAdapter
@@ -39,12 +39,13 @@ export const conversationsSlice = createSlice({
         id: payload.conversationId,
         changes: {
           ...conversation,
-          lastMessage: payload,
-          updatedAt: payload.updatedAt,
+          lastMessage: payload.message,
+          updatedAt: payload.message.updatedAt,
         },
       });
-    });
-
+    },
+  },
+  extraReducers: (builder) => {
     builder
       .addCase(fetchConversations.pending, (state, action) => {
         state.process = State.PENDING;
@@ -83,7 +84,8 @@ export const conversationsSlice = createSlice({
   },
 });
 
-export const { addConversation } = conversationsSlice.actions;
+export const { addConversation, updateLastMessage } =
+  conversationsSlice.actions;
 
 export const {
   selectById: selectConversationById,

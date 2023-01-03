@@ -1,19 +1,12 @@
+import { colorTheme } from "@common/helper/tools";
 import styled from "styled-components";
 
-const _fillColor = ({ filled, theme }: any) => {
-  if (!filled) return theme.backgroundColor;
-  if (filled[0] === "#" || filled === "transparent") {
-    return filled;
-  }
-  return theme[filled];
-};
-const _borderColor = ({ borderColor, theme }: any) => {
-  if (!borderColor) return theme.backgroundColor;
-  if (borderColor[0] === "#" || borderColor === "transparent") {
-    return borderColor;
-  }
-  return theme[borderColor];
-};
+const _fillColor = ({ filled, theme }: any) =>
+  colorTheme({ color: filled, theme });
+
+const _borderColor = ({ borderColor, theme }: any) =>
+  colorTheme({ color: borderColor, theme });
+
 export const LockIcon = styled.div`
   padding: 0 0.5rem;
   & svg {

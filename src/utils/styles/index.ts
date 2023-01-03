@@ -22,7 +22,17 @@ export const Box = styled.div<PageProps>`
   padding: ${({ padding }) => padding};
   width: ${({ width }) => width};
   height: ${({ height }) => height};
+  max-width: ${({ maxWidth }) => maxWidth};
+  max-height: ${({ maxHeight }) => maxHeight};
   background: ${({ background }) => background};
+`;
+
+export const Inline = styled.div<InlineBoxProps>`
+  float: ${({ float }) => float};
+
+  &::after {
+    clear: both;
+  }
 `;
 
 export const Placeholder = styled.div<Sized>`

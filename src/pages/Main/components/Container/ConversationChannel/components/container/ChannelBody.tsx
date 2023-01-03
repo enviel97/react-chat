@@ -11,6 +11,7 @@ import { addMessages, selectAllMessage } from "@store/slices/messageSlice";
 import { isLoading } from "@utils/validate";
 import MessageContainerLoading from "../ui/MessageContainerLoading";
 import { useParams } from "react-router-dom";
+import { updateLastMessage } from "@store/slices/conversationSlice";
 
 const ChannelBody = () => {
   const { id = "" } = useParams();
@@ -23,6 +24,12 @@ const ChannelBody = () => {
     socket.on(Event.EVENT_MESSAGE_CREATED, (msg: Message) => {
       if (msg.conversationId === id) {
         dispatch(addMessages(msg));
+        dispatch(
+          updateLastMessage({
+            conversationId: msg.conversationId,
+            message: msg,
+          })
+        );
       }
     });
 
@@ -49,9 +56,9 @@ const ChannelBody = () => {
     <MessageContainer>
       {messages.length === 0 && (
         <Box
-          style={{ height: "75vh" }}
           display='flex'
           alignItems='center'
+          height='100%'
           justifyContent='center'
         >
           <h5>Say hi to to begin conversation</h5>

@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { getMessages, postMessage } from "./api";
+import { deleteMessage, getMessages, postMessage } from "./api";
 
 export const fetchAddMessages = createAsyncThunk(
   "messages/fetch-post-message",
@@ -9,4 +9,9 @@ export const fetchAddMessages = createAsyncThunk(
 export const fetchMessages = createAsyncThunk(
   "messages/fetch-get-messages",
   async (id: string) => await getMessages(id)
+);
+
+export const fetchDeleteMessages = createAsyncThunk(
+  "messages/fetch-delete-messages",
+  async (request: RequestDeleteMessage) => await deleteMessage(request)
 );

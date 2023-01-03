@@ -38,10 +38,11 @@ export const ChannelBodyContainer = styled.div`
 `;
 
 export const ChannelFormContainer = styled.div`
+  position: relative;
   height: fit-content;
   border-top: 2px solid ${({ theme }) => theme.surfaceColor};
   margin: 0 1rem;
-  padding: 1em 5px 5px 5px;
+  padding: 1em 5px;
   & .form {
     display: flex;
     flex-direction: row;
