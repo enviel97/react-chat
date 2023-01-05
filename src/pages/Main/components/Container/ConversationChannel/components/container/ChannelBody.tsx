@@ -16,6 +16,7 @@ import { isLoading } from "@utils/validate";
 import MessageContainerLoading from "../ui/MessageContainerLoading";
 import { useParams } from "react-router-dom";
 import { updateLastMessage } from "@store/slices/conversationSlice";
+import ChannelEmpty from "./ChannelEmpty";
 
 const ChannelBody = () => {
   const { id = "" } = useParams();
@@ -59,7 +60,7 @@ const ChannelBody = () => {
     );
 
     return () => {
-      socket.off(Event.EVENT_MESSAGE_CREATED);
+      socket.off(Event.EVENT_MESSAGE_REMOVE);
     };
   }, [dispatch, socket, id]);
 
@@ -79,16 +80,7 @@ const ChannelBody = () => {
 
   return (
     <MessageContainer>
-      {messages.length === 0 && (
-        <Box
-          display='flex'
-          alignItems='center'
-          height='100%'
-          justifyContent='center'
-        >
-          <h5>Say hi to to begin conversation</h5>
-        </Box>
-      )}
+      {messages.length === 0 && <ChannelEmpty id={id} />}
       {messages.length !== 0 &&
         messages.map((mess, index, arr) => {
           const presentChatter =

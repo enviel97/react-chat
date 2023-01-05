@@ -27,7 +27,7 @@ export const getMessages = async (id: string) => {
 
 export const deleteMessage = async (req: RequestDeleteMessage) => {
   const { conversationId, messageId } = req;
-  const response = await client.delete<any, Response<Message[]>>(
+  const response = await client.delete<any, Response<ResponseDeleteMessage>>(
     messageUrl(conversationId, `${MESSAGE_GET_LIST}/${messageId}`)
   );
   if (response.data) return response;

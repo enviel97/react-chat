@@ -5,5 +5,5 @@ interface RequestCreateConversation {
 
 interface UpdateLastMessageConversationPayload {
   conversationId: string;
-  message: Message;
+  message?: Message;
 }

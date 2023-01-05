@@ -59,10 +59,10 @@ export const messagesSlice = createSlice({
 
     builder.addCase(
       fetchDeleteMessages.fulfilled,
-      (state, action: PayloadAction<Response<any>>) => {
+      (state, action: PayloadAction<Response<ResponseDeleteMessage>>) => {
         const payload = action.payload;
-        const message = payload.data;
-        messagesAdapter.removeOne(state, string.getId(message));
+        const data = payload.data;
+        messagesAdapter.removeOne(state, string.getId(data?.messageId));
       }
     );
   },

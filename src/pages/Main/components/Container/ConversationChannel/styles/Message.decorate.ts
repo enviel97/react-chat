@@ -7,6 +7,7 @@ export const MessageAction = styled.div<MessageStyledProps>`
 `;
 
 export const MessageContainer = styled.div`
+  position: relative;
   height: fit-content;
   max-height: 85vh;
   padding: 4em 2em 1em;

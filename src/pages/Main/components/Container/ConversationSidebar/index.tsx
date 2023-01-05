@@ -19,7 +19,6 @@ const ConversationSidebar = () => {
     socket.on(
       Event.EVENT_CONVERSATION_CREATED,
       (payload: Conversation & { sender: User }) => {
-        console.log({ payload });
         dispatch(
           addConversation({
             ...payload,

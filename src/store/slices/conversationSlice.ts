@@ -10,6 +10,8 @@ import {
   fetchConversations,
 } from "@store/repo/conversation";
 import { State } from "@store/common/state";
+import { addMessages, removeMessage } from "./messageSlice";
+import { fetchAddMessages, fetchDeleteMessages } from "@store/repo/message";
 
 const conversationsAdapter = createEntityAdapter<Conversation>({
   selectId: (conversation) => string.getId(conversation),
@@ -25,7 +27,7 @@ export const conversationsSlice = createSlice({
   reducers: {
     addConversation: conversationsAdapter.addOne,
     updateLastMessage: (
-      state,
+      state: any,
       action: PayloadAction<UpdateLastMessageConversationPayload>
     ) => {
       const payload = action.payload;
@@ -40,12 +42,13 @@ export const conversationsSlice = createSlice({
         changes: {
           ...conversation,
           lastMessage: payload.message,
-          updatedAt: payload.message.updatedAt,
+          ...(payload.message && { updatedAt: payload.message.updatedAt }),
         },
       });
     },
   },
   extraReducers: (builder) => {
+    // #region Builder for fetch all Conversation
     builder
       .addCase(fetchConversations.pending, (state, action) => {
         state.process = State.PENDING;
@@ -63,7 +66,8 @@ export const conversationsSlice = createSlice({
           state.process = State.FULFILLED;
         }
       );
-
+    // #endregion
+    // #region Builder for fetch add Conversation
     builder
       .addCase(fetchAddConversation.pending, (state, action) => {
         state.process = State.PENDING;
@@ -81,6 +85,7 @@ export const conversationsSlice = createSlice({
           state.process = State.FULFILLED;
         }
       );
+    // #endregion
   },
 });
 
