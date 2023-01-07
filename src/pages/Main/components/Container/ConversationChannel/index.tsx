@@ -22,11 +22,16 @@ const ConversationChannel = () => {
   }, [id, dispatch]);
 
   useEffect(() => {
-    console.log(`Join ${id}`);
-    socket.emit(Event.EVENT_CONNECT_ROOM_CONVERSATION, { conversationId: id });
+    socket.on(Event.EVENT_CONNECTED_ROOM, (payload: any) => {
+      console.log({ payload });
+    });
+    socket.on(Event.EVENT_LEAVED_ROOM, (payload: any) => {
+      console.log({ payload });
+    });
     return () => {
-      console.log(`Leave ${id}`);
       socket.emit(Event.EVENT_LEAVE_ROOM_CONVERSATION, { conversationId: id });
+      socket.off(Event.EVENT_CONNECTED_ROOM);
+      socket.off(Event.EVENT_LEAVED_ROOM);
     };
   }, [id, socket]);
 
