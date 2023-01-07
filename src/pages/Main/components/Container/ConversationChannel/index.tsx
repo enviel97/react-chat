@@ -1,7 +1,7 @@
 import { Event } from "@core/common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
-import { fetchAddMessages, fetchMessages } from "@store/repo/message";
+import { fetchMessages } from "@store/repo/message";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import ChannelBody from "./components/container/ChannelBody";
@@ -22,33 +22,20 @@ const ConversationChannel = () => {
   }, [id, dispatch]);
 
   useEffect(() => {
+    console.log(`Join ${id}`);
     socket.emit(Event.EVENT_CONNECT_ROOM_CONVERSATION, { conversationId: id });
+    return () => {
+      console.log(`Leave ${id}`);
+      socket.emit(Event.EVENT_LEAVE_ROOM_CONVERSATION, { conversationId: id });
+    };
   }, [id, socket]);
-
-  const _chatting = async (message: string) => {
-    dispatch(
-      fetchAddMessages({
-        conversationId: id,
-        message,
-      })
-    );
-  };
-
-  const _sendTypingNotification = () => {
-    socket.emit(Event.EVENT_USER_TYPING, {
-      conversationId: id,
-    });
-  };
 
   return (
     <ChannelContainer>
       <ChannelHeader conversationId={id} />
       <ChannelBodyContainer>
         <ChannelBody />
-        <ChannelSendForm
-          onConfirm={_chatting}
-          onChanged={_sendTypingNotification}
-        />
+        <ChannelSendForm conversationId={id} />
       </ChannelBodyContainer>
     </ChannelContainer>
   );

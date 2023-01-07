@@ -30,11 +30,9 @@ export const messagesSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(fetchMessages.pending, (state, _) => {
-        messagesAdapter.removeAll(state);
         state.process = State.PENDING;
       })
       .addCase(fetchMessages.rejected, (state, _) => {
-        messagesAdapter.removeAll(state);
         state.process = State.ERROR;
       })
       .addCase(
@@ -42,6 +40,9 @@ export const messagesSlice = createSlice({
         (state, action: PayloadAction<Response<any>>) => {
           const payload = action.payload;
           const pagination = payload.data;
+          if (Number(pagination?.bucket ?? -1) === 0) {
+            messagesAdapter.removeAll(state);
+          }
           messagesAdapter.upsertMany(state, pagination.data);
           //
           state.process = State.FULFILLED;

@@ -1,4 +1,8 @@
-import { useState } from "react";
+import { Event } from "@core/common/socket.define";
+import useAuthenticate from "@hooks/useAuthenticate";
+import useSocket from "@hooks/useSocket";
+import string from "@utils/string";
+import { useLayoutEffect, useState } from "react";
 import styled from "styled-components";
 
 const TypingNotification = styled.p`
@@ -15,13 +19,23 @@ const TypingNotification = styled.p`
 `;
 
 const ChannelChattingNotification = () => {
-  const [isTyping] = useState(false);
+  const socket = useSocket();
+  const [message, setMessage] = useState("");
+  const { user } = useAuthenticate();
+  useLayoutEffect(() => {
+    socket.on(Event.EVENT_USER_TYPED, (payload: TypingPayload) => {
+      if (user && string.getId(user) !== payload.userId) {
+        setMessage(payload.message);
+      }
+    });
 
-  if (!isTyping) {
-    return <></>;
-  }
+    return () => {
+      socket.off(Event.EVENT_USER_TYPED);
+    };
+  }, [socket]);
 
-  return <TypingNotification>Someone typing...</TypingNotification>;
+  if (!message) return <></>;
+  return <TypingNotification>{message}</TypingNotification>;
 };
 
 export default ChannelChattingNotification;

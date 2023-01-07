@@ -17,9 +17,16 @@ export const postMessage = async (req: RequestSendMessage) => {
   throw new Error("Internal Server Error");
 };
 
-export const getMessages = async (id: string) => {
+export const getMessages = async (
+  id: string,
+  options: PaginationOption = {
+    limit: 20,
+    bucket: 0,
+  }
+) => {
   const response = await client.get<any, Response<Message[]>>(
-    messageUrl(id, MESSAGE_GET_LIST)
+    messageUrl(id, `${MESSAGE_GET_LIST}`),
+    { params: options }
   );
   if (response.data) return response;
   throw new Error("Internal Server Error");

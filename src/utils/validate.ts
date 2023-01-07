@@ -13,6 +13,10 @@ export const isLoading = (status: number) => {
   return status === State.PENDING;
 };
 
+export const isError = (status: number) => {
+  return status === State.ERROR;
+};
+
 export const isCharacterKeyCode = (keyCode?: number) => {
   const code = keyCode ?? -1;
   return (
