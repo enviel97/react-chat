@@ -5,7 +5,7 @@ import useSocket from "@hooks/useSocket";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import { selectConversationById } from "@store/slices/conversationSlice";
 import string from "@utils/string";
-import { FC, memo, useEffect, useLayoutEffect, useState } from "react";
+import { FC, memo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   SideItemContainer,
