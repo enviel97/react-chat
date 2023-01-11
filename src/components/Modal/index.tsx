@@ -1,5 +1,5 @@
 import { AnimatePresence } from "framer-motion";
-import { createContext, ReactElement, useMemo, useState } from "react";
+import { createContext, ReactElement, useMemo, useRef, useState } from "react";
 import Modal from "./components/Modal";
 import useId from "./hooks/useId";
 
@@ -10,6 +10,7 @@ export const ModalContext = createContext({
 });
 
 const ModalProvider = (props: Components) => {
+  const modalIds = useRef<Map<string, number>>(new Map());
   const [modals, setModals] = useState<ReactElement[]>([]);
   const uid = useId();
 
@@ -17,22 +18,31 @@ const ModalProvider = (props: Components) => {
     () => ({
       close: (id: string) => {
         setModals((prevModals) => prevModals.filter((m) => m.key !== id));
+        modalIds.current.delete(id);
       },
       show: (children: any, options?: ModalOptions) => {
-        const key = options?.modalId ?? uid();
-        const close = () => {
-          setModals((prevModals) => prevModals.filter((m) => m.key !== key));
-        };
-        const modal = (
-          <Modal {...options} key={key} handleClose={close}>
-            {children}
-          </Modal>
-        );
-        setModals((prevModal) => [...prevModal, modal]);
-        return key;
+        const modalId = options?.modalId ?? uid();
+        if (!modalIds.current.has(modalId)) {
+          const close = () => {
+            options?.handleClose && options.handleClose();
+            setModals((prevModals) =>
+              prevModals.filter((m) => m.key !== modalId)
+            );
+            modalIds.current.delete(modalId);
+          };
+          const modal = (
+            <Modal {...options} key={modalId} handleClose={close}>
+              {children}
+            </Modal>
+          );
+          setModals((prevModal) => [...prevModal, modal]);
+          modalIds.current.set(modalId, 0);
+        }
+        return modalId;
       },
       closeAll: () => {
         setModals([]);
+        modalIds.current.clear();
       },
     }),
     [uid]

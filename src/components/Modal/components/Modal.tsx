@@ -61,10 +61,6 @@ const Modal = (props: Props) => {
   }, [modalRef]);
 
   useEffect(() => {
-    window.location.hash = "#cc";
-  }, []);
-
-  useEffect(() => {
     const modal = modalRef.current;
     if (!modal) return;
     const keyListener = (e: any) => {

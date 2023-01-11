@@ -1,6 +1,4 @@
-interface ModalProps extends Components {
-  handleClose?: () => void;
-}
+interface ModalProps extends Components {}
 
 interface ModalOptions {
   modalId?: string;
@@ -9,4 +7,5 @@ interface ModalOptions {
   width?: string;
   onCloseModel?: () => void;
   showCloseButton?: boolean;
+  handleClose?: () => void;
 }
