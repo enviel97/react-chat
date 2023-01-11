@@ -19,7 +19,7 @@ const ModalProvider = (props: Components) => {
         setModals((prevModals) => prevModals.filter((m) => m.key !== id));
       },
       show: (children: any, options?: ModalOptions) => {
-        const key = options?.key ?? uid();
+        const key = options?.modalId ?? uid();
         const close = () => {
           setModals((prevModals) => prevModals.filter((m) => m.key !== key));
         };

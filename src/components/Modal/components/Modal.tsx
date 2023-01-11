@@ -1,12 +1,5 @@
 import { ButtonIconNeumorphism } from "@components/Button";
-import {
-  createRef,
-  useCallback,
-  useEffect,
-  useLayoutEffect,
-  useMemo,
-  useRef,
-} from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { RiCloseLine } from "react-icons/ri";
 import {
   CloseButtonContainer,
@@ -25,32 +18,24 @@ const Modal = (props: Props) => {
     height = "400px",
   } = props;
   const tabRef = useRef(0);
-  const focusableModalElements = useRef<any[]>([]);
+  const focusableModalElements = useRef<NodeListOf<Element>>();
 
-  const modalRef = createRef<any>();
-  useLayoutEffect(() => {
-    focusableModalElements.current = modalRef?.current.querySelectorAll(
-      'a[href], button:not([itemtype="close"]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
-    );
-  }, [modalRef]);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const handleTabKey = useCallback(
     (e: any) => {
-      if (!modalRef.current || focusableModalElements.current.length <= 0) {
+      if (!modalRef.current || !focusableModalElements.current) {
         return;
       }
-
       const focusElements = focusableModalElements.current;
-
-      if (tabRef.current === 2) {
-        focusElements[0].focus();
+      if (tabRef.current === focusElements.length - 1) {
         tabRef.current = 0;
-        return e.preventDefault();
       } else {
-        focusElements[tabRef.current + 1].focus();
         tabRef.current = tabRef.current + 1;
-        return e.preventDefault();
       }
+      const element = focusElements.item(tabRef.current) as HTMLElement;
+      element.focus();
+      return e.preventDefault();
     },
     [modalRef]
   );
@@ -58,25 +43,43 @@ const Modal = (props: Props) => {
   const keyListenersMap = useMemo(
     () =>
       new Map([
-        [27, props.handleClose],
-        [9, handleTabKey],
+        ["Escape", props.handleClose],
+        ["Tab", handleTabKey],
       ]),
     [props.handleClose, handleTabKey]
   );
 
   useEffect(() => {
-    const keyListener = (e: any) => {
-      const listener = keyListenersMap.get(e.keyCode);
-      return listener && listener(e);
-    };
-    document.addEventListener("keydown", keyListener);
+    const modal = modalRef.current;
+    if (!modal) return;
+    modal.focus();
 
-    return () => document.removeEventListener("keydown", keyListener);
-  }, [keyListenersMap]);
+    const focusable = modal.querySelectorAll(
+      'a[href], button:not([itemtype="close"]), textarea, input[type="text"], input[type="radio"], input[type="checkbox"], select'
+    );
+    focusableModalElements.current = focusable;
+  }, [modalRef]);
+
+  useEffect(() => {
+    window.location.hash = "#cc";
+  }, []);
+
+  useEffect(() => {
+    const modal = modalRef.current;
+    if (!modal) return;
+    const keyListener = (e: any) => {
+      const listener = keyListenersMap.get(e.key);
+      listener && listener(e);
+    };
+    modal.addEventListener("keydown", keyListener);
+
+    return () => modal.removeEventListener("keydown", keyListener);
+  }, [keyListenersMap, modalRef]);
 
   return (
     <Backdrop onClick={!isDialog ? props.handleClose : undefined}>
       <ModalContainer
+        id='cc'
         ref={modalRef}
         height={height}
         width={width}
@@ -84,8 +87,8 @@ const Modal = (props: Props) => {
         initial='hidden'
         animate='visible'
         exit='exit'
-        onClick={(e: any) => e.stopPropagation()}
         aria-modal='true'
+        tabIndex={0}
         role={"dialog"}
       >
         {props.children}

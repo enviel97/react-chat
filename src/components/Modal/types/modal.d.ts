@@ -3,7 +3,7 @@ interface ModalProps extends Components {
 }
 
 interface ModalOptions {
-  key?: string;
+  modalId?: string;
   isDialog?: boolean;
   height?: string;
   width?: string;

@@ -15,10 +15,9 @@ export const ModalContainer = styled(motion.div)<{
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  box-shadow: ${({ theme }) =>
+    neumorphismBoxShadow(true, { background: theme.backgroundColor })};
   background-color: ${({ theme }) => theme.backgroundColor};
-  box-shadow: ${({ theme }) => {
-    return neumorphismBoxShadow(true, { background: theme.backgroundColor });
-  }};
 `;
 
 export const CloseButtonContainer = styled.div`
