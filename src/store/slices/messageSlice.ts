@@ -9,8 +9,10 @@ import { State } from "@store/common/state";
 import {
   fetchAddMessages,
   fetchDeleteMessages,
+  fetchEditMessages,
   fetchMessages,
 } from "@store/repo/message";
+import moment from "moment";
 
 const messagesAdapter = createEntityAdapter<Message>({
   selectId: (message) => string.getId(message),
@@ -26,6 +28,16 @@ export const messagesSlice = createSlice({
   reducers: {
     addMessages: messagesAdapter.addOne,
     removeMessage: messagesAdapter.removeOne,
+    editMessage: (state, action: PayloadAction<ActionEditParams>) => {
+      const data = action.payload;
+      messagesAdapter.updateOne(state, {
+        id: data.messageId,
+        changes: {
+          content: data.content,
+          updatedAt: moment().toLocaleString(),
+        },
+      });
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -66,10 +78,28 @@ export const messagesSlice = createSlice({
         messagesAdapter.removeOne(state, string.getId(data?.messageId));
       }
     );
+
+    builder.addCase(
+      fetchEditMessages.fulfilled,
+      (state, action: PayloadAction<Response<ResponseEditMessage>>) => {
+        const payload = action.payload;
+        const data = payload.data;
+        if (data) {
+          messagesAdapter.updateOne(state, {
+            id: string.getId(data.messageId),
+            changes: {
+              content: data.content,
+              updatedAt: moment().toISOString(),
+            },
+          });
+        }
+      }
+    );
   },
 });
 
-export const { addMessages, removeMessage } = messagesSlice.actions;
+export const { addMessages, removeMessage, editMessage } =
+  messagesSlice.actions;
 
 export const {
   selectById: selectMessageById,

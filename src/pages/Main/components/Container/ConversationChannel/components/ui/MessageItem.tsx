@@ -13,8 +13,9 @@ import MessageAvatar from "./MessageAvatar";
 import useBreakpoint from "@hooks/useBreakpoint";
 import MessageEditMenuAction from "../container/MessageEditMenuAction";
 import useAppDispatch from "@hooks/useAppDispatch";
-import { fetchDeleteMessages } from "@store/repo/message";
+import { fetchDeleteMessages, fetchEditMessages } from "@store/repo/message";
 import MessageContent from "./MessageContent";
+import { editMessage } from "@store/slices/messageSlice";
 
 interface MessageItemProps {
   message: Message;
@@ -51,8 +52,17 @@ const MessageItem: FC<MessageItemProps> = ({
       })
     );
 
-  const handleEditMessage = () => {
-    setEditable(true);
+  const handleEditMessage = (newMessage?: string) => {
+    if (newMessage) {
+      dispatch(
+        fetchEditMessages({
+          messageId: string.getId(message),
+          conversationId: message.conversationId,
+          content: newMessage,
+        })
+      );
+    }
+    setEditable(false);
   };
 
   return (
@@ -77,15 +87,16 @@ const MessageItem: FC<MessageItemProps> = ({
       >
         <MessageContentContainer fromYou={fromYou}>
           <MessageContent
+            key={message.content}
             isEditable={isEditable}
             message={message.content}
-            setEditable={setEditable}
+            onConfirmEdit={handleEditMessage}
           />
           {fromYou && isHover && (
             <MessageAction fromYou={fromYou}>
               <MessageEditMenuAction
                 onDeleteMessage={handleDeleteMessage}
-                onEditMessage={handleEditMessage}
+                onEditMessage={() => setEditable(true)}
               />
             </MessageAction>
           )}

@@ -11,6 +11,7 @@ export const Event = Object.freeze({
 
   EVENT_MESSAGE_CREATED: "onMessageCreated",
   EVENT_MESSAGE_REMOVE: "onMessageRemove",
+  EVENT_MESSAGE_EDITED: "onMessageEdited",
 
   EVENT_SOCKET_CONNECTED: "connected",
 });

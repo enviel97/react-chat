@@ -65,7 +65,7 @@ const Item: FC<ItemProps> = ({ channelId }) => {
           </span>
 
           <span className='Content--Time'>
-            {string.chatFromNow(channel.lastMessage?.createdAt)}
+            {string.chatFromNow(channel.lastMessage?.updatedAt)}
             {status === Status.New && <span className='Circle' />}
           </span>
         </span>

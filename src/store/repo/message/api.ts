@@ -6,7 +6,6 @@ const messageUrl = (conversationId: string, prefix: string) =>
 
 export const postMessage = async (req: RequestSendMessage) => {
   const response = await client.post<any, Response<Message>>(
-    // `${req.conversationId}${MESSAGE_POST}`,
     messageUrl(req.conversationId, MESSAGE_POST),
     {
       conversationId: req.conversationId,
@@ -36,6 +35,16 @@ export const deleteMessage = async (req: RequestDeleteMessage) => {
   const { conversationId, messageId } = req;
   const response = await client.delete<any, Response<ResponseDeleteMessage>>(
     messageUrl(conversationId, `${MESSAGE_GET_LIST}/${messageId}`)
+  );
+  if (response.data) return response;
+  throw new Error("Internal Server Error");
+};
+
+export const updateMessage = async (req: RequestEditMessage) => {
+  const { conversationId, messageId, content } = req;
+  const response = await client.put<any, Response<ResponseEditMessage>>(
+    messageUrl(conversationId, `${MESSAGE_GET_LIST}/${messageId}`),
+    { content: content }
   );
   if (response.data) return response;
   throw new Error("Internal Server Error");

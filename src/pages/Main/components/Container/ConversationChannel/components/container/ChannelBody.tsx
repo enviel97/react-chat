@@ -8,6 +8,7 @@ import { MessageContainer } from "../../styles/Message.decorate";
 import useAppSelector from "@hooks/useAppSelector";
 import {
   addMessages,
+  editMessage,
   removeMessage,
   selectAllMessage,
 } from "@store/slices/messageSlice";
@@ -28,38 +29,49 @@ const ChannelBody = () => {
     socket.on(Event.EVENT_MESSAGE_CREATED, (msg: Message) => {
       if (msg.conversationId === id) {
         dispatch(addMessages(msg));
-        dispatch(
-          updateLastMessage({
-            conversationId: msg.conversationId,
-            message: msg,
-          })
-        );
       }
+      dispatch(
+        updateLastMessage({
+          conversationId: msg.conversationId,
+          message: msg,
+        })
+      );
     });
 
-    return () => {
-      socket.off(Event.EVENT_MESSAGE_CREATED);
-    };
-  }, [dispatch, socket, id]);
-
-  useEffect(() => {
     socket.on(
       Event.EVENT_MESSAGE_REMOVE,
       ({ lastMessage, conversationId, messageId }) => {
         if (conversationId === id) {
+          console.log(messageId);
           dispatch(removeMessage(messageId));
-          dispatch(
-            updateLastMessage({
-              conversationId: conversationId,
-              message: lastMessage,
-            })
-          );
         }
+        dispatch(
+          updateLastMessage({
+            conversationId: conversationId,
+            message: lastMessage,
+          })
+        );
       }
     );
-
+    socket.on(
+      Event.EVENT_MESSAGE_EDITED,
+      ({ lastMessage, conversationId, messageId, content }) => {
+        if (conversationId === id) {
+          console.log({ content });
+          dispatch(editMessage({ messageId, content }));
+        }
+        dispatch(
+          updateLastMessage({
+            conversationId: conversationId,
+            message: lastMessage,
+          })
+        );
+      }
+    );
     return () => {
+      socket.off(Event.EVENT_MESSAGE_EDITED);
       socket.off(Event.EVENT_MESSAGE_REMOVE);
+      socket.off(Event.EVENT_MESSAGE_CREATED);
     };
   }, [dispatch, socket, id]);
 

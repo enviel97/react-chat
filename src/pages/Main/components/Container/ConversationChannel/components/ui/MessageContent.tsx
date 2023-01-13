@@ -1,5 +1,6 @@
 import ModalConfirm from "@components/Modal/components/ModalConfirm";
 import { useModals } from "@components/Modal/hooks/useModals";
+import useAppDispatch from "@hooks/useAppDispatch";
 import {
   FC,
   useEffect,
@@ -7,18 +8,24 @@ import {
   useState,
   KeyboardEvent,
   FocusEvent,
+  memo,
 } from "react";
+import { toast, ToastItem } from "react-toastify";
 import { MessageBodyContainer } from "../../styles/Message.decorate";
 import { EditContent } from "./Modal.content";
 interface MessageContentProps {
   isEditable: boolean;
   message: string;
-  setEditable: (value: boolean) => void;
+  onConfirmEdit: (value?: string) => void;
 }
+
+const modalKey = "editConfirmKey";
+const toastWarningKey = "editConfirmKeyToast";
+
 const MessageContent: FC<MessageContentProps> = ({
   isEditable,
   message,
-  setEditable,
+  onConfirmEdit,
 }) => {
   const [content, setContent] = useState(message);
   const messageRef = useRef<HTMLDivElement | null>(null);
@@ -27,15 +34,15 @@ const MessageContent: FC<MessageContentProps> = ({
 
   const setCaretCursor = (node: any, content: string) => {
     const sel = window.getSelection();
-    if (sel) {
+    if (sel && content.length > 0) {
       const range = document.createRange();
       range.setStart(node.childNodes[0], content.length);
       range.collapse(true);
 
       sel.removeAllRanges();
       sel.addRange(range);
-      node.focus();
     }
+    node.focus();
   };
 
   useEffect(() => {
@@ -46,35 +53,51 @@ const MessageContent: FC<MessageContentProps> = ({
     setCaretCursor(messageContent, content);
   }, [isEditable, content]);
 
+  const reFocusMess = () => {
+    if (messageRef.current) {
+      const text = messageRef.current.textContent ?? message;
+      setCaretCursor(messageRef.current, content);
+      setContent(text);
+    }
+  };
+
   const onSubmit = (newMessage: string) => {
-    const modalKey = "editConfirmKey";
+    if (!newMessage) {
+      if (!toast.isActive(toastWarningKey)) {
+        toast.warn("Edit message don't allow empty", {
+          toastId: toastWarningKey,
+        });
+        toast.onChange((toastItem: ToastItem) => {
+          if (toastItem.status === "added") {
+            reFocusMess();
+            setContent(message);
+          }
+        });
+      }
+      return;
+    }
+
     modal.show(
       <ModalConfirm
         modalKey={modalKey}
         content={<EditContent messageDirty={newMessage} />}
         onConfirm={() => {
+          onConfirmEdit(newMessage);
           setContent(newMessage);
-          setEditable(false);
         }}
         onBack={() => {
           if (messageRef.current) {
             messageRef.current.textContent = message;
           }
+          onConfirmEdit();
           setContent(message);
-          setEditable(false);
         }}
       />,
       {
         modalId: modalKey,
         height: "fit-content",
         width: "fit-content",
-        handleClose: () => {
-          if (messageRef.current) {
-            const text = messageRef.current.textContent ?? message;
-            setContent(text);
-            setCaretCursor(messageRef.current, content);
-          }
-        },
+        handleClose: reFocusMess,
       }
     );
   };
@@ -85,7 +108,7 @@ const MessageContent: FC<MessageContentProps> = ({
     if (message !== text) {
       onSubmit(text);
     } else {
-      setEditable(false);
+      onConfirmEdit();
       event.target.innerHTML = message;
     }
   };
@@ -123,4 +146,4 @@ const MessageContent: FC<MessageContentProps> = ({
   );
 };
 
-export default MessageContent;
+export default memo(MessageContent);

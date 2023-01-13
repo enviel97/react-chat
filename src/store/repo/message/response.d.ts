@@ -3,3 +3,13 @@ interface ResponseDeleteMessage {
   messageId: string;
   lastMessage?: Message;
 }
+
+interface ActionEditParams {
+  messageId: string;
+  content: string;
+}
+
+interface ResponseEditMessage extends ActionEditParams {
+  conversationId: string;
+  lastMessage?: Message;
+}

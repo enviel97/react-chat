@@ -10,6 +10,7 @@ import {
   fetchConversations,
 } from "@store/repo/conversation";
 import { State } from "@store/common/state";
+import moment from "moment";
 
 const conversationsAdapter = createEntityAdapter<Conversation>({
   selectId: (conversation) => string.getId(conversation),
@@ -29,7 +30,7 @@ export const conversationsSlice = createSlice({
       action: PayloadAction<UpdateLastMessageConversationPayload>
     ) => {
       const payload = action.payload;
-
+      if (payload.message === null) return;
       const conversation = conversationsAdapter
         .getSelectors()
         .selectById(state, payload.conversationId);
@@ -38,9 +39,8 @@ export const conversationsSlice = createSlice({
       conversationsAdapter.updateOne(state, {
         id: payload.conversationId,
         changes: {
-          ...conversation,
           lastMessage: payload.message,
-          ...(payload.message && { updatedAt: payload.message.updatedAt }),
+          updatedAt: payload.message?.updatedAt ?? moment().toISOString(),
         },
       });
     },
