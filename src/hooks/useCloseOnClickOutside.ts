@@ -9,7 +9,6 @@ const useCLoseOnClickOutside = () => {
   };
 
   const handleToggle = () => {
-    console.log("toggle");
     setIsOpen((prev) => !prev);
   };
 

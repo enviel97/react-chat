@@ -15,7 +15,7 @@ import {
 const messagesAdapter = createEntityAdapter<Message>({
   selectId: (message) => string.getId(message),
   sortComparer: (a, b) =>
-    new Date(a.updatedAt).getTime() - new Date(b.updatedAt).getTime(),
+    new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
 });
 
 export const messagesSlice = createSlice({

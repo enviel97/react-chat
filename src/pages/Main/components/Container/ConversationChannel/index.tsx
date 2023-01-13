@@ -2,7 +2,7 @@ import { Event } from "@core/common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
 import { fetchMessages } from "@store/repo/message";
-import { useEffect } from "react";
+import { useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import ChannelBody from "./components/container/ChannelBody";
 import ChannelHeader from "./components/container/ChannelHeader";
@@ -29,9 +29,20 @@ const ConversationChannel = () => {
       console.log({ payload });
     });
     return () => {
-      socket.emit(Event.EVENT_LEAVE_ROOM_CONVERSATION, { conversationId: id });
       socket.off(Event.EVENT_CONNECTED_ROOM);
       socket.off(Event.EVENT_LEAVED_ROOM);
+    };
+  }, [id, socket]);
+
+  useLayoutEffect(() => {
+    /**
+     * Connect to conversation before render UI
+     */
+    socket.emit(Event.EVENT_CONNECT_ROOM_CONVERSATION, {
+      conversationId: id,
+    });
+    return () => {
+      socket.emit(Event.EVENT_LEAVE_ROOM_CONVERSATION, { conversationId: id });
     };
   }, [id, socket]);
 

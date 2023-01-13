@@ -37,7 +37,7 @@ const SideAddChannelButton = () => {
         }}
       />,
       {
-        key: modalKey,
+        modalId: modalKey,
         height: "18.75rem",
         width: "30rem",
         isDialog: false,

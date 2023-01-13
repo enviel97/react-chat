@@ -3,7 +3,12 @@ import { ChangeEvent, memo, useEffect, useRef, useState } from "react";
 import { TbEye, TbEyeOff, TbLock } from "react-icons/tb";
 import { Eyes, FloatingLabel, LockIcon } from "../decorate/base";
 
-const BaseTextField = (props: TextFieldProps) => {
+interface BaseTextFieldProps extends TextFieldProps {
+  disableFloatingLabel?: boolean;
+  autoFocus?: boolean;
+}
+
+const BaseTextField = (props: BaseTextFieldProps) => {
   const {
     id,
     initValue,
@@ -17,6 +22,9 @@ const BaseTextField = (props: TextFieldProps) => {
     borderColor,
     fontSize,
     tabIndex = 0,
+    disableFloatingLabel = false,
+    placeholder,
+    autoFocus,
   } = props;
   const ref = useRef<any>();
   const [isHidden, setHidden] = useState(true);
@@ -30,6 +38,9 @@ const BaseTextField = (props: TextFieldProps) => {
   const _onChange = (event: ChangeEvent<any>) => {
     props.onChanged && props.onChanged(event.target.value);
   };
+  const _label = label ?? props.register?.name ?? "Label";
+
+  const _placeHolder = disableFloatingLabel ? _label : placeholder;
 
   return (
     <FloatingLabel
@@ -51,12 +62,13 @@ const BaseTextField = (props: TextFieldProps) => {
           ref={ref}
           id={id}
           name={id}
-          placeholder={props.placeholder ?? " "}
+          placeholder={_placeHolder}
           defaultValue={initValue}
           onChange={_onChange}
           readOnly={readOnly}
           disabled={disabled || readOnly}
           tabIndex={tabIndex}
+          autoFocus={autoFocus}
           required
           {...props.register}
         />
@@ -67,18 +79,19 @@ const BaseTextField = (props: TextFieldProps) => {
           type={props.type || (security && isHidden ? "password" : "text")}
           id={id}
           name={id}
-          placeholder={props.placeholder ?? " "}
+          placeholder={_placeHolder}
           defaultValue={initValue}
           onChange={_onChange}
           readOnly={readOnly}
           disabled={disabled || readOnly}
           tabIndex={tabIndex}
+          autoFocus={autoFocus}
           required
           {...props.register}
         />
       )}
 
-      <label htmlFor={id}>{label ?? props.register?.name ?? "Label"}</label>
+      {!disableFloatingLabel && <label htmlFor={id}>{_label}</label>}
       {security && (
         <Eyes onClick={() => setHidden((prev) => !prev)}>
           {isHidden ? <TbEye /> : <TbEyeOff />}

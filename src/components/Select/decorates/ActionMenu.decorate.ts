@@ -7,6 +7,7 @@ export const MenuItemContainer = styled.div<MenuToggleProps>`
   align-items: center;
   justify-content: center;
 
+  gap: 0.5em;
   height: ${({ size }) => `calc(${size} / 2)`};
   aspect-ratio: 1/1;
   padding: 0.5em;

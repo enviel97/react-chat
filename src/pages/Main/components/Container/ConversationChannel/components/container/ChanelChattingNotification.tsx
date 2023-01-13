@@ -32,7 +32,7 @@ const ChannelChattingNotification = () => {
     return () => {
       socket.off(Event.EVENT_USER_TYPED);
     };
-  }, [socket]);
+  }, [socket, user]);
 
   if (!message) return <></>;
   return <TypingNotification>{message}</TypingNotification>;

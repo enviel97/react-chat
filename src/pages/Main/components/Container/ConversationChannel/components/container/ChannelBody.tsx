@@ -3,7 +3,6 @@ import string from "@utils/string";
 import { memo, useEffect, useLayoutEffect } from "react";
 import { Event } from "@core/common/socket.define";
 import MessageItem from "../ui/MessageItem";
-import { Box } from "@utils/styles";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { MessageContainer } from "../../styles/Message.decorate";
 import useAppSelector from "@hooks/useAppSelector";

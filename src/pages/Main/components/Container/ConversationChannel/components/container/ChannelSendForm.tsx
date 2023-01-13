@@ -7,7 +7,6 @@ import { fetchAddMessages } from "@store/repo/message";
 import { FC, FormEvent, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { TbSend } from "react-icons/tb";
-import { useParams } from "react-router-dom";
 import { ChannelFormContainer } from "../../styles/Channel.decorate";
 import ChannelChattingNotification from "./ChanelChattingNotification";
 

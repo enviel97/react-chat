@@ -10,8 +10,6 @@ import {
   fetchConversations,
 } from "@store/repo/conversation";
 import { State } from "@store/common/state";
-import { addMessages, removeMessage } from "./messageSlice";
-import { fetchAddMessages, fetchDeleteMessages } from "@store/repo/message";
 
 const conversationsAdapter = createEntityAdapter<Conversation>({
   selectId: (conversation) => string.getId(conversation),

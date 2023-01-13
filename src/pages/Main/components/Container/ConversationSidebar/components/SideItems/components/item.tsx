@@ -1,7 +1,5 @@
-import { Event } from "@core/common/socket.define";
 import useAppSelector from "@hooks/useAppSelector";
 import useAuthenticate from "@hooks/useAuthenticate";
-import useSocket from "@hooks/useSocket";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import { selectConversationById } from "@store/slices/conversationSlice";
 import string from "@utils/string";
@@ -26,7 +24,6 @@ const Item: FC<ItemProps> = ({ channelId }) => {
   const [status, setStatus] = useState<Status>(Status.Seen);
   const { isUser } = useAuthenticate();
   const navigator = useNavigate();
-  const socket = useSocket();
   const channel = useAppSelector((state) =>
     selectConversationById(state, channelId)
   );
@@ -37,9 +34,6 @@ const Item: FC<ItemProps> = ({ channelId }) => {
     // TODO: Seen
     setStatus(Status.Seen);
     navigator(`messenger/${channelId}`);
-    socket.emit(Event.EVENT_CONNECT_ROOM_CONVERSATION, {
-      conversationId: channelId,
-    });
   };
 
   const conversationName = isUser(channel.participant)

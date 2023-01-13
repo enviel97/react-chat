@@ -4,14 +4,17 @@ import { Box } from "@utils/styles";
 import moment from "moment";
 import { FC, memo, useMemo, useState } from "react";
 import {
+  HintEdit,
   MessageAction,
-  MessageContent,
   MessageContentContainer,
   MessageItemTimer,
 } from "../../styles/Message.decorate";
 import MessageAvatar from "./MessageAvatar";
 import useBreakpoint from "@hooks/useBreakpoint";
 import MessageEditMenuAction from "../container/MessageEditMenuAction";
+import useAppDispatch from "@hooks/useAppDispatch";
+import { fetchDeleteMessages } from "@store/repo/message";
+import MessageContent from "./MessageContent";
 
 interface MessageItemProps {
   message: Message;
@@ -26,7 +29,10 @@ const MessageItem: FC<MessageItemProps> = ({
 }) => {
   const { user } = useAuthenticate();
   const breakpoint = useBreakpoint();
+  const dispatch = useAppDispatch();
   const [isHover, setIsHover] = useState(false);
+  const [isEditable, setEditable] = useState(false);
+
   const fromYou = useMemo(
     () => string.getId(message.author) === string.getId(user!),
     [message.author, user]
@@ -34,6 +40,20 @@ const MessageItem: FC<MessageItemProps> = ({
 
   const getAvatar =
     !preChatter || string.getId(preChatter) !== string.getId(message.author);
+
+  const isEdited = message.createdAt !== message.updatedAt;
+
+  const handleDeleteMessage = () =>
+    dispatch(
+      fetchDeleteMessages({
+        messageId: string.getId(message),
+        conversationId: message.conversationId,
+      })
+    );
+
+  const handleEditMessage = () => {
+    setEditable(true);
+  };
 
   return (
     <Box
@@ -56,14 +76,26 @@ const MessageItem: FC<MessageItemProps> = ({
         flexDirection='column'
       >
         <MessageContentContainer fromYou={fromYou}>
-          <MessageContent fromYou={fromYou}>{message.content}</MessageContent>
+          <MessageContent
+            isEditable={isEditable}
+            message={message.content}
+            setEditable={setEditable}
+          />
           {fromYou && isHover && (
             <MessageAction fromYou={fromYou}>
-              <MessageEditMenuAction message={message} />
+              <MessageEditMenuAction
+                onDeleteMessage={handleDeleteMessage}
+                onEditMessage={handleEditMessage}
+              />
             </MessageAction>
           )}
         </MessageContentContainer>
-
+        {isEdited && <HintEdit>Edited</HintEdit>}
+        {isEditable && (
+          <HintEdit>
+            Press <b>Enter</b> to update &minus; <b>Esc</b> to cancel
+          </HintEdit>
+        )}
         <Box display='flex'>
           <MessageItemTimer isLastMessage={lastChatter}>
             {moment(message.createdAt).calendar()}
