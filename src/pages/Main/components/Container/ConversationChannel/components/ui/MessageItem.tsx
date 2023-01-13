@@ -15,7 +15,6 @@ import MessageEditMenuAction from "../container/MessageEditMenuAction";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { fetchDeleteMessages, fetchEditMessages } from "@store/repo/message";
 import MessageContent from "./MessageContent";
-import { editMessage } from "@store/slices/messageSlice";
 
 interface MessageItemProps {
   message: Message;
