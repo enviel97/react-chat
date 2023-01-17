@@ -3,7 +3,7 @@ import useAuthenticate from "@hooks/useAuthenticate";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import { selectConversationById } from "@store/slices/conversationSlice";
 import string from "@utils/string";
-import { FC, memo, useState } from "react";
+import { FC, memo, useMemo, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   SideItemContainer,
@@ -28,6 +28,26 @@ const Item: FC<ItemProps> = ({ channelId }) => {
     selectConversationById(state, channelId)
   );
 
+  const conversationName = useMemo(() => {
+    if (!channel) return "";
+    const members = channel.participant.members;
+    if (members.length > 1) {
+      return [...members, channel.author].map((mem) => mem.lastName).join(",");
+    }
+    return isUser(members[0])
+      ? string.getFullName(channel.author)
+      : string.getFullName(members[0]);
+  }, [channel]);
+
+  const lastMessenger = useMemo(() => {
+    if (!channel) return "";
+    return !channel.lastMessage
+      ? ""
+      : isUser(channel.lastMessage.author)
+      ? "You: "
+      : `${channel.lastMessage.author.lastName}: `;
+  }, [channel]);
+
   if (!channel) return <Loading />;
 
   const _seen = () => {
@@ -35,16 +55,6 @@ const Item: FC<ItemProps> = ({ channelId }) => {
     setStatus(Status.Seen);
     navigator(`messenger/${channelId}`);
   };
-
-  const conversationName = isUser(channel.participant)
-    ? string.getFullName(channel.author)
-    : string.getFullName(channel.participant);
-
-  const lastMessenger = !channel.lastMessage
-    ? ""
-    : isUser(channel.lastMessage.author)
-    ? "You: "
-    : `${channel.lastMessage.author.lastName}: `;
 
   return (
     <SideItemContainer onClick={_seen}>

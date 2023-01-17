@@ -5,7 +5,7 @@ interface IConversation extends Identity, TimeStamp {
 }
 
 interface Conversation extends Identity, TimeStamp {
-  participant: User;
+  participant: Participant;
   author: User;
   lastMessage?: Message;
 }

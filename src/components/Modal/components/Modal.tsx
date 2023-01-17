@@ -86,6 +86,8 @@ const Modal = (props: Props) => {
         aria-modal='true'
         tabIndex={0}
         role={"dialog"}
+        // Prevent click
+        onClick={(e) => e.stopPropagation()}
       >
         {props.children}
         {showCloseButton && (

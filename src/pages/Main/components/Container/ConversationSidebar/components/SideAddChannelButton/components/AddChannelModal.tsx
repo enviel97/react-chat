@@ -45,8 +45,8 @@ const AddChannelModal: FC<{
   const { register, handleSubmit, setFocus } = useForm<ConversationCreate>();
 
   useEffect(() => {
-    setFocus("user", { shouldSelect: true });
-  }, [setFocus]);
+    setFocus("user");
+  }, []);
 
   const onSubmit = (data: ConversationCreate) => {
     onSubmitted(data);
@@ -69,11 +69,11 @@ const AddChannelModal: FC<{
         <h5>Create a New Conversation</h5>
       </AddChannelHeader>
 
-      <AddChannelForm noValidate onSubmit={handleSubmit(onSubmit, onInvalid)}>
+      <AddChannelForm onSubmit={handleSubmit(onSubmit, onInvalid)} noValidate>
         <TextField
           label='To'
           borderColor='transparent'
-          filled='surfaceColor'
+          filled='surface'
           register={register("user", {
             required: "Enter email of participant",
           })}
@@ -84,7 +84,7 @@ const AddChannelModal: FC<{
           borderColor='transparent'
           height='100%'
           id='message'
-          filled='surfaceColor'
+          filled='surface'
           register={register("message")}
         />
         <ButtonText type='submit' text={"Create Conversation"} />
