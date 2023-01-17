@@ -1,9 +1,11 @@
 import { Event } from "@core/common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
+import useAppSelector from "@hooks/useAppSelector";
 import useSocket from "@hooks/useSocket";
 import { fetchMessages } from "@store/repo/message";
+import { isError } from "@utils/validate";
 import { useEffect, useLayoutEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import ChannelBody from "./components/container/ChannelBody";
 import ChannelHeader from "./components/container/ChannelHeader";
 import ChannelSendForm from "./components/container/ChannelSendForm";
@@ -15,6 +17,8 @@ import {
 const ConversationChannel = () => {
   const { id = "" } = useParams<{ id: string }>();
   const dispatch = useAppDispatch();
+  const navigator = useNavigate();
+  const process = useAppSelector((state) => state.message.process);
   const socket = useSocket();
 
   useEffect(() => {
@@ -45,6 +49,8 @@ const ConversationChannel = () => {
       socket.emit(Event.EVENT_LEAVE_ROOM_CONVERSATION, { conversationId: id });
     };
   }, [id, socket]);
+
+  if (isError(process)) navigator("/conversation");
 
   return (
     <ChannelContainer>
