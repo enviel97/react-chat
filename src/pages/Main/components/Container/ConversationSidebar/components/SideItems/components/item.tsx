@@ -37,7 +37,7 @@ const Item: FC<ItemProps> = ({ channelId }) => {
     return isUser(members[0])
       ? string.getFullName(channel.author)
       : string.getFullName(members[0]);
-  }, [channel]);
+  }, [channel, isUser]);
 
   const lastMessenger = useMemo(() => {
     if (!channel) return "";
@@ -46,7 +46,7 @@ const Item: FC<ItemProps> = ({ channelId }) => {
       : isUser(channel.lastMessage.author)
       ? "You: "
       : `${channel.lastMessage.author.lastName}: `;
-  }, [channel]);
+  }, [channel, isUser]);
 
   if (!channel) return <Loading />;
 

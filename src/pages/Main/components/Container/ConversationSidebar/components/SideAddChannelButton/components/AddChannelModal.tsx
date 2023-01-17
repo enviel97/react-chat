@@ -1,6 +1,6 @@
 import { ButtonText } from "@components/Button";
 import { TextField } from "@components/TextInput";
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { SubmitErrorHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import styled from "styled-components";
@@ -42,11 +42,7 @@ interface ConversationCreate {
 const AddChannelModal: FC<{
   onSubmitted: (data: ConversationCreate) => void;
 }> = ({ onSubmitted }) => {
-  const { register, handleSubmit, setFocus } = useForm<ConversationCreate>();
-
-  useEffect(() => {
-    setFocus("user");
-  }, []);
+  const { register, handleSubmit } = useForm<ConversationCreate>();
 
   const onSubmit = (data: ConversationCreate) => {
     onSubmitted(data);

@@ -27,7 +27,7 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
     return isUser(members[0])
       ? string.getFullName(channel.author)
       : string.getFullName(members[0]);
-  }, [channel]);
+  }, [channel, isUser]);
 
   return (
     <SkeletonContainer>
