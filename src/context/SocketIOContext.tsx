@@ -1,8 +1,15 @@
+import { DevicesValue } from "@common/helper/breakpoint";
 import { Event } from "@core/common/socket.define";
 import useAuthenticate from "@hooks/useAuthenticate";
+import MobileDetect from "mobile-detect";
 import { createContext, useEffect } from "react";
 import { io } from "socket.io-client";
-const socketUrl = process.env.REACT_APP_WEBSOCKET_URL ?? "";
+
+const device = new MobileDetect(window.navigator.userAgent);
+const socketUrl =
+  (device.isPhoneSized(DevicesValue.tablet)
+    ? process.env.REACT_APP_WEBSOCKET_URL_MOBILE
+    : process.env.REACT_APP_WEBSOCKET_URL_COMPUTER) ?? "";
 
 const socket = io(socketUrl, { withCredentials: true, autoConnect: false });
 

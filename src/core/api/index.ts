@@ -1,4 +1,6 @@
+import { DevicesValue } from "@common/helper/breakpoint";
 import axios from "axios";
+import MobileDetect from "mobile-detect";
 import { toast } from "react-toastify";
 import { safeLog } from "./utils/logger";
 import { isLoginRequired, isServerError } from "./utils/statusValid";
@@ -9,9 +11,12 @@ const showToast = (message: string) => {
       toastId: toastId,
     });
 };
+const device = new MobileDetect(window.navigator.userAgent);
 
 const client = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
+  baseURL: device.isPhoneSized(DevicesValue.tablet)
+    ? process.env.REACT_APP_API_URL_MOBILE
+    : process.env.REACT_APP_API_URL_COMPUTER,
   timeout: 3000, // 3s
   timeoutErrorMessage: "Timeout error",
   headers: {

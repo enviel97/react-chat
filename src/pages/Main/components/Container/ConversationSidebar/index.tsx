@@ -16,17 +16,9 @@ const ConversationSidebar = () => {
   const socket = useSocket();
 
   useEffect(() => {
-    socket.on(
-      Event.EVENT_CONVERSATION_CREATED,
-      (payload: Conversation & { sender: User }) => {
-        dispatch(
-          addConversation({
-            ...payload,
-            author: payload.sender || payload.author,
-          })
-        );
-      }
-    );
+    socket.on(Event.EVENT_CONVERSATION_CREATED, (payload: Conversation) => {
+      dispatch(addConversation(payload));
+    });
     return () => {
       socket.off(Event.EVENT_CONVERSATION_CREATED);
     };

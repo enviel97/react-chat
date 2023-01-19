@@ -23,7 +23,9 @@ const SideAddChannelButton = () => {
             action: async () =>
               await dispatch(
                 fetchAddConversation({
-                  emailParticipant: data.user.trim().split(","),
+                  emailParticipant: data.user
+                    .split(",")
+                    .map((mail) => mail.trim()),
                   message: data.message ?? "",
                 })
               ).unwrap(),

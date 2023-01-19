@@ -54,6 +54,11 @@ export const SideItemContainer = styled.div`
   align-items: center;
   padding: 0.2rem 0.5rem;
   gap: 0.5rem;
+  border: inset 5px ${({ theme }) => theme.backgroundColor};
+
+  &.active {
+    border-style: outset;
+  }
 `;
 
 export const SideItemContent = styled.div`

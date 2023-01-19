@@ -21,11 +21,11 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
   const conversationName = useMemo(() => {
     if (!channel) return "";
     const members = channel.participant.members;
-    if (members.length > 1) {
-      return [...members, channel.author].map((mem) => mem.lastName).join(",");
+    if (members.length > 2) {
+      return "Group of " + members.map((mem) => mem.lastName).join(", ");
     }
     return isUser(members[0])
-      ? string.getFullName(channel.author)
+      ? string.getFullName(members[1])
       : string.getFullName(members[0]);
   }, [channel, isUser]);
 
