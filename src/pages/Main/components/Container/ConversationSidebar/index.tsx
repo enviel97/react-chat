@@ -1,11 +1,12 @@
+import Divider from "@components/Divider";
 import { Event } from "@core/common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
 import { fetchConversations } from "@store/repo/conversation";
 import { addConversation } from "@store/slices/conversationSlice";
 import { useEffect } from "react";
-import SideHeader from "./components/SideHeader";
-import SideItems from "./components/SideItems";
+import SideHeader from "./components/containers/SideHeader";
+import SideItems from "./components/containers/SideItems";
 import {
   SidebarContainer,
   SideItemsContainer,
@@ -31,6 +32,7 @@ const ConversationSidebar = () => {
   return (
     <SidebarContainer>
       <SideHeader />
+      <Divider />
       <SideItemsContainer>
         <SideItems />
       </SideItemsContainer>

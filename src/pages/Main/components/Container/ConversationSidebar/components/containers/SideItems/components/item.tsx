@@ -8,7 +8,8 @@ import { useNavigate, useParams } from "react-router-dom";
 import {
   SideItemContainer,
   SideItemContent,
-} from "../../../styles/Sidebar.decorate";
+} from "../../../../styles/Sidebar.decorate";
+
 import Loading from "./loading";
 
 enum Status {

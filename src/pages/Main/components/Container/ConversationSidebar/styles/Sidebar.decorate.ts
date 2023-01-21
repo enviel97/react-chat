@@ -1,4 +1,5 @@
 import { breakpoint } from "@common/helper/breakpoint";
+import { colorBrightness } from "@common/helper/tools";
 import styled from "styled-components";
 
 const heightSideBarHeader = "4.5rem";
@@ -10,10 +11,10 @@ export const SidebarContainer = styled.aside`
   position: relative;
   top: 0;
   left: 0;
+  margin-right: 1rem;
 `;
 
 export const SideHeaderContainer = styled.header`
-  position: absolute;
   height: ${heightSideBarHeader};
   width: 100%;
   left: 0;
@@ -28,7 +29,6 @@ export const SideHeaderContainer = styled.header`
 `;
 
 export const SideItemsContainer = styled.div`
-  margin-top: calc(${heightSideBarHeader} + 10px);
   height: calc(99% - ${heightSideBarHeader});
   width: 100%;
   display: flex;
@@ -54,10 +54,13 @@ export const SideItemContainer = styled.div`
   align-items: center;
   padding: 0.2rem 0.5rem;
   gap: 0.5rem;
-  border: inset 5px ${({ theme }) => theme.backgroundColor};
-
+  border: solid 5px ${({ theme }) => theme.backgroundColor};
   &.active {
-    border-style: outset;
+    border-top: inset 5px
+      ${({ theme }) => colorBrightness(theme.backgroundColor, 30)};
+    border-left: inset 5px
+      ${({ theme }) => colorBrightness(theme.backgroundColor, 30)};
+    border-radius: 5px;
   }
 `;
 

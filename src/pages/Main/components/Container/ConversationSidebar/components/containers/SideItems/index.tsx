@@ -1,7 +1,7 @@
 import useAppSelector from "@hooks/useAppSelector";
 import { selectConversationIds } from "@store/slices/conversationSlice";
 import { FC, Fragment } from "react";
-import { SideItemsEmpty } from "../../styles/Sidebar.decorate";
+import { SideItemsEmpty } from "../../../styles/Sidebar.decorate";
 import Item from "./components/item";
 
 interface SideItemProps {}

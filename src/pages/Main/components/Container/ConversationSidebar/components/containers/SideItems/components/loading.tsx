@@ -3,7 +3,7 @@ import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import {
   SideItemContainer,
   SideItemContent,
-} from "../../../styles/Sidebar.decorate";
+} from "../../../../styles/Sidebar.decorate";
 
 const Loading = () => {
   return (
