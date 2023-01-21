@@ -6,10 +6,7 @@ import { addConversation } from "@store/slices/conversationSlice";
 import { useEffect } from "react";
 import SideHeader from "./components/containers/SideHeader";
 import SideItems from "./components/containers/SideItems";
-import {
-  SidebarContainer,
-  SideItemsContainer,
-} from "./styles/Sidebar.decorate";
+import { SidebarContainer } from "./styles/Sidebar.decorate";
 
 const ConversationSidebar = () => {
   const dispatch = useAppDispatch();
@@ -31,9 +28,7 @@ const ConversationSidebar = () => {
   return (
     <SidebarContainer>
       <SideHeader />
-      <SideItemsContainer>
-        <SideItems />
-      </SideItemsContainer>
+      <SideItems />
     </SidebarContainer>
   );
 };

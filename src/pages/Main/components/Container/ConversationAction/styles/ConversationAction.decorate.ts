@@ -9,6 +9,7 @@ export const ConversationSidebarContainer = styled.aside`
 
   gap: 1em;
   padding: 1rem;
+  border-right: 2.5px solid ${({ theme }) => theme.surfaceColor};
 `;
 
 export const ConversationActionContainer = styled.div`

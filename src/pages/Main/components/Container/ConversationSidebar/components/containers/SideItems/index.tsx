@@ -1,7 +1,10 @@
 import useAppSelector from "@hooks/useAppSelector";
 import { selectConversationIds } from "@store/slices/conversationSlice";
-import { FC, Fragment } from "react";
-import { SideItemsEmpty } from "../../../styles/Sidebar.decorate";
+import { FC } from "react";
+import {
+  SideItemsContainer,
+  SideItemsEmpty,
+} from "../../../styles/Sidebar.decorate";
 import Item from "./components/item";
 
 interface SideItemProps {}
@@ -9,7 +12,7 @@ interface SideItemProps {}
 const SideItems: FC<SideItemProps> = (props) => {
   const conversationIds = useAppSelector(selectConversationIds);
   return (
-    <Fragment>
+    <SideItemsContainer>
       {conversationIds.length === 0 && (
         <SideItemsEmpty>No messenger found.</SideItemsEmpty>
       )}
@@ -22,7 +25,7 @@ const SideItems: FC<SideItemProps> = (props) => {
             />
           );
         })}
-    </Fragment>
+    </SideItemsContainer>
   );
 };
 

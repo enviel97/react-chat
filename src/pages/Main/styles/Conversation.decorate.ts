@@ -11,3 +11,10 @@ export const Panel = styled.div`
   justify-content: center;
   font-weight: bold;
 `;
+
+export const UnselectedConversation = styled.h4`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+`;

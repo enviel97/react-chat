@@ -1,9 +1,9 @@
-import MobileDetect from "mobile-detect";
-import { DevicesValue } from "@common/helper/breakpoint";
+// import MobileDetect from "mobile-detect";
+// import { DevicesValue } from "@common/helper/breakpoint";
 
-const device = new MobileDetect(window.navigator.userAgent);
+// const device = new MobileDetect(window.navigator.userAgent);
 
-const isPhoneSized = device.isPhoneSized(DevicesValue.tablet);
+const isPhoneSized = false; //!device.isPhoneSized(DevicesValue.tablet);
 
 export const baseUrlAPI = isPhoneSized
   ? process.env.REACT_APP_API_URL_MOBILE

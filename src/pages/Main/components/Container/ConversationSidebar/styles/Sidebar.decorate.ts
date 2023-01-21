@@ -59,6 +59,7 @@ export const SideItemsContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   flex-direction: column;
+  height: 100%;
 
   ${breakpoint.down("tablet")} {
     overflow-x: auto;
@@ -89,7 +90,7 @@ export const SideItemContainer = styled.div`
   display: flex;
   height: fit-content;
 
-  cursor: all-scroll;
+  cursor: pointer;
   background-color: ${({ theme }) => theme.backgroundColor};
   border-radius: 5px;
   align-items: center;

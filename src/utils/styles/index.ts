@@ -2,8 +2,8 @@ import styled from "styled-components";
 
 export const Page = styled.div<PageProps>`
   background-color: ${({ theme }) => theme.backgroundColor};
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width: 100vw;
 
   position: relative;
   display: ${({ display }) => display};

@@ -3,7 +3,7 @@ import { Navigate, Route } from "react-router-dom";
 
 import { Page } from "@utils/styles";
 import { Outlet, useParams } from "react-router-dom";
-import { Panel } from "./styles/Conversation.decorate";
+import { Panel, UnselectedConversation } from "./styles/Conversation.decorate";
 
 import ConversationSidebar from "./components/Container/ConversationSidebar";
 import ConversationChannel from "./components/Container/ConversationChannel";
@@ -20,7 +20,9 @@ const ConversationLayout = () => {
       {breakpoint.up("tablet") && <ConversationSidebar />}
       <Panel>
         {breakpoint.down("tablet") && <ConversationSidebar />}
-        {!params?.id && <h4>Select messenger</h4>}
+        {!params?.id && (
+          <UnselectedConversation>Select messenger</UnselectedConversation>
+        )}
         {params?.id && <Outlet />}
       </Panel>
     </Page>
