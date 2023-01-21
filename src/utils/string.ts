@@ -22,6 +22,18 @@ const getId = (object?: any) => {
   return (object.id ?? object._id).toString();
 };
 
-const string = { getFullName, chatFromNow, typeOf, classList, getId };
+const toCapitalize = (str: string) => {
+  const [first, other] = [str[0], str.slice(1)];
+  return first.toUpperCase() + other;
+};
+
+const string = {
+  getFullName,
+  chatFromNow,
+  typeOf,
+  classList,
+  getId,
+  toCapitalize,
+};
 
 export default string;

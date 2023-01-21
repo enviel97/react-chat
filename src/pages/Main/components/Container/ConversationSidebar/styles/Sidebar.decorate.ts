@@ -2,8 +2,6 @@ import { breakpoint } from "@common/helper/breakpoint";
 import { colorBrightness } from "@common/helper/tools";
 import styled from "styled-components";
 
-const heightSideBarHeader = "4.5rem";
-
 export const SidebarContainer = styled.aside`
   height: 100%;
   width: fit-content;
@@ -15,21 +13,31 @@ export const SidebarContainer = styled.aside`
 `;
 
 export const SideHeaderContainer = styled.header`
-  height: ${heightSideBarHeader};
-  width: 100%;
-  left: 0;
-  right: 0;
   display: flex;
-  font-size: 1.2rem;
-  padding: 1rem 1.2rem;
   align-items: center;
   justify-content: space-between;
+  flex-direction: column;
+  margin-bottom: 0.2em;
+
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 1rem 1.2rem;
   background-color: ${({ theme }) => theme.backgroundColor};
-  box-shadow: 0 1rem 1rem ${({ theme }) => theme.black};
+  box-shadow: 0 -1em 1em ${({ theme }) => theme.black};
+
+  & .filter {
+    display: flex;
+    padding-top: 1.5em;
+    gap: 1em;
+
+    &--button {
+      width: 7em;
+      height: fit-content;
+    }
+  }
 `;
 
 export const SideItemsContainer = styled.div`
-  height: calc(99% - ${heightSideBarHeader});
   width: 100%;
   display: flex;
   padding-bottom: 2em;
@@ -51,16 +59,13 @@ export const SideItemContainer = styled.div`
   height: fit-content;
   display: flex;
   background-color: ${({ theme }) => theme.backgroundColor};
+  border-radius: 5px;
   align-items: center;
   padding: 0.2rem 0.5rem;
   gap: 0.5rem;
-  border: solid 5px ${({ theme }) => theme.backgroundColor};
   &.active {
-    border-top: inset 5px
-      ${({ theme }) => colorBrightness(theme.backgroundColor, 30)};
-    border-left: inset 5px
-      ${({ theme }) => colorBrightness(theme.backgroundColor, 30)};
-    border-radius: 5px;
+    background-color: ${({ theme }) =>
+      colorBrightness(theme.surfaceColor, 50)}25;
   }
 `;
 
@@ -76,13 +81,6 @@ export const SideItemContent = styled.div`
   ${breakpoint.down("tablet")} {
     visibility: collapse;
     display: none;
-  }
-  & .Messenger {
-    display: flex;
-    align-items: center;
-    flex: 1;
-    font-weight: bold;
-    font-size: 0.8em;
   }
 
   & .Content {

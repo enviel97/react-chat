@@ -15,6 +15,8 @@ export const SearchNeumorphism = styled.form<{
   height: string;
   width: string;
 }>`
+  width: ${({ width }) => width};
+  height: ${({ height }) => height};
   position: relative;
   border: none;
   & .searchTextField {
@@ -25,8 +27,9 @@ export const SearchNeumorphism = styled.form<{
       background: "#121212",
     })};
     border-radius: 100px;
-    & .textField {
-      padding: 0.75rem 1.2rem;
+    & input,
+    textarea {
+      padding: 1em 1.5em;
     }
     & ~ label {
       visibility: hidden;

@@ -1,6 +1,8 @@
 import useAppSelector from "@hooks/useAppSelector";
 import useAuthenticate from "@hooks/useAuthenticate";
+import useBreakpoint from "@hooks/useBreakpoint";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
+import HeaderConversation from "@pages/Main/components/UI/HeaderConversation";
 import { selectConversationById } from "@store/slices/conversationSlice";
 import string from "@utils/string";
 import { FC, memo, useEffect, useMemo, useState } from "react";
@@ -27,6 +29,7 @@ const Item: FC<ItemProps> = ({ channelId }) => {
   const [selected, setSelected] = useState<boolean>(false);
   const { isUser } = useAuthenticate();
   const navigator = useNavigate();
+  const breakpoint = useBreakpoint();
   const channel = useAppSelector((state) =>
     selectConversationById(state, channelId)
   );
@@ -39,17 +42,6 @@ const Item: FC<ItemProps> = ({ channelId }) => {
       setSelected(false);
     }
   }, [id, channelId]);
-
-  const conversationName = useMemo(() => {
-    if (!channel) return "";
-    const members = channel.participant.members;
-    if (members.length > 2) {
-      return "Group of " + members.map((mem) => mem.lastName).join(", ");
-    }
-    return isUser(members[0])
-      ? string.getFullName(members[1])
-      : string.getFullName(members[0]);
-  }, [channel, isUser]);
 
   const lastMessenger = useMemo(() => {
     if (!channel) return "";
@@ -73,9 +65,12 @@ const Item: FC<ItemProps> = ({ channelId }) => {
       className={string.classList(selected ? "active" : "")}
       onClick={_seen}
     >
-      <CircleAvatar className='avatar' />
+      <CircleAvatar
+        className='avatar'
+        size={breakpoint.up("tablet") ? undefined : 40}
+      />
       <SideItemContent>
-        <span className='Messenger'>{conversationName}</span>
+        <HeaderConversation conversationId={channelId} />
 
         <span className={string.classList("Content", status)}>
           <span

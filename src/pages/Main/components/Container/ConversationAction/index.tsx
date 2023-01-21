@@ -3,7 +3,7 @@ import { FC } from "react";
 import CircleAvatar from "../../UI/CircleAvatar";
 import AddChatButton from "./components/containers/AddChatButton";
 import LogoutButton from "./components/containers/LogoutButton";
-import ProfileChatButton from "./components/containers/ProfileChatButton";
+import FriendsChatButton from "./components/containers/FriendsChatButton";
 import {
   ConversationActionContainer,
   ConversationSidebarContainer,
@@ -16,7 +16,7 @@ const ConversationAction: FC<ConversationActionProps> = () => {
         <CircleAvatar size={40} />
         <Placeholder height='0.5em' width='auto' />
         <AddChatButton />
-        <ProfileChatButton />
+        <FriendsChatButton />
       </ConversationActionContainer>
       <LogoutButton />
     </ConversationSidebarContainer>

@@ -1,11 +1,20 @@
-import useBreakpoint from "@hooks/useBreakpoint";
+import Divider from "@components/Divider";
+import { TextFieldSearchNeumorphism } from "@components/TextInput";
 import { SideHeaderContainer } from "../../styles/Sidebar.decorate";
+import FilterButton from "../ui/FilterButton";
 
 const SideHeader = () => {
-  const breakpoint = useBreakpoint();
   return (
     <SideHeaderContainer>
-      {breakpoint.up("tablet") && <span>Conversations</span>}
+      <TextFieldSearchNeumorphism
+        onSearch={function (search?: string | undefined): void {
+          throw new Error("Function not implemented.");
+        }}
+      />
+      <div className='filter'>
+        <FilterButton text='Messenger' onClick={() => {}} />
+        <FilterButton text='Group' onClick={() => {}} />
+      </div>
     </SideHeaderContainer>
   );
 };

@@ -24,6 +24,7 @@ export const ChannelHeaderContainer = styled.div`
   box-shadow: 0 1rem 1rem ${({ theme }) => theme.black};
   z-index: ${zIndex.ChannelHeader};
   & .channelName {
+    font-weight: normal;
     font-size: inherit;
   }
 `;

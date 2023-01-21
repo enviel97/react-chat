@@ -3,7 +3,7 @@ import { FC, useMemo } from "react";
 import { BiLogOutCircle, BiMessageSquareAdd, BiUser } from "react-icons/bi";
 
 interface ActionButtonProps {
-  icon: "Add conversation" | "Profile" | "Sign out";
+  icon: "Add conversation" | "Friends" | "Sign out";
   onClick: () => void;
 }
 
@@ -14,7 +14,7 @@ const ActionButton: FC<ActionButtonProps> = ({ icon, onClick }) => {
       case "Add conversation": {
         return <BiMessageSquareAdd size={size} />;
       }
-      case "Profile": {
+      case "Friends": {
         return <BiUser size={size} />;
       }
       case "Sign out": {

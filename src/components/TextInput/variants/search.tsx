@@ -41,6 +41,8 @@ const TextFieldSearchNeumorphism = forwardRef<
     >
       <BaseTextField
         {...prop}
+        width={"100%"}
+        height={"100%"}
         className='searchTextField'
         placeholder={prop.placeholder ?? "Search"}
         register={register("search")}

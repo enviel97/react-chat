@@ -1,4 +1,3 @@
-import Divider from "@components/Divider";
 import { Event } from "@core/common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
@@ -32,7 +31,6 @@ const ConversationSidebar = () => {
   return (
     <SidebarContainer>
       <SideHeader />
-      <Divider />
       <SideItemsContainer>
         <SideItems />
       </SideItemsContainer>

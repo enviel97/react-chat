@@ -1,4 +1,5 @@
-import { colorBrightness } from "@common/helper/tools";
+import { colorBrightness, colorTheme } from "@common/helper/tools";
+import string from "@utils/string";
 import styled from "styled-components";
 
 export const Base = styled.div<{
@@ -16,35 +17,39 @@ export const Base = styled.div<{
     border: none;
     outline: none;
     font-size: 1em;
-    background-color: ${(props) => props.color ?? props.theme.secondaryColor};
-    color: ${(props) => props.textColor ?? props.theme.onSecondaryColor};
+    background-color: ${({ color, theme }) => colorTheme({ color, theme })};
+    color: ${({ textColor, color, theme }) =>
+      textColor ??
+      colorTheme({
+        color: `on${string.toCapitalize(color ?? "background")}`,
+        theme,
+      })};
     font-weight: bold;
     display: flex;
     align-items: center;
     justify-content: center;
 
     border: 2px solid
-      ${({ color, theme }) =>
-        colorBrightness(color ?? theme.secondaryColor, -2)};
+      ${({ color, theme }) => colorBrightness(colorTheme({ color, theme }), -2)};
     box-shadow: 0.3em 0.3em 0.4em
       ${({ color, theme }) =>
-        colorBrightness(color ?? theme.secondaryColor, -10)}80;
+        colorBrightness(colorTheme({ color, theme }), -10)}80;
 
     &:hover {
       background-color: ${({ color, theme }) =>
-        colorBrightness(color ?? theme.secondaryColor, 10)};
+        colorBrightness(colorTheme({ color, theme }), 10)};
     }
 
     &:focus {
       border: 2px solid
         ${({ color, theme }) =>
-          colorBrightness(color ?? theme.secondaryColor, 10)};
+          colorBrightness(colorTheme({ color, theme }), 10)};
     }
 
     &:active {
       font-size: 98%;
       background-color: ${({ color, theme }) =>
-        colorBrightness(color ?? theme.secondaryColor, -10)};
+        colorBrightness(colorTheme({ color, theme }), -10)};
     }
   }
 `;

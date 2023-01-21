@@ -1,9 +1,9 @@
 import ActionButton from "../ui/ActionButton";
 
-const ProfileChatButton = () => {
+const FriendsChatButton = () => {
   return (
     <ActionButton
-      icon={"Profile"}
+      icon={"Friends"}
       onClick={function (): void {
         throw new Error("Function not implemented.");
       }}
@@ -11,4 +11,4 @@ const ProfileChatButton = () => {
   );
 };
 
-export default ProfileChatButton;
+export default FriendsChatButton;
