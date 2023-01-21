@@ -32,12 +32,7 @@ export const SocketProvider = ({ children }: Components) => {
       });
     });
     return () => {
-      socket.off(Event.EVENT_MESSAGE_CREATED, (payload: any) => {
-        console.log({
-          status: "disconnected",
-          payload,
-        });
-      });
+      socket.off(Event.EVENT_SOCKET_CONNECTED);
     };
   }, []);
 

@@ -1,6 +1,5 @@
-import { FC, useId } from "react";
+import { FC } from "react";
 import { ButtonIconDecorate } from "../decorates/default";
-import { Tooltip } from "react-tooltip";
 import Button from "./base";
 
 interface IButtonIconProps extends ButtonIconProps, ButtonDecorate {
@@ -16,19 +15,16 @@ const ButtonIcon: FC<IButtonIconProps> = ({
   hint,
   ...ref
 }) => {
-  const id = useId();
   return (
-    <ButtonIconDecorate id={id} {...ref}>
+    <ButtonIconDecorate {...ref}>
       <Button
         itemType={itemType}
         type={type}
         onClick={onClick}
         disabled={disabled}
+        hint={hint}
         icon={<span>{icon}</span>}
       />
-      {hint && (
-        <Tooltip anchorId={id} content={hint} place='top' delayShow={100} />
-      )}
     </ButtonIconDecorate>
   );
 };

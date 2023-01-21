@@ -8,11 +8,13 @@ import { Panel } from "./styles/Conversation.decorate";
 import ConversationSidebar from "./components/Container/ConversationSidebar";
 import ConversationChannel from "./components/Container/ConversationChannel";
 import ConversationError from "./components/Container/ConversationError";
+import ConversationAction from "./components/Container/ConversationAction";
 
 const ConversationLayout = () => {
   const params = useParams();
   return (
     <Page display='flex'>
+      <ConversationAction />
       <ConversationSidebar />
       <Panel>
         {!params?.id && <h4>Select messenger</h4>}

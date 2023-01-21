@@ -13,8 +13,8 @@ interface CircleAvatarProps {
 }
 
 const CircleAvatarContainer = styled.div<CircleAvatarProps>`
-  height: ${({ size }) => pxToEm(size ?? 36)};
-  aspect-ratio: 1/1;
+  width: ${({ size }) => pxToEm(size ?? 36)};
+  aspect-ratio: 1;
   color: ${({ mainColor, theme }) => mainColor ?? theme.primaryColor};
   background-color: currentColor;
   border-radius: 50%;

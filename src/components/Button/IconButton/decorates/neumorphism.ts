@@ -18,8 +18,8 @@ export const Neumorphism = styled.div<{
     height: 100%;
     width: 100%;
     cursor: pointer;
-    background-color: ${(props) => props.theme.backgroundColor};
-    border: 1px solid ${(props) => props.theme.backgroundColor}50;
+    background-color: ${({ theme }) => theme.backgroundColor};
+    border: 1px solid ${({ theme }) => theme.backgroundColor}50;
 
     outline: none;
     font-weight: bold;
@@ -32,10 +32,6 @@ export const Neumorphism = styled.div<{
     align-items: center;
     justify-content: center;
     padding: 0.5rem;
-    & svg {
-      aspect-ratio: 1 / 1;
-      height: 1.5rem;
-    }
 
     &:disabled {
       box-shadow: none;

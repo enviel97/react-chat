@@ -147,6 +147,10 @@ const GlobalStyle = createGlobalStyle`
     height: calc(var(--vh, 1vh) * 100);
   }
 
+  #tooltip {
+    z-index: 2147483647;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html:focus-within {
       scroll-behavior: auto;
