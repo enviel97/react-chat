@@ -1,9 +1,7 @@
-import useAppSelector from "@hooks/useAppSelector";
 import useAuthenticate from "@hooks/useAuthenticate";
 import useBreakpoint from "@hooks/useBreakpoint";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import HeaderConversation from "@pages/Main/components/UI/HeaderConversation";
-import { selectConversationById } from "@store/slices/conversationSlice";
 import string from "@utils/string";
 import { FC, memo, useEffect, useMemo, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -20,28 +18,24 @@ enum Status {
 }
 
 interface ItemProps {
-  channelId: string;
+  channel: Conversation;
+  onItemClick: () => void;
 }
 
-const Item: FC<ItemProps> = ({ channelId }) => {
+const Item: FC<ItemProps> = ({ channel, onItemClick }) => {
   const { id } = useParams();
   const [status, setStatus] = useState<Status>(Status.Seen);
   const [selected, setSelected] = useState<boolean>(false);
   const { isUser } = useAuthenticate();
-  const navigator = useNavigate();
   const breakpoint = useBreakpoint();
-  const channel = useAppSelector((state) =>
-    selectConversationById(state, channelId)
-  );
 
   useEffect(() => {
-    // console.log(id);
-    if (!!id && id === string.getId(channelId)) {
+    if (!!id && id === string.getId(channel)) {
       setSelected(true);
     } else {
       setSelected(false);
     }
-  }, [id, channelId]);
+  }, [id, channel]);
 
   const lastMessenger = useMemo(() => {
     if (!channel) return "";
@@ -57,7 +51,7 @@ const Item: FC<ItemProps> = ({ channelId }) => {
   const _seen = () => {
     // TODO: Seen
     setStatus(Status.Seen);
-    navigator(`messenger/${channelId}`);
+    onItemClick();
   };
 
   return (
@@ -70,7 +64,7 @@ const Item: FC<ItemProps> = ({ channelId }) => {
         size={breakpoint.up("tablet") ? undefined : 40}
       />
       <SideItemContent>
-        <HeaderConversation conversationId={channelId} />
+        <HeaderConversation channel={channel} />
 
         <span className={string.classList("Content", status)}>
           <span

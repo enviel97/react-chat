@@ -42,7 +42,6 @@ const ChannelBody = () => {
       Event.EVENT_MESSAGE_REMOVE,
       ({ lastMessage, conversationId, messageId }) => {
         if (conversationId === id) {
-          console.log(messageId);
           dispatch(removeMessage(messageId));
         }
         dispatch(
@@ -57,7 +56,6 @@ const ChannelBody = () => {
       Event.EVENT_MESSAGE_EDITED,
       ({ lastMessage, conversationId, messageId, content }) => {
         if (conversationId === id) {
-          console.log({ content });
           dispatch(editMessage({ messageId, content }));
         }
         dispatch(

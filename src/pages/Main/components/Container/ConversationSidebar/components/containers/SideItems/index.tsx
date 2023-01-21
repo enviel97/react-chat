@@ -1,7 +1,10 @@
 import useAppSelector from "@hooks/useAppSelector";
-import { selectConversationIds } from "@store/slices/conversationSlice";
+import { selectAllDirectConversations } from "@store/slices/conversationSlice";
+import { selectAllGroupConversations } from "@store/slices/groupConversationSlice";
+import string from "@utils/string";
 import { isLoading } from "@utils/validate";
 import { FC } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   SideItemsContainer,
   SideItemsEmpty,
@@ -9,11 +12,25 @@ import {
 import Item from "./components/item";
 import Loading from "./components/loading";
 
-interface SideItemProps {}
+interface SideItemProps {
+  type: "direct" | "group";
+}
 
-const SideItems: FC<SideItemProps> = (props) => {
-  const conversationIds = useAppSelector(selectConversationIds);
-  const status = useAppSelector((state) => state.conversation.process);
+const SideItems: FC<SideItemProps> = ({ type }) => {
+  const navigator = useNavigate();
+  const conversations = useAppSelector((state) => {
+    if (type === "direct") {
+      return selectAllDirectConversations(state);
+    }
+    return selectAllGroupConversations(state);
+  });
+
+  const status = useAppSelector((state) => {
+    if (type === "direct") {
+      return state.conversation.process;
+    }
+    return state.groupConversation.process;
+  });
 
   if (isLoading(status)) {
     return (
@@ -26,15 +43,19 @@ const SideItems: FC<SideItemProps> = (props) => {
 
   return (
     <SideItemsContainer>
-      {conversationIds.length === 0 && (
+      {conversations.length === 0 && (
         <SideItemsEmpty>No messenger found.</SideItemsEmpty>
       )}
-      {conversationIds.length !== 0 &&
-        conversationIds.map((conversationIds, index) => {
+      {conversations.length !== 0 &&
+        conversations.map((conversation, index) => {
+          const id = string.getId(conversation);
           return (
             <Item
-              key={`${conversationIds}&${index}`}
-              channelId={conversationIds.toString()}
+              key={`${id}&${index}`}
+              channel={conversation}
+              onItemClick={function (): void {
+                navigator(`messenger/${type}/${id}`);
+              }}
             />
           );
         })}

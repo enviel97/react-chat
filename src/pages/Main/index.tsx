@@ -15,7 +15,6 @@ const ConversationLayout = () => {
   const params = useParams();
   const breakpoint = useBreakpoint();
 
-  console.log(window.innerHeight);
   return (
     <Page display='flex' height={`${window.innerHeight}px`}>
       <ConversationAction />
@@ -42,7 +41,7 @@ const MainRoute = (
         element={<ConversationLayout />}
       >
         <Route
-          path='messenger/:id'
+          path='messenger/:type/:id'
           errorElement={<ConversationError />}
           element={<ConversationChannel />}
         />

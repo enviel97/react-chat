@@ -1,13 +1,11 @@
 import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
-import useAppSelector from "@hooks/useAppSelector";
 import useAuthenticate from "@hooks/useAuthenticate";
-import { selectConversationById } from "@store/slices/conversationSlice";
 import string from "@utils/string";
 import { FC, useMemo } from "react";
 import styled from "styled-components";
 
 interface HeaderConversationProps {
-  conversationId?: string;
+  channel?: Conversation;
   className?: string;
 }
 
@@ -25,14 +23,10 @@ const HeaderConversationContainer = styled.h4`
 `;
 
 const HeaderConversation: FC<HeaderConversationProps> = ({
-  conversationId = "",
+  channel,
   className,
 }) => {
   const { isUser } = useAuthenticate();
-
-  const channel = useAppSelector((state) =>
-    selectConversationById(state, conversationId)
-  );
 
   const conversationName = useMemo(() => {
     if (!channel) return "";

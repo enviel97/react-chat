@@ -1,9 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createConversation, getConversations } from "./api";
 
-export const fetchConversations = createAsyncThunk(
-  "conversations/fetch-get-conversations",
-  async (type: "group" | "direct") => await getConversations(type)
+export const fetchDirectConversations = createAsyncThunk(
+  "conversations/list-direct",
+  async () => await getConversations("direct")
+);
+
+export const fetchGroupConversations = createAsyncThunk(
+  "conversations/list-group",
+  async () => await getConversations("group")
 );
 
 export const fetchAddConversation = createAsyncThunk(

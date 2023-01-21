@@ -7,36 +7,36 @@ import SliceName from "../common/sliceName";
 import string from "@utils/string";
 import {
   fetchAddConversation,
-  fetchDirectConversations,
+  fetchGroupConversations,
 } from "@store/repo/conversation";
 import { State } from "@store/common/state";
 import moment from "moment";
 
-const conversationsAdapter = createEntityAdapter<Conversation>({
+const groupConversationsAdapter = createEntityAdapter<Conversation>({
   selectId: (conversation) => string.getId(conversation),
   sortComparer: (a, b) =>
     new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime(),
 });
 
-export const conversationsSlice = createSlice({
-  name: SliceName.conversation,
-  initialState: conversationsAdapter.getInitialState({
+export const groupConversationsSlice = createSlice({
+  name: SliceName.groupConversation,
+  initialState: groupConversationsAdapter.getInitialState({
     process: State.IDLE,
   }),
   reducers: {
-    addConversation: conversationsAdapter.addOne,
+    addConversation: groupConversationsAdapter.addOne,
     updateLastMessage: (
       state: any,
       action: PayloadAction<UpdateLastMessageConversationPayload>
     ) => {
       const payload = action.payload;
       if (payload.message === null) return;
-      const conversation = conversationsAdapter
+      const conversation = groupConversationsAdapter
         .getSelectors()
         .selectById(state, payload.conversationId);
 
       if (!conversation) return;
-      conversationsAdapter.updateOne(state, {
+      groupConversationsAdapter.updateOne(state, {
         id: payload.conversationId,
         changes: {
           lastMessage: payload.message,
@@ -48,19 +48,19 @@ export const conversationsSlice = createSlice({
   extraReducers: (builder) => {
     // #region Builder for fetch all Conversation
     builder
-      .addCase(fetchDirectConversations.pending, (state, action) => {
+      .addCase(fetchGroupConversations.pending, (state, action) => {
         state.process = State.PENDING;
       })
-      .addCase(fetchDirectConversations.rejected, (state, action) => {
+      .addCase(fetchGroupConversations.rejected, (state, action) => {
         state.process = State.ERROR;
       })
       .addCase(
-        fetchDirectConversations.fulfilled,
+        fetchGroupConversations.fulfilled,
         (state, action: PayloadAction<Response<any>>) => {
           const payload = action.payload;
           const conversation = payload.data;
 
-          conversationsAdapter.upsertMany(state, conversation);
+          groupConversationsAdapter.upsertMany(state, conversation);
           //
           state.process = State.FULFILLED;
         }
@@ -79,7 +79,7 @@ export const conversationsSlice = createSlice({
         (state, action: PayloadAction<Response<any>>) => {
           const payload = action.payload;
           const conversation = payload.data;
-          conversationsAdapter.upsertOne(state, conversation);
+          groupConversationsAdapter.upsertOne(state, conversation);
           //
           state.process = State.FULFILLED;
         }
@@ -89,13 +89,13 @@ export const conversationsSlice = createSlice({
 });
 
 export const { addConversation, updateLastMessage } =
-  conversationsSlice.actions;
+  groupConversationsSlice.actions;
 
 export const {
-  selectById: selectDirectConversationById,
-  selectAll: selectAllDirectConversations,
-} = conversationsAdapter.getSelectors(
-  (state: any) => state[SliceName.conversation]
+  selectById: selectGroupConversationById,
+  selectAll: selectAllGroupConversations,
+} = groupConversationsAdapter.getSelectors(
+  (state: any) => state[SliceName.groupConversation]
 );
 
-export default conversationsSlice.reducer;
+export default groupConversationsSlice.reducer;
