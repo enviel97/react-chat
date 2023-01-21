@@ -3,7 +3,6 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
 import {
   fetchDirectConversations,
-  fetchAddConversation,
   fetchGroupConversations,
 } from "@store/repo/conversation";
 import { addConversation } from "@store/slices/conversationSlice";

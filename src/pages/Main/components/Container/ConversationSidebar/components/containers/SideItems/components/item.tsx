@@ -4,7 +4,7 @@ import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import HeaderConversation from "@pages/Main/components/UI/HeaderConversation";
 import string from "@utils/string";
 import { FC, memo, useEffect, useMemo, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
   SideItemContainer,
   SideItemContent,
