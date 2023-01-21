@@ -3,23 +3,25 @@ import { colorBrightness } from "@common/helper/tools";
 import styled from "styled-components";
 
 export const SidebarContainer = styled.aside`
-  height: 100%;
-  width: fit-content;
   background-color: ${({ theme }) => theme.surfaceColor};
   position: relative;
-  top: 0;
-  left: 0;
   margin-right: 1rem;
+
+  height: 100%;
+  width: fit-content;
+  ${breakpoint.down("tablet")} {
+    height: fit-content;
+    width: 95%;
+  }
 `;
 
 export const SideHeaderContainer = styled.header`
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   flex-direction: column;
   margin-bottom: 0.2em;
 
-  width: 100%;
   font-size: 1.2rem;
   padding: 1rem 1.2rem;
   background-color: ${({ theme }) => theme.backgroundColor};
@@ -27,12 +29,24 @@ export const SideHeaderContainer = styled.header`
 
   & .filter {
     display: flex;
+    gap: 0.5em;
     padding-top: 1.5em;
-    gap: 1em;
 
     &--button {
       width: 7em;
       height: fit-content;
+    }
+  }
+
+  ${breakpoint.between("tablet", "mobile")} {
+    flex-direction: row;
+    & .filter {
+      flex-direction: column;
+      padding-top: 0;
+      padding-left: 1em;
+      margin-left: 1.5em;
+      border-left: 1px solid
+        ${({ theme }) => colorBrightness(theme.disableColor, -30)};
     }
   }
 `;
@@ -41,9 +55,26 @@ export const SideItemsContainer = styled.div`
   width: 100%;
   display: flex;
   padding-bottom: 2em;
-  flex-direction: column;
   gap: 0.3rem;
+  overflow-x: hidden;
   overflow-y: auto;
+  flex-direction: column;
+
+  ${breakpoint.down("tablet")} {
+    overflow-x: auto;
+    overflow-y: hidden;
+    flex-direction: row;
+    height: fit-content;
+    padding: 0.5em;
+    margin-bottom: 0.2em;
+    background-color: ${({ theme }) => theme.backgroundColor};
+
+    &::-webkit-scrollbar {
+      display: none; /* Safari and Chrome */
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+  }
 `;
 
 export const SideItemsEmpty = styled.div`
@@ -55,9 +86,10 @@ export const SideItemsEmpty = styled.div`
 `;
 
 export const SideItemContainer = styled.div`
-  cursor: pointer;
-  height: fit-content;
   display: flex;
+  height: fit-content;
+
+  cursor: all-scroll;
   background-color: ${({ theme }) => theme.backgroundColor};
   border-radius: 5px;
   align-items: center;

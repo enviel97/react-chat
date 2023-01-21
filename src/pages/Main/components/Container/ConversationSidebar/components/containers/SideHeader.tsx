@@ -1,4 +1,3 @@
-import Divider from "@components/Divider";
 import { TextFieldSearchNeumorphism } from "@components/TextInput";
 import { SideHeaderContainer } from "../../styles/Sidebar.decorate";
 import FilterButton from "../ui/FilterButton";

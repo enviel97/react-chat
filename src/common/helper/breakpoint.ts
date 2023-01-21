@@ -18,4 +18,10 @@ export const breakpoint = {
    */
   up: (devices: Devices) =>
     `@media only screen and (min-width: ${DevicesValue[devices]}px)`,
+
+  /**
+   * type Device: "mobile" | "tablet" | "laptop" | "desktop" | "tv"
+   */
+  between: (maxDevices: Devices, minDevices: Devices) =>
+    `@media only screen and (min-width: ${DevicesValue[minDevices]}px) and (max-width: ${DevicesValue[maxDevices]}px)`,
 };

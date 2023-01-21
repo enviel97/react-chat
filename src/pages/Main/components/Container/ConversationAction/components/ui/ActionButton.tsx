@@ -21,7 +21,7 @@ const ActionButton: FC<ActionButtonProps> = ({ icon, onClick }) => {
         return <BiLogOutCircle size={size} />;
       }
     }
-  }, []);
+  }, [icon]);
 
   return (
     <ButtonIconNeumorphism
