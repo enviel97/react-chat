@@ -75,7 +75,7 @@ const GlobalStyle = createGlobalStyle`
 
     /* Sized */
     min-width: 100%;
-    min-height: 100%;
+    min-height: 0;
   }
 
   img, picture, svg {

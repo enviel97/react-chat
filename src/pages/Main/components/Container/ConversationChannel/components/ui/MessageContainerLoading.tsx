@@ -5,7 +5,11 @@ import { Box } from "@utils/styles";
 const MessageContainerLoading = () => (
   <SkeletonContainer>
     <Box
-      style={{ height: "85vh", padding: "4em 2em 1em" }}
+      style={{
+        padding: "4em 2em 1em",
+        maxHeight: "67vh",
+        overflow: "hidden",
+      }}
       display='flex'
       flexDirection='column'
       justifyContent='flex-start'

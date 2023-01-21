@@ -4,9 +4,10 @@ import {
   CONVERSATION_GET_LIST,
 } from "@store/common/repo";
 
-export const getConversations = async () => {
+export const getConversations = async (type: "direct" | "group") => {
   const response = await client.get<any, Response<Conversation[]>>(
-    CONVERSATION_GET_LIST
+    CONVERSATION_GET_LIST,
+    { params: { type } }
   );
   return response;
 };

@@ -59,6 +59,8 @@ export const conversationsSlice = createSlice({
         (state, action: PayloadAction<Response<any>>) => {
           const payload = action.payload;
           const conversation = payload.data;
+
+          conversationsAdapter.removeAll(state);
           conversationsAdapter.upsertMany(state, conversation);
           //
           state.process = State.FULFILLED;

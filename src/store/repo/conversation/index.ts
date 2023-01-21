@@ -3,7 +3,7 @@ import { createConversation, getConversations } from "./api";
 
 export const fetchConversations = createAsyncThunk(
   "conversations/fetch-get-conversations",
-  async () => await getConversations()
+  async (type: "group" | "direct") => await getConversations(type)
 );
 
 export const fetchAddConversation = createAsyncThunk(

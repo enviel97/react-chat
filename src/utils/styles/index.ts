@@ -2,14 +2,14 @@ import styled from "styled-components";
 
 export const Page = styled.div<PageProps>`
   background-color: ${({ theme }) => theme.backgroundColor};
-  height: 100vh;
-  width: 100vw;
-
+  height: ${({ height }) => height};
+  width: 100%;
   position: relative;
   display: ${({ display }) => display};
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   flex-direction: ${({ flexDirection }) => flexDirection};
+  overflow-y: hidden;
 `;
 
 export const Box = styled.div<PageProps>`

@@ -6,7 +6,6 @@ export const SidebarContainer = styled.aside`
   background-color: ${({ theme }) => theme.surfaceColor};
   position: relative;
   margin-right: 1rem;
-
   height: 100%;
   width: fit-content;
   ${breakpoint.down("tablet")} {
@@ -59,7 +58,6 @@ export const SideItemsContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   flex-direction: column;
-  height: 100%;
 
   ${breakpoint.down("tablet")} {
     overflow-x: auto;

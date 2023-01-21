@@ -1,8 +1,13 @@
 import { TextFieldSearchNeumorphism } from "@components/TextInput";
+import { FC } from "react";
 import { SideHeaderContainer } from "../../styles/Sidebar.decorate";
 import FilterButton from "../ui/FilterButton";
 
-const SideHeader = () => {
+interface SideHeaderProps {
+  onFilter: (type: "direct" | "group") => void;
+}
+
+const SideHeader: FC<SideHeaderProps> = ({ onFilter }) => {
   return (
     <SideHeaderContainer>
       <TextFieldSearchNeumorphism
@@ -11,8 +16,8 @@ const SideHeader = () => {
         }}
       />
       <div className='filter'>
-        <FilterButton text='Messenger' onClick={() => {}} />
-        <FilterButton text='Group' onClick={() => {}} />
+        <FilterButton text='Messenger' onClick={() => onFilter("direct")} />
+        <FilterButton text='Group' onClick={() => onFilter("group")} />
       </div>
     </SideHeaderContainer>
   );

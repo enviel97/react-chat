@@ -1,18 +1,20 @@
+import { breakpoint } from "@common/helper/breakpoint";
 import { zIndex } from "@core/common/zIndex.define";
 import styled from "styled-components";
 
-const heightSideBarHeader = "4.5rem";
 export const ChannelContainer = styled.div`
   position: relative;
   height: 100%;
   width: 100%;
   display: flex;
   flex-direction: column;
+  ${breakpoint.down("tablet")} {
+    height: calc(100% - 8.5em);
+  }
 `;
 
 export const ChannelHeaderContainer = styled.div`
   width: 100%;
-  height: ${heightSideBarHeader};
   display: flex;
   align-items: center;
   gap: 1rem;

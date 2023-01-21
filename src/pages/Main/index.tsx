@@ -14,8 +14,10 @@ import useBreakpoint from "@hooks/useBreakpoint";
 const ConversationLayout = () => {
   const params = useParams();
   const breakpoint = useBreakpoint();
+
+  console.log(window.innerHeight);
   return (
-    <Page display='flex'>
+    <Page display='flex' height={`${window.innerHeight}px`}>
       <ConversationAction />
       {breakpoint.up("tablet") && <ConversationSidebar />}
       <Panel>
