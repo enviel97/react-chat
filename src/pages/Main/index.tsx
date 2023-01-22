@@ -41,7 +41,7 @@ const MainRoute = (
         element={<ConversationLayout />}
       >
         <Route
-          path='messenger/:type/:id'
+          path='messenger/:id'
           errorElement={<ConversationError />}
           element={<ConversationChannel />}
         />

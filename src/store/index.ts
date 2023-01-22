@@ -1,14 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
 import SliceName from "./common/sliceName";
-import conversationReducer from "./slices/conversationSlice";
-import messageReducer from "./slices/messageSlice";
-import groupConversationReducer from "./slices/groupConversationSlice";
+import { ConversationReducer, MessageReducer } from "./slices";
 
 export const store = configureStore({
   reducer: {
-    [SliceName.conversation]: conversationReducer,
-    [SliceName.message]: messageReducer,
-    [SliceName.groupConversation]: groupConversationReducer,
+    [SliceName.conversation]: ConversationReducer,
+    [SliceName.message]: MessageReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(),
 });

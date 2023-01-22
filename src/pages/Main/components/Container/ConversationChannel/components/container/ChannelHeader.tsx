@@ -2,10 +2,8 @@ import SkeletonContainer from "@components/Skeleton";
 import useAppSelector from "@hooks/useAppSelector";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import HeaderConversation from "@pages/Main/components/UI/HeaderConversation";
-import { selectDirectConversationById } from "@store/slices/conversationSlice";
-import { selectGroupConversationById } from "@store/slices/groupConversationSlice";
+import { selectConversationById } from "@store/slices/conversations";
 import { FC } from "react";
-import { useParams } from "react-router-dom";
 import { ChannelHeaderContainer } from "../../styles/Channel.decorate";
 
 interface ChannelHeaderProps {
@@ -13,15 +11,9 @@ interface ChannelHeaderProps {
 }
 
 const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
-  const { type = "direct" } = useParams();
-
-  const channel = useAppSelector((state) => {
-    if (type === "direct") {
-      return selectDirectConversationById(state, conversationId);
-    } else {
-      return selectGroupConversationById(state, conversationId);
-    }
-  });
+  const channel = useAppSelector((state) =>
+    selectConversationById(state, conversationId)
+  );
   return (
     <SkeletonContainer>
       <ChannelHeaderContainer>

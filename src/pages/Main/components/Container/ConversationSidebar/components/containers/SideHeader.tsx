@@ -1,13 +1,11 @@
 import { TextFieldSearchNeumorphism } from "@components/TextInput";
-import { FC } from "react";
+import useAppDispatch from "@hooks/useAppDispatch";
+import { selectedType } from "@store/slices/conversations";
 import { SideHeaderContainer } from "../../styles/Sidebar.decorate";
 import FilterButton from "../ui/FilterButton";
 
-interface SideHeaderProps {
-  onFilter: (type: "direct" | "group") => void;
-}
-
-const SideHeader: FC<SideHeaderProps> = ({ onFilter }) => {
+const SideHeader = () => {
+  const dispatch = useAppDispatch();
   return (
     <SideHeaderContainer>
       <TextFieldSearchNeumorphism
@@ -16,8 +14,14 @@ const SideHeader: FC<SideHeaderProps> = ({ onFilter }) => {
         }}
       />
       <div className='filter'>
-        <FilterButton text='Messenger' onClick={() => onFilter("direct")} />
-        <FilterButton text='Group' onClick={() => onFilter("group")} />
+        <FilterButton
+          text='Messenger'
+          onClick={() => dispatch(selectedType("direct"))}
+        />
+        <FilterButton
+          text='Group'
+          onClick={() => dispatch(selectedType("group"))}
+        />
       </div>
     </SideHeaderContainer>
   );

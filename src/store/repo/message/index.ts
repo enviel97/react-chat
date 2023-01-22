@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { updateLastMessage } from "@store/slices/conversationSlice";
+import { updateLastMessage } from "@store/slices/conversations";
 import { deleteMessage, getMessages, postMessage, updateMessage } from "./api";
 
 export const fetchAddMessages = createAsyncThunk(

@@ -11,11 +11,11 @@ import {
   editMessage,
   removeMessage,
   selectAllMessage,
-} from "@store/slices/messageSlice";
+} from "@store/slices/messages";
 import { isLoading } from "@utils/validate";
 import MessageContainerLoading from "../ui/MessageContainerLoading";
 import { useParams } from "react-router-dom";
-import { updateLastMessage } from "@store/slices/conversationSlice";
+import { updateLastMessage } from "@store/slices/conversations";
 import ChannelEmpty from "./ChannelEmpty";
 
 const ChannelBody = () => {

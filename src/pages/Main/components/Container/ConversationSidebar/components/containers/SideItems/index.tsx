@@ -1,9 +1,7 @@
 import useAppSelector from "@hooks/useAppSelector";
-import { selectAllDirectConversations } from "@store/slices/conversationSlice";
-import { selectAllGroupConversations } from "@store/slices/groupConversationSlice";
+import { selectAllConversation } from "@store/slices/conversations";
 import string from "@utils/string";
 import { isLoading } from "@utils/validate";
-import { FC } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   SideItemsContainer,
@@ -12,25 +10,10 @@ import {
 import Item from "./components/item";
 import Loading from "./components/loading";
 
-interface SideItemProps {
-  type: "direct" | "group";
-}
-
-const SideItems: FC<SideItemProps> = ({ type }) => {
+const SideItems = () => {
   const navigator = useNavigate();
-  const conversations = useAppSelector((state) => {
-    if (type === "direct") {
-      return selectAllDirectConversations(state);
-    }
-    return selectAllGroupConversations(state);
-  });
-
-  const status = useAppSelector((state) => {
-    if (type === "direct") {
-      return state.conversation.process;
-    }
-    return state.groupConversation.process;
-  });
+  const conversations = useAppSelector((state) => selectAllConversation(state));
+  const status = useAppSelector((state) => state.conversation.process);
 
   if (isLoading(status)) {
     return (
@@ -54,7 +37,7 @@ const SideItems: FC<SideItemProps> = ({ type }) => {
               key={`${id}&${index}`}
               channel={conversation}
               onItemClick={function (): void {
-                navigator(`messenger/${type}/${id}`);
+                navigator(`messenger/${id}`);
               }}
             />
           );

@@ -1,40 +1,21 @@
 import { Event } from "@core/common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
+import useAppSelector from "@hooks/useAppSelector";
 import useSocket from "@hooks/useSocket";
-import {
-  fetchDirectConversations,
-  fetchGroupConversations,
-} from "@store/repo/conversation";
-import { addConversation } from "@store/slices/conversationSlice";
-import { useEffect, useState } from "react";
+import { fetchConversations } from "@store/repo/conversation";
+import { addConversation } from "@store/slices/conversations";
+import { useEffect } from "react";
 import SideHeader from "./components/containers/SideHeader";
 import SideItems from "./components/containers/SideItems";
 import { SidebarContainer } from "./styles/Sidebar.decorate";
 
-enum ConversationType {
-  GROUP = "group",
-  DIRECT = "direct",
-}
-
 const ConversationSidebar = () => {
   const dispatch = useAppDispatch();
   const socket = useSocket();
-  const [type, setType] = useState<ConversationType>(ConversationType.DIRECT);
-
-  const onFilter = (type: "direct" | "group") => {
-    if (type === "direct") {
-      setType(ConversationType.DIRECT);
-    } else {
-      setType(ConversationType.GROUP);
-    }
-  };
+  const type = useAppSelector((state) => state.conversation.type);
 
   useEffect(() => {
-    if (type === "group") {
-      dispatch(fetchGroupConversations());
-      return;
-    }
-    dispatch(fetchDirectConversations());
+    dispatch(fetchConversations());
   }, [dispatch, type]);
 
   useEffect(() => {
@@ -48,8 +29,8 @@ const ConversationSidebar = () => {
 
   return (
     <SidebarContainer>
-      <SideHeader onFilter={onFilter} />
-      <SideItems type={type} />
+      <SideHeader />
+      <SideItems />
     </SidebarContainer>
   );
 };

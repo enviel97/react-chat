@@ -23,7 +23,7 @@ export const getMessages = async (
     bucket: 0,
   }
 ) => {
-  const response = await client.get<any, Response<Message[]>>(
+  const response = await client.get<any, Response<Pagination<Message>>>(
     messageUrl(id, `${MESSAGE_GET_LIST}`),
     { params: options }
   );
