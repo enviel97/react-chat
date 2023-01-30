@@ -3,18 +3,18 @@ import string from "@utils/string";
 import { Box } from "@utils/styles";
 import moment from "moment";
 import { FC, memo, useMemo, useState } from "react";
+import useAppDispatch from "@hooks/useAppDispatch";
+import { fetchDeleteMessages, fetchEditMessages } from "@store/repo/message";
+import MessageAvatar from "../../ui/MessageAvatar";
+import MessageContent from "../../ui/MessageContent";
+import MessageEditMenuAction from "../MessageEditMenuAction";
 import {
   HintEdit,
   MessageAction,
   MessageContentContainer,
+  MessageItemContainer,
   MessageItemTimer,
-} from "../../styles/Message.decorate";
-import MessageAvatar from "./MessageAvatar";
-import useBreakpoint from "@hooks/useBreakpoint";
-import MessageEditMenuAction from "../container/MessageEditMenuAction";
-import useAppDispatch from "@hooks/useAppDispatch";
-import { fetchDeleteMessages, fetchEditMessages } from "@store/repo/message";
-import MessageContent from "./MessageContent";
+} from "./styles/MessageItem.decorate";
 
 interface MessageItemProps {
   message: Message;
@@ -28,7 +28,6 @@ const MessageItem: FC<MessageItemProps> = ({
   lastChatter,
 }) => {
   const { user } = useAuthenticate();
-  const breakpoint = useBreakpoint();
   const dispatch = useAppDispatch();
   const [isHover, setIsHover] = useState(false);
   const [isEditable, setEditable] = useState(false);
@@ -65,13 +64,9 @@ const MessageItem: FC<MessageItemProps> = ({
   };
 
   return (
-    <Box
-      display='flex'
-      gap='1em'
-      alignItems='flex-start'
-      margin='0.25em 0'
-      flexDirection={fromYou ? "row-reverse" : "row"}
+    <MessageItemContainer
       // check
+      fromYou={fromYou}
       onMouseEnter={() => setIsHover(true)}
       onMouseLeave={() => setIsHover(false)}
     >
@@ -79,7 +74,6 @@ const MessageItem: FC<MessageItemProps> = ({
       <Box
         display='flex'
         width='fit-content'
-        maxWidth={breakpoint.down("tablet") ? "80%" : "60%"}
         justifyContent='flex-start'
         alignItems={fromYou ? "flex-end" : "flex-start"}
         flexDirection='column'
@@ -92,7 +86,7 @@ const MessageItem: FC<MessageItemProps> = ({
             onConfirmEdit={handleEditMessage}
           />
           {fromYou && isHover && (
-            <MessageAction fromYou={fromYou}>
+            <MessageAction>
               <MessageEditMenuAction
                 onDeleteMessage={handleDeleteMessage}
                 onEditMessage={() => setEditable(true)}
@@ -106,13 +100,13 @@ const MessageItem: FC<MessageItemProps> = ({
             Press <b>Enter</b> to update &minus; <b>Esc</b> to cancel
           </HintEdit>
         )}
-        <Box display='flex'>
-          <MessageItemTimer isLastMessage={lastChatter}>
+        {lastChatter && (
+          <MessageItemTimer>
             {moment(message.createdAt).calendar()}
           </MessageItemTimer>
-        </Box>
+        )}
       </Box>
-    </Box>
+    </MessageItemContainer>
   );
 };
 

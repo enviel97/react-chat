@@ -40,6 +40,17 @@ export const ChannelBodyContainer = styled.div`
   overflow: hidden;
 `;
 
+export const ChannelMessageContainer = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: fit-content;
+  max-height: 100%;
+  padding: 4em 2em 1em;
+  overflow-y: auto;
+  gap: 0.25em;
+`;
+
 export const ChannelFormContainer = styled.div`
   position: relative;
   height: fit-content;

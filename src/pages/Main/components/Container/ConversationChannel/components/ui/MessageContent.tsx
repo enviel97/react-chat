@@ -10,7 +10,7 @@ import {
   memo,
 } from "react";
 import { toast, ToastItem } from "react-toastify";
-import { MessageBodyContainer } from "../../styles/Message.decorate";
+import styled from "styled-components";
 import { EditContent } from "./Modal.content";
 interface MessageContentProps {
   isEditable: boolean;
@@ -20,6 +20,19 @@ interface MessageContentProps {
 
 const modalKey = "editConfirmKey";
 const toastWarningKey = "editConfirmKeyToast";
+
+export const MessageContentDecorate = styled.div`
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  white-space: pre-wrap;
+
+  &:focus[contenteditable="true"] {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: auto;
+  }
+`;
 
 const MessageContent: FC<MessageContentProps> = ({
   isEditable,
@@ -132,7 +145,7 @@ const MessageContent: FC<MessageContentProps> = ({
   };
 
   return (
-    <MessageBodyContainer
+    <MessageContentDecorate
       ref={messageRef}
       contentEditable={isEditable}
       suppressContentEditableWarning={true}
@@ -141,7 +154,7 @@ const MessageContent: FC<MessageContentProps> = ({
       role='textbox'
     >
       {content}
-    </MessageBodyContainer>
+    </MessageContentDecorate>
   );
 };
 

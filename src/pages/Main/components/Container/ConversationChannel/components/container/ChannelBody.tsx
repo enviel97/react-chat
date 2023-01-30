@@ -2,9 +2,7 @@ import useSocket from "@hooks/useSocket";
 import string from "@utils/string";
 import { memo, useEffect, useLayoutEffect } from "react";
 import { Event } from "@core/common/socket.define";
-import MessageItem from "../ui/MessageItem";
 import useAppDispatch from "@hooks/useAppDispatch";
-import { MessageContainer } from "../../styles/Message.decorate";
 import useAppSelector from "@hooks/useAppSelector";
 import {
   addMessages,
@@ -17,6 +15,8 @@ import MessageContainerLoading from "../ui/MessageContainerLoading";
 import { useParams } from "react-router-dom";
 import { updateLastMessage } from "@store/slices/conversations";
 import ChannelEmpty from "./ChannelEmpty";
+import MessageItem from "./MessageItem";
+import { ChannelMessageContainer } from "../../styles/Channel.decorate";
 
 const ChannelBody = () => {
   const { id = "" } = useParams();
@@ -75,7 +75,7 @@ const ChannelBody = () => {
 
   useLayoutEffect(() => {
     // Scroll to new messenger
-    const container = document.querySelector(`${MessageContainer}`);
+    const container = document.querySelector(`${ChannelMessageContainer}`);
     container?.scrollTo({
       top: container?.scrollHeight ?? window.innerHeight,
       left: 0,
@@ -88,7 +88,7 @@ const ChannelBody = () => {
   }
 
   return (
-    <MessageContainer>
+    <ChannelMessageContainer>
       {messages.length === 0 && <ChannelEmpty id={id} />}
       {messages.length !== 0 &&
         messages.map((mess, index, arr) => {
@@ -104,7 +104,7 @@ const ChannelBody = () => {
             />
           );
         })}
-    </MessageContainer>
+    </ChannelMessageContainer>
   );
 };
 
