@@ -14,42 +14,6 @@ export const SidebarContainer = styled.aside`
   }
 `;
 
-export const SideHeaderContainer = styled.header`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  margin-bottom: 0.2em;
-
-  font-size: 1.2rem;
-  padding: 1rem 1.2rem;
-  background-color: ${({ theme }) => theme.backgroundColor};
-  box-shadow: 0 -1em 1em ${({ theme }) => theme.black};
-
-  & .filter {
-    display: flex;
-    gap: 0.5em;
-    padding-top: 1.5em;
-
-    &--button {
-      width: 7em;
-      height: fit-content;
-    }
-  }
-
-  ${breakpoint.between("tablet", "mobile")} {
-    flex-direction: row;
-    & .filter {
-      flex-direction: column;
-      padding-top: 0;
-      padding-left: 1em;
-      margin-left: 1.5em;
-      border-left: 1px solid
-        ${({ theme }) => colorBrightness(theme.disableColor, -30)};
-    }
-  }
-`;
-
 export const SideItemsContainer = styled.div`
   width: 100%;
   display: flex;

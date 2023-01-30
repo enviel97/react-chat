@@ -1,11 +1,19 @@
 import { TextFieldSearchNeumorphism } from "@components/TextInput";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { selectedType } from "@store/slices/conversations";
-import { SideHeaderContainer } from "../../styles/Sidebar.decorate";
-import FilterButton from "../ui/FilterButton";
+import { useCallback } from "react";
+import FilterButton from "./components/ui/FilterButton";
+import { SideHeaderContainer, SideHeaderFilter } from "./styles";
 
 const SideHeader = () => {
   const dispatch = useAppDispatch();
+  const filter = useCallback(
+    (type: "direct" | "group") => {
+      dispatch(selectedType(type));
+    },
+    [dispatch]
+  );
+
   return (
     <SideHeaderContainer>
       <TextFieldSearchNeumorphism
@@ -13,16 +21,10 @@ const SideHeader = () => {
           throw new Error("Function not implemented.");
         }}
       />
-      <div className='filter'>
-        <FilterButton
-          text='Messenger'
-          onClick={() => dispatch(selectedType("direct"))}
-        />
-        <FilterButton
-          text='Group'
-          onClick={() => dispatch(selectedType("group"))}
-        />
-      </div>
+      <SideHeaderFilter>
+        <FilterButton text='Messenger' onClick={() => filter("direct")} />
+        <FilterButton text='Group' onClick={() => filter("group")} />
+      </SideHeaderFilter>
     </SideHeaderContainer>
   );
 };
