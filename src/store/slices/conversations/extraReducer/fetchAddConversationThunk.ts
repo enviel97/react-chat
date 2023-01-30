@@ -20,8 +20,8 @@ export const fetchAddConversationThunk = (
         const payload = action.payload;
         const conversation = payload.data;
         if (!conversation) return;
-        const adapter = getAdapterConversation(state);
-        adapter.upsertOne(state[state.type], conversation);
+        const { adapter, state: eState } = getAdapterConversation(state);
+        adapter.upsertOne(eState, conversation);
 
         //
         state.process = State.FULFILLED;

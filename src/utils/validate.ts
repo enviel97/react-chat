@@ -9,6 +9,10 @@ export const notEmpty = <TValue>(
   return true;
 };
 
+export const isIdle = (status: number) => {
+  return status === State.IDLE;
+};
+
 export const isLoading = (status: number) => {
   return status === State.PENDING;
 };

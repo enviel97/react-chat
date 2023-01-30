@@ -1,20 +1,22 @@
-import { PayloadAction } from "@reduxjs/toolkit";
+import { current, PayloadAction } from "@reduxjs/toolkit";
+import { ConversationState } from "@store/slices/state/conversation";
 import moment from "moment";
 import getAdapterConversation from "../utils/getAdapterConversation.";
 
 export const updateLastMessageAction = (
-  state: any,
+  state: ConversationState,
   action: PayloadAction<UpdateLastMessageConversationPayload>
 ) => {
   const payload = action.payload;
   if (payload.message === null) return;
-  const adapter = getAdapterConversation(state);
+  const { adapter, state: eState } = getAdapterConversation(state);
+
   const conversation = adapter
     .getSelectors()
-    .selectById(state, payload.conversationId);
+    .selectById(eState, payload.conversationId);
 
   if (!conversation) return;
-  adapter.updateOne(state, {
+  adapter.updateOne(eState, {
     id: payload.conversationId,
     changes: {
       lastMessage: payload.message,

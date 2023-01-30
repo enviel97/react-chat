@@ -5,6 +5,6 @@ export const addConversationAction = (
   state: any,
   action: PayloadAction<Conversation>
 ) => {
-  const adapter = getAdapterConversation(state);
-  return adapter.upsertOne(state, action);
+  const { adapter, state: eState } = getAdapterConversation(state);
+  adapter.upsertOne(eState, action);
 };

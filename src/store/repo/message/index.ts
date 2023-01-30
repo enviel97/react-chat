@@ -6,6 +6,7 @@ export const fetchAddMessages = createAsyncThunk(
   "messages/create",
   async (request: RequestSendMessage, { dispatch }) => {
     const result = await postMessage(request);
+
     if (result.data) {
       const message = result.data;
       dispatch(

@@ -9,6 +9,9 @@ export const fetchAddMessageThunk = (builder: MessageExtraBuilder) => {
     (state, action: PayloadAction<Response<any>>) => {
       const payload = action.payload;
       const message = payload.data;
+      console.log({
+        ...action,
+      });
       messagesAdapter.upsertOne(state, message);
     }
   );
