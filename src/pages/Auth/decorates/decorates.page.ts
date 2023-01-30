@@ -10,10 +10,11 @@ interface AnimationProps {
 
 export const AuthPage = styled(Page)<AnimationProps>`
   width: 100vw;
-  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow-y: visible;
+
   &::before {
     content: "${({ active }) => (active ? "Sign Up" : "Sign In")}";
     transition: 0.5s;
@@ -28,9 +29,10 @@ export const AuthPage = styled(Page)<AnimationProps>`
     text-shadow: -8px -8px 12px ${({ theme }) => colorBrightness(theme.backgroundColor, -10)}99,
       8px 8px 12px
         ${({ theme }) => colorBrightness(theme.backgroundColor, 10)}14;
-    left: ${({ active }) => (!active ? "60%" : "0")};
+    left: ${({ active }) => (!active ? "calc(100vw - 28rem)" : "0")};
+    right: ${({ active }) => (!active ? "0" : "calc(100vw - 28rem)")};
 
-    ${breakpoint.down("laptop")} {
+    ${breakpoint.down("tablet")} {
       padding: 2rem;
       left: 0;
       height: 10rem;
@@ -46,7 +48,7 @@ export const Box = styled.div`
   height: 80%;
   width: 100%;
   background: ${({ theme }) => theme.backgroundColor}80;
-  box-shadow: 0 0 15px
+  box-shadow: 0 0 5em
     ${({ theme }) => colorBrightness(theme.backgroundColor, 10)}45;
 `;
 
@@ -70,7 +72,7 @@ export const FormContainer = styled.div<AnimationProps>`
   background-color: ${({ theme }) => theme.backgroundColor};
   height: 100%;
   width: 50%;
-  box-shadow: 0 0 15px ${({ theme }) => theme.disableColor}45;
+  box-shadow: 0 0 5em ${({ theme }) => theme.disableColor}45;
   transition: 0.5s ease-in-out;
   overflow: hidden;
 
@@ -86,7 +88,7 @@ export const FormContainer = styled.div<AnimationProps>`
     transition-delay: ${({ active }) => (active ? "0.25s" : "0")};
   }
 
-  ${breakpoint.down("laptop")} {
+  ${breakpoint.down("tablet")} {
     left: 0;
     top: ${({ active }) => (active ? "15%" : "0")};
   }
@@ -116,11 +118,8 @@ export const Container = styled.div`
   }
 
   ${breakpoint.down("tablet")} {
-    width: 90vw;
-  }
-
-  ${breakpoint.down("mobile")} {
     height: 80vh;
+    width: 50vw;
 
     & ${Box} {
       top: 0;
