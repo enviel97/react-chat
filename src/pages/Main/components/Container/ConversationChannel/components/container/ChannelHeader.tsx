@@ -18,7 +18,7 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
     <SkeletonContainer>
       <ChannelHeaderContainer>
         <CircleAvatar isLoading={!conversationId} />
-        <HeaderConversation className='channelName' channel={channel} />
+        <HeaderConversation channel={channel} />
       </ChannelHeaderContainer>
     </SkeletonContainer>
   );

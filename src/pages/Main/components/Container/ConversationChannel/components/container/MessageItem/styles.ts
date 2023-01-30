@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { MessageContentDecorate } from "../../../ui/MessageContent";
+import { MessageContentDecorate } from "../../ui/MessageContent";
 interface MessageItemContainerProps {
   fromYou: boolean;
 }

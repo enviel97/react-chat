@@ -6,7 +6,6 @@ import styled from "styled-components";
 
 interface HeaderConversationProps {
   channel?: Conversation;
-  className?: string;
 }
 
 const HeaderConversationContainer = styled.h4`
@@ -22,10 +21,7 @@ const HeaderConversationContainer = styled.h4`
   -webkit-box-orient: vertical;
 `;
 
-const HeaderConversation: FC<HeaderConversationProps> = ({
-  channel,
-  className,
-}) => {
+const HeaderConversation: FC<HeaderConversationProps> = ({ channel }) => {
   const { isUser } = useAuthenticate();
 
   const conversationName = useMemo(() => {
@@ -42,7 +38,7 @@ const HeaderConversation: FC<HeaderConversationProps> = ({
   return (
     <SkeletonContainer>
       <SkeletonElement isLoading={!channel}>
-        <HeaderConversationContainer className={className}>
+        <HeaderConversationContainer>
           {conversationName}
         </HeaderConversationContainer>
       </SkeletonElement>

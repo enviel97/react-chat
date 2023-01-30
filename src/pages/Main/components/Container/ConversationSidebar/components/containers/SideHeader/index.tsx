@@ -3,7 +3,10 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import { selectedType } from "@store/slices/conversations";
 import { useCallback } from "react";
 import FilterButton from "./components/ui/FilterButton";
-import { SideHeaderContainer, SideHeaderFilter } from "./styles";
+import {
+  SideHeaderContainer,
+  SideHeaderFilter,
+} from "./styles/SideHeader.decorate";
 
 const SideHeader = () => {
   const dispatch = useAppDispatch();

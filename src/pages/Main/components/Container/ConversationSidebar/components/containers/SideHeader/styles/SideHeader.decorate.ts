@@ -6,6 +6,16 @@ export const SideHeaderFilter = styled.div`
   display: flex;
   gap: 0.5em;
   padding-top: 1.5em;
+  width: 100%;
+  & .button {
+    flex: 1;
+  }
+  ${breakpoint.between("tablet", "mobile")} {
+    width: fit-content;
+    & .button {
+      width: 7em;
+    }
+  }
 `;
 
 export const SideHeaderContainer = styled.header`

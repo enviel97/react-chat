@@ -1,20 +1,11 @@
 import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import { Box } from "@utils/styles";
+import { ChannelMessageContainer } from "../../styles/Channel.decorate";
 
 const MessageContainerLoading = () => (
   <SkeletonContainer>
-    <Box
-      style={{
-        padding: "4em 2em 1em",
-        maxHeight: "67vh",
-        overflow: "hidden",
-      }}
-      display='flex'
-      flexDirection='column'
-      justifyContent='flex-start'
-      gap='1em'
-    >
+    <ChannelMessageContainer>
       {Array.from({ length: 10 }, (_, i) => (
         <Box
           key={i}
@@ -28,7 +19,7 @@ const MessageContainerLoading = () => (
           <SkeletonElement width={250} count={2} isLoading />
         </Box>
       ))}
-    </Box>
+    </ChannelMessageContainer>
   </SkeletonContainer>
 );
 export default MessageContainerLoading;

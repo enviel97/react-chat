@@ -21,7 +21,6 @@ const FilterButton: FC<FilterButtonProps> = function ({ text, onClick }) {
       text={text}
       color={color}
       onClick={onClick}
-      width={"7em"}
       height={"fit-content"}
     />
   );

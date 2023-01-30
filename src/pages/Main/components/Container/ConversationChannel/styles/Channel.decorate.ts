@@ -25,7 +25,7 @@ export const ChannelHeaderContainer = styled.div`
   background-color: ${({ theme }) => theme.backgroundColor};
   box-shadow: 0 1rem 1rem ${({ theme }) => theme.black};
   z-index: ${zIndex.ChannelHeader};
-  & .channelName {
+  & h4 {
     font-weight: normal;
     font-size: inherit;
   }
@@ -46,9 +46,12 @@ export const ChannelMessageContainer = styled.div`
   flex-direction: column;
   height: fit-content;
   max-height: 100%;
-  padding: 4em 2em 1em;
   overflow-y: auto;
   gap: 0.25em;
+  padding: 4em 1em 1em;
+  ${breakpoint.down("mobile")} {
+    padding: 4em 0.5em 1em;
+  }
 `;
 
 export const ChannelFormContainer = styled.div`

@@ -14,7 +14,7 @@ import {
   MessageContentContainer,
   MessageItemContainer,
   MessageItemTimer,
-} from "./styles/MessageItem.decorate";
+} from "./styles";
 
 interface MessageItemProps {
   message: Message;
