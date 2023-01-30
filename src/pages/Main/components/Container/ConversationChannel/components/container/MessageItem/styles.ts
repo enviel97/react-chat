@@ -1,10 +1,6 @@
 import styled from "styled-components";
-import { MessageContentDecorate } from "../../ui/MessageContent";
-interface MessageItemContainerProps {
-  fromYou: boolean;
-}
 
-export const MessageItemContainer = styled.div<MessageItemContainerProps>`
+export const MessageItemContainer = styled.div<MessageStyledProps>`
   display: flex;
   gap: 0.5em;
   align-items: flex-start;
@@ -17,12 +13,6 @@ export const MessageContentContainer = styled.div<MessageStyledProps>`
   gap: 0.5em;
   align-items: center;
   justify-content: center;
-
-  & ${MessageContentDecorate} {
-    max-width: 50vw;
-    background-color: ${({ fromYou, theme }) =>
-      fromYou ? theme.secondaryColor : theme.surfaceColor};
-  }
 `;
 
 export const HintEdit = styled.span`

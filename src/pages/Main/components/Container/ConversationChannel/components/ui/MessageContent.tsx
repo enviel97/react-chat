@@ -12,19 +12,25 @@ import {
 import { toast, ToastItem } from "react-toastify";
 import styled from "styled-components";
 import { EditContent } from "./Modal.content";
+import PromiseLoading from "./PromiseLoading";
 interface MessageContentProps {
   isEditable: boolean;
   message: string;
+  fromYou: boolean;
   onConfirmEdit: (value?: string) => void;
 }
 
 const modalKey = "editConfirmKey";
 const toastWarningKey = "editConfirmKeyToast";
 
-export const MessageContentDecorate = styled.div`
+export const MessageContentDecorate = styled.div<MessageStyledProps>`
+  position: relative;
   padding: 0.75rem 1rem;
   border-radius: 10px;
   white-space: pre-wrap;
+  max-width: 50vw;
+  background-color: ${({ fromYou, theme }) =>
+    fromYou ? theme.secondaryColor : theme.surfaceColor};
 
   &:focus[contenteditable="true"] {
     display: -webkit-box;
@@ -38,6 +44,7 @@ const MessageContent: FC<MessageContentProps> = ({
   isEditable,
   message,
   onConfirmEdit,
+  fromYou,
 }) => {
   const [content, setContent] = useState(message);
   const messageRef = useRef<HTMLDivElement | null>(null);
@@ -146,6 +153,7 @@ const MessageContent: FC<MessageContentProps> = ({
 
   return (
     <MessageContentDecorate
+      fromYou={fromYou}
       ref={messageRef}
       contentEditable={isEditable}
       suppressContentEditableWarning={true}
@@ -154,6 +162,7 @@ const MessageContent: FC<MessageContentProps> = ({
       role='textbox'
     >
       {content}
+      <PromiseLoading promise={async function () {}} />
     </MessageContentDecorate>
   );
 };

@@ -84,6 +84,7 @@ const MessageItem: FC<MessageItemProps> = ({
             isEditable={isEditable}
             message={message.content}
             onConfirmEdit={handleEditMessage}
+            fromYou={fromYou}
           />
           {fromYou && isHover && (
             <MessageAction>
