@@ -3,4 +3,5 @@ interface BackdropProps extends Components {
 }
 interface BackdropDecorate {
   overlayColor?: string;
+  blur?: boolean;
 }
