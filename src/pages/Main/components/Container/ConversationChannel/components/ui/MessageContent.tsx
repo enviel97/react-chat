@@ -12,7 +12,7 @@ import {
 import { toast, ToastItem } from "react-toastify";
 import styled from "styled-components";
 import { EditContent } from "./Modal.content";
-import PromiseLoading from "./PromiseLoading";
+
 interface MessageContentProps {
   isEditable: boolean;
   message: string;
