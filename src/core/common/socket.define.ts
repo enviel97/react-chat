@@ -14,4 +14,5 @@ export const Event = Object.freeze({
   EVENT_MESSAGE_EDITED: "onMessageEdited",
 
   EVENT_SOCKET_CONNECTED: "connected",
+  EVENT_SOCKET_ERROR: "connect_error",
 });

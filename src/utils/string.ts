@@ -16,10 +16,18 @@ const classList = (...className: any[]) => {
   return className.filter(notEmpty<string>).join(" ");
 };
 
-const getId = (object?: any) => {
+const getId = (object?: any): string => {
   if (!object) throw Error("Object is empty");
   if (typeof object === "string") return object;
   return (object.id ?? object._id).toString();
+};
+
+const genId = (prefix?: string) => {
+  const dateStr = Date.now().toString(36); // convert num to base 36 and stringify
+
+  const randomStr = Math.random().toString(36).substring(2, 8); // start at index 2 to skip decimal point
+
+  return `${prefix ?? ""}${dateStr}-${randomStr}`;
 };
 
 const toCapitalize = (str: string) => {
@@ -34,6 +42,7 @@ const string = {
   classList,
   getId,
   toCapitalize,
+  genId,
 };
 
 export default string;

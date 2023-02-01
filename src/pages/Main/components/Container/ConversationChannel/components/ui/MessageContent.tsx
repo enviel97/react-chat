@@ -162,7 +162,6 @@ const MessageContent: FC<MessageContentProps> = ({
       role='textbox'
     >
       {content}
-      <PromiseLoading promise={async function () {}} />
     </MessageContentDecorate>
   );
 };

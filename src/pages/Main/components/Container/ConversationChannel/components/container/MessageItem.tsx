@@ -5,16 +5,18 @@ import moment from "moment";
 import { FC, memo, useMemo, useState } from "react";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { fetchDeleteMessages, fetchEditMessages } from "@store/repo/message";
-import MessageAvatar from "../../ui/MessageAvatar";
-import MessageContent from "../../ui/MessageContent";
-import MessageEditMenuAction from "../MessageEditMenuAction";
+import MessageAvatar from "../ui/MessageAvatar";
+import MessageContent from "../ui/MessageContent";
+import MessageEditMenuAction from "./MessageEditMenuAction";
 import {
   HintEdit,
   MessageAction,
   MessageContentContainer,
   MessageItemContainer,
   MessageItemTimer,
-} from "./styles";
+} from "../../styles/Message.decorate";
+import PromiseLoading from "../ui/PromiseLoading";
+import messageUtils from "@store/repo/message/utils";
 
 interface MessageItemProps {
   message: Message;
@@ -33,12 +35,21 @@ const MessageItem: FC<MessageItemProps> = ({
   const [isEditable, setEditable] = useState(false);
 
   const fromYou = useMemo(
-    () => string.getId(message.author) === string.getId(user!),
-    [message.author, user]
+    () =>
+      messageUtils.isTemp(message)
+        ? true
+        : string.getId(message.author) === string.getId(user!),
+    [message, user]
   );
 
-  const getAvatar =
-    !preChatter || string.getId(preChatter) !== string.getId(message.author);
+  const getAvatar = useMemo(
+    () =>
+      messageUtils.isTemp(message)
+        ? false
+        : !preChatter ||
+          string.getId(preChatter) !== string.getId(message.author),
+    [message, preChatter]
+  );
 
   const isEdited = message.createdAt !== message.updatedAt;
 
@@ -94,6 +105,7 @@ const MessageItem: FC<MessageItemProps> = ({
               />
             </MessageAction>
           )}
+          <PromiseLoading messageId={`${string.getId(message)}`} />
         </MessageContentContainer>
         {isEdited && <HintEdit>Edited</HintEdit>}
         {isEditable && (

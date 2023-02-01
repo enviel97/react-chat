@@ -24,8 +24,12 @@ export const SocketProvider = ({ children }: Components) => {
         payload,
       });
     });
+    socket.on(Event.EVENT_SOCKET_ERROR, (err) => {
+      console.log(`connect_error due to ${err.message}`);
+    });
     return () => {
       socket.off(Event.EVENT_SOCKET_CONNECTED);
+      socket.off(Event.EVENT_SOCKET_ERROR);
     };
   }, []);
 

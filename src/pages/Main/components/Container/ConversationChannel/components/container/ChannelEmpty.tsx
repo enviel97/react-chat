@@ -1,6 +1,7 @@
 import { ButtonText } from "@components/Button";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { fetchAddMessages } from "@store/repo/message";
+import string from "@utils/string";
 import { Box } from "@utils/styles";
 import { FC } from "react";
 import styled from "styled-components";
@@ -13,7 +14,13 @@ const ButtonTextCustom = styled(ButtonText)`
 const ChannelEmpty: FC<{ id: string }> = ({ id }) => {
   const dispatch = useAppDispatch();
   const onClick = () => {
-    dispatch(fetchAddMessages({ conversationId: id, message: "👋" }));
+    dispatch(
+      fetchAddMessages({
+        tempId: string.genId("Temp"),
+        conversationId: id,
+        message: "👋",
+      })
+    );
   };
 
   return (

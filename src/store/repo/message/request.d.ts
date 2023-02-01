@@ -1,4 +1,5 @@
 interface RequestSendMessage {
+  tempId: string;
   conversationId: string;
   message: string;
 }

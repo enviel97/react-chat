@@ -12,7 +12,7 @@ const showToast = (message: string) => {
 };
 const client = axios.create({
   baseURL: baseUrlAPI,
-  timeout: 3000, // 3s
+  timeout: 5000, // 5s
   timeoutErrorMessage: "Timeout error",
   headers: {
     "Content-Type": "application/json",

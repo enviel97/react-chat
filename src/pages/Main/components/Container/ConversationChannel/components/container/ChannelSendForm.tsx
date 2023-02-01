@@ -4,6 +4,7 @@ import { Event } from "@core/common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
 import { fetchAddMessages } from "@store/repo/message";
+import string from "@utils/string";
 import { FC, FormEvent, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { TbSend } from "react-icons/tb";
@@ -46,6 +47,7 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
     if (!value) return;
     dispatch(
       fetchAddMessages({
+        tempId: string.genId("Temp"),
         conversationId: id,
         message: value,
       })

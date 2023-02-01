@@ -21,7 +21,10 @@ export const fetchMessageThunk = (builder: MessageExtraBuilder) => {
           messagesAdapter.removeAll(state);
         }
         if (!pagination?.data) return;
-        messagesAdapter.upsertMany(state, pagination.data);
+        messagesAdapter.upsertMany(
+          state,
+          pagination.data.map((m) => ({ ...m, modified: State.FULFILLED }))
+        );
         //
         state.process = State.FULFILLED;
       }
