@@ -58,7 +58,7 @@ const PromiseLoading: FC<{ messageId: string }> = ({ messageId }) => {
         <KTooltip
           id='tooltip'
           anchorId={hintId}
-          content={isPending ? "Sending" : hasError ? "Error" : "Success"}
+          content={isPending ? "Sending" : hasError ? "Error" : "Sent"}
           place={"top"}
         />
       </PromiseLoadingContainer>
