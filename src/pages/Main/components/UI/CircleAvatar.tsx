@@ -4,6 +4,9 @@ import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
 import { FC, memo, useEffect, useState } from "react";
 import string from "@utils/string";
 import local from "@common/local.define";
+import { State } from "@store/common/state";
+import { isError, isSuccess } from "@utils/validate";
+import { BiError } from "react-icons/bi";
 
 interface CircleAvatarDecorate {
   size?: number;
@@ -27,13 +30,20 @@ const CircleAvatarContainer = styled.div<CircleAvatarDecorate>`
   border: 2px solid currentColor;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
 
   &.story {
     border-radius: 50%;
     border: 2px solid
       ${({ mainColor, theme }) =>
         colorBrightness(mainColor ?? theme.primaryColor, 50)};
+  }
+
+  & svg {
+    position: absolute;
+    height: fit-content;
+    width: fit-content;
+    bottom: -15%;
+    right: -15%;
   }
 
   & img {
@@ -60,20 +70,22 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
   isLoading,
   src,
 }) => {
-  const [imgSrc, setImgSrc] = useState(local.image.UnknownAvatar);
-  const [imgLoaded, setImgLoaded] = useState(false);
+  const placeHolder = local.image.UnknownAvatar;
+  const [imgSrc, setImgSrc] = useState(placeHolder);
+  const [imgLoaded, setImgLoaded] = useState<State>(State.IDLE);
   const _size = pxToEm(size ?? 36);
 
   useEffect(() => {
-    if (!src) {
-      setImgLoaded(true);
-      return;
-    }
+    if (!src) return;
     const img = new Image();
     img.src = src;
+    img.onloadstart = () => {};
     img.onload = () => {
-      setImgSrc(src);
-      setImgLoaded(true);
+      setImgSrc(img.src);
+      setImgLoaded(State.FULFILLED);
+    };
+    img.onerror = () => {
+      setImgLoaded(State.ERROR);
     };
   }, [src]);
 
@@ -91,10 +103,13 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
           size={size}
         >
           <img
-            className={string.classList(imgLoaded && "loaded")}
+            className={string.classList(
+              (imgSrc === placeHolder || isSuccess(imgLoaded)) && "loaded"
+            )}
             src={imgSrc}
             alt=''
           />
+          {isError(imgLoaded) && <BiError color='red' />}
         </CircleAvatarContainer>
       </SkeletonElement>
     </SkeletonContainer>
