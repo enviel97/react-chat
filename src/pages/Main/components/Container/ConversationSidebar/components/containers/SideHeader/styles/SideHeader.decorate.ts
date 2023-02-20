@@ -1,5 +1,5 @@
-import { breakpoint } from "@common/helper/breakpoint";
-import { colorBrightness } from "@common/helper/tools";
+import { breakpoint } from "@theme/helper/breakpoint";
+import { colorBrightness } from "@theme/helper/tools";
 import styled from "styled-components";
 
 export const SideHeaderFilter = styled.div`

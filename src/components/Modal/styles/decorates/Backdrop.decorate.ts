@@ -1,4 +1,4 @@
-import { zIndex } from "@core/common/zIndex.define";
+import { zIndex } from "@common/zIndex.define";
 import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
 

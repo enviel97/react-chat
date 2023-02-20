@@ -1,4 +1,4 @@
-import { Event } from "@core/common/socket.define";
+import { Event } from "@common/socket.define";
 import useAuthenticate from "@hooks/useAuthenticate";
 import useSocket from "@hooks/useSocket";
 import string from "@utils/string";

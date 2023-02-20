@@ -1,4 +1,4 @@
-import { Event } from "@core/common/socket.define";
+import { Event } from "@common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
 import useSocket from "@hooks/useSocket";

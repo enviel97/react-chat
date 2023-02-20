@@ -1,4 +1,4 @@
-import { colorBrightness, colorTheme } from "@common/helper/tools";
+import { colorBrightness, colorTheme } from "@theme/helper/tools";
 import string from "@utils/string";
 import styled from "styled-components";
 

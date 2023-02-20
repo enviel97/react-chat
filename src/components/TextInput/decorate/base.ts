@@ -1,4 +1,4 @@
-import { colorTheme } from "@common/helper/tools";
+import { colorTheme } from "@theme/helper/tools";
 import styled from "styled-components";
 
 const _fillColor = ({ filled, theme }: any) =>

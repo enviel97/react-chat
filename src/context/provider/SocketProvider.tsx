@@ -1,5 +1,5 @@
-import { baseUrlSocket } from "@core/common/config.define";
-import { Event } from "@core/common/socket.define";
+import { baseUrlSocket } from "@common/config.define";
+import { Event } from "@common/socket.define";
 import useAuthenticate from "@hooks/useAuthenticate";
 import { createContext, useEffect } from "react";
 import { io } from "socket.io-client";

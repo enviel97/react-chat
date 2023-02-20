@@ -1,4 +1,4 @@
-import { colorBrightness, colorTheme } from "@common/helper/tools";
+import { colorBrightness, colorTheme } from "@theme/helper/tools";
 import { motion } from "framer-motion";
 import { FC, useId } from "react";
 import { Tooltip } from "react-tooltip";

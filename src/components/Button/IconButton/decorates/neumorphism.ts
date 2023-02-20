@@ -1,7 +1,7 @@
 import {
   neumorphismBoxShadow,
   neumorphismBoxShadowInset,
-} from "@common/helper/tools";
+} from "@theme/helper/tools";
 import styled from "styled-components";
 
 export const Neumorphism = styled.div<{

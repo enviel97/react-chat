@@ -23,6 +23,9 @@
       "@common/*": ["common/*"],
       "@common": ["common"],
 
+      "@theme/*": ["theme/*"],
+      "@theme": ["theme"],
+
       "@hooks/*": ["hooks/*"],
       "@hooks": ["hooks"],
 

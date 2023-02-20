@@ -1,5 +1,5 @@
-import { breakpoint } from "@common/helper/breakpoint";
-import { zIndex } from "@core/common/zIndex.define";
+import { breakpoint } from "@theme/helper/breakpoint";
+import { zIndex } from "@common/zIndex.define";
 import styled from "styled-components";
 
 export const ChannelContainer = styled.div`

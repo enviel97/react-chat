@@ -1,4 +1,4 @@
-import { neumorphismBoxShadowInset } from "@common/helper/tools";
+import { neumorphismBoxShadowInset } from "@theme/helper/tools";
 import { createGlobalStyle } from "styled-components";
 import { breakpoint } from "../helper/breakpoint";
 import { typography } from "../helper/typography";
@@ -40,7 +40,7 @@ const GlobalStyle = createGlobalStyle`
   }
 
   html {
-
+    height: 100%;
     /* resize */ 
     font-size: 100%;
     ${breakpoint.down("desktop")} {

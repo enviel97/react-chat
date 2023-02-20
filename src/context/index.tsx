@@ -1,11 +1,11 @@
-import ThemeProvider from "@common/theme";
+import ThemeProvider from "@theme";
 import ModalProvider from "@components/Modal";
 import ToastProvider from "@components/Toast";
 import { FC, useEffect } from "react";
-import { AuthProvider } from "./AuthContext";
+import { AuthProvider } from "./provider/AuthProvider";
 import { Provider as ReduxProvider } from "react-redux";
 import { store } from "@store";
-import { SocketProvider } from "./SocketIOContext";
+import { SocketProvider } from "./provider/SocketProvider";
 
 const MultiProvider: FC<Components> = ({ children }) => {
   useEffect(() => {

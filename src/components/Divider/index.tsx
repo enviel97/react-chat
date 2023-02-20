@@ -1,4 +1,4 @@
-import { colorBrightness } from "@common/helper/tools";
+import { colorBrightness } from "@theme/helper/tools";
 import Spacing from "@components/Spacing";
 import styled from "styled-components";
 

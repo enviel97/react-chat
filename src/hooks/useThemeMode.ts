@@ -1,4 +1,4 @@
-import { ThemeModeContext } from "@common/theme";
+import { ThemeModeContext } from "@theme";
 import { useContext } from "react";
 
 const useThemeMode = () => {

@@ -1,5 +1,5 @@
 // import MobileDetect from "mobile-detect";
-// import { DevicesValue } from "@common/helper/breakpoint";
+// import { DevicesValue } from "@theme/helper/breakpoint";
 
 // const device = new MobileDetect(window.navigator.userAgent);
 

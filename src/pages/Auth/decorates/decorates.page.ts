@@ -1,6 +1,6 @@
-import { breakpoint } from "@common/helper/breakpoint";
-import { colorBrightness } from "@common/helper/tools";
-import { typography } from "@common/helper/typography";
+import { breakpoint } from "@theme/helper/breakpoint";
+import { colorBrightness } from "@theme/helper/tools";
+import { typography } from "@theme/helper/typography";
 import styled from "styled-components";
 import { Page } from "@utils/styles";
 

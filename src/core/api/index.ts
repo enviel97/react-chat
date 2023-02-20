@@ -1,4 +1,4 @@
-import { baseUrlAPI } from "@core/common/config.define";
+import { baseUrlAPI } from "@common/config.define";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { safeLog } from "./utils/logger";

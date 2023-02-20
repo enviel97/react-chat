@@ -1,6 +1,6 @@
 import { ButtonIconNeumorphism } from "@components/Button";
 import { TextFieldNeumorphism } from "@components/TextInput";
-import { Event } from "@core/common/socket.define";
+import { Event } from "@common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
 import { fetchAddMessages } from "@store/repo/message";

@@ -1,21 +1,26 @@
 import styled from "styled-components";
-import { colorBrightness, pxToEm } from "@common/helper/tools";
+import { colorBrightness, pxToEm } from "@theme/helper/tools";
 import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
 import { FC } from "react";
 import string from "@utils/string";
 
-interface CircleAvatarProps {
+interface CircleAvatarDecorate {
   size?: number;
   mainColor?: string;
+}
+
+interface CircleAvatarAtr {
   className?: string;
   src?: string;
   isLoading?: boolean;
 }
 
-const CircleAvatarContainer = styled.div<CircleAvatarProps>`
+type CircleAvatarProps = CircleAvatarAtr & CircleAvatarDecorate;
+
+const CircleAvatarContainer = styled.div<CircleAvatarDecorate>`
   width: ${({ size }) => pxToEm(size ?? 36)};
   aspect-ratio: 1;
-  color: ${({ mainColor, theme }) => mainColor ?? theme.primaryColor};
+  color: ${({ mainColor, theme }) => mainColor ?? theme.disableColor};
   background-color: currentColor;
   border-radius: 50%;
   border: 2px solid currentColor;
@@ -50,7 +55,10 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
           className={string.classList(className)}
           mainColor={mainColor}
           size={size}
-        />
+        >
+          {!src && <img src='assets/unknown.png' />}
+          {src && <img src={src} />}
+        </CircleAvatarContainer>
       </SkeletonElement>
     </SkeletonContainer>
   );

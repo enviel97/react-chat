@@ -14,6 +14,7 @@ module.exports = {
       "@core": path.resolve(__dirname, "src/core"),
       "@pages": path.resolve(__dirname, "src/pages"),
       "@common": path.resolve(__dirname, "src/common"),
+      "@theme": path.resolve(__dirname, "src/theme"),
       "@hooks": path.resolve(__dirname, "src/hooks"),
       "@utils": path.resolve(__dirname, "src/utils"),
       "@store": path.resolve(__dirname, "src/store"),

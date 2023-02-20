@@ -1,4 +1,4 @@
-import { pxToEm } from "@common/helper/tools";
+import { pxToEm } from "@theme/helper/tools";
 import string from "@utils/string";
 import { FC } from "react";
 import Skeleton, { SkeletonProps, SkeletonTheme } from "react-loading-skeleton";

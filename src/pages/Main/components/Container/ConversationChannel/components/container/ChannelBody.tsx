@@ -1,7 +1,7 @@
 import useSocket from "@hooks/useSocket";
 import string from "@utils/string";
 import { memo, useCallback, useEffect, useLayoutEffect, useRef } from "react";
-import { Event } from "@core/common/socket.define";
+import { Event } from "@common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
 import {

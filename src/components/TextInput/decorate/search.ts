@@ -1,4 +1,4 @@
-import { neumorphismBoxShadow } from "@common/helper/tools";
+import { neumorphismBoxShadow } from "@theme/helper/tools";
 import styled from "styled-components";
 import { FloatingLabel } from "./base";
 

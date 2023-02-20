@@ -1,4 +1,4 @@
-import { Devices, DevicesValue } from "@common/helper/breakpoint";
+import { Devices, DevicesValue } from "@theme/helper/breakpoint";
 import { useState, useCallback, useLayoutEffect } from "react";
 
 const useBreakpoint = () => {
