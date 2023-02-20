@@ -9,7 +9,7 @@ export const Neumorphism = styled.div<{
   size?: string;
   color?: string;
 }>`
-  width: ${({ size }) => size ?? "fit-content"};
+  height: ${({ size }) => size ?? "fit-content"};
   aspect-ratio: 1 / 1;
   color: ${({ textColor, theme }) => textColor ?? theme.onBackgroundColor};
 

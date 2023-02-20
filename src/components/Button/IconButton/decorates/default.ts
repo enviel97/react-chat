@@ -10,7 +10,7 @@ interface ButtonIconProps {
 
 export const ButtonIconDecorate = styled.div<ButtonIconProps>`
   position: relative;
-  width: ${({ size }) => size ?? "fit-content"};
+  height: ${({ size }) => size ?? "fit-content"};
 
   cursor: pointer;
   aspect-ratio: 1 / 1;
