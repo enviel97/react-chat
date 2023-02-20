@@ -1,4 +1,4 @@
 const local = Object.freeze({
-  image: { UnknownAvatar: import("../assets/unknown.png") },
+  image: { UnknownAvatar: require("../assets/unknown.png") },
 });
 export default local;

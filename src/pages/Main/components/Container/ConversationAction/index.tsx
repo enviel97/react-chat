@@ -13,7 +13,7 @@ const ConversationAction: FC<ConversationActionProps> = () => {
   return (
     <ConversationSidebarContainer>
       <ConversationActionContainer>
-        <CircleAvatar size={40} />
+        <CircleAvatar size={48} />
         <Placeholder height='0.5em' width='auto' />
         <AddChatButton />
         <FriendsChatButton />
