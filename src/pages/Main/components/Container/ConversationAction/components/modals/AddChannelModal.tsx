@@ -42,8 +42,8 @@ interface ConversationCreate {
 const AddChannelModal: FC<{
   onSubmitted: (data: ConversationCreate) => void;
 }> = ({ onSubmitted }) => {
-  const { register, handleSubmit } = useForm<ConversationCreate>();
-
+  const { register, handleSubmit, watch } = useForm<ConversationCreate>();
+  const watchAllFields = watch();
   const onSubmit = (data: ConversationCreate) => {
     onSubmitted(data);
   };
@@ -83,7 +83,12 @@ const AddChannelModal: FC<{
           filled='surface'
           register={register("message")}
         />
-        <ButtonText type='submit' text={"Create Conversation"} />
+        <ButtonText
+          type='submit'
+          text={"Create Conversation"}
+          color='secondary'
+          disabled={!watchAllFields.user}
+        />
       </AddChannelForm>
     </AddChannelModalContainer>
   );

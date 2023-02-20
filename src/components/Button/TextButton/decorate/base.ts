@@ -29,6 +29,11 @@ export const Base = styled.div<{
     align-items: center;
     justify-content: center;
 
+    &:disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
     border: 2px solid
       ${({ color, theme }) => colorBrightness(colorTheme({ color, theme }), -2)};
     box-shadow: 0.3em 0.3em 0.4em

@@ -5,7 +5,7 @@ import AddChannelModal from "../modals/AddChannelModal";
 import { useNavigate } from "react-router-dom";
 import string from "@utils/string";
 import { PromiseToast } from "@components/Toast/promise";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 import ActionButton from "../ui/ActionButton";
 
 const modalKey = "CreateConversationModal";
@@ -64,4 +64,4 @@ const AddChatButton = () => {
   return <ActionButton icon='Add conversation' onClick={_editButton} />;
 };
 
-export default AddChatButton;
+export default memo(AddChatButton);

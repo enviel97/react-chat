@@ -1,3 +1,4 @@
+import { memo } from "react";
 import ActionButton from "../ui/ActionButton";
 
 const FriendsChatButton = () => {
@@ -11,4 +12,4 @@ const FriendsChatButton = () => {
   );
 };
 
-export default FriendsChatButton;
+export default memo(FriendsChatButton);
