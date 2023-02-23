@@ -1,7 +1,7 @@
 const SliceName = Object.freeze({
   conversation: "conversation",
   message: "message",
-  groupConversation: "groupConversation",
+  user: "user",
 });
 
 export default SliceName;

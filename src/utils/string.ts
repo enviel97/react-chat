@@ -1,4 +1,5 @@
 import moment from "moment";
+import styled from "styled-components";
 import { notEmpty } from "./validate";
 
 const getFullName = (user: User) => `${user.lastName} ${user.firstName}`;
@@ -35,6 +36,8 @@ const toCapitalize = (str: string) => {
   return first.toUpperCase() + other;
 };
 
+const toClassName = (component: any) => component.toString().substring(1);
+
 const string = {
   getFullName,
   chatFromNow,
@@ -43,6 +46,7 @@ const string = {
   getId,
   toCapitalize,
   genId,
+  toClassName,
 };
 
 export default string;

@@ -24,6 +24,7 @@ const SideHeader = () => {
           throw new Error("Function not implemented.");
         }}
       />
+
       <SideHeaderFilter>
         <FilterButton text='Messenger' onClick={() => filter("direct")} />
         <FilterButton text='Group' onClick={() => filter("group")} />

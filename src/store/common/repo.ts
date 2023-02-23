@@ -7,3 +7,5 @@ export const CONVERSATION_CREATE_SINGLE = "/conversations";
 
 export const MESSAGE_POST = "/messages";
 export const MESSAGE_GET_LIST = "/messages";
+
+export const USER_GET_SEARCH = "/users/search";

@@ -64,6 +64,11 @@ export const FloatingLabel = styled.div<{
   input:-webkit-autofill:hover,
   input:-webkit-autofill:focus,
   input:-webkit-autofill:active {
+    -webkit-background-clip: text;
+    background-clip: text;
+
+    -webkit-text-fill-color: ${({ theme }) =>
+      theme.onBackgroundColor} !important;
     -webkit-box-shadow: 0 0 0 30px ${_fillColor} inset !important;
     box-shadow: 0 0 0 30px ${_fillColor} inset !important;
 
