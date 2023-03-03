@@ -51,7 +51,7 @@ function AsyncDropdown<T>({
 
       callBack(mapping);
     },
-    [memorizer, fetchData, getLabel]
+    [fetchData, getLabel]
   );
 
   const _debounceFetch = useCallback(
@@ -69,7 +69,7 @@ function AsyncDropdown<T>({
     (option: FilterOptionOption<Option<T>>) => {
       return !memorizer.has(string.getId(option.value));
     },
-    []
+    [memorizer]
   );
 
   const onChange = (
