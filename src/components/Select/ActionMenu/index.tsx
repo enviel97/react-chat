@@ -4,7 +4,7 @@ import {
   MenuContainer,
   MenuItemContainer,
   MenuToggle,
-} from "../decorates/ActionMenu.decorate";
+} from "./decorates/ActionMenu.decorate";
 import { pxToEm } from "@theme/helper/tools";
 import string from "@utils/string";
 import { ButtonIcon } from "@components/Button";

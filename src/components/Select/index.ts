@@ -1,2 +1,2 @@
-export { default as ActionMenu } from "./variants/ActionMenu";
-export { default as TextSearchDropDown } from "./variants/TextSearch";
+export { default as ActionMenu } from "./ActionMenu";
+export { default as AsyncDropdown } from "./AsyncDropdown";

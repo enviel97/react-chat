@@ -1,9 +1,14 @@
 import { ButtonText } from "@components/Button";
+import { AsyncDropdown } from "@components/Select";
 import { TextField } from "@components/TextInput";
+import useAppDispatch from "@hooks/useAppDispatch";
+import { fetchSearchUser } from "@store/repo/user";
+import string from "@utils/string";
 import { FC } from "react";
 import { SubmitErrorHandler, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import styled from "styled-components";
+import { mappingUsers } from "../../utils/mapping";
 
 const AddChannelModalContainer = styled.div`
   position: relative;
@@ -15,20 +20,22 @@ const AddChannelModalContainer = styled.div`
 `;
 
 const AddChannelForm = styled.form`
+  position: relative;
   display: flex;
   flex-direction: column;
   flex: 1;
   justify-content: flex-end;
-  margin: 0.8rem;
+  padding: 0.8rem;
   gap: 1em;
   & button {
-    padding: 0.5rem 0;
+    padding: 0.8rem 0;
   }
 `;
 
-const AddChannelHeader = styled.div`
-  font-size: 1rem;
-  padding: 1.2em 0;
+const AddChannelHeader = styled.h5`
+  font-size: 1em;
+  padding: 1em 0;
+  font-weight: bold;
   margin: 0 0.8em;
   font-weight: bold;
   border-bottom: 2px solid ${({ theme }) => theme.surfaceColor};
@@ -42,8 +49,10 @@ interface ConversationCreate {
 const AddChannelModal: FC<{
   onSubmitted: (data: ConversationCreate) => void;
 }> = ({ onSubmitted }) => {
-  const { register, handleSubmit, watch } = useForm<ConversationCreate>();
-  const watchAllFields = watch();
+  const dispatch = useAppDispatch();
+  const { register, handleSubmit, setValue, watch } =
+    useForm<ConversationCreate>();
+
   const onSubmit = (data: ConversationCreate) => {
     onSubmitted(data);
   };
@@ -59,20 +68,25 @@ const AddChannelModal: FC<{
       }
     }
   };
+
+  const onSelectUser = (items: User[]) => {
+    setValue("user", mappingUsers(items));
+  };
+
+  const fetchUsers = async (searchQuery: string) => {
+    const users = await dispatch(fetchSearchUser(searchQuery)).unwrap();
+    return users.data ?? [];
+  };
+
   return (
     <AddChannelModalContainer>
-      <AddChannelHeader>
-        <h5>Create a New Conversation</h5>
-      </AddChannelHeader>
+      <AddChannelHeader>Create a New Conversation</AddChannelHeader>
 
       <AddChannelForm onSubmit={handleSubmit(onSubmit, onInvalid)} noValidate>
-        <TextField
-          label='To'
-          borderColor='transparent'
-          filled='surface'
-          register={register("user", {
-            required: "Enter email of participant",
-          })}
+        <AsyncDropdown<User>
+          getLabel={(data: User) => string.getFullName(data)}
+          onSelected={onSelectUser}
+          fetchData={fetchUsers}
         />
         <TextField
           type='rich'
@@ -85,9 +99,10 @@ const AddChannelModal: FC<{
         />
         <ButtonText
           type='submit'
+          height='2.5rem'
           text={"Create Conversation"}
           color='secondary'
-          disabled={!watchAllFields.user}
+          disabled={!watch().user}
         />
       </AddChannelForm>
     </AddChannelModalContainer>
