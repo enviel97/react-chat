@@ -6,10 +6,10 @@
 const isPhoneSized = false; //!device.isPhoneSized(DevicesValue.tablet);
 
 export const baseUrlAPI = isPhoneSized
-  ? process.env.REACT_APP_API_URL_MOBILE
-  : process.env.REACT_APP_API_URL_COMPUTER;
+  ? import.meta.env.VITE_API_URL_MOBILE
+  : import.meta.env.VITE_API_URL_COMPUTER;
 
 export const baseUrlSocket =
   (isPhoneSized
-    ? process.env.REACT_APP_WEBSOCKET_URL_MOBILE
-    : process.env.REACT_APP_WEBSOCKET_URL_COMPUTER) ?? "";
+    ? import.meta.env.VITE_WEBSOCKET_URL_MOBILE
+    : import.meta.env.VITE_WEBSOCKET_URL_COMPUTER) ?? "";

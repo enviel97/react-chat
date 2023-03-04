@@ -1,5 +1,5 @@
 export const safeLog = (args: any) => {
-  if (process.env.REACT_APP_NODE_ENV === "dev") {
+  if (process.env.VITE_NODE_ENV === "dev") {
     console.log(args);
     return;
   }
