@@ -15,7 +15,12 @@ const GlobalStyle = createGlobalStyle`
     border: none;
     outline: none;
     width: 0.8em;
+    height: 0.8em;
     background: ${({ theme }) => theme.backgroundColor};
+      border-radius: 10px;
+    &:horizontal {
+      background-color: ${({ theme }) => theme.surfaceColor};
+    }
     
     &-track {
       box-shadow: ${({ theme }) =>

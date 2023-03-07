@@ -18,6 +18,8 @@ const AsyncDropdownValueContainer =
   (base: CSSObjectWithLabel): CSSObjectWithLabel => {
     return {
       ...base,
+      flexWrap: "nowrap",
+      whiteSpace: "nowrap",
       overflow: "auto",
       minHeight: "3em",
       maxHeight: "4.5em",
@@ -51,10 +53,13 @@ const AsyncDropdownInput =
   };
 
 const AsyncDropdownMultiValue =
-  (theme: DefaultTheme) => (base: CSSObjectWithLabel) => {
+  (theme: DefaultTheme) =>
+  (base: CSSObjectWithLabel): CSSObjectWithLabel => {
     return {
       ...base,
+      flex: "none",
       backgroundColor: theme.secondaryColor,
+      width: "fit-content",
     };
   };
 

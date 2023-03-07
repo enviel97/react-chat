@@ -51,7 +51,7 @@ interface ConversationCreate {
 
 const AsyncUserOption: CustomOptionProps<User> = (props) => {
   return (
-    <components.Option {...props}>
+    <components.Option {...props} key={string.getId(props.data.value)}>
       <AsyncOptionContainer>
         {props.data.value.email}
         <span className='sub'>({string.getFullName(props.data.value)})</span>

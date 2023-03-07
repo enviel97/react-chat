@@ -1,11 +1,11 @@
 import string from "@utils/string";
 import { memo, useCallback, useMemo, useRef } from "react";
-import { BiSearch } from "react-icons/bi";
-import { ActionMeta, components, MultiValue } from "react-select";
+import { ActionMeta, MultiValue } from "react-select";
 import { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import { useTheme } from "styled-components";
 import DropDownIndicator from "./components/DropDownIndicator";
 import DropdownOption from "./components/DropDownOption";
+import DropDownValueContainer from "./components/DropDownValueContainer";
 import {
   AsyncSelect,
   AsyncDropdownDecorate,
@@ -26,9 +26,9 @@ function AsyncDropdown<T>({
   const memorizer = useMemo<Set<string>>(() => new Set(), []);
   const timerId = useRef<any>(null);
 
-  const mapping = (options: readonly Option<T>[]) => {
+  const mapping = useCallback((options: readonly Option<T>[]) => {
     return options.map(({ value }) => value);
-  };
+  }, []);
 
   const _fetch = useCallback(
     async (inputValue: string, callBack: any) => {
@@ -67,15 +67,12 @@ function AsyncDropdown<T>({
     newValue: MultiValue<Option<T>>,
     actionMeta: ActionMeta<Option<T>>
   ) => {
-    console.log(actionMeta);
     const isSafeNull =
       !actionMeta.option &&
       !actionMeta.removedValue &&
       !actionMeta.removedValues;
 
-    if (isSafeNull) {
-      return;
-    }
+    if (isSafeNull) return;
     if (actionMeta.removedValues) {
       actionMeta.removedValues.forEach((data) => {
         memorizer.delete(string.getId(data.value));
@@ -100,9 +97,11 @@ function AsyncDropdown<T>({
       placeholder='To'
       filterOption={_filterOptions}
       noOptionsMessage={() => "No Result"}
+      menuShouldScrollIntoView={true}
       components={{
         Option: customOptions ?? DropdownOption<T>,
         DropdownIndicator: DropDownIndicator,
+        ValueContainer: DropDownValueContainer<T>,
       }}
       styles={AsyncDropdownDecorate(theme)}
     />
