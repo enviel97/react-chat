@@ -67,13 +67,25 @@ function AsyncDropdown<T>({
     newValue: MultiValue<Option<T>>,
     actionMeta: ActionMeta<Option<T>>
   ) => {
-    const option = actionMeta.option ?? actionMeta.removedValue;
-    if (!option) return;
+    console.log(actionMeta);
+    const isSafeNull =
+      !actionMeta.option &&
+      !actionMeta.removedValue &&
+      !actionMeta.removedValues;
+
+    if (isSafeNull) {
+      return;
+    }
+    if (actionMeta.removedValues) {
+      actionMeta.removedValues.forEach((data) => {
+        memorizer.delete(string.getId(data.value));
+      });
+    }
     if (actionMeta.removedValue) {
-      memorizer.delete(string.getId(option.value));
+      memorizer.delete(string.getId(actionMeta.removedValue.value));
     }
     if (actionMeta.option) {
-      memorizer.add(string.getId(option.value));
+      memorizer.add(string.getId(actionMeta.option.value));
     }
     onSelected(mapping(newValue));
   };

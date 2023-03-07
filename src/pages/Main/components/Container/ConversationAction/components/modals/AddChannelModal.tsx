@@ -98,6 +98,7 @@ const AddChannelModal: FC<{
 
       <AddChannelForm onSubmit={handleSubmit(onSubmit, onInvalid)} noValidate>
         <AsyncDropdown<User>
+          getLabel={(user) => string.getFullName(user)}
           customOptions={AsyncUserOption}
           onSelected={onSelectUser}
           fetchData={fetchUsers}
