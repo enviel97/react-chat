@@ -4,33 +4,24 @@ import { BiSearch } from "react-icons/bi";
 import { ActionMeta, components, MultiValue } from "react-select";
 import { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import { useTheme } from "styled-components";
+import DropDownIndicator from "./components/DropDownIndicator";
+import DropdownOption from "./components/DropDownOption";
 import {
   AsyncSelect,
   AsyncDropdownDecorate,
 } from "./decorate/AsyncDropdown.decorate";
-import {
-  AsyncDropdownOption,
-  AsyncDropdownIcon,
-} from "./types/AsyncDropdown.type";
+import { CustomOptionProps } from "./types/AsyncDropdown.type";
 
-function DropDownIndicator(props: AsyncDropdownIcon<any>) {
-  return (
-    <components.DropdownIndicator {...props}>
-      <BiSearch />
-    </components.DropdownIndicator>
-  );
-}
-
-function DropdownOption<T>({ children, ...props }: AsyncDropdownOption<T>) {
-  console.log(props);
-  return <components.Option {...props}>{props.label}</components.Option>;
-}
+type Props<T> = AsyncDropdownProps<T> & {
+  customOptions: CustomOptionProps<T>;
+};
 
 function AsyncDropdown<T>({
   onSelected,
   fetchData,
   getLabel,
-}: AsyncDropdownProps<T>) {
+  customOptions,
+}: Props<T>) {
   const theme = useTheme();
   const memorizer = useMemo<Set<string>>(() => new Set(), []);
   const timerId = useRef<any>(null);
@@ -40,7 +31,7 @@ function AsyncDropdown<T>({
   };
 
   const _fetch = useCallback(
-    async (inputValue: string, callBack: AsyncOptionCallBack<T>) => {
+    async (inputValue: string, callBack: any) => {
       const res = await fetchData(inputValue);
       const mapping = res.map((data, index) => ({
         value: data,
@@ -55,7 +46,7 @@ function AsyncDropdown<T>({
   );
 
   const _debounceFetch = useCallback(
-    (inputValue: string, callBack: AsyncOptionCallBack<T>) => {
+    (inputValue: string, callBack: any) => {
       if (inputValue.length <= 3) return;
       if (!!timerId.current) clearTimeout(timerId.current);
       timerId.current = setTimeout(() => {
@@ -98,7 +89,7 @@ function AsyncDropdown<T>({
       filterOption={_filterOptions}
       noOptionsMessage={() => "No Result"}
       components={{
-        Option: DropdownOption<T>,
+        Option: customOptions ?? DropdownOption<T>,
         DropdownIndicator: DropDownIndicator,
       }}
       styles={AsyncDropdownDecorate(theme)}

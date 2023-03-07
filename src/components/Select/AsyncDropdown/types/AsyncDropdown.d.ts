@@ -4,10 +4,6 @@ interface AsyncDropdownProps<T> {
   getLabel?: (data: T) => string;
 }
 
-type AsyncOptionCallBack<T> = (
-  options: OptionsOrGroups<T, GroupBase<T>>
-) => void;
-
 interface Option<T> {
   value: T;
   label: string;

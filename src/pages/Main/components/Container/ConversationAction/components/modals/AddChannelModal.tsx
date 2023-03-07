@@ -1,13 +1,16 @@
 import { ButtonText } from "@components/Button";
 import { AsyncDropdown } from "@components/Select";
+import { CustomOptionProps } from "@components/Select/AsyncDropdown/types/AsyncDropdown.type";
 import { TextField } from "@components/TextInput";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { fetchSearchUser } from "@store/repo/user";
 import string from "@utils/string";
-import { FC } from "react";
+import { FC, useCallback } from "react";
 import { SubmitErrorHandler, useForm } from "react-hook-form";
+import { components } from "react-select";
 import { toast } from "react-toastify";
 import styled from "styled-components";
+import { AsyncOptionContainer } from "../../styles/AsyncOption.decorate";
 import { mappingUsers } from "../../utils/mapping";
 
 const AddChannelModalContainer = styled.div`
@@ -46,6 +49,17 @@ interface ConversationCreate {
   user: string;
 }
 
+const AsyncUserOption: CustomOptionProps<User> = (props) => {
+  return (
+    <components.Option {...props}>
+      <AsyncOptionContainer>
+        {props.data.value.email}
+        <span className='sub'>({string.getFullName(props.data.value)})</span>
+      </AsyncOptionContainer>
+    </components.Option>
+  );
+};
+
 const AddChannelModal: FC<{
   onSubmitted: (data: ConversationCreate) => void;
 }> = ({ onSubmitted }) => {
@@ -69,14 +83,14 @@ const AddChannelModal: FC<{
     }
   };
 
-  const onSelectUser = (items: User[]) => {
+  const onSelectUser = useCallback((items: User[]) => {
     setValue("user", mappingUsers(items));
-  };
+  }, []);
 
-  const fetchUsers = async (searchQuery: string) => {
+  const fetchUsers = useCallback(async (searchQuery: string) => {
     const users = await dispatch(fetchSearchUser(searchQuery)).unwrap();
     return users.data ?? [];
-  };
+  }, []);
 
   return (
     <AddChannelModalContainer>
@@ -84,7 +98,7 @@ const AddChannelModal: FC<{
 
       <AddChannelForm onSubmit={handleSubmit(onSubmit, onInvalid)} noValidate>
         <AsyncDropdown<User>
-          getLabel={(data: User) => string.getFullName(data)}
+          customOptions={AsyncUserOption}
           onSelected={onSelectUser}
           fetchData={fetchUsers}
         />

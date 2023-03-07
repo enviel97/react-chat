@@ -1,7 +1,12 @@
 import styled, { DefaultTheme } from "styled-components";
 import Select from "react-select/async";
 import { colorBrightness } from "@theme/helper/tools";
-import { CSSObjectWithLabel, GroupBase, OptionProps } from "react-select";
+import {
+  CSSObjectWithLabel,
+  GroupBase,
+  OptionProps,
+  ControlProps,
+} from "react-select";
 
 export const AsyncSelect = styled(Select<Option<any>, true>)`
   width: 100%;
@@ -11,21 +16,28 @@ export const AsyncSelect = styled(Select<Option<any>, true>)`
 const AsyncDropdownValueContainer =
   (theme: DefaultTheme) =>
   (base: CSSObjectWithLabel): CSSObjectWithLabel => {
-    return { ...base, overflow: "auto", minHeight: "3em", maxHeight: "4.5em" };
+    return {
+      ...base,
+      overflow: "auto",
+      minHeight: "3em",
+      maxHeight: "4.5em",
+    };
   };
 
 const AsyncDropdownController =
   (theme: DefaultTheme) =>
-  (base: CSSObjectWithLabel): CSSObjectWithLabel => {
+  (
+    base: CSSObjectWithLabel,
+    state: ControlProps<Option<User>, true, GroupBase<Option<User>>>
+  ): CSSObjectWithLabel => {
     return {
       ...base,
       backgroundColor: theme.surfaceColor,
       border: "none",
       outline: "none",
-      boxShadow: `0.5em 0.5em 1em 0 ${colorBrightness(
-        theme.backgroundColor,
-        -10
-      )}`,
+      boxShadow: state.isFocused
+        ? `0.5em 0.5em 1em 0 ${colorBrightness(theme.backgroundColor, -10)}`
+        : "none",
     };
   };
 
