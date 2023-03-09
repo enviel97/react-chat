@@ -1,5 +1,6 @@
 import ModalConfirm from "@components/Modal/components/ModalConfirm";
 import { useModals } from "@components/Modal/hooks/useModals";
+import { colorBrightness } from "@theme/helper/tools";
 import {
   FC,
   useEffect,
@@ -17,6 +18,7 @@ interface MessageContentProps {
   isEditable: boolean;
   message: string;
   fromYou: boolean;
+  action: "New" | "Removed" | "Edited";
   onConfirmEdit: (value?: string) => void;
 }
 
@@ -32,6 +34,13 @@ export const MessageContentDecorate = styled.div<MessageStyledProps>`
   background-color: ${({ fromYou, theme }) =>
     fromYou ? theme.secondaryColor : theme.surfaceColor};
 
+  &.Removed {
+    background-color: ${({ theme }) => theme.backgroundColor};
+    border: 1px solid currentColor;
+    font-style: italic;
+    color: #eaeaea80;
+  }
+
   &:focus[contenteditable="true"] {
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -45,6 +54,7 @@ const MessageContent: FC<MessageContentProps> = ({
   message,
   onConfirmEdit,
   fromYou,
+  action,
 }) => {
   const [content, setContent] = useState(message);
   const messageRef = useRef<HTMLDivElement | null>(null);
@@ -153,6 +163,7 @@ const MessageContent: FC<MessageContentProps> = ({
 
   return (
     <MessageContentDecorate
+      className={action}
       fromYou={fromYou}
       ref={messageRef}
       contentEditable={isEditable}

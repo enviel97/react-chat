@@ -46,6 +46,7 @@ export const fetchEditMessageThunk = (builder: MessageExtraBuilder) => {
               content: data.content,
               updatedAt: moment().toISOString(),
               modified: State.FULFILLED,
+              action: "Edited",
             },
           });
         }

@@ -15,6 +15,7 @@ export const editMessageAction = (
       content: data.content,
       updatedAt: moment().toLocaleString(),
       modified: State.IDLE,
+      action: "Edited",
     },
   });
 };

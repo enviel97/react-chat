@@ -6,7 +6,6 @@ import { FC, memo, useMemo, useState } from "react";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { fetchDeleteMessages, fetchEditMessages } from "@store/repo/message";
 import MessageAvatar from "../ui/MessageAvatar";
-import MessageContent from "../ui/MessageContent";
 import MessageEditMenuAction from "./MessageEditMenuAction";
 import {
   HintEdit,
@@ -17,6 +16,7 @@ import {
 } from "../../styles/Message.decorate";
 import PromiseLoading from "../ui/PromiseLoading";
 import messageUtils from "@store/repo/message/utils";
+import MessageContent from "../ui/MessageContent";
 
 interface MessageItemProps {
   message: Message;
@@ -51,8 +51,6 @@ const MessageItem: FC<MessageItemProps> = ({
     [message, preChatter]
   );
 
-  const isEdited = message.createdAt !== message.updatedAt;
-
   const handleDeleteMessage = () =>
     dispatch(
       fetchDeleteMessages({
@@ -78,8 +76,10 @@ const MessageItem: FC<MessageItemProps> = ({
     <MessageItemContainer
       // check
       fromYou={fromYou}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+      onMouseEnter={() => {
+        message.action !== "Removed" && setIsHover(true);
+      }}
+      onMouseLeave={() => message.action !== "Removed" && setIsHover(false)}
     >
       <MessageAvatar isShow={!getAvatar} size={36} />
       <Box
@@ -91,6 +91,7 @@ const MessageItem: FC<MessageItemProps> = ({
       >
         <MessageContentContainer fromYou={fromYou}>
           <MessageContent
+            action={message.action}
             key={message.content}
             isEditable={isEditable}
             message={message.content}
@@ -107,7 +108,7 @@ const MessageItem: FC<MessageItemProps> = ({
           )}
           <PromiseLoading messageId={`${string.getId(message)}`} />
         </MessageContentContainer>
-        {isEdited && <HintEdit>Edited</HintEdit>}
+        {message.action === "Edited" && <HintEdit>Edited</HintEdit>}
         {isEditable && (
           <HintEdit>
             Press <b>Enter</b> to update &minus; <b>Esc</b> to cancel

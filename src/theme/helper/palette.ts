@@ -42,7 +42,7 @@ const _paletteColor = {
   black: "#000000",
   white: "#ffffff",
 
-  primaryColor: "#c1a01a",
+  primaryColor: "#ffa804",
   onPrimaryColor: "#efefef",
 
   secondaryColor: "#832611",
