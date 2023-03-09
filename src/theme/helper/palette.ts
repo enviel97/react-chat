@@ -34,6 +34,7 @@ declare module "styled-components" {
     onSurfaceColor: string;
 
     tertiaryColor: string;
+    onTertiaryColor: string;
   }
 }
 
@@ -48,7 +49,9 @@ const _paletteColor = {
   onSecondaryColor: "#efefef",
 
   disableColor: "#8f8f8f",
+
   tertiaryColor: "#b75c9e",
+  onTertiaryColor: "#efefef",
 
   errorColor: "#ff0000",
   successColor: "#B1FA8E",

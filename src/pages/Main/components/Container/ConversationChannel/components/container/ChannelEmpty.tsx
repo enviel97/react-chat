@@ -37,6 +37,7 @@ const ChannelEmpty: FC<{ id: string }> = ({ id }) => {
         text='Say hi 👋'
         width='fit-content'
         height='fit-content'
+        color='secondary'
         onClick={onClick}
       />
     </Box>
