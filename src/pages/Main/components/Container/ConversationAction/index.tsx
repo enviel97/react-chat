@@ -1,5 +1,5 @@
 import { Placeholder } from "@utils/styles";
-import { FC } from "react";
+import { FC, memo } from "react";
 import CircleAvatar from "../../UI/CircleAvatar";
 import AddChatButton from "./components/containers/AddChatButton";
 import LogoutButton from "./components/containers/LogoutButton";
@@ -23,4 +23,4 @@ const ConversationAction: FC<ConversationActionProps> = () => {
   );
 };
 
-export default ConversationAction;
+export default memo(ConversationAction);
