@@ -20,7 +20,11 @@ export const fetchAddConversationThunk = (
         const payload = action.payload;
         const conversation = payload.data;
         if (!conversation) return;
-        const { adapter, state: eState } = getAdapterConversation(state);
+        const { adapter, state: eState } = getAdapterConversation(
+          state,
+          state.type
+        );
+
         adapter.upsertOne(eState, conversation);
 
         //

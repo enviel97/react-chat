@@ -29,7 +29,7 @@ const AddChatButton = () => {
     async (data: ConversationCreate) =>
       await dispatch(
         fetchAddConversation({
-          emailParticipant: data.user.split(",").map((mail) => mail.trim()),
+          idParticipant: data.user.split(",").map((id) => id.trim()),
           message: data.message ?? "",
         })
       ).unwrap(),

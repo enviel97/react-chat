@@ -1,5 +1,5 @@
 interface RequestCreateConversation {
-  emailParticipant: string[];
+  idParticipant: string[];
   message?: string;
 }
 

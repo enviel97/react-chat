@@ -9,7 +9,7 @@ export const updateLastMessageAction = (
 ) => {
   const payload = action.payload;
   if (payload.message === null) return;
-  const { adapter, state: eState } = getAdapterConversation(state);
+  const { adapter, state: eState } = getAdapterConversation(state, state.type);
 
   const conversation = adapter
     .getSelectors()

@@ -18,7 +18,11 @@ export const fetchConversationsThunk = (builder: ConversationExtraBuilder) => {
         const payload = action.payload;
         const conversations = payload.data;
         if (!conversations) return;
-        const { adapter, state: eState } = getAdapterConversation(state);
+        const { adapter, state: eState } = getAdapterConversation(
+          state,
+          state.type
+        );
+
         adapter.upsertMany(eState, conversations);
         state.process = State.FULFILLED;
       }

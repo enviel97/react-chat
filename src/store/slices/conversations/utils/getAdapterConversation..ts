@@ -8,9 +8,12 @@ interface IAdapter {
   state: EntityState<Conversation>;
 }
 
-const getAdapterConversation = (state: ConversationState): IAdapter => {
-  let adapter =
-    state.type === "direct" ? conversationsAdapter : groupConversationsAdapter;
+export const getAdapterConversation = (
+  state: ConversationState,
+  type: "direct" | "group"
+): IAdapter => {
+  const adapter =
+    type === "direct" ? conversationsAdapter : groupConversationsAdapter;
   return { adapter: adapter, state: state[state.type] };
 };
 
