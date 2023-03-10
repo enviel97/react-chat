@@ -11,6 +11,7 @@ import { BiError } from "react-icons/bi";
 interface CircleAvatarDecorate {
   size?: number;
   mainColor?: string;
+  online?: boolean;
 }
 
 interface CircleAvatarAtr {
@@ -22,6 +23,7 @@ interface CircleAvatarAtr {
 type CircleAvatarProps = CircleAvatarAtr & CircleAvatarDecorate;
 
 const CircleAvatarContainer = styled.div<CircleAvatarDecorate>`
+  position: relative;
   height: ${({ size }) => pxToEm(size ?? 36)};
   aspect-ratio: 1;
   color: ${({ mainColor, theme }) => mainColor ?? theme.disableColor};
@@ -36,6 +38,19 @@ const CircleAvatarContainer = styled.div<CircleAvatarDecorate>`
     border: 2px solid
       ${({ mainColor, theme }) =>
         colorBrightness(mainColor ?? theme.primaryColor, 50)};
+  }
+
+  &.status::after {
+    content: "";
+    position: absolute;
+    height: ${({ size }) => pxToEm((size ?? 36) / 3)};
+    aspect-ratio: 1/1;
+    bottom: -0.2em;
+    right: -0.2em;
+    border: 1px solid currentColor;
+    border-radius: 50%;
+    background-color: ${({ theme, online }) =>
+      online ? "#16FF00" : theme.backgroundColor};
   }
 
   & svg {
@@ -69,12 +84,12 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
   mainColor,
   isLoading,
   src,
+  online,
 }) => {
   const placeHolder = local.image.UnknownAvatar;
   const [imgSrc, setImgSrc] = useState(placeHolder);
   const [imgLoaded, setImgLoaded] = useState<State>(State.IDLE);
   const _size = pxToEm(size ?? 36);
-
   useEffect(() => {
     if (!src) return;
     const img = new Image();
@@ -101,6 +116,7 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
           className={string.classList(className)}
           mainColor={mainColor}
           size={size}
+          online={online}
         >
           <img
             className={string.classList(

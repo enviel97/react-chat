@@ -10,6 +10,7 @@ import ConversationChannel from "./components/Container/ConversationChannel";
 import ConversationError from "./components/Container/ConversationError";
 import ConversationAction from "./components/Container/ConversationAction";
 import useBreakpoint from "@hooks/useBreakpoint";
+import Friends from "./components/Container/Friends";
 
 const ConversationLayout = () => {
   const params = useParams();
@@ -26,6 +27,7 @@ const ConversationLayout = () => {
         )}
         {params?.id && <Outlet />}
       </Panel>
+      <Friends />
     </Page>
   );
 };
