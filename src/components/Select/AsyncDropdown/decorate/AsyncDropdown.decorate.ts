@@ -14,15 +14,15 @@ export const AsyncSelect = styled(Select<Option<any>, true>)`
 `;
 
 const AsyncDropdownValueContainer =
-  (theme: DefaultTheme) =>
+  (theme: DefaultTheme, wrapper: boolean) =>
   (base: CSSObjectWithLabel): CSSObjectWithLabel => {
     return {
       ...base,
-      flexWrap: "nowrap",
-      whiteSpace: "nowrap",
+      flexWrap: wrapper ? "wrap" : "nowrap",
+      whiteSpace: wrapper ? "normal" : "nowrap",
       overflow: "auto",
       minHeight: "3em",
-      maxHeight: "4.5em",
+      maxHeight: wrapper ? "4.5em" : "9em",
     };
   };
 
@@ -98,12 +98,15 @@ const AsyncDropdownMenu =
     };
   };
 
-export const AsyncDropdownDecorate = (theme: DefaultTheme) => ({
+export const AsyncDropdownDecorate = (
+  theme: DefaultTheme,
+  wrapper: boolean
+) => ({
   control: AsyncDropdownController(theme),
   input: AsyncDropdownInput(theme),
   multiValue: AsyncDropdownMultiValue(theme),
   multiValueLabel: AsyncDropdownMultiLabel(theme),
   option: AsyncDropdownOptions(theme),
   menu: AsyncDropdownMenu(theme),
-  valueContainer: AsyncDropdownValueContainer(theme),
+  valueContainer: AsyncDropdownValueContainer(theme, wrapper),
 });
