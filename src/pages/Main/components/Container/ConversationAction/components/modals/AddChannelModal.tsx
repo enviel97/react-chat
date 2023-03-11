@@ -3,6 +3,7 @@ import { AsyncDropdown } from "@components/Select";
 import { CustomOptionProps } from "@components/Select/AsyncDropdown/types/AsyncDropdown.type";
 import { TextField } from "@components/TextInput";
 import useAppDispatch from "@hooks/useAppDispatch";
+import useAuthenticate from "@hooks/useAuthenticate";
 import { fetchSearchUser } from "@store/repo/user";
 import string from "@utils/string";
 import { FC, useCallback } from "react";
@@ -64,6 +65,7 @@ const AddChannelModal: FC<{
   onSubmitted: (data: ConversationCreate) => void;
 }> = ({ onSubmitted }) => {
   const dispatch = useAppDispatch();
+  const auth = useAuthenticate();
   const { register, handleSubmit, setValue, watch } =
     useForm<ConversationCreate>();
 
@@ -102,6 +104,7 @@ const AddChannelModal: FC<{
           customOptions={AsyncUserOption}
           onSelected={onSelectUser}
           fetchData={fetchUsers}
+          initCache={[string.getId(auth.user)]}
         />
         <TextField
           type='rich'
