@@ -13,7 +13,7 @@ import {
 import { CustomOptionProps } from "./types/AsyncDropdown.type";
 
 type Props<T> = AsyncDropdownProps<T> & {
-  customOptions: CustomOptionProps<T>;
+  customOptions?: CustomOptionProps<T>;
 };
 
 function AsyncDropdown<T>({
