@@ -4,6 +4,8 @@ import reportWebVitals from "./reportWebVitals";
 import moment from "moment";
 import { shortHandleOptions } from "@core/utils/moment";
 import Router from "@pages";
+import "@core/utils/string";
+
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );

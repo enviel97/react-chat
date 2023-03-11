@@ -60,11 +60,20 @@ export const ChannelFormContainer = styled.div`
   border-top: 2px solid ${({ theme }) => theme.surfaceColor};
   margin: 0 1rem;
   padding: 1em 5px;
-  & .form {
-    display: flex;
-    flex-direction: row;
-    padding: 1em;
-    font-weight: normal;
-    gap: 1em;
-  }
+  gap: 1px;
+`;
+
+export const ChannelForm = styled.form`
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+`;
+
+export const ChannelSendingContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  padding: 1em;
+  font-weight: normal;
+  align-items: center;
+  gap: 1em;
 `;

@@ -1,5 +1,4 @@
 import moment from "moment";
-import styled from "styled-components";
 import { notEmpty } from "./validate";
 
 const getFullName = (user: User) => `${user.lastName} ${user.firstName}`;
