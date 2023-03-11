@@ -14,6 +14,8 @@ import { CustomOptionProps } from "./types/AsyncDropdown.type";
 
 type Props<T> = AsyncDropdownProps<T> & {
   customOptions?: CustomOptionProps<T>;
+  initCache?: string[];
+  wrapper?: boolean;
 };
 
 function AsyncDropdown<T>({
@@ -21,9 +23,11 @@ function AsyncDropdown<T>({
   fetchData,
   getLabel,
   customOptions,
+  initCache,
+  wrapper = false,
 }: Props<T>) {
   const theme = useTheme();
-  const memorizer = useMemo<Set<string>>(() => new Set(), []);
+  const memorizer = useMemo<Set<string>>(() => new Set(initCache), [initCache]);
   const timerId = useRef<any>(null);
 
   const mapping = useCallback((options: readonly Option<T>[]) => {
@@ -103,7 +107,7 @@ function AsyncDropdown<T>({
         DropdownIndicator: DropDownIndicator,
         ValueContainer: DropDownValueContainer<T>,
       }}
-      styles={AsyncDropdownDecorate(theme)}
+      styles={AsyncDropdownDecorate(theme, wrapper)}
     />
   );
 }
