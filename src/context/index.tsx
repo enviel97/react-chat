@@ -4,8 +4,10 @@ import ToastProvider from "@components/Toast";
 import { FC, useEffect } from "react";
 import { AuthProvider } from "./provider/AuthProvider";
 import { Provider as ReduxProvider } from "react-redux";
-import { store } from "@store";
+import store, { persistor } from "@store";
 import { SocketProvider } from "./provider/SocketProvider";
+import { PersistGate } from "redux-persist/integration/react";
+import PageLoading from "@components/Loading/PageLoading";
 
 const MultiProvider: FC<Components> = ({ children }) => {
   useEffect(() => {
@@ -20,16 +22,18 @@ const MultiProvider: FC<Components> = ({ children }) => {
 
   return (
     <ReduxProvider store={store}>
-      <AuthProvider>
-        <SocketProvider>
-          <ThemeProvider>
-            <ModalProvider>
-              {children}
-              <ToastProvider />
-            </ModalProvider>
-          </ThemeProvider>
-        </SocketProvider>
-      </AuthProvider>
+      <PersistGate loading={null} persistor={persistor}>
+        <AuthProvider>
+          <SocketProvider>
+            <ThemeProvider>
+              <ModalProvider>
+                {children}
+                <ToastProvider />
+              </ModalProvider>
+            </ThemeProvider>
+          </SocketProvider>
+        </AuthProvider>
+      </PersistGate>
     </ReduxProvider>
   );
 };
