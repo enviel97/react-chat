@@ -20,9 +20,7 @@ const SideHeader = () => {
   return (
     <SideHeaderContainer>
       <TextFieldSearchNeumorphism
-        onSearch={function (search?: string | undefined): void {
-          throw new Error("Function not implemented.");
-        }}
+        onSearch={function (search?: string | undefined): void {}}
       />
 
       <SideHeaderFilter>

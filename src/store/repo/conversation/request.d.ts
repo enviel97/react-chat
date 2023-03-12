@@ -7,3 +7,8 @@ interface UpdateLastMessageConversationPayload {
   conversationId: string;
   message?: Message;
 }
+
+interface RequestAddMemberConversation {
+  idParticipant: string[];
+  conversationId: string;
+}

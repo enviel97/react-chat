@@ -3,6 +3,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { safeLog } from "./utils/logger";
 import { isLoginRequired, isServerError } from "./utils/statusValid";
+import "@core/utils/api";
+
 const showToast = (message: string) => {
   const toastId = message.toLowerCase().replaceAll(" ", "");
   if (!toast.isActive(toastId))
@@ -10,6 +12,7 @@ const showToast = (message: string) => {
       toastId: toastId,
     });
 };
+
 const client = axios.create({
   baseURL: baseUrlAPI,
   timeout: 5000, // 5s
@@ -53,7 +56,17 @@ const errorHandler = (err: any) => {
 
 client.interceptors.request.use((config) => {
   config.withCredentials = true;
-  return config;
+  if (!config.pathVariable) return config;
+  // parse pathName to implement variables
+  let currentUrl = config.url ?? "";
+  Object.entries(config.pathVariable || {}).forEach(([k, v]) => {
+    currentUrl = currentUrl.replace(`:${k}`, encodeURIComponent(v));
+  });
+
+  return {
+    ...config,
+    url: currentUrl,
+  };
 }, errorHandler);
 
 client.interceptors.response.use((response) => {

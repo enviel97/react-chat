@@ -1,6 +1,10 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { RootState } from "@store/index";
-import { createConversation, getConversations } from "./api";
+import {
+  addMembersToConversation,
+  createConversation,
+  getConversations,
+} from "./api";
 
 export const fetchConversations = createAsyncThunk(
   "conversations/list",
@@ -15,4 +19,10 @@ export const fetchConversations = createAsyncThunk(
 export const fetchAddConversation = createAsyncThunk(
   "conversations/add",
   async (req: RequestCreateConversation) => await createConversation(req)
+);
+
+export const fetchAddMembers = createAsyncThunk(
+  "conversation/add/members",
+  async (req: RequestAddMemberConversation) =>
+    await addMembersToConversation(req)
 );

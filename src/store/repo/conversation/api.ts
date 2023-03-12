@@ -1,5 +1,6 @@
 import client from "@core/api";
 import {
+  CONVERSATION_ADD_MEMBERS,
   CONVERSATION_CREATE_SINGLE,
   CONVERSATION_GET_LIST,
 } from "@store/common/repo";
@@ -20,6 +21,21 @@ export const createConversation = async (
     Response<Conversation>
   >(`${CONVERSATION_CREATE_SINGLE}`, conversation);
 
+  if (response.data) return response;
+  throw new Error("Interval server error");
+};
+
+export const addMembersToConversation = async (
+  conversation: RequestAddMemberConversation
+) => {
+  const response = await client.post<
+    RequestCreateConversation,
+    Response<Conversation>
+  >(
+    CONVERSATION_ADD_MEMBERS,
+    { idParticipants: conversation.idParticipant },
+    { pathVariable: { id: conversation.conversationId } }
+  );
   if (response.data) return response;
   throw new Error("Interval server error");
 };

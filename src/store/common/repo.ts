@@ -4,6 +4,7 @@ export const AUTH_STATUS_URL = "/auth/status";
 
 export const CONVERSATION_GET_LIST = "/conversations";
 export const CONVERSATION_CREATE_SINGLE = "/conversations";
+export const CONVERSATION_ADD_MEMBERS = "/conversations/:id/participants";
 
 export const MESSAGE_POST = "/messages";
 export const MESSAGE_GET_LIST = "/messages";
