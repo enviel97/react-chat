@@ -6,7 +6,6 @@ import useAppSelector from "@hooks/useAppSelector";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import HeaderConversation from "@pages/Main/components/UI/HeaderConversation";
 import { fetchAddMembers } from "@store/repo/conversation";
-import { fetchAddMessages } from "@store/repo/message";
 import { selectConversationById } from "@store/slices/conversations";
 import string from "@utils/string";
 import { FC, useCallback, useMemo } from "react";
@@ -30,6 +29,7 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
   const channel = useAppSelector((state) =>
     selectConversationById(state, conversationId)
   );
+
   const dispatch = useAppDispatch();
   const modal = useModals();
 
