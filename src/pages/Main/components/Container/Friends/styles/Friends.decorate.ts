@@ -1,4 +1,5 @@
 import { breakpoint } from "@theme/helper/breakpoint";
+import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
 
 export const FriendContainer = styled.div`
@@ -53,4 +54,11 @@ export const ListFriendItemContainer = styled.div`
     overflow: hidden;
     text-overflow: ellipsis;
   }
+  &:hover {
+    background-color: ${({ theme }) => theme.surfaceColor};
+  }
+`;
+
+export const ListItemHint = styled(Tooltip)`
+  background-color: ${({ theme }) => theme.surfaceColor};
 `;
