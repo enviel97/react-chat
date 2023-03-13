@@ -1,5 +1,6 @@
+import useUniqueState from "@hooks/useUniqueStates";
 import string from "@utils/string";
-import { memo, useCallback, useMemo, useRef } from "react";
+import { memo, useCallback, useMemo, useRef, useState } from "react";
 import { ActionMeta, MultiValue } from "react-select";
 import { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import { useTheme } from "styled-components";
@@ -27,7 +28,7 @@ function AsyncDropdown<T>({
   wrapper = false,
 }: Props<T>) {
   const theme = useTheme();
-  const memorizer = useMemo<Set<string>>(() => new Set(initCache), [initCache]);
+  const memorizer = useUniqueState<string>(initCache); //useMemo<Set<string>>(() => new Set(initCache), [initCache]);
   const timerId = useRef<any>(null);
 
   const mapping = useCallback((options: readonly Option<T>[]) => {
@@ -46,7 +47,14 @@ function AsyncDropdown<T>({
 
       callBack(mapping);
     },
-    [fetchData, getLabel]
+    [fetchData, getLabel, memorizer]
+  );
+
+  const _filterOptions = useCallback(
+    (option: FilterOptionOption<Option<T>>) => {
+      return !memorizer.has(string.getId(option.value));
+    },
+    [memorizer]
   );
 
   const _debounceFetch = useCallback(
@@ -60,13 +68,6 @@ function AsyncDropdown<T>({
     [_fetch]
   );
 
-  const _filterOptions = useCallback(
-    (option: FilterOptionOption<Option<T>>) => {
-      return !memorizer.has(string.getId(option.value));
-    },
-    [memorizer]
-  );
-
   const onChange = (
     newValue: MultiValue<Option<T>>,
     actionMeta: ActionMeta<Option<T>>
@@ -75,7 +76,6 @@ function AsyncDropdown<T>({
       !actionMeta.option &&
       !actionMeta.removedValue &&
       !actionMeta.removedValues;
-
     if (isSafeNull) return;
     if (actionMeta.removedValues) {
       actionMeta.removedValues.forEach((data) => {
@@ -98,8 +98,8 @@ function AsyncDropdown<T>({
       cacheOptions
       loadOptions={_debounceFetch}
       onChange={onChange}
-      placeholder='To'
       filterOption={_filterOptions}
+      placeholder='To'
       noOptionsMessage={() => "No Result"}
       menuShouldScrollIntoView={true}
       components={{
