@@ -27,7 +27,6 @@ export const MenuToggle = styled.div<MenuToggleProps>`
   border-radius: 25%;
   cursor: pointer;
   font-size: 1.2rem;
-  background-color: ${({ theme }) => theme.backgroundColor};
 
   &:active svg {
     width: 80%;

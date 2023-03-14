@@ -16,5 +16,3 @@ export const getAdapterConversation = (
     type === "direct" ? conversationsAdapter : groupConversationsAdapter;
   return { adapter: adapter, state: state[state.type] };
 };
-
-export default getAdapterConversation;

@@ -7,7 +7,6 @@ import { Provider as ReduxProvider } from "react-redux";
 import store, { persistor } from "@store";
 import { SocketProvider } from "./provider/SocketProvider";
 import { PersistGate } from "redux-persist/integration/react";
-import PageLoading from "@components/Loading/PageLoading";
 
 const MultiProvider: FC<Components> = ({ children }) => {
   useEffect(() => {

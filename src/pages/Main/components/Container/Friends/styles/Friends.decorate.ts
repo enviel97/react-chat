@@ -39,26 +39,35 @@ export const ListFriendHeaderTitle = styled.span`
   padding: 0.5rem 0;
 `;
 
-export const ListFriendItemContainer = styled.div`
+export const ListFriendItemContainer = styled.div<{ isUser: boolean }>`
   display: flex;
+  width: 100%;
   padding: 0.5em 0.8em;
-  gap: 1em;
   align-items: center;
+  justify-content: space-between;
+  background-color: ${({ theme, isUser }) => {
+    return isUser ? theme.surfaceColor : theme.backgroundColor;
+  }};
 
   ${breakpoint.down("laptop")} {
     justify-content: center;
   }
+`;
 
+export const ListFriendItemBody = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1em;
   & span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-  &:hover {
-    background-color: ${({ theme }) => theme.surfaceColor};
-  }
 `;
 
 export const ListItemHint = styled(Tooltip)`
+  padding: 0.25em 0.5em;
+  font-weight: bold;
   background-color: ${({ theme }) => theme.surfaceColor};
 `;

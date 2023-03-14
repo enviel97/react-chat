@@ -9,11 +9,15 @@ import { FC, memo, useEffect, useMemo, useState } from "react";
 import {
   ListFriendContainer,
   ListFriendHeaderTitle,
+  ListFriendItemBody,
   ListFriendItemContainer,
   ListItemHint,
 } from "../../styles/Friends.decorate";
+import { ActionMenu } from "@components/Select";
+import { MdKey } from "react-icons/md";
+import { Box } from "@utils/styles";
 
-const FriendItem: FC<FriendItemProps> = ({ user }) => {
+const FriendItem: FC<FriendItemProps> = ({ user, role }) => {
   const { isUser } = useAuthenticate();
   const breakpoint = useBreakpoint();
   const socket = useSocket();
@@ -39,16 +43,32 @@ const FriendItem: FC<FriendItemProps> = ({ user }) => {
 
   return (
     <>
-      <ListFriendItemContainer id={id}>
-        <CircleAvatar className='status' online={isOnline} />
-        {breakpoint.up("laptop") && <span>{string.getFullName(user)}</span>}
+      <ListFriendItemContainer id={id} isUser={isUser(user)}>
+        <ListFriendItemBody>
+          <CircleAvatar className='status' online={isOnline} />
+          {breakpoint.up("laptop") && (
+            <span>{string.getFullName(user, { short: true })}</span>
+          )}
+        </ListFriendItemBody>
+        {role === "Admin" && <MdKey id='role' />}
       </ListFriendItemContainer>
       {breakpoint.down("laptop") && (
         <ListItemHint
           id='tooltip'
           anchorId={id}
-          content={`${user.lastName} (${user.email})`}
+          content={`${string.getFullName(user, { short: true })} (${
+            user.email
+          })`}
           place={"right"}
+          delayShow={100}
+        />
+      )}
+      {role === "Admin" && (
+        <ListItemHint
+          id='tooltip'
+          anchorId={"role"}
+          content={`Admin`}
+          place={"top"}
           delayShow={100}
         />
       )}
@@ -56,7 +76,12 @@ const FriendItem: FC<FriendItemProps> = ({ user }) => {
   );
 };
 
-const ListFriend: FC<ListFriendProps> = ({ groupTitle, data = [] }) => {
+const ListFriend: FC<ListFriendProps> = ({
+  groupTitle,
+  data = [],
+  role,
+  options,
+}) => {
   return (
     <ListFriendContainer>
       <ListFriendHeaderTitle>
@@ -65,9 +90,20 @@ const ListFriend: FC<ListFriendProps> = ({ groupTitle, data = [] }) => {
       </ListFriendHeaderTitle>
       <Divider />
       {data.length !== 0 &&
-        data.map((user) => {
-          return <FriendItem key={string.getId(user)} user={user} />;
-        })}
+        data.map((user) => (
+          <Box display='flex' key={string.getId(user)} flexDirection='row'>
+            {options && (
+              <ActionMenu
+                isVerticalIcon
+                options={options.map((option) => ({
+                  ...option,
+                  onClick: () => option.onClick(user),
+                }))}
+              />
+            )}
+            <FriendItem user={user} role={role && role[string.getId(user)]} />
+          </Box>
+        ))}
     </ListFriendContainer>
   );
 };

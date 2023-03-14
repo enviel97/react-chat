@@ -4,6 +4,7 @@ import {
   addMembersToConversation,
   createConversation,
   getConversations,
+  removeMembersToConversation,
 } from "./api";
 
 export const fetchConversations = createAsyncThunk(
@@ -11,8 +12,7 @@ export const fetchConversations = createAsyncThunk(
   async (_, { getState }) => {
     const state: RootState = getState() as any;
     const type = state.conversation.type;
-    const response = await getConversations(type);
-    return response;
+    return await getConversations(type);
   }
 );
 
@@ -25,4 +25,10 @@ export const fetchAddMembers = createAsyncThunk(
   "conversation/add/members",
   async (req: RequestAddMemberConversation) =>
     await addMembersToConversation(req)
+);
+
+export const fetchDeleteMember = createAsyncThunk(
+  "conversation/delete/members",
+  async (req: RequestDeleteMemberConversation) =>
+    await removeMembersToConversation(req)
 );

@@ -3,9 +3,9 @@ import { State } from "@store/common/state";
 import { fetchAddMembers } from "@store/repo/conversation";
 import { ConversationExtraBuilder } from "@store/slices/state/conversation";
 import string from "@utils/string";
-import getAdapterConversation from "../utils/getAdapterConversation.";
+import { getAdapterConversation } from "../utils/getAdapterConversation.";
 
-export const fetchAddMembersToConversationsThunk = (
+const fetchAddMembersToConversationsThunk = (
   builder: ConversationExtraBuilder
 ) => {
   builder.addCase(
@@ -26,3 +26,5 @@ export const fetchAddMembersToConversationsThunk = (
     }
   );
 };
+
+export default fetchAddMembersToConversationsThunk;

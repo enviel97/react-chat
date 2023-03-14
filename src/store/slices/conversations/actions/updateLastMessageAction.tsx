@@ -1,7 +1,7 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { ConversationState } from "@store/slices/state/conversation";
 import moment from "moment";
-import getAdapterConversation from "../utils/getAdapterConversation.";
+import { getAdapterConversation } from "../utils/getAdapterConversation.";
 
 export const updateLastMessageAction = (
   state: ConversationState,

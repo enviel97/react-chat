@@ -2,11 +2,9 @@ import { PayloadAction } from "@reduxjs/toolkit";
 import { State } from "@store/common/state";
 import { fetchAddConversation } from "@store/repo/conversation";
 import { ConversationExtraBuilder } from "@store/slices/state/conversation";
-import getAdapterConversation from "../utils/getAdapterConversation.";
+import { getAdapterConversation } from "../utils/getAdapterConversation.";
 
-export const fetchAddConversationThunk = (
-  builder: ConversationExtraBuilder
-) => {
+const fetchAddConversationThunk = (builder: ConversationExtraBuilder) => {
   builder
     .addCase(fetchAddConversation.pending, (state, action) => {
       state.process = State.PENDING;
@@ -32,3 +30,5 @@ export const fetchAddConversationThunk = (
       }
     );
 };
+
+export default fetchAddConversationThunk;

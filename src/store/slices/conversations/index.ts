@@ -5,11 +5,14 @@ import { updateLastMessageAction } from "./actions/updateLastMessageAction";
 import SliceName from "@store/common/sliceName";
 import groupConversationsAdapter from "./adapter/groupConversation.adapter";
 import { addConversationAction } from "./actions/addConversationAction";
-import { fetchConversationsThunk } from "./extraReducer/fetchConversationsThunk";
+import {
+  fetchConversationsThunk,
+  fetchAddConversationThunk,
+  fetchAddMembersToConversationsThunk,
+  fetchRemoveMembersFromConversationThunk,
+} from "./extraReducer";
 import { selectTypeConversationAction } from "./actions/selectTypeConversationAction";
 import { ConversationState } from "../state/conversation";
-import { fetchAddConversationThunk } from "./extraReducer/fetchAddConversationThunk";
-import { fetchAddMembersToConversationsThunk } from "./extraReducer/fetchAddMembersToConversations";
 
 export const conversationsSlice = createSlice({
   name: SliceName.conversation,
@@ -28,6 +31,7 @@ export const conversationsSlice = createSlice({
     fetchConversationsThunk(builder);
     fetchAddConversationThunk(builder);
     fetchAddMembersToConversationsThunk(builder);
+    fetchRemoveMembersFromConversationThunk(builder);
   },
 });
 

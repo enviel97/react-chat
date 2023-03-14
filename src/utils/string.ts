@@ -1,7 +1,19 @@
 import moment from "moment";
 import { notEmpty } from "./validate";
-
-const getFullName = (user: User) => `${user.lastName} ${user.firstName}`;
+interface GetFullNameOptions {
+  short?: boolean;
+}
+const getFullName = (user: User, options?: GetFullNameOptions) => {
+  if (!options?.short) return `${user.lastName} ${user.firstName}`;
+  const lastNameModified = user.firstName.split(" ");
+  if (lastNameModified.length >= 2) {
+    const last = lastNameModified.length - 1;
+    return `${lastNameModified[last - 1][0].toUpperCase()}. ${
+      lastNameModified[last]
+    }`;
+  }
+  return `${user.firstName[0].toUpperCase()}. ${user.lastName}`;
+};
 
 const chatFromNow = (dateTime?: string | Date) => {
   if (!dateTime) return "";

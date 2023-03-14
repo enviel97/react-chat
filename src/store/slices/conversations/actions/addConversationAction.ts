@@ -1,6 +1,6 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { ConversationState } from "@store/slices/state/conversation";
-import getAdapterConversation from "../utils/getAdapterConversation.";
+import { getAdapterConversation } from "../utils/getAdapterConversation.";
 
 export const addConversationAction = (
   state: ConversationState,
