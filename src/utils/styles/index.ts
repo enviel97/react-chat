@@ -9,7 +9,7 @@ export const Page = styled.div<PageProps>`
   justify-content: ${({ justifyContent }) => justifyContent};
   align-items: ${({ alignItems }) => alignItems};
   flex-direction: ${({ flexDirection }) => flexDirection};
-  overflow-y: hidden;
+  overflow: hidden;
 `;
 
 export const Box = styled.div<PageProps>`

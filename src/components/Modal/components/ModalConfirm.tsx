@@ -40,6 +40,7 @@ const ModalConfirm = (props: ModalConfirmProps) => {
       <div className='row'>
         <div className='row'>
           <ButtonText
+            size='2em'
             type='submit'
             color='#212121'
             textColor='#cacaca'
@@ -49,6 +50,7 @@ const ModalConfirm = (props: ModalConfirmProps) => {
           />
           {!justConfirm && (
             <ButtonText
+              size='2em'
               color='#aa0000'
               textColor='#cacaca'
               width='fit-content'

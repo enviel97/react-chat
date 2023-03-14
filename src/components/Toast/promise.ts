@@ -47,7 +47,7 @@ export const PromiseToast = async (props: PromiseToastProps) => {
         render: `${res?.message ?? "Success"}`,
         ...(toastOption as any),
         type: "success",
-        autoClose: 700,
+        autoClose: 1000,
       });
     })
     .catch((err) => {

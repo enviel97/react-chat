@@ -3,7 +3,11 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
 import useSocket from "@hooks/useSocket";
 import { fetchConversations } from "@store/repo/conversation";
-import { addConversation } from "@store/slices/conversations";
+import {
+  addConversation,
+  updateConversation,
+  removeConversation,
+} from "@store/slices/conversations";
 import { useEffect } from "react";
 import SideHeader from "./components/containers/SideHeader";
 import SideItems from "./components/containers/SideItems";
@@ -18,12 +22,25 @@ const ConversationSidebar = () => {
     dispatch(fetchConversations());
   }, [dispatch, type]);
 
+  const dispatchOnBannedUser = (payload: BannedMemberPayload) => {
+    dispatch(removeConversation(payload));
+  };
+
+  const dispatchOnRemoveMembers = (payload: Conversation) => {
+    dispatch(updateConversation(payload));
+  };
+  const dispatchOnCreateConversation = (payload: Conversation) => {
+    dispatch(addConversation(payload));
+  };
+
   useEffect(() => {
-    socket.on(Event.EVENT_CONVERSATION_CREATED, (payload: Conversation) => {
-      dispatch(addConversation(payload));
-    });
+    socket.on(Event.EVENT_BANNED_USER, dispatchOnBannedUser);
+    socket.on(Event.EVENT_REMOVE_NEW_MEMBERS, dispatchOnRemoveMembers);
+    socket.on(Event.EVENT_CONVERSATION_CREATED, dispatchOnCreateConversation);
     return () => {
       socket.off(Event.EVENT_CONVERSATION_CREATED);
+      socket.off(Event.EVENT_REMOVE_NEW_MEMBERS);
+      socket.off(Event.EVENT_BANNED_USER);
     };
   }, [socket, dispatch]);
 

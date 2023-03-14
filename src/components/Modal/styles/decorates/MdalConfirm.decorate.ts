@@ -31,6 +31,10 @@ export const ModalConfirmContainer = styled.div`
     & strong {
       font-size: 1.1em;
       font-weight: bold;
+      margin: 0em 0.2em;
+      &.highlight {
+        color: ${({ theme }) => theme.secondaryColor};
+      }
     }
   }
 `;

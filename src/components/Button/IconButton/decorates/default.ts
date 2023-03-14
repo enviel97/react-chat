@@ -6,6 +6,7 @@ interface ButtonIconProps {
   size?: string;
   color?: string;
   circle?: boolean;
+  isTransparent?: boolean;
 }
 
 export const ButtonIconDecorate = styled.div<ButtonIconProps>`
@@ -22,12 +23,15 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
     position: relative;
     height: 100%;
     width: 100%;
-    background: linear-gradient(
+    background: ${({ theme, color, isTransparent }) => {
+      if (isTransparent) return "transparent";
+      return `linear-gradient(
       -45deg,
-      ${({ theme, color }) => colorBrightness(colorTheme({ color, theme }), -5)}
+      ${colorBrightness(colorTheme({ color, theme }), -5)}
         75%,
       #ffffff
-    );
+    )`;
+    }};
 
     border-radius: ${({ circle }) => (circle ? "50%" : "0")};
     border: none;

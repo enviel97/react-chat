@@ -6,7 +6,6 @@ import styled from "styled-components";
 // Document:  https://fkhadra.github.io/react-toastify/multi-containers
 
 export const toastDefaultOption = {
-  autoClose: 3000,
   hideProgressBar: false,
   transition: Bounce,
   closeOnClick: true,

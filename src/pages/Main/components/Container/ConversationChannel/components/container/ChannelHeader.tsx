@@ -1,6 +1,7 @@
 import { ButtonIconNeumorphism } from "@components/Button";
 import { useModals } from "@components/Modal/hooks/useModals";
 import SkeletonContainer from "@components/Skeleton";
+import { PromiseToast } from "@components/Toast/promise";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
@@ -37,13 +38,16 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
 
   const onConfirmAddUser = useCallback(
     (ids: string[]) => {
-      modal.close(idModal);
-      dispatch(
-        fetchAddMembers({
-          conversationId: conversationId,
-          idParticipant: ids,
-        })
-      );
+      PromiseToast({
+        action: async () =>
+          await dispatch(
+            fetchAddMembers({
+              conversationId: conversationId,
+              idParticipant: ids,
+            })
+          ),
+        onSuccess: () => modal.close(idModal),
+      });
     },
     [conversationId]
   );

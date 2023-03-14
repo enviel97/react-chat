@@ -81,6 +81,7 @@ const GlobalStyle = createGlobalStyle`
     /* Sized */
     min-width: 100%;
     min-height: 0;
+    overflow: hidden;
   }
 
   img, picture, svg {

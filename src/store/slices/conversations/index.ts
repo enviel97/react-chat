@@ -5,6 +5,7 @@ import { updateLastMessageAction } from "./actions/updateLastMessageAction";
 import SliceName from "@store/common/sliceName";
 import groupConversationsAdapter from "./adapter/groupConversation.adapter";
 import { addConversationAction } from "./actions/addConversationAction";
+import { updateConversationAction } from "./actions/updateConversationAction";
 import {
   fetchConversationsThunk,
   fetchAddConversationThunk,
@@ -13,6 +14,7 @@ import {
 } from "./extraReducer";
 import { selectTypeConversationAction } from "./actions/selectTypeConversationAction";
 import { ConversationState } from "../state/conversation";
+import { removeConversationAction } from "./actions/removeConversationAction";
 
 export const conversationsSlice = createSlice({
   name: SliceName.conversation,
@@ -26,6 +28,8 @@ export const conversationsSlice = createSlice({
     addConversation: addConversationAction,
     updateLastMessage: updateLastMessageAction,
     selectedType: selectTypeConversationAction,
+    updateConversation: updateConversationAction,
+    removeConversation: removeConversationAction,
   },
   extraReducers: (builder) => {
     fetchConversationsThunk(builder);
@@ -35,8 +39,13 @@ export const conversationsSlice = createSlice({
   },
 });
 
-export const { addConversation, updateLastMessage, selectedType } =
-  conversationsSlice.actions;
+export const {
+  addConversation,
+  updateLastMessage,
+  selectedType,
+  updateConversation,
+  removeConversation,
+} = conversationsSlice.actions;
 
 export {
   selectAllConversation,
