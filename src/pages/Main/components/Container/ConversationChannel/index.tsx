@@ -31,29 +31,31 @@ const ConversationChannel = () => {
     dispatch(fetchMessages(id));
   }, [id, dispatch]);
 
-  const dispatchBannerUser = (payload: BannedMemberPayload) => {
-    if (id === payload.conversationId) {
-      controller.show(
-        <ModalConfirm
-          content={"You has been banned"}
-          modalKey={NOTICE_YOU_BANNED}
-          onConfirm={() => {
-            navigator("/conversation");
-            controller.close(NOTICE_YOU_BANNED);
-          }}
-          justConfirm
-        />,
-        {
-          height: "fit-content",
-          width: "fit-content",
-          isDialog: true,
-          showCloseButton: false,
-        }
-      );
-      dispatch(removeConversation(payload));
-    }
-  };
-
+  const dispatchBannerUser = useCallback(
+    (payload: BannedMemberPayload) => {
+      if (id === payload.conversationId) {
+        controller.show(
+          <ModalConfirm
+            content={"You has been banned"}
+            modalKey={NOTICE_YOU_BANNED}
+            onConfirm={() => {
+              navigator("/conversation");
+              controller.close(NOTICE_YOU_BANNED);
+            }}
+            justConfirm
+          />,
+          {
+            height: "fit-content",
+            width: "fit-content",
+            isDialog: true,
+            showCloseButton: false,
+          }
+        );
+        dispatch(removeConversation(payload));
+      }
+    },
+    [dispatch, controller, id, navigator]
+  );
   const dispatchConnectedRoom = (payload: any) => {
     console.log({ payload });
   };

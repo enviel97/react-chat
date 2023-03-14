@@ -12,8 +12,6 @@ export const usersSlice = createSlice({
   extraReducers: (builder) => {},
 });
 
-export const {} = usersSlice.actions;
-
 export const { selectById: selectUserById } = usersAdapter.getSelectors(
   (state: any) => state[SliceName.user]
 );

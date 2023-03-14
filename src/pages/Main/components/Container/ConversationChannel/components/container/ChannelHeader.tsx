@@ -49,7 +49,7 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
         onSuccess: () => modal.close(idModal),
       });
     },
-    [conversationId]
+    [conversationId, dispatch, modal]
   );
 
   const onAddUserHandler = useCallback(() => {
@@ -60,7 +60,7 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
       />,
       modalOptions
     );
-  }, [members]);
+  }, [members, onConfirmAddUser, modal]);
 
   return (
     <SkeletonContainer>

@@ -1,3 +1,4 @@
+/*eslint no-extend-native: ["error", { "exceptions": ["String"] }]*/
 declare global {
   interface String {
     insert(newValue: string, offset: number): string;

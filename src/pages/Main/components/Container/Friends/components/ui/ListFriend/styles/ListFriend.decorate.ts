@@ -1,5 +1,4 @@
 import { breakpoint } from "@theme/helper/breakpoint";
-import { motion } from "framer-motion";
 import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
 

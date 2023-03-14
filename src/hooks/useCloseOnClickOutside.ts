@@ -12,11 +12,14 @@ const useCLoseOnClickOutside = (pressEscapeToClose?: boolean) => {
     setIsOpen((prev) => !prev);
   };
 
-  const onPressEscape = useCallback((event: KeyboardEvent) => {
-    if (pressEscapeToClose && event.key === "Escape") {
-      setIsOpen(false);
-    }
-  }, []);
+  const onPressEscape = useCallback(
+    (event: KeyboardEvent) => {
+      if (pressEscapeToClose && event.key === "Escape") {
+        setIsOpen(false);
+      }
+    },
+    [pressEscapeToClose]
+  );
 
   const onClickEvent = useCallback(
     (event: MouseEvent) => {

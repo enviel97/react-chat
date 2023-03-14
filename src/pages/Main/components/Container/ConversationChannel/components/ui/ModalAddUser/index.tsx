@@ -4,7 +4,7 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import { fetchSearchUser } from "@store/repo/user";
 import string from "@utils/string";
 import { FC, memo, useCallback } from "react";
-import { SubmitErrorHandler, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { TiUserAdd } from "react-icons/ti";
 import {
   ModalBodyContainer,
@@ -27,10 +27,13 @@ const ModalAddUser: FC<ModalAddUserProps> = ({
   const dispatch = useAppDispatch();
   const { handleSubmit, watch, setValue } = useForm<FoundUserValues>();
 
-  const fetchUsers = useCallback(async (searchQuery: string) => {
-    const users = await dispatch(fetchSearchUser(searchQuery)).unwrap();
-    return users.data ?? [];
-  }, []);
+  const fetchUsers = useCallback(
+    async (searchQuery: string) => {
+      const users = await dispatch(fetchSearchUser(searchQuery)).unwrap();
+      return users.data ?? [];
+    },
+    [dispatch]
+  );
 
   const onSubmit = (data: FoundUserValues) => {
     onSelectedUsers(data.ids);

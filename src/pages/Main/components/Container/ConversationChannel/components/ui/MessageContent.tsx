@@ -1,6 +1,5 @@
 import ModalConfirm from "@components/Modal/components/ModalConfirm";
 import { useModals } from "@components/Modal/hooks/useModals";
-import { colorBrightness } from "@theme/helper/tools";
 import {
   FC,
   useEffect,

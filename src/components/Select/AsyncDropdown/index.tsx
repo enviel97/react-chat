@@ -1,6 +1,6 @@
 import useUniqueState from "@hooks/useUniqueStates";
 import string from "@utils/string";
-import { memo, useCallback, useMemo, useRef, useState } from "react";
+import { memo, useCallback, useRef } from "react";
 import { ActionMeta, MultiValue } from "react-select";
 import { FilterOptionOption } from "react-select/dist/declarations/src/filters";
 import { useTheme } from "styled-components";
@@ -47,7 +47,7 @@ function AsyncDropdown<T>({
 
       callBack(mapping);
     },
-    [fetchData, getLabel, memorizer]
+    [fetchData, getLabel]
   );
 
   const _filterOptions = useCallback(

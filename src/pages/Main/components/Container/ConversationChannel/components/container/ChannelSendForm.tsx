@@ -5,7 +5,7 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
 import { fetchAddMessages } from "@store/repo/message";
 import string from "@utils/string";
-import { FC, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { TbSend } from "react-icons/tb";
 import {
@@ -79,7 +79,7 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
       input.removeEventListener("click", hookCaretPosition);
       input.addEventListener("keydown", hookCaretPosition);
     };
-  }, []);
+  }, [hookCaretPosition]);
 
   const _sendTypingNotification = useCallback(() => {
     if (timeoutId) clearTimeout(timeoutId);
@@ -96,9 +96,12 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
     }, 500);
   }, [id, socket]);
 
-  const onChange = useCallback((event: any) => {
-    _sendTypingNotification();
-  }, []);
+  const onChange = useCallback(
+    (event: any) => {
+      _sendTypingNotification();
+    },
+    [_sendTypingNotification]
+  );
 
   const _onSelectedEmoji = (emoji: string) => {
     const currentMessage = getValues("message");

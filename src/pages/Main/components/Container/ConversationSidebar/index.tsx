@@ -8,7 +8,7 @@ import {
   updateConversation,
   removeConversation,
 } from "@store/slices/conversations";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import SideHeader from "./components/containers/SideHeader";
 import SideItems from "./components/containers/SideItems";
 import { SidebarContainer } from "./styles/Sidebar.decorate";
@@ -22,16 +22,25 @@ const ConversationSidebar = () => {
     dispatch(fetchConversations());
   }, [dispatch, type]);
 
-  const dispatchOnBannedUser = (payload: BannedMemberPayload) => {
-    dispatch(removeConversation(payload));
-  };
+  const dispatchOnBannedUser = useCallback(
+    (payload: BannedMemberPayload) => {
+      dispatch(removeConversation(payload));
+    },
+    [dispatch]
+  );
 
-  const dispatchOnRemoveMembers = (payload: Conversation) => {
-    dispatch(updateConversation(payload));
-  };
-  const dispatchOnCreateConversation = (payload: Conversation) => {
-    dispatch(addConversation(payload));
-  };
+  const dispatchOnRemoveMembers = useCallback(
+    (payload: Conversation) => {
+      dispatch(updateConversation(payload));
+    },
+    [dispatch]
+  );
+  const dispatchOnCreateConversation = useCallback(
+    (payload: Conversation) => {
+      dispatch(addConversation(payload));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     socket.on(Event.EVENT_BANNED_USER, dispatchOnBannedUser);
@@ -42,7 +51,14 @@ const ConversationSidebar = () => {
       socket.off(Event.EVENT_REMOVE_NEW_MEMBERS);
       socket.off(Event.EVENT_BANNED_USER);
     };
-  }, [socket, dispatch]);
+    // eslint
+  }, [
+    dispatchOnBannedUser,
+    dispatchOnRemoveMembers,
+    dispatchOnCreateConversation,
+    socket,
+    dispatch,
+  ]);
 
   return (
     <SidebarContainer>

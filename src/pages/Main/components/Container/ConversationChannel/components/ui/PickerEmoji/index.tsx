@@ -1,12 +1,7 @@
 import { ButtonIconNeumorphism } from "@components/Button";
 import useCLoseOnClickOutside from "@hooks/useCloseOnClickOutside";
 import useThemeMode from "@hooks/useThemeMode";
-import EmojiPicker, {
-  EmojiClickData,
-  EmojiStyle,
-  Props,
-  Theme,
-} from "emoji-picker-react";
+import EmojiPicker, { EmojiClickData, Props, Theme } from "emoji-picker-react";
 import { FC, memo } from "react";
 import { TfiThemifyFaviconAlt } from "react-icons/tfi";
 import { PickerEmojiContainer, PickerContainer } from "./PickerEmoji.decorate";

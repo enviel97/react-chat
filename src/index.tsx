@@ -3,7 +3,7 @@ import ReactDOM from "react-dom/client";
 import reportWebVitals from "./reportWebVitals";
 import moment from "moment";
 import { shortHandleOptions } from "@core/utils/moment";
-import Router from "@pages";
+import Router from "./pages";
 import "@core/utils/string";
 
 const root = ReactDOM.createRoot(

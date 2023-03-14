@@ -85,14 +85,17 @@ const AddChannelModal: FC<{
     }
   };
 
-  const onSelectUser = useCallback((items: User[]) => {
+  const onSelectUser = (items: User[]) => {
     setValue("user", mappingUsers(items));
-  }, []);
+  };
 
-  const fetchUsers = useCallback(async (searchQuery: string) => {
-    const users = await dispatch(fetchSearchUser(searchQuery)).unwrap();
-    return users.data ?? [];
-  }, []);
+  const fetchUsers = useCallback(
+    async (searchQuery: string) => {
+      const users = await dispatch(fetchSearchUser(searchQuery)).unwrap();
+      return users.data ?? [];
+    },
+    [dispatch]
+  );
 
   return (
     <AddChannelModalContainer>

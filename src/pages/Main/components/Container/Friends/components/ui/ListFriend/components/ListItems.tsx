@@ -42,7 +42,7 @@ const FriendItem: FC<FriendItemProps> = ({ user, role, canBanned }) => {
   const breakpoint = useBreakpoint();
   const dispatch = useAppDispatch();
 
-  const [isOnline, setOnline] = useState(isUser(user));
+  const [isOnline] = useState(isUser(user));
   const userId = useMemo(() => string.getId(user), [user]);
   const isCurrentUser = useMemo(() => isUser(user), [user, isUser]);
 
@@ -57,7 +57,7 @@ const FriendItem: FC<FriendItemProps> = ({ user, role, canBanned }) => {
           })
         ).unwrap(),
     });
-  }, [id, user]);
+  }, [id, user, dispatch]);
 
   const onBannedClick = useCallback(() => {
     controller.show(
@@ -68,7 +68,7 @@ const FriendItem: FC<FriendItemProps> = ({ user, role, canBanned }) => {
       />,
       optionModal
     );
-  }, [user, id]);
+  }, [user, controller, onConfirmBanned]);
 
   return (
     <Items isUser={isCurrentUser}>
