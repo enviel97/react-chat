@@ -9,7 +9,6 @@ export const removeMessageAction = (
   action: PayloadAction<string>
 ) => {
   const data = action.payload;
-  console.log(action);
   messagesAdapter.updateOne(state, {
     id: data,
     changes: {
