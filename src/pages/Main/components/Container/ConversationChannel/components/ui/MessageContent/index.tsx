@@ -8,56 +8,35 @@ import {
   KeyboardEvent,
   FocusEvent,
   memo,
+  useCallback,
 } from "react";
 import { toast, ToastItem } from "react-toastify";
-import styled from "styled-components";
-import { EditContent } from "./Modal.content";
+import { EditContent } from "../Modal.content";
+import { MessageContentContainer } from "./styles/MessageContent.decorate";
 
 interface MessageContentProps {
   isEditable: boolean;
   message: string;
   fromYou: boolean;
-  action: "New" | "Removed" | "Edited";
   onConfirmEdit: (value?: string) => void;
 }
 
 const modalKey = "editConfirmKey";
 const toastWarningKey = "editConfirmKeyToast";
-
-export const MessageContentDecorate = styled.div<MessageStyledProps>`
-  position: relative;
-  padding: 0.75rem 1rem;
-  border-radius: 10px;
-  white-space: pre-wrap;
-  max-width: 50vw;
-  background-color: ${({ fromYou, theme }) =>
-    fromYou ? theme.secondaryColor : theme.surfaceColor};
-
-  &.Removed {
-    background-color: ${({ theme }) => theme.backgroundColor};
-    border: 1px solid currentColor;
-    font-style: italic;
-    color: #eaeaea80;
-  }
-
-  &:focus[contenteditable="true"] {
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: auto;
-  }
-`;
+const modalOption = {
+  modalId: modalKey,
+  height: "fit-content",
+  width: "fit-content",
+};
 
 const MessageContent: FC<MessageContentProps> = ({
   isEditable,
   message,
   onConfirmEdit,
   fromYou,
-  action,
 }) => {
   const [content, setContent] = useState(message);
   const messageRef = useRef<HTMLDivElement | null>(null);
-
   const modal = useModals();
 
   const setCaretCursor = (node: any, content: string) => {
@@ -89,44 +68,47 @@ const MessageContent: FC<MessageContentProps> = ({
     }
   };
 
-  const onSubmit = (newMessage: string) => {
-    if (!newMessage) {
-      if (!toast.isActive(toastWarningKey)) {
-        toast.warn("Edit message don't allow empty", {
-          toastId: toastWarningKey,
-        });
-        toast.onChange((toastItem: ToastItem) => {
-          if (toastItem.status === "added") {
-            reFocusMess();
-            setContent(message);
-          }
-        });
-      }
-      return;
+  const onBack = useCallback(() => {
+    if (messageRef.current) {
+      messageRef.current.textContent = message;
     }
+    onConfirmEdit();
+    setContent(message);
+  }, [messageRef, message, onConfirmEdit]);
 
+  const onConfirm = useCallback(
+    (newMessage: string) => {
+      onConfirmEdit(newMessage);
+      setContent(newMessage);
+    },
+    [onConfirmEdit]
+  );
+
+  const isInvalidNewMessage = (newMessage: string) => {
+    if (newMessage) return false;
+    if (toast.isActive(toastWarningKey)) return true;
+    toast.warn("Edit message don't allow empty", {
+      toastId: toastWarningKey,
+    });
+    toast.onChange((toastItem: ToastItem) => {
+      if (toastItem.status === "added") {
+        reFocusMess();
+        setContent(message);
+      }
+    });
+    return true;
+  };
+
+  const onSubmit = (newMessage: string) => {
+    if (isInvalidNewMessage(newMessage)) return;
     modal.show(
       <ModalConfirm
         modalKey={modalKey}
         content={<EditContent messageDirty={newMessage} />}
-        onConfirm={() => {
-          onConfirmEdit(newMessage);
-          setContent(newMessage);
-        }}
-        onBack={() => {
-          if (messageRef.current) {
-            messageRef.current.textContent = message;
-          }
-          onConfirmEdit();
-          setContent(message);
-        }}
+        onConfirm={() => onConfirm(newMessage)}
+        onBack={onBack}
       />,
-      {
-        modalId: modalKey,
-        height: "fit-content",
-        width: "fit-content",
-        handleClose: reFocusMess,
-      }
+      { ...modalOption, handleClose: reFocusMess }
     );
   };
 
@@ -161,18 +143,19 @@ const MessageContent: FC<MessageContentProps> = ({
   };
 
   return (
-    <MessageContentDecorate
-      className={action}
-      fromYou={fromYou}
-      ref={messageRef}
-      contentEditable={isEditable}
-      suppressContentEditableWarning={true}
-      onBlur={onBlurred}
-      onKeyDown={onKeyPressDetection}
-      role='textbox'
-    >
-      {content}
-    </MessageContentDecorate>
+    <>
+      <MessageContentContainer
+        fromYou={fromYou}
+        ref={messageRef}
+        contentEditable={isEditable}
+        suppressContentEditableWarning={true}
+        onBlur={onBlurred}
+        onKeyDown={onKeyPressDetection}
+        role='textbox'
+      >
+        {content}
+      </MessageContentContainer>
+    </>
   );
 };
 

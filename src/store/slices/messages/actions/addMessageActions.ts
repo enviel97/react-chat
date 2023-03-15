@@ -6,8 +6,9 @@ import messagesAdapter from "../adapter/message.adapter";
 export const addMessageAction = (
   state: MessageState,
   action: PayloadAction<Message>
-) =>
+) => {
   messagesAdapter.upsertOne(state, {
     ...action.payload,
     modified: State.IDLE,
   });
+};

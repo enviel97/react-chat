@@ -22,6 +22,7 @@ const createTemp = ({
     author: "",
     createdAt: time,
     updatedAt: time,
+    action: "Seen",
     _id: tempId,
   };
 };

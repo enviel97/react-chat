@@ -1,4 +1,9 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { MessageContentContainer as MiniContent } from "../components/ui/MessageContent/styles/MessageContent.decorate";
+
+interface MessageItemContainerProps extends MessageStyledProps {
+  action: MessageAction;
+}
 
 export const MessageItemContainer = styled.div<MessageStyledProps>`
   display: flex;
@@ -7,21 +12,28 @@ export const MessageItemContainer = styled.div<MessageStyledProps>`
   flex-direction: ${({ fromYou }) => (fromYou ? "row-reverse" : "row")};
 `;
 
-export const MessageContentContainer = styled.div<MessageStyledProps>`
+export const MessageContentContainer = styled.div<MessageItemContainerProps>`
   position: relative;
   display: flex;
   gap: 0.5em;
   align-items: center;
   justify-content: center;
-`;
 
-export const HintEdit = styled.span`
-  margin-top: 0.2em;
-  font-size: 0.8em;
-  font-style: italic;
-  color: ${({ theme }) => theme.disableColor};
-  & b {
-    color: #fff;
+  & ${MiniContent} {
+    ${({ action }) => {
+      switch (action) {
+        case "Removed":
+          return css`
+            background-color: ${({ theme }) => theme.backgroundColor};
+            border: 1px solid currentColor;
+            font-style: italic;
+            color: #eaeaea80;
+          `;
+        case "Notice":
+          return css``;
+      }
+      return css``;
+    }}
   }
 `;
 
@@ -31,10 +43,4 @@ export const MessageItemTimer = styled.span`
   font-style: italic;
   margin-top: 0.5em;
   color: ${({ theme }) => theme.disableColor};
-`;
-
-export const MessageAction = styled.div`
-  position: absolute;
-  right: auto;
-  left: -2rem;
 `;

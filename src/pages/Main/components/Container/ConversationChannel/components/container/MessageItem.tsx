@@ -1,22 +1,20 @@
 import useAuthenticate from "@hooks/useAuthenticate";
 import string from "@utils/string";
 import { Box } from "@utils/styles";
-import moment from "moment";
-import { FC, memo, useMemo, useState } from "react";
+import { FC, memo, useCallback, useMemo, useState } from "react";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { fetchDeleteMessages, fetchEditMessages } from "@store/repo/message";
 import MessageAvatar from "../ui/MessageAvatar";
-import MessageEditMenuAction from "./MessageEditMenuAction";
 import {
-  HintEdit,
-  MessageAction,
   MessageContentContainer,
   MessageItemContainer,
-  MessageItemTimer,
 } from "../../styles/Message.decorate";
-import PromiseLoading from "../ui/PromiseLoading";
 import messageUtils from "@store/repo/message/utils";
 import MessageContent from "../ui/MessageContent";
+import MessageHint from "../ui/MessageHint";
+import MessageEditMenuAction from "./MessageEditMenuAction";
+import PromiseLoading from "../ui/PromiseLoading";
+import { PromiseToast } from "@components/Toast/promise";
 
 interface MessageItemProps {
   message: Message;
@@ -33,6 +31,10 @@ const MessageItem: FC<MessageItemProps> = ({
   const dispatch = useAppDispatch();
   const [isHover, setIsHover] = useState(false);
   const [isEditable, setEditable] = useState(false);
+  const allowModified = useMemo(
+    () => message.action !== "Removed" && message.action !== "Notice",
+    [message]
+  );
 
   const fromYou = useMemo(
     () =>
@@ -47,39 +49,44 @@ const MessageItem: FC<MessageItemProps> = ({
       messageUtils.isTemp(message)
         ? false
         : !preChatter ||
-          string.getId(preChatter) !== string.getId(message.author),
+          string.getId(preChatter) !== string.getId(message.author) ||
+          message.action !== "Notice",
     [message, preChatter]
   );
 
-  const handleDeleteMessage = () =>
-    dispatch(
-      fetchDeleteMessages({
-        messageId: string.getId(message),
-        conversationId: message.conversationId,
-      })
-    );
-
-  const handleEditMessage = (newMessage?: string) => {
-    if (newMessage) {
-      dispatch(
-        fetchEditMessages({
-          messageId: string.getId(message),
-          conversationId: message.conversationId,
-          content: newMessage,
-        })
-      );
-    }
-    setEditable(false);
+  const handleDeleteMessage = () => {
+    PromiseToast({
+      action: async () =>
+        await dispatch(
+          fetchDeleteMessages({
+            messageId: string.getId(message),
+            conversationId: message.conversationId,
+          })
+        ).unwrap(),
+    });
   };
+
+  const handleEditMessage = useCallback(
+    (newMessage?: string) => {
+      if (newMessage) {
+        dispatch(
+          fetchEditMessages({
+            messageId: string.getId(message),
+            conversationId: message.conversationId,
+            content: newMessage,
+          })
+        );
+      }
+      setEditable(false);
+    },
+    [message, dispatch]
+  );
 
   return (
     <MessageItemContainer
-      // check
       fromYou={fromYou}
-      onMouseEnter={() => {
-        message.action !== "Removed" && setIsHover(true);
-      }}
-      onMouseLeave={() => message.action !== "Removed" && setIsHover(false)}
+      onMouseEnter={() => allowModified && setIsHover(true)}
+      onMouseLeave={() => allowModified && setIsHover(false)}
     >
       <MessageAvatar isShow={!getAvatar} size={36} />
       <Box
@@ -89,36 +96,26 @@ const MessageItem: FC<MessageItemProps> = ({
         alignItems={fromYou ? "flex-end" : "flex-start"}
         flexDirection='column'
       >
-        <MessageContentContainer fromYou={fromYou}>
+        <MessageContentContainer fromYou={fromYou} action={message.action}>
           <MessageContent
-            action={message.action}
             key={message.content}
             isEditable={isEditable}
             message={message.content}
             onConfirmEdit={handleEditMessage}
             fromYou={fromYou}
           />
-          {fromYou && isHover && (
-            <MessageAction>
-              <MessageEditMenuAction
-                onDeleteMessage={handleDeleteMessage}
-                onEditMessage={() => setEditable(true)}
-              />
-            </MessageAction>
-          )}
+          <MessageEditMenuAction
+            onDeleteMessage={handleDeleteMessage}
+            onEditMessage={() => setEditable(true)}
+            isShow={fromYou && isHover}
+          />
           <PromiseLoading messageId={`${string.getId(message)}`} />
         </MessageContentContainer>
-        {message.action === "Edited" && <HintEdit>Edited</HintEdit>}
-        {isEditable && (
-          <HintEdit>
-            Press <b>Enter</b> to update &minus; <b>Esc</b> to cancel
-          </HintEdit>
-        )}
-        {lastChatter && (
-          <MessageItemTimer>
-            {moment(message.createdAt).calendar()}
-          </MessageItemTimer>
-        )}
+        <MessageHint
+          hint={message.action}
+          showHintOnActionEdited={isEditable}
+          timer={lastChatter ? message.createdAt : undefined}
+        />
       </Box>
     </MessageItemContainer>
   );

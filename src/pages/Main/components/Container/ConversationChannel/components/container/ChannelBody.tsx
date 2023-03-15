@@ -17,6 +17,7 @@ import { updateLastMessage } from "@store/slices/conversations";
 import ChannelEmpty from "./ChannelEmpty";
 import MessageItem from "./MessageItem";
 import { ChannelMessageContainer } from "../../styles/Channel.decorate";
+import MessageNotice from "../ui/MessageNotice";
 
 interface MessageRemovePayload {
   lastMessage: Message;
@@ -119,6 +120,15 @@ const ChannelBody = () => {
           const presentChatter =
             index === 0 ? undefined : arr[index - 1].author;
           const lastChatter = index === arr.length - 1;
+          if (mess.action === "Notice") {
+            return (
+              <MessageNotice
+                key={`${string.getId(mess)}$${index}`}
+                message={mess}
+              />
+            );
+          }
+
           return (
             <MessageItem
               key={`${string.getId(mess)}$${index}`}
