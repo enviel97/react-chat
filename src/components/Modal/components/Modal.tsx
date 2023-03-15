@@ -14,8 +14,8 @@ const Modal = (props: Props) => {
   const {
     isDialog = true,
     showCloseButton = true,
-    width = "700px",
-    height = "400px",
+    height = "25rem",
+    width = "35rem",
   } = props;
   const tabRef = useRef(0);
   const focusableModalElements = useRef<NodeListOf<Element>>();

@@ -20,7 +20,6 @@ const modalOptions: ModalOptions = {
   modalId: idModal,
   isDialog: false,
   height: "fit-content",
-  width: "30%",
 };
 interface ChannelHeaderProps {
   conversationId: string;

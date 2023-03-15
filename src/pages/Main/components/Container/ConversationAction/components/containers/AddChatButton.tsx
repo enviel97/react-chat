@@ -11,8 +11,6 @@ import ActionButton from "../ui/ActionButton";
 const modalKey = "CreateConversationModal";
 const modalOption = {
   modalId: modalKey,
-  height: "25rem",
-  width: "35rem",
   isDialog: false,
 };
 interface ConversationCreate {
