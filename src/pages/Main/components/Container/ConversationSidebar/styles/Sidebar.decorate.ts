@@ -8,6 +8,11 @@ export const SidebarContainer = styled.aside`
   margin-right: 1rem;
   height: 100%;
   width: fit-content;
+
+  ${breakpoint.down("laptop")} {
+    width: 22vw;
+  }
+
   ${breakpoint.down("tablet")} {
     height: fit-content;
     width: 95%;
@@ -22,6 +27,10 @@ export const SideItemsContainer = styled.div`
   overflow-x: hidden;
   overflow-y: auto;
   flex-direction: column;
+  /* scroll vertical setup */
+  flex: 1 1 auto;
+  overflow-y: auto;
+  height: calc(100vh - 7rem);
 
   ${breakpoint.down("tablet")} {
     overflow-x: auto;
@@ -31,12 +40,6 @@ export const SideItemsContainer = styled.div`
     padding: 0.5em;
     margin-bottom: 0.2em;
     background-color: ${({ theme }) => theme.backgroundColor};
-
-    &::-webkit-scrollbar {
-      display: none; /* Safari and Chrome */
-      -ms-overflow-style: none;
-      scrollbar-width: none;
-    }
   }
 `;
 
