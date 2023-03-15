@@ -18,6 +18,13 @@ import {
 } from "./styles/Channel.decorate";
 
 const NOTICE_YOU_BANNED = "noticeYouBanned";
+const modalConfirmBannedOptions = {
+  height: "fit-content",
+  width: "fit-content",
+  isDialog: true,
+  showCloseButton: false,
+  modalId: NOTICE_YOU_BANNED,
+};
 
 const ConversationChannel = () => {
   const { id = "" } = useParams<{ id: string }>();
@@ -44,12 +51,7 @@ const ConversationChannel = () => {
             }}
             justConfirm
           />,
-          {
-            height: "fit-content",
-            width: "fit-content",
-            isDialog: true,
-            showCloseButton: false,
-          }
+          modalConfirmBannedOptions
         );
         dispatch(removeConversation(payload));
       }
