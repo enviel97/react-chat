@@ -4,6 +4,7 @@ interface PromiseToastProps<T = any> {
   action: () => Promise<T>;
   position?: ToastPosition;
   pending?: string;
+  updateToastOnError?: boolean;
   onSuccess?: (res: T) => void;
   onError?: () => void;
 }
@@ -15,6 +16,7 @@ export const PromiseToast = async (props: PromiseToastProps) => {
     onSuccess,
     onError,
     position = "top-right",
+    updateToastOnError = false,
   } = props;
 
   const toastOption: UpdateOptions = {
@@ -52,11 +54,15 @@ export const PromiseToast = async (props: PromiseToastProps) => {
     })
     .catch((err) => {
       onError && onError();
-      toast.update(toastId, {
-        render: `${err.message ?? "Error"}`,
-        ...(toastOption as any),
-        type: "error",
-        autoClose: 1500,
-      });
+      if (updateToastOnError) {
+        toast.update(toastId, {
+          render: `${err?.message ?? "Error"}`,
+          ...(toastOption as any),
+          type: "error",
+          autoClose: 1500,
+        });
+      } else {
+        toast.dismiss(toastId);
+      }
     });
 };

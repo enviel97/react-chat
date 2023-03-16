@@ -6,11 +6,13 @@ import { isLoginRequired, isServerError } from "./utils/statusValid";
 import "@core/utils/api";
 
 const showToast = (message: string) => {
+  toast.clearWaitingQueue();
   const toastId = message.toLowerCase().replaceAll(" ", "");
-  if (!toast.isActive(toastId))
+  if (!toast.isActive(toastId)) {
     toast.error(message, {
       toastId: toastId,
     });
+  }
 };
 
 const client = axios.create({
@@ -28,24 +30,32 @@ const errorHandler = (err: any) => {
       const { status = 500 } = err.response;
       if (isServerError(status)) {
         showToast(err.response.data?.message ?? "Internal Server Error");
-        return;
-      }
-      if (isLoginRequired(status)) {
+      } else if (isLoginRequired(status)) {
         showToast("You must log in first");
-        return;
+      } else {
+        showToast(err.response.data?.message ?? "Server not found");
       }
-      showToast(err.response.data?.message ?? "Server not found");
-      return;
+      return {
+        code: err.response.data?.code ?? err.code,
+        message: err.response.data?.message ?? err.message,
+        data: undefined,
+      };
     } else if (err.request) {
       showToast(err.request.message ?? "Interval Server Error");
-      return;
+      return {
+        code: err.request?.code ?? err.code,
+        message: err.request?.message ?? err.message,
+        data: undefined,
+      };
     }
     showToast("Some error occur, we don't known");
-    return;
+    return {
+      code: err.code,
+      message: err.message,
+      data: undefined,
+    };
   } catch (error) {
     showToast("Some error occur, we don't known");
-  } finally {
-    safeLog(err);
     return {
       code: err.code,
       message: err.message,
