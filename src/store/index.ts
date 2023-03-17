@@ -5,6 +5,7 @@ import {
   FLUSH,
   PAUSE,
   PERSIST,
+  PersistConfig,
   persistReducer,
   persistStore,
   PURGE,
@@ -13,8 +14,9 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 
-const persistConfig = {
+const persistConfig: PersistConfig<any> = {
   key: "root",
+  version: 0,
   storage,
 };
 const reducer = combineReducers({

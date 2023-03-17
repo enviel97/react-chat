@@ -61,6 +61,8 @@ const errorHandler = (err: any) => {
       message: err.message,
       data: undefined,
     };
+  } finally {
+    safeLog(err);
   }
 };
 

@@ -5,7 +5,10 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
 import useSocket from "@hooks/useSocket";
 import { fetchMessages } from "@store/repo/message";
-import { removeConversation } from "@store/slices/conversations";
+import {
+  removeConversation,
+  updateConversation,
+} from "@store/slices/conversations";
 import { isError } from "@utils/validate";
 import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -58,16 +61,24 @@ const ConversationChannel = () => {
     },
     [dispatch, controller, id, navigator]
   );
-  const dispatchConnectedRoom = (payload: any) => {
+  const dispatchConnectedRoom = useCallback((payload: any) => {
     console.log({ payload });
-  };
+  }, []);
 
-  const dispatchLeavedRoom = (payload: any) => {
+  const dispatchLeavedRoom = useCallback((payload: any) => {
     console.log({ payload });
-  };
+  }, []);
+
+  const dispatchLeavingGroup = useCallback(
+    (payload: Conversation) => {
+      dispatch(updateConversation(payload));
+    },
+    [dispatch]
+  );
 
   useEffect(() => {
     socket.on(Event.EVENT_BANNED_USER, dispatchBannerUser);
+    socket.on(Event.EVENT_CONVERSATION_LEAVE_GROUP, dispatchLeavingGroup);
     socket.on(Event.EVENT_CONNECTED_ROOM, dispatchConnectedRoom);
     socket.on(Event.EVENT_LEAVED_ROOM, dispatchLeavedRoom);
     return () => {
@@ -75,7 +86,13 @@ const ConversationChannel = () => {
       socket.off(Event.EVENT_LEAVED_ROOM);
       socket.off(Event.EVENT_BANNED_USER);
     };
-  }, [dispatchBannerUser, socket]);
+  }, [
+    dispatchBannerUser,
+    dispatchConnectedRoom,
+    dispatchLeavedRoom,
+    dispatchLeavingGroup,
+    socket,
+  ]);
 
   useLayoutEffect(() => {
     /**

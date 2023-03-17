@@ -1,6 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-export const ModalConfirmContainer = styled.div`
+export const ModalConfirmContainer = styled.div<{
+  position?: "center" | "left" | "right";
+}>`
   display: flex;
   height: 100%;
   width: 100%;
@@ -15,14 +17,32 @@ export const ModalConfirmContainer = styled.div`
     display: flex;
     flex-direction: row;
     gap: 1em;
-    align-items: flex-end;
-    justify-content: flex-end;
+
+    ${({ position }) => {
+      if (position === "center") {
+        return css`
+          align-items: center;
+          justify-content: center;
+        `;
+      }
+      if (position === "left") {
+        return css`
+          align-items: flex-start;
+          justify-content: flex-start;
+        `;
+      }
+      return css`
+        align-items: flex-end;
+        justify-content: flex-end;
+      `;
+    }}
   }
 
   & p {
     display: flex;
     flex-direction: column;
     text-align: left;
+    margin-bottom: 2rem;
 
     & span {
       font-size: inherit;

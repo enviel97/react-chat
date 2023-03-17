@@ -9,10 +9,18 @@ interface ModalConfirmProps {
   onConfirm?: () => void;
   onBack?: () => void;
   justConfirm?: boolean;
+  positionAction?: "center" | "left" | "right";
 }
 
 const ModalConfirm = (props: ModalConfirmProps) => {
-  const { modalKey, content, onConfirm, onBack, justConfirm = false } = props;
+  const {
+    modalKey,
+    content,
+    onConfirm,
+    onBack,
+    justConfirm = false,
+    positionAction = "right",
+  } = props;
 
   const controller = useModals();
 
@@ -35,30 +43,28 @@ const ModalConfirm = (props: ModalConfirmProps) => {
   }, [confirm]);
 
   return (
-    <ModalConfirmContainer>
+    <ModalConfirmContainer position={positionAction}>
       <p>{content}</p>
       <div className='row'>
-        <div className='row'>
+        <ButtonText
+          size='2em'
+          type='submit'
+          color='#212121'
+          textColor='#cacaca'
+          width='fit-content'
+          text='Confirm'
+          onClick={confirm}
+        />
+        {!justConfirm && (
           <ButtonText
             size='2em'
-            type='submit'
-            color='#212121'
+            color='#aa0000'
             textColor='#cacaca'
             width='fit-content'
-            text='Confirm'
-            onClick={confirm}
+            text='Back'
+            onClick={closeButton}
           />
-          {!justConfirm && (
-            <ButtonText
-              size='2em'
-              color='#aa0000'
-              textColor='#cacaca'
-              width='fit-content'
-              text='Back'
-              onClick={closeButton}
-            />
-          )}
-        </div>
+        )}
       </div>
     </ModalConfirmContainer>
   );

@@ -11,6 +11,7 @@ import {
   fetchAddConversationThunk,
   fetchAddMembersToConversationsThunk,
   fetchRemoveMembersFromConversationThunk,
+  fetchLeaveConversationThunk,
 } from "./extraReducer";
 import { selectTypeConversationAction } from "./actions/selectTypeConversationAction";
 import { ConversationState } from "../state/conversation";
@@ -36,6 +37,7 @@ export const conversationsSlice = createSlice({
     fetchAddConversationThunk(builder);
     fetchAddMembersToConversationsThunk(builder);
     fetchRemoveMembersFromConversationThunk(builder);
+    fetchLeaveConversationThunk(builder);
   },
 });
 

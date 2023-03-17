@@ -10,7 +10,7 @@ import { fetchDeleteMember } from "@store/repo/conversation";
 import string from "@utils/string";
 import { FC, memo, useCallback, useMemo, useState } from "react";
 import { MdKey, MdPerson } from "react-icons/md";
-import { RxCircleBackslash } from "react-icons/rx";
+import { TiCancel } from "react-icons/ti";
 import { useParams } from "react-router-dom";
 import {
   Items,
@@ -105,7 +105,7 @@ const FriendItem: FC<FriendItemProps> = ({ user, role, canBanned }) => {
       />
       {canBanned && !isCurrentUser && (
         <ButtonIcon
-          icon={<RxCircleBackslash />}
+          icon={<TiCancel />}
           size='2em'
           hintBackgroundColor='red'
           hint='banned'

@@ -4,7 +4,7 @@ import { getAdapterConversation } from "../utils/getAdapterConversation.";
 
 export const removeConversationAction = (
   state: ConversationState,
-  action: PayloadAction<BannedMemberPayload>
+  action: PayloadAction<RemoveConversation>
 ) => {
   const payload = action.payload;
   const { adapter, state: eState } = getAdapterConversation(

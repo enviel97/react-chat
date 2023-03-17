@@ -3,6 +3,7 @@ import {
   CONVERSATION_ADD_MEMBERS,
   CONVERSATION_CREATE_SINGLE,
   CONVERSATION_GET_LIST,
+  CONVERSATION_LEAVE,
   CONVERSATION_REMOVE_MEMBERS,
 } from "@store/common/repo";
 
@@ -23,7 +24,7 @@ export const createConversation = async (
   >(`${CONVERSATION_CREATE_SINGLE}`, conversation);
 
   if (response.data) return response;
-  throw new Error("Interval server error");
+  throw new Error("Internal Server Error");
 };
 
 export const addMembersToConversation = async (
@@ -38,7 +39,7 @@ export const addMembersToConversation = async (
     { pathVariable: { id: conversation.conversationId } }
   );
   if (response.data) return response;
-  throw new Error("Interval server error");
+  throw new Error(response.message);
 };
 
 export const removeMembersToConversation = async (
@@ -55,5 +56,14 @@ export const removeMembersToConversation = async (
   });
 
   if (response.data) return response;
-  throw new Error("Interval server error");
+  throw new Error(response.message);
+};
+
+export const leaveConversation = async (conversationId: string) => {
+  const response = await client.delete<string, Response<Conversation>>(
+    CONVERSATION_LEAVE,
+    { pathVariable: { id: conversationId } }
+  );
+  if (response.data) return response;
+  throw new Error(response.message);
 };

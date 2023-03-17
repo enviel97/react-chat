@@ -7,6 +7,7 @@ export const CONVERSATION_CREATE_SINGLE = "/conversations";
 export const CONVERSATION_ADD_MEMBERS = "/conversations/:id/participants";
 export const CONVERSATION_REMOVE_MEMBERS =
   "/conversations/:id/participants/:userId";
+export const CONVERSATION_LEAVE = "/conversations/:id/participants/leave";
 
 export const MESSAGE_POST = "/messages";
 export const MESSAGE_GET_LIST = "/messages";

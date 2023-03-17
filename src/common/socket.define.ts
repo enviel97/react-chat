@@ -8,6 +8,7 @@ export const Event = Object.freeze({
   EVENT_LEAVE_ROOM_CONVERSATION: "onLeaveRoomConversation",
   EVENT_CONNECTED_ROOM: "onConnectedRoom",
   EVENT_LEAVED_ROOM: "onLeavedRoom",
+  EVENT_CONVERSATION_LEAVE_GROUP: "onConversationLeaving",
   EVENT_REMOVE_NEW_MEMBERS: "onRemoveMember",
   EVENT_BANNED_USER: "onBannedUser",
 

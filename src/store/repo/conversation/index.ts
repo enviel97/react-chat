@@ -4,6 +4,7 @@ import {
   addMembersToConversation,
   createConversation,
   getConversations,
+  leaveConversation,
   removeMembersToConversation,
 } from "./api";
 
@@ -31,4 +32,9 @@ export const fetchDeleteMember = createAsyncThunk(
   "conversation/delete/members",
   async (req: RequestDeleteMemberConversation) =>
     await removeMembersToConversation(req)
+);
+
+export const fetchLeaveConversation = createAsyncThunk(
+  "conversation/leave/members",
+  async (conversationId: string) => await leaveConversation(conversationId)
 );

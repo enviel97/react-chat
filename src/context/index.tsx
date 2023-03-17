@@ -7,6 +7,7 @@ import { Provider as ReduxProvider } from "react-redux";
 import store, { persistor } from "@store";
 import { SocketProvider } from "./provider/SocketProvider";
 import { PersistGate } from "redux-persist/integration/react";
+import PageLoading from "@components/Loading/PageLoading";
 
 const MultiProvider: FC<Components> = ({ children }) => {
   useEffect(() => {
@@ -21,18 +22,18 @@ const MultiProvider: FC<Components> = ({ children }) => {
 
   return (
     <ReduxProvider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <AuthProvider>
-          <SocketProvider>
-            <ThemeProvider>
-              <ModalProvider>
+      <AuthProvider>
+        <SocketProvider>
+          <ThemeProvider>
+            <ModalProvider>
+              <PersistGate loading={<PageLoading />} persistor={persistor}>
                 {children}
-                <ToastProvider />
-              </ModalProvider>
-            </ThemeProvider>
-          </SocketProvider>
-        </AuthProvider>
-      </PersistGate>
+              </PersistGate>
+              <ToastProvider />
+            </ModalProvider>
+          </ThemeProvider>
+        </SocketProvider>
+      </AuthProvider>
     </ReduxProvider>
   );
 };
