@@ -1,11 +1,11 @@
 import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
-import useAuthenticate from "@hooks/useAuthenticate";
+import useNameChannel from "@pages/Main/hooks/useNameChannel";
 import string from "@utils/string";
-import { FC, useMemo } from "react";
+import { FC } from "react";
 import styled from "styled-components";
 
 interface HeaderConversationProps {
-  channel?: Conversation;
+  conversationId: string;
 }
 
 const HeaderConversationContainer = styled.h4`
@@ -21,23 +21,14 @@ const HeaderConversationContainer = styled.h4`
   -webkit-box-orient: vertical;
 `;
 
-const HeaderConversation: FC<HeaderConversationProps> = ({ channel }) => {
-  const { isUser } = useAuthenticate();
-
-  const conversationName = useMemo(() => {
-    if (!channel) return "";
-    const members = channel.participant.members;
-    if (members.length > 2) {
-      return "Group of " + members.map((mem) => mem.lastName).join(", ");
-    }
-    return isUser(members[0])
-      ? string.getFullName(members[1])
-      : string.getFullName(members[0]);
-  }, [channel, isUser]);
+const HeaderConversation: FC<HeaderConversationProps> = ({
+  conversationId,
+}) => {
+  const conversationName = useNameChannel(string.getId(conversationId));
 
   return (
     <SkeletonContainer>
-      <SkeletonElement isLoading={!channel}>
+      <SkeletonElement isLoading={!conversationId}>
         <HeaderConversationContainer>
           {conversationName}
         </HeaderConversationContainer>

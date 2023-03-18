@@ -64,7 +64,7 @@ const Item: FC<ItemProps> = ({ channel, onItemClick }) => {
         size={breakpoint.up("tablet") ? undefined : 40}
       />
       <SideItemContent>
-        <HeaderConversation channel={channel} />
+        <HeaderConversation conversationId={string.getId(channel)} />
 
         <span className={string.classList("Content", status)}>
           <span

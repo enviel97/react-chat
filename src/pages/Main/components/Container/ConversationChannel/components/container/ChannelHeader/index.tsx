@@ -22,7 +22,7 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
     <SkeletonContainer>
       <ChannelHeaderContainer>
         <CircleAvatar isLoading={!conversationId} />
-        <HeaderConversation channel={channel} />
+        <HeaderConversation conversationId={conversationId} />
         <AddUserToGroup
           role={channel?.participant.roles}
           conversationId={conversationId}
