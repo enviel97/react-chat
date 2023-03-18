@@ -1,6 +1,5 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { ConversationState } from "@store/slices/state/conversation";
-import string from "@utils/string";
 import { getAdapterConversation } from "../utils/getAdapterConversation.";
 
 export const updateConversationAction = (

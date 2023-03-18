@@ -21,12 +21,19 @@ const Participants = () => {
     return conversation?.participant.roles;
   }, [conversation]);
 
+  const canBanned = useMemo(() => {
+    if (!conversation || !roles) return false;
+    return (
+      roles[string.getId(user)] === "Admin" && conversation.type === "group"
+    );
+  }, [roles, conversation, user]);
+
   return (
     <ListFriend
       groupTitle='Participants'
       data={members}
       role={roles}
-      canBanned={roles && roles[string.getId(user)] === "Admin"}
+      canBanned={canBanned}
     />
   );
 };
