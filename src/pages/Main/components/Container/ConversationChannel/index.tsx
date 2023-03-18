@@ -44,6 +44,7 @@ const ConversationChannel = () => {
   const dispatchBannerUser = useCallback(
     (payload: BannedMemberPayload) => {
       if (id === payload.conversationId) {
+        dispatch(removeConversation(payload));
         controller.show(
           <ModalConfirm
             content={"You has been banned"}
@@ -56,7 +57,6 @@ const ConversationChannel = () => {
           />,
           modalConfirmBannedOptions
         );
-        dispatch(removeConversation(payload));
       }
     },
     [dispatch, controller, id, navigator]

@@ -7,19 +7,21 @@ export const updateConversationAction = (
   state: ConversationState,
   action: PayloadAction<Conversation>
 ) => {
-  const members = action.payload.participant.members;
-  if (members.length <= 2 && state.type === "direct") {
+  const payload = action.payload;
+  if (payload.type === "direct" && state.type === "direct") {
     const { adapter, state: eState } = getAdapterConversation(state, "direct");
+
     adapter.updateOne(eState, {
-      id: string.getId(action.payload),
-      changes: { ...action.payload },
+      id: string.getId(payload),
+      changes: { ...payload },
     });
   }
-  if (members.length > 2 && state.type === "group") {
+  if (payload.type === "group" && state.type === "group") {
     const { adapter, state: eState } = getAdapterConversation(state, "group");
+    console.log(payload);
     adapter.updateOne(eState, {
-      id: string.getId(action.payload),
-      changes: { ...action.payload },
+      id: string.getId(payload),
+      changes: { ...payload },
     });
   }
 };

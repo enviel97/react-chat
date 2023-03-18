@@ -11,6 +11,7 @@ import ModalAddUser from "../../../ui/ModalAddUser";
 
 interface AddUserToGroupProps {
   conversationId: string;
+  type: ConversationType;
   role?: ParticipantRole;
   members: User[];
 }
@@ -27,6 +28,7 @@ const AddUserToGroup: FC<AddUserToGroupProps> = ({
   conversationId,
   role,
   members,
+  type,
 }) => {
   const dispatch = useAppDispatch();
   const modal = useModals();
@@ -34,8 +36,8 @@ const AddUserToGroup: FC<AddUserToGroupProps> = ({
 
   const canInvite = useMemo(() => {
     const _role = role && role[string.getId(user)];
-    return members.length > 2 && _role === "Admin";
-  }, [role, members, user]);
+    return _role === "Admin" && type === "group";
+  }, [role, user, type]);
 
   const onConfirmAddUser = useCallback(
     (ids: string[]) => {

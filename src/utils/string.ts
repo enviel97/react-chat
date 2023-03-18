@@ -29,7 +29,7 @@ const classList = (...className: any[]) => {
 };
 
 const getId = (object?: any): string => {
-  if (!object) throw Error("Object is empty");
+  if (!object) throw new Error("Object is empty");
   if (typeof object === "string") return object;
   return (object.id ?? object._id).toString();
 };

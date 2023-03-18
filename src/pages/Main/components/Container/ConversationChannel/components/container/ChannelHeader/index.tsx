@@ -27,6 +27,7 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
           role={channel?.participant.roles}
           conversationId={conversationId}
           members={members}
+          type={channel?.type ?? "direct"}
         />
         <LeaveGroup conversationId={conversationId} />
       </ChannelHeaderContainer>
