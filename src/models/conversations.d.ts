@@ -1,15 +1,18 @@
 type ConversationType = "group" | "direct";
 
-interface IConversation extends Identity, TimeStamp {
-  participant: string;
+interface CommonConversation {
+  name: string;
   type: ConversationType;
+}
+
+interface IConversation extends Identity, TimeStamp, CommonConversation {
+  participant: string;
   lastMessage?: string;
 }
 
-interface Conversation extends Identity, TimeStamp {
+interface Conversation extends Identity, TimeStamp, CommonConversation {
   participant: Participant;
   lastMessage?: Message;
-  type: ConversationType;
 }
 
 interface ConversationDetail extends Identity, TimeStamp, Conversation {

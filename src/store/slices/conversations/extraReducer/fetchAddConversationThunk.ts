@@ -18,12 +18,14 @@ const fetchAddConversationThunk = (builder: ConversationExtraBuilder) => {
         const payload = action.payload;
         const conversation = payload.data;
         if (!conversation) return;
-        const { adapter, state: eState } = getAdapterConversation(
-          state,
-          state.type
-        );
+        if (conversation.type === state.type) {
+          const { adapter, state: eState } = getAdapterConversation(
+            state,
+            state.type
+          );
 
-        adapter.upsertOne(eState, conversation);
+          adapter.upsertOne(eState, conversation);
+        }
 
         //
         state.process = State.FULFILLED;

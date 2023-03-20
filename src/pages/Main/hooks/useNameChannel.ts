@@ -12,13 +12,13 @@ const useNameChannel = (conversationId: string) => {
 
   const conversationName = useMemo(() => {
     if (!conversation) return "";
-    const members = conversation.participant.members;
-    if (conversation.type === "group") {
-      return "Group of " + members.map((mem: User) => mem.lastName).join(", ");
+    if (!conversation.name) {
+      const members = conversation.participant.members;
+      const userIndex = members.findIndex(isUser);
+      if (userIndex < 0) return "";
+      return string.getFullName(members[userIndex ^ 1]);
     }
-    return isUser(members[0])
-      ? string.getFullName(members[1])
-      : string.getFullName(members[0]);
+    return conversation.name;
   }, [conversation, isUser]);
 
   return conversationName;
