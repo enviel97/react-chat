@@ -9,6 +9,7 @@ interface FriendItemProps {
   user: User;
   role?: Role;
   canBanned?: boolean;
+  currentStatus?: boolean;
 }
 
 interface FriendAvatarProps {

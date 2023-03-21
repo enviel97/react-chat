@@ -5,7 +5,7 @@ import {
   ListFriendContainer,
   ListFriendHeaderTitle,
 } from "./styles/ListFriend.decorate";
-import FriendItem from "./components/ListItems";
+import FriendItem from "./components/containers/ListItems";
 
 const ListFriend: FC<ListFriendProps> = ({
   groupTitle,

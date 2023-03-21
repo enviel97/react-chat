@@ -4,7 +4,9 @@ import useAuthenticate from "@hooks/useAuthenticate";
 import { createContext, useEffect } from "react";
 import { io } from "socket.io-client";
 
-const socket = io(baseUrlSocket, { withCredentials: true, autoConnect: false });
+const socket = io(baseUrlSocket, {
+  withCredentials: true,
+});
 
 export const SocketContext = createContext(socket);
 
@@ -13,8 +15,8 @@ export const SocketProvider = ({ children }: Components) => {
 
   useEffect(() => {
     if (!user) return;
-    // TODO: Connect socket if login successful
-    socket.connect();
+    // TODO: Connect socket reconnect if socket connect failure
+    if (!socket.connected) socket.connect();
   }, [user]);
 
   useEffect(() => {

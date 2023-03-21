@@ -2,7 +2,7 @@ import { breakpoint } from "@theme/helper/breakpoint";
 import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
 
-export const Items = styled.div<{ isUser: boolean }>`
+export const Items = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
