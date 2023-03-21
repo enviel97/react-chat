@@ -21,7 +21,7 @@ const RoleIcon: FC<RoleIconProps> = ({ role, id }) => {
   if (!role || !Icon) return <></>;
   return (
     <>
-      <Icon size={28} id={`role-${id}`} />
+      <Icon size={28} id={`role-${id}`} tabIndex={-1} />
       <ListItemHint
         id='tooltip'
         anchorId={`role-${id}`}

@@ -47,7 +47,8 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
       height: 1.5rem;
     }
 
-    &:hover {
+    &:hover,
+    &:focus {
       & span {
         font-size: 110%;
       }

@@ -72,6 +72,7 @@ const AddUserToGroup: FC<AddUserToGroupProps> = ({
       size='2.5em'
       icon={<TiUserAdd size={"2.5em"} />}
       onClick={onAddUserHandler}
+      hint='Invite new members'
     />
   );
 };

@@ -8,6 +8,7 @@ import { fetchDeleteMember } from "@store/repo/conversation";
 import string from "@utils/string";
 import { FC, memo, useCallback, useMemo } from "react";
 import { TiCancel } from "react-icons/ti";
+import styled from "styled-components";
 interface BannedButtonProps {
   conversationId: string;
   user: User;
@@ -15,6 +16,13 @@ interface BannedButtonProps {
 }
 
 const CONFIRM_MODALS_KEY = "confirmModalKey";
+
+const BannedButtonWrap = styled(ButtonIcon)`
+  & button:hover,
+  & button:focus {
+    color: red;
+  }
+`;
 
 const optionModal = {
   height: "fit-content",
@@ -67,11 +75,11 @@ const BannedButton: FC<BannedButtonProps> = ({
 
   if (isCurrentUser && canBanned) return <></>;
   return (
-    <ButtonIcon
+    <BannedButtonWrap
       icon={<TiCancel />}
       size='2em'
       hintBackgroundColor='red'
-      hint='banned'
+      hint='Banned'
       onClick={onBannedClick}
       circle
       isTransparent

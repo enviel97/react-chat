@@ -54,6 +54,7 @@ const LeaveGroup: FC<LeaveGroupProps> = ({ conversationId }) => {
       size='2.5em'
       icon={<TiEject size={"2.5em"} />}
       onClick={onLeaveChatHandler}
+      hint='Leaving Group'
     />
   );
 };
