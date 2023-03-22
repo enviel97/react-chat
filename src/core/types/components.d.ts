@@ -1,3 +1,3 @@
 interface Components {
-  children: any;
+  children?: any;
 }

@@ -24,7 +24,7 @@ interface ChannelSendFormProps {
   conversationId: string;
 }
 
-let timeoutId: number | undefined;
+let timeoutId: NodeJS.Timeout | undefined;
 
 const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
   const {

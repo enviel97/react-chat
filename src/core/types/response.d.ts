@@ -1,3 +1,4 @@
+// @ts-ignore
 interface Response<T> {
   code: string;
   message?: string;
