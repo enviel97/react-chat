@@ -9,12 +9,12 @@ import {
   MessageContentContainer,
   MessageItemContainer,
 } from "../../styles/Message.decorate";
-import messageUtils from "@store/repo/message/utils";
 import MessageContent from "../ui/MessageContent";
 import MessageHint from "../ui/MessageHint";
 import MessageEditMenuAction from "./MessageEditMenuAction";
 import PromiseLoading from "../ui/PromiseLoading";
 import { PromiseToast } from "@components/Toast/promise";
+import messageUtils from "@store/repo/message/utils/utils";
 
 interface MessageItemProps {
   message: Message;
@@ -37,22 +37,24 @@ const MessageItem: FC<MessageItemProps> = ({
   );
 
   const fromYou = useMemo(
-    () =>
-      messageUtils.isTemp(message)
-        ? true
-        : string.getId(message.author) === string.getId(user!),
+    () => string.getId(message.author) === string.getId(user!),
     [message, user]
   );
 
-  const getAvatar = useMemo(
-    () =>
-      messageUtils.isTemp(message)
-        ? false
-        : !preChatter ||
-          string.getId(preChatter) !== string.getId(message.author) ||
-          message.action !== "Notice",
-    [message, preChatter]
-  );
+  const getAvatar = useMemo(() => {
+    console.log({
+      message,
+      preChatter,
+      messageAuthor: message.author,
+      is: messageUtils.isTemp(message),
+    });
+    if (messageUtils.isTemp(message)) {
+      return false;
+    }
+    if (!preChatter) return true;
+
+    return string.getId(preChatter) !== string.getId(message.author);
+  }, [message, preChatter]);
 
   const handleDeleteMessage = () => {
     PromiseToast({
