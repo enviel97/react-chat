@@ -5,7 +5,7 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
 import { fetchAddMessages } from "@store/repo/message";
 import string from "@utils/string";
-import { FC, useCallback, useEffect, useRef } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { TbSend } from "react-icons/tb";
 import {
@@ -23,7 +23,7 @@ interface SendingValue {
 interface ChannelSendFormProps {
   conversationId: string;
 }
-
+const maxLines = 4;
 let timeoutId: NodeJS.Timeout | undefined;
 
 const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
@@ -41,10 +41,12 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
   const dispatch = useAppDispatch();
   const socket = useSocket();
   const caretPosition = useRef(0);
+  const [lines, setLines] = useState(1);
 
   const resetValue = useCallback(() => {
     setFocus("message");
     resetField("message");
+    setLines(1);
   }, [resetField, setFocus]);
 
   useEffect(resetValue, [id, resetValue]);
@@ -56,39 +58,48 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
       fetchAddMessages({
         tempId: string.genId("Temp"),
         conversationId: id,
-        message: value,
+        message: value.trim(),
       })
     );
     resetValue();
   }, [dispatch, getValues, id, resetValue]);
 
+  const handleKeydown = useCallback(
+    (event: KeyboardEvent) => {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        onSubmit();
+      } else if (event.key === "Enter" || event.key === "Backspace") {
+        const value = getValues("message");
+        setLines((prev) => Math.min(value.split("\n").length, maxLines));
+      }
+    },
+    [onSubmit, getValues]
+  );
   const hookCaretPosition = useCallback(
     (event: any) => {
       const target = event.target;
-      if (event instanceof KeyboardEvent) {
-        if (event.key === "Enter" && !event.shiftKey) {
-          event.preventDefault();
-          onSubmit();
-        } else {
-        }
-      }
       if (target instanceof HTMLInputElement) {
         caretPosition.current = target.selectionStart!;
       }
     },
-    [caretPosition, onSubmit]
+    [caretPosition]
   );
 
   useEffect(() => {
     const input = document.getElementById("message");
     if (!input) return;
-    input.addEventListener("keydown", hookCaretPosition);
+    const onKeydownEvent = (event: KeyboardEvent) => {
+      hookCaretPosition(event);
+      handleKeydown(event);
+    };
     input.addEventListener("click", hookCaretPosition);
+    input.addEventListener("keydown", onKeydownEvent);
     return () => {
       input.removeEventListener("click", hookCaretPosition);
-      input.addEventListener("keydown", hookCaretPosition);
+      input.removeEventListener("keydown", onKeydownEvent);
     };
-  }, [hookCaretPosition]);
+  }, [hookCaretPosition, handleKeydown]);
 
   const _sendTypingNotification = useCallback(() => {
     if (timeoutId) clearTimeout(timeoutId);
@@ -124,10 +135,10 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
         <ChannelForm className='form' noValidate autoComplete='off'>
           <TextFieldNeumorphism
             id='message'
-            label='Send message'
+            label='Enter message'
             type='rich'
             fontSize='1.2rem'
-            maxLines={1}
+            maxLines={lines}
             register={register("message", {
               disabled: isSubmitting,
               onChange: onChange,
