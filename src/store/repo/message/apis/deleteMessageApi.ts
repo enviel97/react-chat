@@ -1,6 +1,6 @@
 import client from "@core/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { MESSAGE_DELETE, MESSAGE_GET_LIST } from "@store/common/repo";
+import { MESSAGE_DELETE } from "@store/common/repo";
 import { RootState } from "@store/index";
 import { updateLastMessage } from "@store/slices/conversations";
 
