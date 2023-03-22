@@ -1,22 +1,30 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { State } from "@store/common/state";
-import { fetchLeaveConversation } from "@store/repo/conversation";
+import { fetchAddMembers } from "@store/repo/conversation";
 import { ConversationExtraBuilder } from "@store/slices/state/conversation";
 import string from "@utils/string";
-import { getAdapterConversation } from "../utils/getAdapterConversation.";
+import { getAdapterConversation } from "../../utils/getAdapterConversation.";
 
-const fetchLeaveConversationThunk = (builder: ConversationExtraBuilder) => {
+const fetchAddMembersToConversationsThunk = (
+  builder: ConversationExtraBuilder
+) => {
   builder.addCase(
-    fetchLeaveConversation.fulfilled,
+    fetchAddMembers.fulfilled,
     (state, action: PayloadAction<Response<Conversation>>) => {
       const payload = action.payload;
       const conversations = payload.data;
       if (!conversations) return;
       const { adapter, state: eState } = getAdapterConversation(state, "group");
-      adapter.removeOne(eState, string.getId(conversations));
+
+      adapter.updateOne(eState, {
+        id: string.getId(conversations),
+        changes: {
+          participant: conversations.participant,
+        },
+      });
       state.process = State.FULFILLED;
     }
   );
 };
 
-export default fetchLeaveConversationThunk;
+export default fetchAddMembersToConversationsThunk;

@@ -16,7 +16,7 @@ import { SidebarContainer } from "./styles/Sidebar.decorate";
 const ConversationSidebar = () => {
   const dispatch = useAppDispatch();
   const socket = useSocket();
-  const type = useAppSelector((state) => state.conversation.type);
+  const type = useAppSelector((state) => state.ui.selectedConversationType);
 
   useEffect(() => {
     dispatch(fetchConversations());
@@ -31,15 +31,15 @@ const ConversationSidebar = () => {
 
   const dispatchOnRemoveMembers = useCallback(
     (payload: Conversation) => {
-      dispatch(updateConversation(payload));
+      dispatch(updateConversation({ conversation: payload, type: type }));
     },
-    [dispatch]
+    [dispatch, type]
   );
   const dispatchOnCreateConversation = useCallback(
     (payload: Conversation) => {
-      dispatch(addConversation(payload));
+      dispatch(addConversation({ conversation: payload, type: type }));
     },
-    [dispatch]
+    [dispatch, type]
   );
 
   useEffect(() => {

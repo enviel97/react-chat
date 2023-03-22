@@ -1,8 +1,11 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { State } from "@store/common/state";
 import { fetchAddConversation } from "@store/repo/conversation";
-import { ConversationExtraBuilder } from "@store/slices/state/conversation";
-import { getAdapterConversation } from "../utils/getAdapterConversation.";
+import {
+  ConversationExtraBuilder,
+  ResponseThunkConversation,
+} from "@store/slices/state/conversation";
+import { getAdapterConversation } from "../../utils/getAdapterConversation.";
 
 const fetchAddConversationThunk = (builder: ConversationExtraBuilder) => {
   builder
@@ -14,14 +17,14 @@ const fetchAddConversationThunk = (builder: ConversationExtraBuilder) => {
     })
     .addCase(
       fetchAddConversation.fulfilled,
-      (state, action: PayloadAction<Response<Conversation>>) => {
+      (state, action: PayloadAction<ResponseThunkConversation>) => {
         const payload = action.payload;
-        const conversation = payload.data;
+        const conversation = payload.conversation.data;
         if (!conversation) return;
-        if (conversation.type === state.type) {
+        if (conversation.type === payload.type) {
           const { adapter, state: eState } = getAdapterConversation(
             state,
-            state.type
+            conversation.type
           );
 
           adapter.upsertOne(eState, conversation);

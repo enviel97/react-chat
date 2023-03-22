@@ -14,5 +14,5 @@ export const getAdapterConversation = (
 ): IAdapter => {
   const adapter =
     type === "direct" ? conversationsAdapter : groupConversationsAdapter;
-  return { adapter: adapter, state: state[state.type] };
+  return { adapter: adapter, state: state[type] };
 };

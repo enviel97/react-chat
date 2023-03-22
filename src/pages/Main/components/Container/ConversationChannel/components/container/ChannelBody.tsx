@@ -18,6 +18,7 @@ import ChannelEmpty from "./ChannelEmpty";
 import MessageItem from "./MessageItem";
 import { ChannelMessageContainer } from "../../styles/Channel.decorate";
 import MessageNotice from "../ui/MessageNotice";
+import { selectConversationType } from "@store/slices/ui";
 
 interface MessageRemovePayload {
   lastMessage: Message;
@@ -37,6 +38,7 @@ const ChannelBody = () => {
   const dispatch = useAppDispatch();
   const messages = useAppSelector(selectAllMessage);
   const status = useAppSelector((state) => state.message.process);
+  const type = useAppSelector(selectConversationType);
   const socket = useSocket();
   const ref = useRef<HTMLDivElement>(null);
 
@@ -49,10 +51,11 @@ const ChannelBody = () => {
         updateLastMessage({
           conversationId: msg.conversationId,
           message: msg,
+          type: type,
         })
       );
     },
-    [dispatch, id]
+    [dispatch, id, type]
   );
 
   const onMessageRemove = useCallback(
@@ -65,10 +68,11 @@ const ChannelBody = () => {
         updateLastMessage({
           conversationId: conversationId,
           message: lastMessage,
+          type: type,
         })
       );
     },
-    [id, dispatch]
+    [id, dispatch, type]
   );
 
   const onMessageEdited = useCallback(
@@ -81,10 +85,11 @@ const ChannelBody = () => {
         updateLastMessage({
           conversationId: conversationId,
           message: lastMessage,
+          type: type,
         })
       );
     },
-    [dispatch, id]
+    [dispatch, id, type]
   );
 
   useEffect(() => {

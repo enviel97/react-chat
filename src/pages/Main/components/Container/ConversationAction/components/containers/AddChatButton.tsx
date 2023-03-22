@@ -24,13 +24,15 @@ const AddChatButton = () => {
   const navigator = useNavigate();
 
   const onAction = useCallback(
-    async (data: ConversationCreate) =>
-      await dispatch(
+    async (data: ConversationCreate) => {
+      const result = await dispatch(
         fetchAddConversation({
           idParticipant: data.user.split(",").map((id) => id.trim()),
           message: data.message ?? "",
         })
-      ).unwrap(),
+      ).unwrap();
+      return result.conversation;
+    },
     [dispatch]
   );
 

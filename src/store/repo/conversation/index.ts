@@ -11,15 +11,27 @@ import {
 export const fetchConversations = createAsyncThunk(
   "conversations/list",
   async (_, { getState }) => {
-    const state: RootState = getState() as any;
-    const type = state.conversation.type;
-    return await getConversations(type);
+    const state = getState() as RootState;
+    const type = state.ui.selectedConversationType;
+    const result = await getConversations(type);
+    return {
+      conversations: result,
+      type,
+    };
   }
 );
 
 export const fetchAddConversation = createAsyncThunk(
   "conversations/add",
-  async (req: RequestCreateConversation) => await createConversation(req)
+  async (req: RequestCreateConversation, { getState }) => {
+    const state = getState() as RootState;
+    const type = state.ui.selectedConversationType;
+    const result = await createConversation(req);
+    return {
+      conversation: result,
+      type,
+    };
+  }
 );
 
 export const fetchAddMembers = createAsyncThunk(

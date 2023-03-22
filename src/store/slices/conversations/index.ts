@@ -13,7 +13,6 @@ import {
   fetchRemoveMembersFromConversationThunk,
   fetchLeaveConversationThunk,
 } from "./extraReducer";
-import { selectTypeConversationAction } from "./actions/selectTypeConversationAction";
 import { ConversationState } from "../state/conversation";
 import { removeConversationAction } from "./actions/removeConversationAction";
 
@@ -23,12 +22,10 @@ export const conversationsSlice = createSlice({
     direct: conversationsAdapter.getInitialState(),
     group: groupConversationsAdapter.getInitialState(),
     process: State.IDLE,
-    type: "direct",
   } as ConversationState,
   reducers: {
     addConversation: addConversationAction,
     updateLastMessage: updateLastMessageAction,
-    selectedType: selectTypeConversationAction,
     updateConversation: updateConversationAction,
     removeConversation: removeConversationAction,
   },
@@ -44,7 +41,6 @@ export const conversationsSlice = createSlice({
 export const {
   addConversation,
   updateLastMessage,
-  selectedType,
   updateConversation,
   removeConversation,
 } = conversationsSlice.actions;

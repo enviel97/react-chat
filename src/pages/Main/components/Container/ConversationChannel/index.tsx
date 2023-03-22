@@ -9,6 +9,7 @@ import {
   removeConversation,
   updateConversation,
 } from "@store/slices/conversations";
+import { selectConversationType } from "@store/slices/ui";
 import { isError } from "@utils/validate";
 import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
@@ -34,6 +35,7 @@ const ConversationChannel = () => {
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
   const process = useAppSelector((state) => state.message.process);
+  const type = useAppSelector(selectConversationType);
   const socket = useSocket();
   const controller = useModals();
 
@@ -71,9 +73,9 @@ const ConversationChannel = () => {
 
   const dispatchLeavingGroup = useCallback(
     (payload: Conversation) => {
-      dispatch(updateConversation(payload));
+      dispatch(updateConversation({ conversation: payload, type }));
     },
-    [dispatch]
+    [dispatch, type]
   );
 
   useEffect(() => {

@@ -1,6 +1,6 @@
 import { TextFieldSearchNeumorphism } from "@components/TextInput";
 import useAppDispatch from "@hooks/useAppDispatch";
-import { selectedType } from "@store/slices/conversations";
+import { updateTypeConversation } from "@store/slices/ui";
 import { useCallback } from "react";
 import FilterButton from "./components/ui/FilterButton";
 import {
@@ -12,7 +12,7 @@ const SideHeader = () => {
   const dispatch = useAppDispatch();
   const filter = useCallback(
     (type: "direct" | "group") => {
-      dispatch(selectedType(type));
+      dispatch(updateTypeConversation(type));
     },
     [dispatch]
   );

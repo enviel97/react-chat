@@ -1,8 +1,11 @@
 import { PayloadAction } from "@reduxjs/toolkit";
 import { State } from "@store/common/state";
 import { fetchConversations } from "@store/repo/conversation";
-import { ConversationExtraBuilder } from "@store/slices/state/conversation";
-import { getAdapterConversation } from "../utils/getAdapterConversation.";
+import {
+  ConversationExtraBuilder,
+  ResponseThunkConversations,
+} from "@store/slices/state/conversation";
+import { getAdapterConversation } from "../../utils/getAdapterConversation.";
 
 const fetchConversationsThunk = (builder: ConversationExtraBuilder) => {
   builder
@@ -14,13 +17,14 @@ const fetchConversationsThunk = (builder: ConversationExtraBuilder) => {
     })
     .addCase(
       fetchConversations.fulfilled,
-      (state, action: PayloadAction<Response<Conversation[]>>) => {
+      (state, action: PayloadAction<ResponseThunkConversations>) => {
         const payload = action.payload;
-        const conversations = payload.data;
+        const conversations = payload.conversations.data;
+
         if (!conversations) return;
         const { adapter, state: eState } = getAdapterConversation(
           state,
-          state.type
+          payload.type
         );
 
         adapter.upsertMany(eState, conversations);
