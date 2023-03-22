@@ -11,15 +11,17 @@ import {
 } from "@store/slices/conversations";
 import { selectConversationType } from "@store/slices/ui";
 import { isError } from "@utils/validate";
-import { useCallback, useEffect, useLayoutEffect } from "react";
+import { lazy, Suspense, useCallback, useEffect, useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ChannelBody from "./components/container/ChannelBody";
 import ChannelHeader from "./components/container/ChannelHeader";
 import ChannelSendForm from "./components/container/ChannelSendForm";
+import MessageContainerLoading from "./components/ui/MessageContainerLoading";
 import {
   ChannelBodyContainer,
   ChannelContainer,
 } from "./styles/Channel.decorate";
+
+const ChannelBody = lazy(() => import("./components/container/ChannelBody"));
 
 const NOTICE_YOU_BANNED = "noticeYouBanned";
 const modalConfirmBannedOptions = {
@@ -111,13 +113,17 @@ const ConversationChannel = () => {
   if (isError(process)) navigator("/conversation");
 
   return (
-    <ChannelContainer>
-      <ChannelHeader conversationId={id} />
-      <ChannelBodyContainer>
-        <ChannelBody />
-        <ChannelSendForm conversationId={id} />
-      </ChannelBodyContainer>
-    </ChannelContainer>
+    <Suspense fallback={"..."}>
+      <ChannelContainer>
+        <ChannelHeader conversationId={id} />
+        <ChannelBodyContainer>
+          <Suspense fallback={<MessageContainerLoading />}>
+            <ChannelBody />
+          </Suspense>
+          <ChannelSendForm conversationId={id} />
+        </ChannelBodyContainer>
+      </ChannelContainer>
+    </Suspense>
   );
 };
 

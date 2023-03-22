@@ -9,6 +9,7 @@ import ConversationError from "./components/Container/ConversationError";
 import ConversationAction from "./components/Container/ConversationAction";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { lazy, Suspense } from "react";
+import PageLoading from "@components/Loading/PageLoading";
 const ConversationChannel = lazy(
   () => import("./components/Container/ConversationChannel")
 );
@@ -45,7 +46,11 @@ const MainRoute = (
       <Route
         path='/conversation'
         key='Conversation'
-        element={<ConversationLayout />}
+        element={
+          <Suspense fallback={<PageLoading />}>
+            <ConversationLayout />
+          </Suspense>
+        }
       >
         <Route
           path='messenger/:id'
