@@ -15,7 +15,7 @@ import useSideConversationAction from "./hooks/useSideConversationAction";
 
 const SideItems = () => {
   const navigator = useNavigate();
-  const conversations = useAppSelector((state) => selectAllConversation(state));
+  const conversations = useAppSelector(selectAllConversation);
   const status = useAppSelector((state) => state.conversation.process);
   const ref = useRef<ContextMenuRef>(null);
   const actions = useSideConversationAction();

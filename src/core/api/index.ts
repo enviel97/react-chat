@@ -5,6 +5,8 @@ import { safeLog } from "./utils/logger";
 import { isLoginRequired, isServerError } from "./utils/statusValid";
 import "@core/utils/api";
 
+const ERR_CANCELED = "ERR_CANCELED";
+
 const showToast = (message: string) => {
   toast.clearWaitingQueue();
   const toastId = message.toLowerCase().replaceAll(" ", "");
@@ -26,6 +28,13 @@ const client = axios.create({
 
 const errorHandler = (err: any) => {
   try {
+    if (err.code === ERR_CANCELED) {
+      return {
+        code: err.code,
+        message: err.message,
+        data: undefined,
+      };
+    }
     if (err.response) {
       const { status = 500 } = err.response;
       if (isServerError(status)) {
@@ -48,7 +57,7 @@ const errorHandler = (err: any) => {
         data: undefined,
       };
     }
-    showToast("Some error occur, we don't known");
+
     return {
       code: err.code,
       message: err.message,
@@ -62,7 +71,7 @@ const errorHandler = (err: any) => {
       data: undefined,
     };
   } finally {
-    safeLog(err);
+    if (err.code !== ERR_CANCELED) safeLog(err);
   }
 };
 

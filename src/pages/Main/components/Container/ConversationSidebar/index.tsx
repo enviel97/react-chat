@@ -8,10 +8,15 @@ import {
   updateConversation,
   removeConversation,
 } from "@store/slices/conversations";
-import { useCallback, useEffect } from "react";
+import { lazy, Suspense, useCallback, useEffect } from "react";
 import SideHeader from "./components/containers/SideHeader";
-import SideItems from "./components/containers/SideItems";
-import { SidebarContainer } from "./styles/Sidebar.decorate";
+import Loading from "./components/containers/SideItems/components/loading";
+import {
+  SidebarContainer,
+  SideItemsContainer,
+} from "./styles/Sidebar.decorate";
+
+const SideItems = lazy(() => import("./components/containers/SideItems"));
 
 const ConversationSidebar = () => {
   const dispatch = useAppDispatch();
@@ -63,7 +68,16 @@ const ConversationSidebar = () => {
   return (
     <SidebarContainer>
       <SideHeader />
-      <SideItems />
+      <Suspense
+        fallback={
+          <SideItemsContainer>
+            <Loading />
+            <Loading />
+          </SideItemsContainer>
+        }
+      >
+        <SideItems />
+      </Suspense>
     </SidebarContainer>
   );
 };

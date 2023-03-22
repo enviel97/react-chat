@@ -9,7 +9,11 @@ export const CONVERSATION_REMOVE_MEMBERS =
   "/conversations/:id/participants/:userId";
 export const CONVERSATION_LEAVE = "/conversations/:id/participants/leave";
 
-export const MESSAGE_POST = "/messages";
-export const MESSAGE_GET_LIST = "/messages";
+export const MESSAGE_POST = "/conversations/:conversationId/messages";
+export const MESSAGE_GET_LIST = "/conversations/:conversationId/messages";
+export const MESSAGE_UPDATE =
+  "/conversations/:conversationId/messages/:messageId";
+export const MESSAGE_DELETE =
+  "/conversations/:conversationId/messages/:messageId";
 
 export const USER_GET_SEARCH = "/users/search";

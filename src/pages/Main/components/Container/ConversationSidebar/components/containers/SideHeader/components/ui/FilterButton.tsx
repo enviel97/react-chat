@@ -10,13 +10,16 @@ interface FilterButtonProps {
   onClick: () => void;
 }
 
-const ButtonTextWrapper = styled(ButtonText)<{ isSelected: boolean }>`
+const ButtonTextWrapper = styled(ButtonText)<{ ["data-select"]: boolean }>`
   & button {
     border: 2px solid
-      ${({ isSelected, theme }) =>
-        colorBrightness(theme.surfaceColor, isSelected ? 20 : 0)};
-    background-color: ${({ isSelected, theme }) =>
-      colorBrightness(theme.surfaceColor, isSelected ? 20 : 0)};
+      ${(props) =>
+        colorBrightness(
+          props.theme.surfaceColor,
+          props["data-select"] ? 20 : 0
+        )};
+    background-color: ${(props) =>
+      colorBrightness(props.theme.surfaceColor, props["data-select"] ? 20 : 0)};
   }
 `;
 
@@ -33,7 +36,7 @@ const FilterButton: FC<FilterButtonProps> = function ({ text, onClick }) {
       className='button'
       text={text}
       onClick={onClick}
-      isSelected={isSelected}
+      data-select={isSelected}
       height={"fit-content"}
     />
   );

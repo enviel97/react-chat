@@ -9,6 +9,6 @@ export const addMessageAction = (
 ) => {
   messagesAdapter.upsertOne(state, {
     ...action.payload,
-    modified: State.IDLE,
+    modified: State.FULFILLED,
   });
 };

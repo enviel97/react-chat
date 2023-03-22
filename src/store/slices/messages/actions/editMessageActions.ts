@@ -14,7 +14,7 @@ export const editMessageAction = (
     changes: {
       content: data.content,
       updatedAt: moment().toLocaleString(),
-      modified: State.IDLE,
+      modified: State.FULFILLED,
       action: "Edited",
     },
   });

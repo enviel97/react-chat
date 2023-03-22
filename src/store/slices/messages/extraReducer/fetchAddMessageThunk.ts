@@ -1,6 +1,6 @@
 import { State } from "@store/common/state";
 import { fetchAddMessages } from "@store/repo/message";
-import messageUtils from "@store/repo/message/utils";
+import messageUtils from "@store/repo/message/utils/utils";
 import { MessageExtraBuilder } from "@store/slices/state/message";
 import messagesAdapter from "../adapter/message.adapter";
 
