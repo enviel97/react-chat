@@ -29,8 +29,8 @@ const classList = (...className: any[]) => {
 };
 
 const getId = (object?: any): string => {
-  if (!object) throw new Error("Object is empty");
   if (typeof object === "string") return object;
+  if (!object) throw new Error("Object is empty");
   return (object.id ?? object._id).toString();
 };
 

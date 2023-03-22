@@ -36,18 +36,14 @@ const MessageItem: FC<MessageItemProps> = ({
     [message]
   );
 
-  const fromYou = useMemo(
-    () => string.getId(message.author) === string.getId(user!),
-    [message, user]
-  );
+  const fromYou = useMemo(() => {
+    if (messageUtils.isTemp(message)) {
+      return true;
+    }
+    return string.getId(message.author) === string.getId(user!);
+  }, [message, user]);
 
   const getAvatar = useMemo(() => {
-    console.log({
-      message,
-      preChatter,
-      messageAuthor: message.author,
-      is: messageUtils.isTemp(message),
-    });
     if (messageUtils.isTemp(message)) {
       return false;
     }

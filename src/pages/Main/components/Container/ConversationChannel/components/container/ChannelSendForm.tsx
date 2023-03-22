@@ -38,19 +38,18 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
     defaultValues: { message: "" },
   });
 
-  const ref = useRef<HTMLFormElement>(null);
   const dispatch = useAppDispatch();
   const socket = useSocket();
   const caretPosition = useRef(0);
 
-  const resetValue = () => {
+  const resetValue = useCallback(() => {
     setFocus("message");
     resetField("message");
-  };
+  }, [resetField, setFocus]);
 
-  useEffect(resetValue, [id, setFocus, resetField]);
+  useEffect(resetValue, [id, resetValue]);
 
-  const onSubmit = () => {
+  const onSubmit = useCallback(() => {
     const value = getValues("message");
     if (!value) return;
     dispatch(
@@ -61,17 +60,27 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
       })
     );
     resetValue();
-  };
+  }, [dispatch, getValues, id, resetValue]);
 
   const hookCaretPosition = useCallback(
     (event: any) => {
-      caretPosition.current = event.target?.selectionStart!;
+      const target = event.target;
+      if (event instanceof KeyboardEvent) {
+        if (event.key === "Enter" && !event.shiftKey) {
+          event.preventDefault();
+          onSubmit();
+        } else {
+        }
+      }
+      if (target instanceof HTMLInputElement) {
+        caretPosition.current = target.selectionStart!;
+      }
     },
-    [caretPosition]
+    [caretPosition, onSubmit]
   );
 
   useEffect(() => {
-    const input = ref.current?.getElementsByTagName("input")?.item(0);
+    const input = document.getElementById("message");
     if (!input) return;
     input.addEventListener("keydown", hookCaretPosition);
     input.addEventListener("click", hookCaretPosition);
@@ -97,9 +106,7 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
   }, [id, socket]);
 
   const onChange = useCallback(
-    (event: any) => {
-      _sendTypingNotification();
-    },
+    () => _sendTypingNotification(),
     [_sendTypingNotification]
   );
 
@@ -114,11 +121,13 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
     <ChannelFormContainer>
       <ChannelChattingNotification />
       <ChannelSendingContainer>
-        <ChannelForm ref={ref} className='form' noValidate autoComplete='off'>
+        <ChannelForm className='form' noValidate autoComplete='off'>
           <TextFieldNeumorphism
             id='message'
             label='Send message'
+            type='rich'
             fontSize='1.2rem'
+            maxLines={1}
             register={register("message", {
               disabled: isSubmitting,
               onChange: onChange,

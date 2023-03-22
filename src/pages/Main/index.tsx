@@ -10,6 +10,7 @@ import ConversationAction from "./components/Container/ConversationAction";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { lazy, Suspense } from "react";
 import PageLoading from "@components/Loading/PageLoading";
+import MessageContainerLoading from "./components/Container/ConversationChannel/components/ui/MessageContainerLoading";
 const ConversationChannel = lazy(
   () => import("./components/Container/ConversationChannel")
 );
@@ -56,8 +57,8 @@ const MainRoute = (
           path='messenger/:id'
           errorElement={<ConversationError />}
           element={
-            <Suspense fallback={<>Loading ...</>}>
-              {<ConversationChannel />}
+            <Suspense fallback={<MessageContainerLoading />}>
+              <ConversationChannel />
             </Suspense>
           }
         />

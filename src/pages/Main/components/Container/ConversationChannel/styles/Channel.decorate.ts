@@ -66,6 +66,8 @@ export const ChannelFormContainer = styled.div`
 export const ChannelForm = styled.form`
   display: flex;
   flex-direction: row;
+  align-items: center;
+  gap: 1em;
   flex: 1;
 `;
 

@@ -25,6 +25,7 @@ const BaseTextField = (props: BaseTextFieldProps) => {
     disableFloatingLabel = false,
     placeholder,
     autoFocus,
+    maxLines = 2,
   } = props;
   const ref = useRef<any>();
   const [isHidden, setHidden] = useState(true);
@@ -69,6 +70,7 @@ const BaseTextField = (props: BaseTextFieldProps) => {
           disabled={disabled || readOnly}
           tabIndex={tabIndex}
           autoFocus={autoFocus}
+          rows={maxLines}
           required
           {...props.register}
         />
