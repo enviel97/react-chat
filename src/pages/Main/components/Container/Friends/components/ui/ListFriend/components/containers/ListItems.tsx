@@ -32,7 +32,7 @@ const FriendItem: FC<FriendItemProps> = ({
   useEffect(() => {
     socket.emit(
       Event.Event_PARTICIPANT_STATUS_RESPONSE,
-      userId,
+      { userId, conversationId: id },
       (response: StatusActions) => {
         startTransition(() => setOnline(response === "online"));
       }
@@ -48,7 +48,7 @@ const FriendItem: FC<FriendItemProps> = ({
     return () => {
       socket.off(Event.EVENT_NOTIFICATION_CHANGE_STATUS);
     };
-  }, [socket, userId]);
+  }, [socket, userId, id]);
 
   return (
     <Items>

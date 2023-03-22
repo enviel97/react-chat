@@ -73,7 +73,7 @@ const BannedButton: FC<BannedButtonProps> = ({
     );
   }, [user, controller, onConfirmBanned]);
 
-  if (isCurrentUser && canBanned) return <></>;
+  if (isCurrentUser || !canBanned) return <></>;
   return (
     <BannedButtonWrap
       icon={<TiCancel />}
