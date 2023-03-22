@@ -5,12 +5,17 @@ import { Page } from "@utils/styles";
 import { Outlet, useParams } from "react-router-dom";
 import { Panel, UnselectedConversation } from "./styles/Conversation.decorate";
 
-import ConversationSidebar from "./components/Container/ConversationSidebar";
-import ConversationChannel from "./components/Container/ConversationChannel";
 import ConversationError from "./components/Container/ConversationError";
 import ConversationAction from "./components/Container/ConversationAction";
 import useBreakpoint from "@hooks/useBreakpoint";
-import Friends from "./components/Container/Friends";
+import { lazy, Suspense } from "react";
+const ConversationChannel = lazy(
+  () => import("./components/Container/ConversationChannel")
+);
+const ConversationSidebar = lazy(
+  () => import("./components/Container/ConversationSidebar")
+);
+const Friends = lazy(() => import("./components/Container/Friends"));
 
 const ConversationLayout = () => {
   const params = useParams();
@@ -45,7 +50,11 @@ const MainRoute = (
         <Route
           path='messenger/:id'
           errorElement={<ConversationError />}
-          element={<ConversationChannel />}
+          element={
+            <Suspense fallback={<>Loading ...</>}>
+              {<ConversationChannel />}
+            </Suspense>
+          }
         />
       </Route>
     </Route>
