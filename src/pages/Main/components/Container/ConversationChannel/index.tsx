@@ -13,7 +13,7 @@ import { selectConversationType } from "@store/slices/ui";
 import { isError } from "@utils/validate";
 import { lazy, Suspense, useCallback, useEffect, useLayoutEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import ChannelHeader from "./components/container/ChannelHeader";
+
 import ChannelSendForm from "./components/container/ChannelSendForm";
 import MessageContainerLoading from "./components/ui/MessageContainerLoading";
 import {
@@ -22,6 +22,9 @@ import {
 } from "./styles/Channel.decorate";
 
 const ChannelBody = lazy(() => import("./components/container/ChannelBody"));
+const ChannelHeader = lazy(
+  () => import("./components/container/ChannelHeader")
+);
 
 const NOTICE_YOU_BANNED = "noticeYouBanned";
 const modalConfirmBannedOptions = {
@@ -113,8 +116,8 @@ const ConversationChannel = () => {
   if (isError(process)) navigator("/conversation");
 
   return (
-    <Suspense fallback={"..."}>
-      <ChannelContainer>
+    <ChannelContainer>
+      <Suspense fallback={"..."}>
         <ChannelHeader conversationId={id} />
         <ChannelBodyContainer>
           <Suspense fallback={<MessageContainerLoading />}>
@@ -122,8 +125,8 @@ const ConversationChannel = () => {
           </Suspense>
           <ChannelSendForm conversationId={id} />
         </ChannelBodyContainer>
-      </ChannelContainer>
-    </Suspense>
+      </Suspense>
+    </ChannelContainer>
   );
 };
 

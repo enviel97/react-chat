@@ -16,6 +16,7 @@ const useAuthFetch = () => {
         setLoading(false);
       })
       .catch((error) => {
+        updateAuthUser(undefined);
         setLoading(false);
       });
 

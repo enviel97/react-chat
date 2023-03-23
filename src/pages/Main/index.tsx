@@ -9,15 +9,12 @@ import ConversationError from "./components/Container/ConversationError";
 import ConversationAction from "./components/Container/ConversationAction";
 import useBreakpoint from "@hooks/useBreakpoint";
 import { lazy, Suspense } from "react";
-import PageLoading from "@components/Loading/PageLoading";
 import MessageContainerLoading from "./components/Container/ConversationChannel/components/ui/MessageContainerLoading";
+import Friends from "./components/Container/Friends";
+import ConversationSidebar from "./components/Container/ConversationSidebar";
 const ConversationChannel = lazy(
   () => import("./components/Container/ConversationChannel")
 );
-const ConversationSidebar = lazy(
-  () => import("./components/Container/ConversationSidebar")
-);
-const Friends = lazy(() => import("./components/Container/Friends"));
 
 const ConversationLayout = () => {
   const params = useParams();
@@ -32,7 +29,9 @@ const ConversationLayout = () => {
         {!params?.id && (
           <UnselectedConversation>Select messenger</UnselectedConversation>
         )}
-        {params?.id && <Outlet />}
+        <Suspense fallback={<MessageContainerLoading />}>
+          {params?.id && <Outlet />}
+        </Suspense>
       </Panel>
       <Friends />
     </Page>
@@ -43,25 +42,14 @@ const MainRoute = (
   <Route path='/' key='Main' element={<MainLayout />}>
     <Route path='home' element={<Navigate to={"/conversation"} replace />} />
     <Route path='' element={<Navigate to={"/conversation"} replace />} />
-    <Route path='conversation' errorElement={<ConversationError />}>
+    <Route path='conversation'>
       <Route
         path='/conversation'
         key='Conversation'
-        element={
-          <Suspense fallback={<PageLoading />}>
-            <ConversationLayout />
-          </Suspense>
-        }
+        errorElement={<ConversationError />}
+        element={<ConversationLayout />}
       >
-        <Route
-          path='messenger/:id'
-          errorElement={<ConversationError />}
-          element={
-            <Suspense fallback={<MessageContainerLoading />}>
-              <ConversationChannel />
-            </Suspense>
-          }
-        />
+        <Route path='messenger/:id' element={<ConversationChannel />} />
       </Route>
     </Route>
   </Route>

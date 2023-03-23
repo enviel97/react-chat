@@ -27,52 +27,31 @@ const client = axios.create({
 });
 
 const errorHandler = (err: any) => {
-  try {
-    if (err.code === ERR_CANCELED) {
-      return {
-        code: err.code,
-        message: err.message,
-        data: undefined,
-      };
-    }
-    if (err.response) {
-      const { status = 500 } = err.response;
-      if (isServerError(status)) {
-        showToast(err.response.data?.message ?? "Internal Server Error");
-      } else if (isLoginRequired(status)) {
-        showToast("You must log in first");
-      } else {
-        showToast(err.response.data?.message ?? "Server not found");
-      }
-      return {
-        code: err.response.data?.code ?? err.code,
-        message: err.response.data?.message ?? err.message,
-        data: undefined,
-      };
-    } else if (err.request) {
-      showToast(err.request.message ?? "Interval Server Error");
-      return {
-        code: err.request?.code ?? err.code,
-        message: err.request?.message ?? err.message,
-        data: undefined,
-      };
-    }
+  if (err.code !== ERR_CANCELED) safeLog(err);
 
-    return {
-      code: err.code,
-      message: err.message,
-      data: undefined,
-    };
-  } catch (error) {
-    showToast("Some error occur, we don't known");
-    return {
-      code: err.code,
-      message: err.message,
-      data: undefined,
-    };
-  } finally {
-    if (err.code !== ERR_CANCELED) safeLog(err);
+  if (err.response) {
+    const { status = 500 } = err.response;
+    if (isServerError(status)) {
+      showToast(err.response.data?.message ?? "Internal Server Error");
+    } else if (isLoginRequired(status)) {
+      showToast("You must log in first");
+      return Promise.reject(err.response);
+    } else {
+      showToast(err.response.data?.message ?? "Server not found");
+    }
+    return Promise.reject({
+      code: err.response.data?.code ?? err.response.code,
+      message: err.response.data?.message ?? err.response.message,
+      data: err.response.data?.data ?? err.response.data,
+    });
   }
+
+  showToast(err.request.message ?? "Interval Client Error");
+  return Promise.reject({
+    code: err.request?.code ?? err.code,
+    message: err.request?.message ?? err.message,
+    data: err.request?.data ?? err.data,
+  });
 };
 
 client.interceptors.request.use((config) => {

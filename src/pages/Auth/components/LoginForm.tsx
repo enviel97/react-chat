@@ -4,7 +4,7 @@ import { FormDecorate } from "../decorates/decorates.form";
 import { TextFieldNeumorphism as TextField } from "@components/TextInput";
 import { forwardRef, useImperativeHandle } from "react";
 import { signIn } from "@store/repo/authenticate/authenticate";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useAuthenticate from "@hooks/useAuthenticate";
 
 const LoginForm = forwardRef<FormHandler>((_, ref) => {
@@ -18,6 +18,7 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
   } = useForm<Account>({
     defaultValues: { email: "nvloc.07.97@gmail.com", password: "Tester1" },
   });
+  const location = useLocation();
   const navigator = useNavigate();
   const { updateAuthUser } = useAuthenticate();
 
@@ -37,7 +38,9 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
     const response = await signIn(data);
     if (response.data) {
       updateAuthUser(response.data);
-      navigator("/", { replace: true });
+      const from = location.state.from;
+      const pathname = from?.pathname ?? "/";
+      navigator(pathname, { replace: true });
     }
   };
 
