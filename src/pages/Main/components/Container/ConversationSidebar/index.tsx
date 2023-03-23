@@ -11,10 +11,7 @@ import {
 import { lazy, Suspense, useCallback, useEffect } from "react";
 import SideHeader from "./components/containers/SideHeader";
 import Loading from "./components/containers/SideItems/components/loading";
-import {
-  SidebarContainer,
-  SideItemsContainer,
-} from "./styles/Sidebar.decorate";
+import { SidebarContainer } from "./styles/Sidebar.decorate";
 
 const SideItems = lazy(() => import("./components/containers/SideItems"));
 
@@ -68,14 +65,7 @@ const ConversationSidebar = () => {
   return (
     <SidebarContainer>
       <SideHeader />
-      <Suspense
-        fallback={
-          <SideItemsContainer>
-            <Loading />
-            <Loading />
-          </SideItemsContainer>
-        }
-      >
+      <Suspense fallback={<Loading count={2} />}>
         <SideItems />
       </Suspense>
     </SidebarContainer>

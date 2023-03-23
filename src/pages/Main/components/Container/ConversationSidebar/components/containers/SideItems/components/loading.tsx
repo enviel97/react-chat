@@ -1,16 +1,21 @@
 import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
 import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
+import { FC, memo, useMemo } from "react";
 import styled from "styled-components";
 import {
   SideItemContainer,
   SideItemContent,
+  SideItemsContainer,
 } from "../../../../styles/Sidebar.decorate";
 
 const KSideItemContent = styled(SideItemContent)`
   padding: 0;
 `;
+interface LoadingProps {
+  count?: number;
+}
 
-const Loading = () => {
+const UILoading = memo(() => {
   return (
     <SkeletonContainer>
       <SideItemContainer>
@@ -21,6 +26,16 @@ const Loading = () => {
         </KSideItemContent>
       </SideItemContainer>
     </SkeletonContainer>
+  );
+});
+
+const Loading: FC<LoadingProps> = ({ count = 1 }) => {
+  return (
+    <>
+      {[...Array(count).keys()].map(() => {
+        return <UILoading />;
+      })}
+    </>
   );
 };
 
