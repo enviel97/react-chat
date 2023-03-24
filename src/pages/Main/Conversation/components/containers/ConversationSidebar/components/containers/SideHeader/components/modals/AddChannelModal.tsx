@@ -11,8 +11,8 @@ import { SubmitErrorHandler, useForm } from "react-hook-form";
 import { components } from "react-select";
 import { toast } from "react-toastify";
 import styled from "styled-components";
-import { mappingUsers } from "../../utils/mapping";
-import { AsyncOptionContainer } from "../styles/AsyncOption.decorate";
+import { mappingUsers } from "../../../../../../../../../utils/mapping";
+import { AsyncOptionContainer } from "../../../../../../../../../components/styles/AsyncOption.decorate";
 
 const AddChannelModalContainer = styled.div`
   position: relative;

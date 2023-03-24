@@ -1,12 +1,15 @@
 import { useModals } from "@components/Modal/hooks/useModals";
 import { fetchAddConversation } from "@store/repo/conversation";
 import useAppDispatch from "@hooks/useAppDispatch";
-import AddChannelModal from "../modals/AddChannelModal";
 import { useNavigate } from "react-router-dom";
 import string from "@utils/string";
 import { PromiseToast } from "@components/Toast/promise";
-import { memo, useCallback } from "react";
-import ActionButton from "../ui/ActionButton";
+import { memo, useCallback, useMemo } from "react";
+import { ButtonIconNeumorphism } from "@components/Button";
+import AddChannelModal from "../modals/AddChannelModal";
+import { useTheme } from "styled-components";
+import { colorBrightness } from "@theme/helper/tools";
+import { BiMessageAdd } from "react-icons/bi";
 
 const modalKey = "CreateConversationModal";
 const modalOption = {
@@ -22,6 +25,7 @@ const AddChatButton = () => {
   const modelController = useModals();
   const dispatch = useAppDispatch();
   const navigator = useNavigate();
+  const theme = useTheme();
 
   const onAction = useCallback(
     async (data: ConversationCreate) => {
@@ -46,7 +50,11 @@ const AddChatButton = () => {
     [modelController, navigator]
   );
 
-  const _editButton = () => {
+  const colorIcons = useMemo(() => {
+    return colorBrightness(theme.onBackgroundColor, -5);
+  }, [theme]);
+
+  const _addChannelClick = () => {
     modelController.show(
       <AddChannelModal
         onSubmitted={(data) => {
@@ -61,7 +69,14 @@ const AddChatButton = () => {
     );
   };
 
-  return <ActionButton icon='Add conversation' onClick={_editButton} />;
+  return (
+    <ButtonIconNeumorphism
+      icon={<BiMessageAdd size={24} />}
+      textColor={colorIcons}
+      size={"2.5em"}
+      onClick={_addChannelClick}
+    />
+  );
 };
 
 export default memo(AddChatButton);

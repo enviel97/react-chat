@@ -2,10 +2,12 @@ import { TextFieldSearchNeumorphism } from "@components/TextInput";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { updateTypeConversation } from "@store/slices/ui";
 import { useCallback } from "react";
+import AddChatButton from "./components/container/AddChatButton";
 import FilterButton from "./components/ui/FilterButton";
 import {
   SideHeaderContainer,
   SideHeaderFilter,
+  SideHeaderSearchContainer,
 } from "./styles/SideHeader.decorate";
 
 const SideHeader = () => {
@@ -19,9 +21,12 @@ const SideHeader = () => {
 
   return (
     <SideHeaderContainer>
-      <TextFieldSearchNeumorphism
-        onSearch={function (search?: string | undefined): void {}}
-      />
+      <SideHeaderSearchContainer>
+        <TextFieldSearchNeumorphism
+          onSearch={function (search?: string | undefined): void {}}
+        />
+        <AddChatButton />
+      </SideHeaderSearchContainer>
 
       <SideHeaderFilter>
         <FilterButton text='Messenger' onClick={() => filter("direct")} />

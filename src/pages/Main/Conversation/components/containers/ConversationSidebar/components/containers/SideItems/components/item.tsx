@@ -1,7 +1,7 @@
 import useAuthenticate from "@hooks/useAuthenticate";
 import useBreakpoint from "@hooks/useBreakpoint";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
-import HeaderConversation from "@pages/Main/Conversation/components/UI/HeaderConversation";
+import HeaderConversation from "@pages/Main/Conversation/components/ui/HeaderConversation";
 import string from "@utils/string";
 import { FC, memo, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";

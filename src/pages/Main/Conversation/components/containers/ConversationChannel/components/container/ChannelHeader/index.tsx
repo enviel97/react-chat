@@ -1,7 +1,7 @@
 import SkeletonContainer from "@components/Skeleton";
 import useAppSelector from "@hooks/useAppSelector";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
-import HeaderConversation from "@pages/Main/Conversation/components/UI/HeaderConversation";
+import HeaderConversation from "@pages/Main/Conversation/components/ui/HeaderConversation";
 import { selectConversationById } from "@store/slices/conversations";
 import { FC, useMemo } from "react";
 import { ChannelHeaderContainer } from "../../../styles/Channel.decorate";

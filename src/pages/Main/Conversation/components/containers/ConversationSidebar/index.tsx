@@ -8,7 +8,7 @@ import {
   updateConversation,
   removeConversation,
 } from "@store/slices/conversations";
-import { lazy, Suspense, useCallback, useEffect } from "react";
+import { lazy, memo, Suspense, useCallback, useEffect } from "react";
 import SideHeader from "./components/containers/SideHeader";
 import Loading from "./components/containers/SideItems/components/loading";
 import { SidebarContainer } from "./styles/Sidebar.decorate";
@@ -72,4 +72,4 @@ const ConversationSidebar = () => {
   );
 };
 
-export default ConversationSidebar;
+export default memo(ConversationSidebar);

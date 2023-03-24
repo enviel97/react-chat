@@ -1,6 +1,5 @@
 import { Placeholder } from "@utils/styles";
 import { memo } from "react";
-import AddChatButton from "../container/AddChatButton";
 import {
   SidebarActionContainer,
   SidebarContainer,
@@ -15,7 +14,6 @@ const ConversationAction = () => {
       <SidebarActionContainer>
         <CircleAvatar size={48} />
         <Placeholder height='0.5em' width='auto' />
-        <AddChatButton />
         <FriendsChatButton />
       </SidebarActionContainer>
       <LogoutButton />

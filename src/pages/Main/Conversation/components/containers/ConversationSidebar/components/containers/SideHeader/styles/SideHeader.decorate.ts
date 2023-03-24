@@ -42,3 +42,11 @@ export const SideHeaderContainer = styled.header`
     }
   }
 `;
+
+export const SideHeaderSearchContainer = styled.div`
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+`;

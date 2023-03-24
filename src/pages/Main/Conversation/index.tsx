@@ -2,10 +2,10 @@ import { Route } from "react-router-dom";
 import { Outlet, useParams } from "react-router-dom";
 import { Panel, UnselectedConversation } from "./styles/Conversation.decorate";
 import useBreakpoint from "@hooks/useBreakpoint";
-import ConversationSidebar from "./components/Container/ConversationSidebar";
-import Friends from "./components/Container/Friends";
-import ConversationChannel from "./components/Container/ConversationChannel";
-import ConversationError from "./components/Container/ConversationError";
+import ConversationSidebar from "./components/containers/ConversationSidebar";
+import Friends from "./components/containers/Friends";
+import ConversationChannel from "./components/containers/ConversationChannel";
+import ConversationError from "./components/containers/ConversationError";
 import { Fragment } from "react";
 
 const ConversationLayout = () => {
