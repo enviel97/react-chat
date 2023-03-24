@@ -15,6 +15,7 @@ const ContextMenuItems: FC<ContextMenuItemProps> = ({
   return (
     <MenuContextItemContainer
       {...containerDecorate}
+      onContextMenu={(e) => e.preventDefault()}
       onClick={() => {
         onClick && onClick(selectedValue);
       }}

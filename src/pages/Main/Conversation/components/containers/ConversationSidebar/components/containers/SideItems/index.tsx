@@ -1,9 +1,8 @@
 import ContextMenuProvider from "@components/Select/ContextMenu";
 import useAppSelector from "@hooks/useAppSelector";
-import { selectAllConversation } from "@store/slices/conversations";
-import string from "@utils/string";
+import { selectConversationIds } from "@store/slices/conversations/selectors/getConversationSelector";
 import { isLoading } from "@utils/validate";
-import { useRef } from "react";
+import { memo, useCallback, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import {
   SideItemsContainer,
@@ -15,46 +14,42 @@ import useSideConversationAction from "./hooks/useSideConversationAction";
 
 const SideItems = () => {
   const navigator = useNavigate();
-  const conversations = useAppSelector(selectAllConversation);
   const status = useAppSelector((state) => state.conversation.process);
   const ref = useRef<ContextMenuRef>(null);
   const actions = useSideConversationAction();
+  const conversationIds = useAppSelector(selectConversationIds);
+
+  const onContextMenu = useCallback(
+    (event: any, conversation: Conversation) => {
+      if (conversation?.type === "group") {
+        ref.current?.onContextMenu<Conversation>(event, conversation);
+      }
+    },
+    []
+  );
 
   if (isLoading(status)) {
-    return (
-      <SideItemsContainer>
-        <Loading />
-        <Loading />
-      </SideItemsContainer>
-    );
+    return <Loading count={2} />;
   }
 
   return (
     <SideItemsContainer>
-      {conversations.length === 0 && (
+      {conversationIds.length === 0 && (
         <SideItemsEmpty>No messenger found.</SideItemsEmpty>
       )}
-      {conversations.length !== 0 && (
+      {conversationIds.length !== 0 && (
         <ContextMenuProvider ref={ref} menuTitle='Actions' menuItem={actions}>
-          {conversations.map((conversation, index) => {
-            const id = string.getId(conversation);
+          {conversationIds.map((id, index) => {
+            const _id = id.toString();
             return (
-              <div
+              <Item
+                onContextMenu={onContextMenu}
                 key={`${id}&${index}`}
-                onContextMenu={(e) => {
-                  e.preventDefault();
-                  if (conversation.type === "group") {
-                    ref.current?.onContextMenu<Conversation>(e, conversation);
-                  }
+                conversationId={_id}
+                onItemClick={function (): void {
+                  navigator(`messenger/${_id}`);
                 }}
-              >
-                <Item
-                  channel={conversation}
-                  onItemClick={function (): void {
-                    navigator(`messenger/${id}`);
-                  }}
-                />
-              </div>
+              />
             );
           })}
         </ContextMenuProvider>
@@ -63,4 +58,4 @@ const SideItems = () => {
   );
 };
 
-export default SideItems;
+export default memo(SideItems);

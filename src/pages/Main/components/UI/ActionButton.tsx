@@ -1,18 +1,22 @@
 import { ButtonIconNeumorphism } from "@components/Button";
-import { FC, useMemo } from "react";
-import { BiLogOutCircle, BiMessageSquareAdd, BiUser } from "react-icons/bi";
+import { FC, useCallback, useMemo } from "react";
+import { BiLogOutCircle, BiUser, BiMessageSquareDots } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
 
 interface ActionButtonProps {
-  icon: "Add conversation" | "Friends" | "Sign out";
-  onClick: () => void;
+  icon: "Conversation" | "Friends" | "Sign out";
+  to: string;
+  state?: any;
+  onClick?: () => void;
 }
 
-const ActionButton: FC<ActionButtonProps> = ({ icon, onClick }) => {
+const ActionButton: FC<ActionButtonProps> = ({ icon, onClick, to, state }) => {
+  const navigator = useNavigate();
   const Icons = useMemo(() => {
     const size = "2em";
     switch (icon) {
-      case "Add conversation": {
-        return <BiMessageSquareAdd size={size} />;
+      case "Conversation": {
+        return <BiMessageSquareDots size={size} />;
       }
       case "Friends": {
         return <BiUser size={size} />;
@@ -23,12 +27,17 @@ const ActionButton: FC<ActionButtonProps> = ({ icon, onClick }) => {
     }
   }, [icon]);
 
+  const onActionClick = useCallback(() => {
+    onClick && onClick();
+    navigator(to, { replace: true, state });
+  }, [to, onClick, state, navigator]);
+
   return (
     <ButtonIconNeumorphism
-      onClick={onClick}
+      onClick={onActionClick}
       icon={Icons}
       hint={icon}
-      hintPosition='right'
+      hintPosition='top'
       hintBackgroundColor='surface'
     />
   );

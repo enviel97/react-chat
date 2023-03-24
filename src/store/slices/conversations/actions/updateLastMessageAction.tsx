@@ -21,7 +21,7 @@ export const updateLastMessageAction = (
     .getSelectors()
     .selectById(eState, payload.conversationId);
 
-  if (!conversation) return;
+  if (!conversation || !payload.message) return;
   adapter.updateOne(eState, {
     id: payload.conversationId,
     changes: {

@@ -1,7 +1,9 @@
+import useAppSelector from "@hooks/useAppSelector";
 import useAuthenticate from "@hooks/useAuthenticate";
 import useBreakpoint from "@hooks/useBreakpoint";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import HeaderConversation from "@pages/Main/Conversation/components/ui/HeaderConversation";
+import { selectConversationById } from "@store/slices/conversations";
 import string from "@utils/string";
 import { FC, memo, useEffect, useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
@@ -18,35 +20,54 @@ enum Status {
 }
 
 interface ItemProps {
-  channel: Conversation;
+  conversationId: string;
   onItemClick: () => void;
+  onContextMenu: (
+    event: React.MouseEvent<HTMLElement, MouseEvent>,
+    value: Conversation
+  ) => void;
 }
 
-const Item: FC<ItemProps> = ({ channel, onItemClick }) => {
+const Item: FC<ItemProps> = ({
+  conversationId,
+  onItemClick,
+  onContextMenu,
+}) => {
   const { id } = useParams();
   const [status, setStatus] = useState<Status>(Status.Seen);
   const [selected, setSelected] = useState<boolean>(false);
+  const [lastMessage, setLastMessage] = useState(
+    "Say something with your friend !!"
+  );
   const { isUser } = useAuthenticate();
   const breakpoint = useBreakpoint();
+  const conversation = useAppSelector((state) =>
+    selectConversationById(state, conversationId)
+  );
+  useEffect(() => {
+    if (!!conversation?.lastMessage?.content) {
+      setLastMessage(conversation.lastMessage.content);
+    }
+  }, [conversation?.lastMessage?.content]);
 
   useEffect(() => {
-    if (!!id && id === string.getId(channel)) {
+    if (!!id && id === conversationId) {
       setSelected(true);
     } else {
       setSelected(false);
     }
-  }, [id, channel]);
+  }, [id, conversationId]);
 
   const lastMessenger = useMemo(() => {
-    if (!channel) return "";
-    return !channel.lastMessage
+    if (!conversation) return "";
+    return !conversation.lastMessage
       ? ""
-      : isUser(channel.lastMessage.author)
+      : isUser(conversation.lastMessage.author)
       ? "You: "
-      : `${channel.lastMessage.author.lastName}: `;
-  }, [channel, isUser]);
+      : `${conversation.lastMessage.author.lastName}: `;
+  }, [conversation, isUser]);
 
-  if (!channel) return <Loading />;
+  if (!conversation) return <Loading />;
 
   const _seen = () => {
     // TODO: Seen
@@ -58,28 +79,30 @@ const Item: FC<ItemProps> = ({ channel, onItemClick }) => {
     <SideItemContainer
       className={string.classList(selected ? "active" : "")}
       onClick={_seen}
+      onContextMenu={(event) => {
+        event.preventDefault();
+        onContextMenu(event, conversation);
+      }}
     >
       <CircleAvatar
         className='avatar'
         size={breakpoint.up("tablet") ? undefined : 40}
       />
       <SideItemContent>
-        <HeaderConversation conversationId={string.getId(channel)} />
-
+        <HeaderConversation conversationId={string.getId(conversation)} />
         <span className={string.classList("Content", status)}>
           <span
             className={string.classList(
               "Content--Text",
-              channel.lastMessage ? "" : "Content--Default"
+              conversation.lastMessage ? "" : "Content--Default"
             )}
           >
             {lastMessenger}
-            {channel.lastMessage?.content ??
-              "Say something with your friend !!"}
+            {lastMessage}
           </span>
 
           <span className='Content--Time'>
-            {string.chatFromNow(channel.lastMessage?.updatedAt)}
+            {string.chatFromNow(conversation.lastMessage?.updatedAt)}
             {status === Status.New && <span className='Circle' />}
           </span>
         </span>

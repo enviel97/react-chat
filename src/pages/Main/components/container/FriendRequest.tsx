@@ -5,9 +5,8 @@ const FriendsChatButton = () => {
   return (
     <ActionButton
       icon={"Friends"}
-      onClick={function (): void {
-        throw new Error("Function not implemented.");
-      }}
+      onClick={function (): void {}}
+      to={"/friends"}
     />
   );
 };

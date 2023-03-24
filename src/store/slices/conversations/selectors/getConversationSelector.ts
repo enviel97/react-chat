@@ -8,6 +8,7 @@ import groupConversationsAdapter from "../adapter/groupConversation.adapter";
 const {
   selectById: selectDirectConversationById,
   selectAll: selectAllDirectConversations,
+  selectIds: selectDirectIds,
 } = conversationsAdapter.getSelectors((rootState: RootState) => {
   const state: ConversationState = rootState[SliceName.conversation];
   return state.direct;
@@ -16,6 +17,7 @@ const {
 const {
   selectById: selectGroupConversationById,
   selectAll: selectAllGroupConversations,
+  selectIds: selectGroupIds,
 } = groupConversationsAdapter.getSelectors((rootState: RootState) => {
   const state: ConversationState = rootState[SliceName.conversation];
   return state.group;
@@ -32,9 +34,19 @@ export const selectAllConversation = createSelector(
 );
 
 export const selectConversationById = createSelector(
-  selectDirectConversationById,
-  selectGroupConversationById,
+  (state: RootState, id: string) => selectDirectConversationById(state, id),
+  (state: RootState, id: string) => selectGroupConversationById(state, id),
   (direct, group) => {
     return direct ?? group;
+  }
+);
+
+export const selectConversationIds = createSelector(
+  selectDirectIds,
+  selectGroupIds,
+  (state: RootState) => state.ui.selectedConversationType,
+  (directs, groups, type) => {
+    if (type === "direct") return directs;
+    return groups;
   }
 );

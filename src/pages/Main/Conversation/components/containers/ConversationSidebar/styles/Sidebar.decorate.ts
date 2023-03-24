@@ -20,8 +20,8 @@ export const SidebarContainer = styled.aside`
 `;
 
 export const SideItemsContainer = styled.div`
-  width: 100%;
   display: flex;
+  width: 100%;
   padding-bottom: 2em;
   gap: 0.3rem;
   overflow-x: hidden;
@@ -54,6 +54,8 @@ export const SideItemsEmpty = styled.div`
 export const SideItemContainer = styled.div`
   display: flex;
   height: fit-content;
+  margin-bottom: 0.3em;
+  margin-right: 0.1em;
 
   cursor: pointer;
   background-color: ${({ theme }) => theme.backgroundColor};

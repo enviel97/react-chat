@@ -5,7 +5,8 @@ import {
   SidebarContainer,
 } from "../styles/Sidebar.decorate";
 import CircleAvatar from "../ui/CircleAvatar";
-import FriendsChatButton from "./FriendsChatButton";
+import Conversation from "./Conversation";
+import FriendsChatButton from "./FriendRequest";
 import LogoutButton from "./LogoutButton";
 
 const ConversationAction = () => {
@@ -14,6 +15,7 @@ const ConversationAction = () => {
       <SidebarActionContainer>
         <CircleAvatar size={48} />
         <Placeholder height='0.5em' width='auto' />
+        <Conversation />
         <FriendsChatButton />
       </SidebarActionContainer>
       <LogoutButton />
