@@ -5,7 +5,6 @@ import PageLoading from "@components/Loading/PageLoading";
 import useAuthFetch from "@pages/Auth/hooks/useAuthFetch";
 import { Page } from "@utils/styles";
 import SidebarAction from "@pages/Main/components/container/SidebarAction";
-import { motion } from "framer-motion";
 
 export const MainContainer = styled.div`
   height: 100%;
@@ -15,11 +14,6 @@ export const MainContainer = styled.div`
   /* TODO */
   /* overflow: hidden; */
   flex-direction: row;
-`;
-
-const PageMotion = styled(motion.div)`
-  display: flex;
-  width: 100%;
 `;
 
 const MainLayout = () => {
@@ -37,9 +31,7 @@ const MainLayout = () => {
     <MainContainer id='app'>
       <Page display='flex'>
         <SidebarAction />
-        <PageMotion>
-          <Outlet />
-        </PageMotion>
+        <Outlet />
       </Page>
     </MainContainer>
   );
