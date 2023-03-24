@@ -18,7 +18,7 @@ export const Event = Object.freeze({
   EVENT_MESSAGE_EDITED: "onMessageEdited",
 
   EVENT_PARTICIPANT_GET_STATUS: "participant.getStatus",
-  Event_PARTICIPANT_STATUS_RESPONSE: "onParticipantStatusResponse",
+  EVENT_PARTICIPANT_STATUS_RESPONSE: "onParticipantStatusResponse",
 
   EVENT_SOCKET_CONNECTED: "connected",
   EVENT_SOCKET_ERROR: "connect_error",

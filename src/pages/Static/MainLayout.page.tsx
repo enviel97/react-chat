@@ -3,6 +3,8 @@ import styled from "styled-components";
 import useAutoScrollTop from "@hooks/useAutoScrollTop";
 import PageLoading from "@components/Loading/PageLoading";
 import useAuthFetch from "@pages/Auth/hooks/useAuthFetch";
+import { Page } from "@utils/styles";
+import SidebarAction from "@pages/Main/components/container/SidebarAction";
 
 export const MainContainer = styled.div`
   height: 100%;
@@ -27,7 +29,10 @@ const MainLayout = () => {
   }
   return (
     <MainContainer id='app'>
-      <Outlet />
+      <Page display='flex' height={`${window.innerHeight}px`}>
+        <SidebarAction />
+        <Outlet />
+      </Page>
     </MainContainer>
   );
 };
