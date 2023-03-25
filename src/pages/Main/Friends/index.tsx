@@ -1,4 +1,3 @@
-import { Page } from "@utils/styles";
 import { Navigate, Outlet, Route } from "react-router-dom";
 import SidebarAction from "./components/SidebarAction";
 import { FriendList, FriendRequest } from "./pages";

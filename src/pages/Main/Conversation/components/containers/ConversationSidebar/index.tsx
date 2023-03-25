@@ -8,7 +8,7 @@ import {
   updateConversation,
   removeConversation,
 } from "@store/slices/conversations";
-import { lazy, memo, Suspense, useCallback, useEffect } from "react";
+import { lazy, memo, Suspense, useCallback, useEffect, useRef } from "react";
 import SideHeader from "./components/containers/SideHeader";
 import Loading from "./components/containers/SideItems/components/loading";
 import { SidebarContainer } from "./styles/Sidebar.decorate";
@@ -19,10 +19,11 @@ const ConversationSidebar = () => {
   const dispatch = useAppDispatch();
   const socket = useSocket();
   const type = useAppSelector((state) => state.ui.selectedConversationType);
+  const defaultType = useRef(type);
 
   useEffect(() => {
-    dispatch(fetchConversations());
-  }, [dispatch, type]);
+    dispatch(fetchConversations(defaultType.current));
+  }, [dispatch]);
 
   const dispatchOnBannedUser = useCallback(
     (payload: BannedMemberPayload) => {
