@@ -13,3 +13,8 @@ interface RequestEditMessage {
   messageId: string;
   content: string;
 }
+
+interface RequestFetchMessage {
+  conversationId: string;
+  options?: PaginationOption;
+}

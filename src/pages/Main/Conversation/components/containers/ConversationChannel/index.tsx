@@ -12,7 +12,7 @@ import {
 import { selectConversationType } from "@store/slices/ui";
 import { isError } from "@utils/validate";
 import { lazy, Suspense, useCallback, useEffect, useLayoutEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 import ChannelSendForm from "./components/container/ChannelSendForm";
 import MessageContainerLoading from "./components/ui/MessageContainerLoading";
@@ -45,7 +45,10 @@ const ConversationChannel = () => {
   const controller = useModals();
 
   useEffect(() => {
-    dispatch(fetchMessages(id));
+    const promise = dispatch(fetchMessages({ conversationId: id }));
+    return () => {
+      promise.abort();
+    };
   }, [id, dispatch]);
 
   const dispatchBannerUser = useCallback(
@@ -113,7 +116,7 @@ const ConversationChannel = () => {
     };
   }, [id, socket]);
 
-  if (isError(process)) navigator("/conversation");
+  if (isError(process)) <Navigate to={"/conversation"} replace={true} />;
 
   return (
     <ChannelContainer>
