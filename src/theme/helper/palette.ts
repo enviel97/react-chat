@@ -35,6 +35,9 @@ declare module "styled-components" {
 
     tertiaryColor: string;
     onTertiaryColor: string;
+
+    notificationColor: string;
+    onNotificationColor: string;
   }
 }
 
@@ -52,6 +55,9 @@ const _paletteColor = {
 
   tertiaryColor: "#b75c9e",
   onTertiaryColor: "#efefef",
+
+  notificationColor: "#d42333",
+  onNotificationColor: "#ffffff",
 
   errorColor: "#ff0000",
   successColor: "#B1FA8E",
