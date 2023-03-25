@@ -2,7 +2,6 @@ import { zIndex } from "@common/zIndex.define";
 import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
 type TypeDecorate = ContextMenuContainerProps & { top: number; left: number };
-export const MenuContextTrigger = styled(motion.div)``;
 
 export const MenuContextContainer = styled(motion.ul)<TypeDecorate>`
   position: fixed;

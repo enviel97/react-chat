@@ -1,13 +1,19 @@
+import { Page } from "@utils/styles";
 import { Navigate, Outlet, Route } from "react-router-dom";
 import SidebarAction from "./components/SidebarAction";
 import { FriendList, FriendRequest } from "./pages";
-import { FriendPageDecorate } from "./styles/FriendPage.decorate";
+import {
+  FriendPageDecorate,
+  FriendPageLayout,
+} from "./styles/FriendPage.decorate";
 
 const FriendPage = () => {
   return (
     <FriendPageDecorate>
       <SidebarAction initTabDefault={0} />
-      <Outlet />
+      <FriendPageLayout>
+        <Outlet />
+      </FriendPageLayout>
     </FriendPageDecorate>
   );
 };

@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { useCallback, useState } from "react";
 import ContextMenu from "./components/ContextMenu";
-import { MenuContextTrigger } from "./styles/MenuContext.decorate";
 
 interface ContextMenuProviderProps
   extends Components,
@@ -61,24 +60,18 @@ const ContextMenuProvider = forwardRef<
 
   return (
     <MenuContext.Provider value={selectedValue}>
-      <MenuContextTrigger key='Provider'>
-        {children}
-        <AnimatePresence
-          initial={false}
-          mode='wait'
-          onExitComplete={() => null}
-        >
-          {isShow && (
-            <ContextMenu
-              {...props}
-              menuTitle={menuTitle}
-              items={menuItem}
-              top={clickPointer.y}
-              left={clickPointer.x}
-            />
-          )}
-        </AnimatePresence>
-      </MenuContextTrigger>
+      {children}
+      <AnimatePresence initial={false} mode='wait' onExitComplete={() => null}>
+        {isShow && (
+          <ContextMenu
+            {...props}
+            menuTitle={menuTitle}
+            items={menuItem}
+            top={clickPointer.y}
+            left={clickPointer.x}
+          />
+        )}
+      </AnimatePresence>
     </MenuContext.Provider>
   );
 });

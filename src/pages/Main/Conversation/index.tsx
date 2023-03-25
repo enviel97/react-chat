@@ -14,9 +14,11 @@ const ConversationLayout = () => {
 
   return (
     <Fragment>
-      {breakpoint.up("tablet") && <ConversationSidebar />}
-      <Panel>
-        {breakpoint.down("tablet") && <ConversationSidebar />}
+      {breakpoint.up("tablet") && <ConversationSidebar key={"upperTablet"} />}
+      <Panel key='panel'>
+        {breakpoint.down("tablet") && (
+          <ConversationSidebar key={"downTablet"} />
+        )}
         {!params?.id && (
           <UnselectedConversation>Select messenger</UnselectedConversation>
         )}

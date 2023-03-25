@@ -49,6 +49,10 @@ export const SideItemsEmpty = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  ${breakpoint.down("tablet")} {
+    display: none;
+    visibility: hidden;
+  }
 `;
 
 export const SideItemContainer = styled.div`
@@ -56,7 +60,6 @@ export const SideItemContainer = styled.div`
   height: fit-content;
   margin-bottom: 0.3em;
   margin-right: 0.1em;
-
   cursor: pointer;
   background-color: ${({ theme }) => theme.backgroundColor};
   border-radius: 5px;
