@@ -9,8 +9,8 @@ export const fetchMessageThunk = (builder: MessageExtraBuilder) => {
     .addCase(fetchMessages.pending, (state, _) => {
       state.process = State.PENDING;
     })
-    .addCase(fetchMessages.rejected, (state, _) => {
-      state.process = State.ERROR;
+    .addCase(fetchMessages.rejected, (state, payload) => {
+      if (!payload.meta.aborted) state.process = State.ERROR;
     })
     .addCase(
       fetchMessages.fulfilled,

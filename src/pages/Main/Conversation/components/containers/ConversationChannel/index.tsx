@@ -116,7 +116,9 @@ const ConversationChannel = () => {
     };
   }, [id, socket]);
 
-  if (isError(process)) <Navigate to={"/conversation"} replace={true} />;
+  if (isError(process)) {
+    return <Navigate to={"/conversation"} replace={true} />;
+  }
 
   return (
     <ChannelContainer>

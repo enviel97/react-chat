@@ -12,8 +12,8 @@ const fetchConversationsThunk = (builder: ConversationExtraBuilder) => {
     .addCase(fetchConversations.pending, (state, action) => {
       state.process = State.PENDING;
     })
-    .addCase(fetchConversations.rejected, (state, action) => {
-      state.process = State.ERROR;
+    .addCase(fetchConversations.rejected, (state, payload) => {
+      if (!payload.meta.aborted) state.process = State.ERROR;
     })
     .addCase(
       fetchConversations.fulfilled,
