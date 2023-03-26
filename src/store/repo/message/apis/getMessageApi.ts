@@ -27,7 +27,7 @@ const fetchMessages = createAsyncThunk(
         cancelToken: source.token,
       }
     );
-    if (response.data) return response;
+    if (response?.data) return response;
     throw new Error("Internal Server Error");
   }
 );

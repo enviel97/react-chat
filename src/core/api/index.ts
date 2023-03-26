@@ -42,7 +42,7 @@ const errorHandler = (err: any) => {
     return Promise.reject({
       code: err.response.data?.code ?? err.response.code,
       message: err.response.data?.message ?? err.response.message,
-      data: err.response.data?.data ?? err.response.data,
+      data: undefined,
     });
   }
 
@@ -50,7 +50,7 @@ const errorHandler = (err: any) => {
   return Promise.reject({
     code: err.request?.code ?? err.code,
     message: err.request?.message ?? err.message,
-    data: err.request?.data ?? err.data,
+    data: undefined,
   });
 };
 
