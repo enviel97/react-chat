@@ -1,21 +1,6 @@
 import { baseUrlAPI } from "@common/config.define";
 import axios from "axios";
-import { toast } from "react-toastify";
-import { safeLog } from "./utils/logger";
-import { isLoginRequired, isServerError } from "./utils/statusValid";
 import "@core/utils/api";
-
-const ERR_CANCELED = "ERR_CANCELED";
-
-const showToast = (message: string) => {
-  toast.clearWaitingQueue();
-  const toastId = message.toLowerCase().replaceAll(" ", "");
-  if (!toast.isActive(toastId)) {
-    toast.error(message, {
-      toastId: toastId,
-    });
-  }
-};
 
 const client = axios.create({
   baseURL: baseUrlAPI,
@@ -25,34 +10,6 @@ const client = axios.create({
     "Content-Type": "application/json",
   },
 });
-
-const errorHandler = (err: any) => {
-  if (err.code !== ERR_CANCELED) safeLog(err);
-
-  if (err.response) {
-    const { status = 500 } = err.response;
-    if (isServerError(status)) {
-      showToast(err.response.data?.message ?? "Internal Server Error");
-    } else if (isLoginRequired(status)) {
-      showToast("You must log in first");
-      return Promise.reject(err.response);
-    } else {
-      showToast(err.response.data?.message ?? "Server not found");
-    }
-    return Promise.reject({
-      code: err.response.data?.code ?? err.response.code,
-      message: err.response.data?.message ?? err.response.message,
-      data: undefined,
-    });
-  }
-
-  showToast(err.request.message ?? "Interval Client Error");
-  return Promise.reject({
-    code: err.request?.code ?? err.code,
-    message: err.request?.message ?? err.message,
-    data: undefined,
-  });
-};
 
 client.interceptors.request.use((config) => {
   config.withCredentials = true;
@@ -67,15 +24,10 @@ client.interceptors.request.use((config) => {
     ...config,
     url: currentUrl,
   };
-}, errorHandler);
+});
 
 client.interceptors.response.use((response) => {
-  try {
-    return response.data;
-  } catch (error) {
-    // Error undefine
-    return Promise.reject({ message: "Client error" });
-  }
-}, errorHandler);
+  return response.data;
+});
 
 export default client;

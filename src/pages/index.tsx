@@ -3,13 +3,13 @@ import MultiProvider from "@context/index";
 import {
   createBrowserRouter,
   createRoutesFromElements,
-  Outlet,
   Route,
   RouterProvider,
 } from "react-router-dom";
 import AuthRoute from "./Auth";
 import MainRoute from "./Main";
 import NotFound from "./Static/NotFound.page";
+import RouterController from "./Static/RouterController";
 
 const Router = () => {
   return (
@@ -20,7 +20,7 @@ const Router = () => {
             <Route
               path='/'
               key='root'
-              element={<Outlet />}
+              element={<RouterController />}
               errorElement={<NotFound />}
             >
               {AuthRoute}
