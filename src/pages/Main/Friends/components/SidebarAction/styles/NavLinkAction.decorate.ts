@@ -15,7 +15,7 @@ export const iconVariants: Variants = {
 
 export const SelectBorder = styled(motion.span)`
   position: absolute;
-  width: 120%;
+  width: 100%;
   height: 100%;
   border-bottom: 3px solid ${({ theme }) => theme.disableColor};
 `;
@@ -38,6 +38,7 @@ export const NavLinkItem = styled(motion(Link))<NavProps>`
   position: relative;
   display: flex;
   height: 100%;
+  width: 100%;
   padding: 0.5em;
   gap: 0.5em;
   align-items: center;

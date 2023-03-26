@@ -1,4 +1,5 @@
 import { breakpoint } from "@theme/helper/breakpoint";
+import { colorBrightness } from "@theme/helper/tools";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
@@ -11,6 +12,8 @@ export const SideBarActionContainer = styled(motion.ul)`
   justify-content: flex-start;
   width: 100%;
   height: 7%;
+  box-shadow: 0 1em 1.2em -0.5em ${({ theme }) => colorBrightness(theme.backgroundColor, 5)};
+  z-index: 1;
 `;
 
 export const SidebarActionItemContainer = styled(motion.li)`
@@ -21,7 +24,7 @@ export const SidebarActionItemContainer = styled(motion.li)`
   justify-content: center;
   gap: 0.5em;
   height: 100%;
-  width: 10%;
+  width: 8%;
 
   ${breakpoint.down("tablet")} {
     width: 100%;

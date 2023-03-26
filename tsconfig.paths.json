@@ -33,7 +33,10 @@
       "@context": ["context"],
 
       "@store/*": ["store/*"],
-      "@store": ["store"]
+      "@store": ["store"],
+
+      "@extensions/*": ["extensions/*"],
+      "@extensions": ["extensions"]
     }
   }
 }

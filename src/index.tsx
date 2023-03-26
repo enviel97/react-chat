@@ -5,6 +5,7 @@ import moment from "moment";
 import { shortHandleOptions } from "@core/utils/moment";
 import Router from "./pages";
 import "@core/utils/string";
+import "@extensions";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
