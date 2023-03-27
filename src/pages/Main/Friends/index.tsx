@@ -1,6 +1,9 @@
+import useAppSelector from "@hooks/useAppSelector";
+import selectTabFriends from "@store/slices/ui/selector/getTabFriends";
 import { lazy, Suspense } from "react";
 import { Navigate, Outlet, Route } from "react-router-dom";
 import SidebarAction from "./components/SidebarAction";
+import SidebarController from "./components/SidebarController";
 import FriendListLoading from "./pages/FriendList/components/container/FriendListLoading";
 import FriendRequestLoading from "./pages/FriendRequest/components/container/FriendRequestLoading";
 import Profile from "./pages/Profile";
@@ -25,7 +28,7 @@ const FriendPage = () => {
 
 const FriendsRoute = (
   <Route path='/friends' key='friends' element={<FriendPage />}>
-    <Route path='' element={<Navigate to={"list"} replace />} />
+    <Route path='' element={<SidebarController />} />
     <Route
       path='request'
       element={

@@ -13,17 +13,19 @@ const FriendRequest = () => {
     <FriendRequestContainer>
       <FriendRequestTitle />
       <FriendRequestItemsContainer>
-        {data.length === 0 && (
+        {data === undefined ? (
+          "Loading..."
+        ) : data.length === 0 ? (
           <FriendPageNotificationEmpty>
             You don't have any friend request...
           </FriendPageNotificationEmpty>
-        )}
-        {data.length !== 0 &&
+        ) : (
           data.map((value, index) => {
             return (
               <FriendRequestCard key={`${value}$${index}`} friendId={value} />
             );
-          })}
+          })
+        )}
       </FriendRequestItemsContainer>
     </FriendRequestContainer>
   );

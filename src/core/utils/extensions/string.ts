@@ -1,6 +1,7 @@
 declare global {
   interface String {
     insert(newValue: string, offset: number): string;
+    toClassName(): string;
   }
 }
 /*eslint no-extend-native: ["error", { "exceptions": ["String"] }]*/
@@ -10,4 +11,10 @@ Object.defineProperty(String.prototype, "insert", {
   },
 });
 
+/*eslint no-extend-native: ["error", { "exceptions": ["String"] }]*/
+Object.defineProperty(String.prototype, "toClassName", {
+  value: function (this: string) {
+    return this.substring(1);
+  },
+});
 export {};
