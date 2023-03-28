@@ -1,7 +1,2 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { searchUser } from "./api";
-
-export const fetchSearchUser = createAsyncThunk(
-  "users/search",
-  async (participant: string) => await searchUser(participant)
-);
+export { default as fetchSearchUser } from "./apis/fetchSearchUser";
+export { default as fetchListFriends } from "./apis/fetchListFriends";

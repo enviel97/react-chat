@@ -1,8 +1,8 @@
 import { State } from "@store/common/state";
 import { ActionReducerMapBuilder, EntityState } from "@reduxjs/toolkit";
 
-export interface UserState extends EntityState<User> {
+export interface UserProfileState extends EntityState<UserProfile> {
   process: State;
 }
 
-export type UserExtraBuilder = ActionReducerMapBuilder<UserState>;
+export type UserProfileExtraBuilder = ActionReducerMapBuilder<UserProfileState>;

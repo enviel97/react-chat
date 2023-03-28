@@ -1,10 +1,8 @@
-import useAppSelector from "@hooks/useAppSelector";
-import selectTabFriends from "@store/slices/ui/selector/getTabFriends";
 import { lazy, Suspense } from "react";
-import { Navigate, Outlet, Route } from "react-router-dom";
+import { Outlet, Route } from "react-router-dom";
 import SidebarAction from "./components/SidebarAction";
 import SidebarController from "./components/SidebarController";
-import FriendListLoading from "./pages/FriendList/components/container/FriendListLoading";
+import FriendListLoading from "./pages/FriendList/components/ui/FriendListLoading";
 import FriendRequestLoading from "./pages/FriendRequest/components/container/FriendRequestLoading";
 import Profile from "./pages/Profile";
 import {

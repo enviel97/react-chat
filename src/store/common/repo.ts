@@ -17,3 +17,4 @@ export const MESSAGE_DELETE =
   "/conversations/:conversationId/messages/:messageId";
 
 export const USER_GET_SEARCH = "/users/search";
+export const USER_GET_FRIENDS = "/users/profile/friends";

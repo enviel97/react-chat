@@ -11,7 +11,6 @@ import {
 
 interface FriendListItemProps {
   friendId: string;
-  isLoading?: boolean;
 }
 
 const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
@@ -26,7 +25,7 @@ const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
         />
       </FriendListItemTrail>
       <FriendListItemBody>
-        <h6>Ha Ton Nu Tra My</h6>
+        <h5>Ha Ton Nu Tra My</h5>
         <p>
           <strong>Bio.</strong> Nothing to say...
         </p>

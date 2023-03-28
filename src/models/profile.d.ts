@@ -1,6 +1,6 @@
 const UserStatus = "active" | "not-disturb" | "waiting";
 
-interface UserProfileCommon {
+interface UserProfileCommon extends Identity, TimeStamp {
   bio?: string;
   status?: UserStatus;
   avatar?: string;

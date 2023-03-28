@@ -1,40 +1,26 @@
-import axios from "axios";
-import { lazy, memo, Suspense, useEffect, useState } from "react";
+import useAppDispatch from "@hooks/useAppDispatch";
+import { fetchListFriends } from "@store/repo/user";
+import { lazy, memo, useEffect, Suspense } from "react";
+import FriendListLoading from "./components/ui/FriendListLoading";
 import FriendListTitle from "./components/container/FriendListTitle";
-import ListFriendEmpty from "./components/container/ListFriendEmpty";
-import FriendListItemLoading from "./components/ui/FriendListItemLoading";
-import {
-  FriendListContainer,
-  FriendListItemsContainer,
-} from "./styles/FriendList.decorate";
-const FriendListItem = lazy(() => import("./components/ui/FriendListItem"));
+import { FriendListContainer } from "./styles/FriendList.decorate";
+const FriendList = lazy(() => import("./components/container/FriendList"));
 
-const FriendList = () => {
-  const [data, setData] = useState<string[]>();
+const FriendListLayout = () => {
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchListFriends());
+  }, []);
 
   return (
     <FriendListContainer>
       <FriendListTitle />
-      <FriendListItemsContainer>
-        {data === undefined ? (
-          "Loading..."
-        ) : data.length === 0 ? (
-          <ListFriendEmpty />
-        ) : (
-          data.map((value, index) => {
-            return (
-              <Suspense
-                key={`${value}$${index}`}
-                fallback={<FriendListItemLoading />}
-              >
-                <FriendListItem friendId={value} isLoading={false} />
-              </Suspense>
-            );
-          })
-        )}
-      </FriendListItemsContainer>
+      <Suspense fallback={<FriendListLoading />}>
+        <FriendList />
+      </Suspense>
     </FriendListContainer>
   );
 };
 
-export default memo(FriendList);
+export default memo(FriendListLayout);

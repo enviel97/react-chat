@@ -26,7 +26,7 @@ export const FriendListItemBody = styled.div`
   flex: 1;
   align-items: flex-start;
   justify-content: space-between;
-  & h6 {
+  & h5 {
     cursor: pointer;
     position: relative;
 

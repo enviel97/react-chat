@@ -1,10 +1,14 @@
 import { pxToEm } from "@theme/helper/tools";
 import string from "@utils/string";
 import { FC } from "react";
-import Skeleton, { SkeletonProps, SkeletonTheme } from "react-loading-skeleton";
+import Skeleton, {
+  SkeletonProps,
+  SkeletonTheme,
+  SkeletonThemeProps,
+} from "react-loading-skeleton";
 import { useTheme } from "styled-components";
 
-interface SkeletonContainerProps extends Components {
+interface SkeletonContainerProps extends Components, SkeletonThemeProps {
   height?: number | string;
 }
 
@@ -15,6 +19,7 @@ interface SkeletonElementProps extends SkeletonProps, Components {
 const SkeletonContainer: FC<SkeletonContainerProps> = ({
   children,
   height,
+  ...ref
 }) => {
   const theme = useTheme();
   const defaultHeight = string.typeOf(height)
@@ -23,8 +28,9 @@ const SkeletonContainer: FC<SkeletonContainerProps> = ({
 
   return (
     <SkeletonTheme
-      highlightColor={theme.backgroundColor}
-      baseColor={theme.surfaceColor}
+      {...ref}
+      highlightColor={ref.highlightColor ?? theme.backgroundColor}
+      baseColor={ref.baseColor ?? theme.surfaceColor}
       height={defaultHeight}
     >
       {children}
