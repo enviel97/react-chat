@@ -30,7 +30,9 @@ const fetchDeleteMessages = createAsyncThunk(
         })
       );
     }
-
+    if (!result.data) {
+      return Promise.reject(result.message ?? "Interval server error");
+    }
     return result;
   }
 );

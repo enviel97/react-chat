@@ -1,4 +1,4 @@
-import { colorBrightness } from "@theme/helper/tools";
+import { colorBrightness, colorTheme } from "@theme/helper/tools";
 import { motion } from "framer-motion";
 import { FC, useId } from "react";
 import { Tooltip } from "react-tooltip";
@@ -9,10 +9,12 @@ const trigger = {
   tap: { scale: 0.98 },
 };
 
-const KTooltip = styled(Tooltip)<{ color: string }>`
+const KTooltip = styled(Tooltip)<{ $color: string; $fontSize: string }>`
   padding: 0.25em 0.5em;
   border: 1px solid ${({ theme }) => theme.backgroundColor};
-  background-color: ${(props) => colorBrightness(props.theme.surfaceColor, 5)};
+  background-color: ${({ theme, $color }) =>
+    colorBrightness(colorTheme({ color: $color ?? "surface", theme }), 5)};
+  font-size: ${({ $fontSize }) => $fontSize};
   font-weight: bold;
 `;
 
@@ -25,6 +27,7 @@ const Button: FC<ButtonIconProps> = ({
   hint,
   hintPosition = "top",
   hintBackgroundColor = "background",
+  hintSize = "1rem",
 }) => {
   const id = useId();
   return (
@@ -48,7 +51,8 @@ const Button: FC<ButtonIconProps> = ({
           content={hint}
           place={hintPosition}
           delayShow={100}
-          color={hintBackgroundColor}
+          $color={hintBackgroundColor}
+          $fontSize={hintSize}
         />
       )}
     </>

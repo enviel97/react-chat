@@ -45,7 +45,11 @@ const TextFieldSearchNeumorphism = forwardRef<
         height={"100%"}
         className='searchTextField'
         placeholder={prop.placeholder ?? "Search"}
-        register={register("search")}
+        register={register("search", {
+          onChange: (event) => {
+            props.onChanged && props.onChanged(event.target.value);
+          },
+        })}
       />
       <ButtonSearch type='submit'>
         <GoSearch className='search' />

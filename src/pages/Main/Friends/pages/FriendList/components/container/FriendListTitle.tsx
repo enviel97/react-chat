@@ -1,22 +1,41 @@
-import { memo, useState, useTransition } from "react";
-import { FriendListAddMoreButton } from "../../styles/FriendList.decorate";
+import { memo } from "react";
 import { FriendPageTitle } from "@pages/Main/Friends/styles/FriendPage.decorate";
 import { BiPlusMedical } from "react-icons/bi";
+import { ButtonIcon } from "@components/Button";
+import { useModals } from "@components/Modal/hooks/useModals";
+import ModalFriendRequest from "../modal/ModalFriendRequest";
+import useAppSelector from "@hooks/useAppSelector";
+import { selectUserIds } from "@store/slices/users";
 
+const FriendRequestModalId = "friendRequestModalId";
+const ModalOption: ModalOptions = {
+  modalId: FriendRequestModalId,
+  height: "80vh",
+  width: "90vw",
+};
 const FriendListTitle = () => {
-  const [quantity, setQuantity] = useState<number>();
-  const [isPending, startTransition] = useTransition();
+  const modal = useModals();
+  const ids = useAppSelector(selectUserIds);
+  const onClickAddFriends = () => {
+    modal.show(<ModalFriendRequest />, ModalOption);
+  };
 
   return (
     <FriendPageTitle>
-      <span>Friend List</span>
-
-      <FriendListAddMoreButton>
-        {Number.isSafeInteger(quantity) && (
-          <label>{isPending ? "" : `${quantity}`}</label>
+      <span>
+        Friend List
+        {Number.isSafeInteger(ids.length) && (
+          <strong>{`|${ids.length}|`}</strong>
         )}
-        <BiPlusMedical />
-      </FriendListAddMoreButton>
+      </span>
+
+      <ButtonIcon
+        icon={<BiPlusMedical />}
+        circle
+        hint='Add friends'
+        hintPosition='top'
+        onClick={onClickAddFriends}
+      />
     </FriendPageTitle>
   );
 };

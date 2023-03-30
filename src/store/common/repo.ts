@@ -18,3 +18,6 @@ export const MESSAGE_DELETE =
 
 export const USER_GET_SEARCH = "/users/search";
 export const USER_GET_FRIENDS = "/users/profile/friends";
+export const USER_GET_SEARCH_FRIENDS = "/users/profile/search";
+export const USER_POST_SEND_FRIEND_REQUEST = "/users/friend/request";
+export const USER_GET_FRIEND_REQUESTS = "/users/friend/request";

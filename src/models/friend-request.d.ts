@@ -1,7 +1,6 @@
 type FriendRequestStatus = "Request" | "Accept" | "Reject";
 
 interface FriendRequest extends Identity, TimeStamp {
-  author: User;
-  friend: User;
+  user: UserProfile;
   status: FriendRequestStatus;
 }

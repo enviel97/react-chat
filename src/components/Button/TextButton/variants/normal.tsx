@@ -2,7 +2,9 @@ import { Base } from "../decorate/base";
 import Button from "./base";
 
 const ButtonText = (props: ButtonDecorate & ButtonTextProps) => {
-  const { height, width, textColor, className, color, ...rest } = props;
+  const { height, width, textColor, className, color, disabled, ...rest } =
+    props;
+
   return (
     <Base
       className={className}
@@ -11,7 +13,7 @@ const ButtonText = (props: ButtonDecorate & ButtonTextProps) => {
       textColor={textColor}
       color={color}
     >
-      <Button {...rest} />
+      <Button {...rest} disabled={disabled} />
     </Base>
   );
 };

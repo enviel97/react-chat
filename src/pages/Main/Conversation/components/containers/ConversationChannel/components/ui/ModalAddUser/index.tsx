@@ -30,7 +30,7 @@ const ModalAddUser: FC<ModalAddUserProps> = ({
   const fetchUsers = useCallback(
     async (searchQuery: string) => {
       const users = await dispatch(fetchSearchUser(searchQuery)).unwrap();
-      return users.data ?? [];
+      return users ?? [];
     },
     [dispatch]
   );

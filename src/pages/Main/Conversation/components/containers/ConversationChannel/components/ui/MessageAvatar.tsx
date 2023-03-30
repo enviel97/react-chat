@@ -1,5 +1,5 @@
+import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import { pxToEm } from "@theme/helper/tools";
-import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
 import { Placeholder } from "@utils/styles";
 import { FC } from "react";
 interface MessageAvatarProps {

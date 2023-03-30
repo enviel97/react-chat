@@ -20,7 +20,9 @@ export const isIdle = (status: number) => {
 export const isLoading = (status: number) => {
   return status === State.PENDING;
 };
-
+export const isRefresh = (status: number) => {
+  return status === State.REFRESH;
+};
 export const isError = (status: number) => {
   return status === State.ERROR;
 };

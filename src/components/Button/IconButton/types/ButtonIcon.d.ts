@@ -8,4 +8,5 @@ interface ButtonIconProps {
   hint?: string;
   hintPosition?: "top" | "left" | "right" | "bottom";
   hintBackgroundColor?: string;
+  hintSize?: string;
 }

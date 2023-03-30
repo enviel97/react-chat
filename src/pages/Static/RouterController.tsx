@@ -17,32 +17,32 @@ const RouterController = () => {
   const handleServerError = useCallback((error: any) => {
     const _message = error.response?.data?.message ?? Status.get(500)!;
     showToast(_message);
-    return {
+    return Promise.reject({
       code: error.response?.data?.code ?? error.code ?? error.status,
       message: _message,
       data: undefined,
-    };
+    });
   }, []);
 
   const handlerBadError = useCallback((error: any) => {
     const _message = error.response?.data?.message ?? Status.get(500)!;
     showToast(_message);
-    return {
+    return Promise.reject({
       code: error.response?.data?.code ?? error.code ?? error.status,
       message: _message,
       data: undefined,
-    };
+    });
   }, []);
 
   const handleIgnoreCancel = useCallback((error: any) => {
     if (error.code !== ERR_CANCELED) safeLog(error);
     else {
       showToast(error.request?.message ?? "Interval Client Error");
-      return {
+      return Promise.reject({
         code: error.request?.code ?? error.code,
         message: error.request?.message ?? error.message,
         data: undefined,
-      };
+      });
     }
   }, []);
 
@@ -54,23 +54,23 @@ const RouterController = () => {
         replace: true,
         state: { from: window.location.pathname },
       });
-      return error.response?.data ?? error.response;
+      return Promise.reject(error.response?.data ?? error.response);
     },
     [navigate]
   );
 
   useEffect(() => {
-    client.interceptors.request.use((config) => config);
+    client.interceptors.request.use((config) => config, handleIgnoreCancel);
     client.interceptors.response.use(
       (response) => response,
       (error: AxiosError) => {
         const { response } = error;
         if (!response) {
-          return {
+          return Promise.reject({
             code: error.status ?? error.code,
             message: error.message,
             data: undefined,
-          };
+          });
         }
         const { status = 500 } = response;
         if (isLoginRequired(status)) {

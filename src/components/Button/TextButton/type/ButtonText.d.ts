@@ -14,6 +14,5 @@ interface ButtonTextProps
   > {
   text: string;
   onClick?: () => void;
-  disabled?: boolean;
   type?: "button" | "submit" | "reset";
 }

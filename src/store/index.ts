@@ -1,11 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import SliceName from "./common/sliceName";
-import {
-  ConversationReducer,
-  MessageReducer,
-  UiReducer,
-  UserReducer,
-} from "./slices";
+
 import {
   FLUSH,
   PAUSE,
@@ -19,20 +13,16 @@ import {
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
+import ReducerList, { reducerStorage } from "./slices";
 
-const reducer = combineReducers({
-  [SliceName.conversation]: ConversationReducer,
-  [SliceName.message]: MessageReducer,
-  [SliceName.user]: UserReducer,
-  [SliceName.ui]: UiReducer,
-});
+const reducer = combineReducers(ReducerList);
 
 const persistConfig: PersistConfig<ReturnType<typeof reducer>> = {
   key: "root",
   version: 0,
   storage,
   stateReconciler: autoMergeLevel2,
-  whitelist: [SliceName.ui],
+  whitelist: reducerStorage,
 };
 const persistedReducer = persistReducer(persistConfig, reducer);
 

@@ -1,5 +1,4 @@
 import { FriendPageNotificationEmpty } from "@pages/Main/Friends/styles/FriendPage.decorate";
-import { FriendListAddMoreButton } from "../../styles/FriendList.decorate";
 
 const ListFriendEmpty = () => {
   return (

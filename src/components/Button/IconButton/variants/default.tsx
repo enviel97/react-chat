@@ -14,6 +14,8 @@ const ButtonIcon: FC<IButtonIconProps> = ({
   type = "button",
   itemType,
   hint,
+  hintSize,
+  hintPosition,
   ...ref
 }) => {
   return (
@@ -24,6 +26,8 @@ const ButtonIcon: FC<IButtonIconProps> = ({
         onClick={onClick}
         disabled={disabled}
         hint={hint}
+        hintSize={hintSize}
+        hintPosition={hintPosition}
         icon={<span>{icon}</span>}
       />
     </ButtonIconDecorate>

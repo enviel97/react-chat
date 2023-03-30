@@ -6,6 +6,7 @@ import "normalize.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import "react-tooltip/dist/react-tooltip.css";
+import "react-lazy-load-image-component/src/effects/blur.css";
 
 const initTheme: ThemeMode = "dark";
 

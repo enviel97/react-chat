@@ -1,17 +1,15 @@
+import useAppSelector from "@hooks/useAppSelector";
 import { FriendPageTitle } from "@pages/Main/Friends/styles/FriendPage.decorate";
-
-import { memo, useState, useTransition } from "react";
+import { selectFriendRequestIds } from "@store/slices/friendRequest";
+import { memo } from "react";
 
 const FriendRequestTitle = () => {
-  const [quantity, setQuantity] = useState<number>();
-  const [isPending, startTransition] = useTransition();
+  const ids = useAppSelector(selectFriendRequestIds);
 
   return (
     <FriendPageTitle>
-      <span>Friend Request</span>{" "}
-      {Number.isSafeInteger(quantity) && (
-        <strong>{isPending ? "" : `|${quantity}|`}</strong>
-      )}
+      <span>Friend Request</span>
+      {Number.isSafeInteger(ids.length) && <strong>{`|${ids.length}|`}</strong>}
     </FriendPageTitle>
   );
 };

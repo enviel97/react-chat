@@ -9,12 +9,13 @@ import { fetchMessageThunk } from "./extraReducer/fetchMessagesThunk";
 import { fetchAddMessageThunk } from "./extraReducer/fetchAddMessageThunk";
 import { fetchDeleteMessageThunk } from "./extraReducer/fetchDeleteMessageThunk";
 import { fetchEditMessageThunk } from "./extraReducer/fetchEditMessageThunk";
+import { MessageState } from "../state/message";
 
 export const messagesSlice = createSlice({
   name: SliceName.message,
   initialState: messagesAdapter.getInitialState({
     process: State.IDLE,
-  }),
+  }) as MessageState,
   reducers: {
     addMessages: addMessageAction,
     removeMessage: removeMessageAction,

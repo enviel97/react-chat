@@ -20,6 +20,10 @@ export const Event = Object.freeze({
   EVENT_PARTICIPANT_GET_STATUS: "participant.getStatus",
   EVENT_PARTICIPANT_STATUS_RESPONSE: "onParticipantStatusResponse",
 
+  EVENT_FRIEND_RECEIVE_FRIEND_REQUEST: "onReceiveFriendRequest",
+  EVENT_FRIEND_RECEIVE_ALLOW_FRIEND: "onReceiveAllowFriendRequest",
+  EVENT_FRIEND_RECEIVE_REJECT_FRIEND: "onReceiveRejectFriendRequest",
+
   EVENT_SOCKET_CONNECTED: "connected",
   EVENT_SOCKET_ERROR: "connect_error",
 });

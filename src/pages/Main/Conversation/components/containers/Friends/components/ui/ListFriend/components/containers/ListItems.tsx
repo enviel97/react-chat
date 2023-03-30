@@ -1,7 +1,7 @@
 import { Event } from "@common/socket.define";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useSocket from "@hooks/useSocket";
-import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
+import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import string from "@utils/string";
 import { FC, memo, useEffect, useMemo, useState, useTransition } from "react";
 import { useParams } from "react-router-dom";

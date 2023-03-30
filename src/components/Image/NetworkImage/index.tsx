@@ -18,7 +18,7 @@ const NetworkImage: FC<NetworkImageProps> = ({
 }) => {
   const [isError, setError] = useState<boolean>();
   const [isLoading, setLoading] = useState<boolean>(true);
-  const [img, setImg] = useState(src);
+  const [img, setImg] = useState(src ?? placeholder);
 
   const Placeholder = useMemo(
     () => (
@@ -36,7 +36,7 @@ const NetworkImage: FC<NetworkImageProps> = ({
     if (isError) {
       setImg(placeholder);
     }
-  }, [isError]);
+  }, [isError, placeholder]);
 
   return (
     <ControllerLazyLoadImage>
@@ -51,9 +51,9 @@ const NetworkImage: FC<NetworkImageProps> = ({
         visibleByDefault={img === placeholder}
         wrapperClassName={string.classList(
           RandomName.toString().toClassName(),
-          wrapperClassName,
-          !isLoading ? "loaded" : ""
+          wrapperClassName
         )}
+        loading={"lazy"}
         afterLoad={() => setLoading(false)}
         onError={() => setError(true)}
       />

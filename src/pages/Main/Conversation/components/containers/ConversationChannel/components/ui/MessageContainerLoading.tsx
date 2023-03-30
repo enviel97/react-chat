@@ -1,5 +1,5 @@
 import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
-import CircleAvatar from "@pages/Main/components/UI/CircleAvatar";
+import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import { Box } from "@utils/styles";
 import { ChannelMessageContainer } from "../../styles/Channel.decorate";
 

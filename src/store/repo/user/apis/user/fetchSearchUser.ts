@@ -8,7 +8,7 @@ const fetchSearchUser = createAsyncThunk(
     const response = await client.get<any, Response<User[]>>(USER_GET_SEARCH, {
       params: { participant: participant },
     });
-    return response;
+    return response.data;
   }
 );
 export default fetchSearchUser;

@@ -9,14 +9,14 @@ export const RandomName = styled.div``;
 export const ControllerLazyLoadImage = styled.div`
   width: 100%;
   height: 100%;
+
   & ${RandomName} {
     height: 100%;
     width: 100%;
-    filter: blur(30px);
-    &.loaded {
-      filter: blur(0px);
+    & > img {
+      width: 100%;
+      object-fit: contain;
     }
-    transition: filter 1s ease-in-out;
   }
 `;
 

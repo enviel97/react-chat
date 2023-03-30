@@ -26,19 +26,23 @@ export const FriendPageTitle = styled.h4`
   padding-bottom: 0.25em;
   margin-bottom: 1em;
   width: fit-content;
+  gap: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.disableColor};
 
-  & strong {
+  & > strong,
+  & > span > strong {
     font-weight: 300;
     font-size: 1.5rem;
     color: ${({ theme }) => theme.notificationColor};
     font-family: ${typography.fontFamily.decorate};
-    margin-left: 1em;
+    margin-left: 0.5rem;
   }
 `;
 
 export const FriendPageNotificationEmpty = styled.span`
   font-weight: normal;
   font-style: italic;
+  width: 100%;
   color: ${({ theme }) => theme.disableColor};
+  grid-column: 1/3;
 `;

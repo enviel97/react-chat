@@ -50,10 +50,12 @@ const motivation = keyframes`
   }
 `;
 
-export const Cube = styled(motion.span)<{ "data-target": number }>`
+export const Cube = styled(motion.span)<{
+  "data-target": number;
+}>`
   position: absolute;
-  width: 30%;
-  height: 30%;
+  width: 50%;
+  height: 50%;
   color: ${(props) => {
     if (props["data-target"] === 0) return props.theme.secondaryColor;
     if (props["data-target"] === 1) return props.theme.tertiaryColor;

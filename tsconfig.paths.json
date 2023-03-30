@@ -36,7 +36,9 @@
       "@store": ["store"],
 
       "@extensions/*": ["extensions/*"],
-      "@extensions": ["extensions"]
+      "@extensions": ["extensions"],
+
+      "styled-components": ["./node_modules/styled-components"]
     }
   }
 }

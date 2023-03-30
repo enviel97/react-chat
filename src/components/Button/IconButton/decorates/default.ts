@@ -11,7 +11,7 @@ interface ButtonIconProps {
 
 export const ButtonIconDecorate = styled.div<ButtonIconProps>`
   position: relative;
-  height: ${({ size }) => size ?? "fit-content"};
+  height: ${({ size }) => size ?? "2rem"};
 
   cursor: pointer;
   aspect-ratio: 1 / 1;
@@ -41,10 +41,13 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 0.5rem;
-    & svg {
-      aspect-ratio: 1 / 1;
-      height: 1.5rem;
+
+    & span {
+      padding: 0.5rem;
+      & > svg {
+        aspect-ratio: 1 / 1;
+        height: 1.5rem;
+      }
     }
 
     &:hover,
