@@ -4,7 +4,6 @@ import { FC, memo, ReactNode, useMemo } from "react";
 import { IconContext } from "react-icons";
 import {
   iconVariants,
-  KTooltip,
   NavLinkIcon,
   NavLinkItem,
   NavLinkLabel,
@@ -41,12 +40,11 @@ const NavLinkAction: FC<NavLinkActionProps> = ({
 
   return (
     <AnimatePresence mode='wait' initial={false}>
-      <NavLinkItem to={to} status={status}>
+      <NavLinkItem id={to} to={to} $status={status}>
         {isActive && <SelectBorder layoutId={layoutIdShared} />}
         <IconContext.Provider value={{ color: "currentColor", size: "100%" }}>
           <NavLinkIcon
-            status={status}
-            id={to}
+            $quantity={quantity}
             variants={iconVariants}
             animate={isSelected ? "select" : "unselect"}
             transition={{
@@ -56,24 +54,6 @@ const NavLinkAction: FC<NavLinkActionProps> = ({
           >
             {icon}
           </NavLinkIcon>
-          {breakpoint.down("mobile") ? (
-            <KTooltip
-              key={"rightTooltip"}
-              isOpen={Number.isSafeInteger(quantity)}
-              anchorId={to}
-              content={`${quantity}`}
-              place={"right"}
-            />
-          ) : (
-            <KTooltip
-              key={"leftTooltip"}
-              isOpen={Number.isSafeInteger(quantity)}
-              id='NewFriendTooltip'
-              anchorId={to}
-              content={`${quantity}`}
-              place={"left"}
-            />
-          )}
         </IconContext.Provider>
         {breakpoint.up("mobile") && <NavLinkLabel>{label}</NavLinkLabel>}
       </NavLinkItem>
