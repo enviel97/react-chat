@@ -1,5 +1,5 @@
 import { breakpoint } from "@theme/helper/breakpoint";
-import { colorBrightness } from "@theme/helper/tools";
+import { clampSize, colorBrightness } from "@theme/helper/tools";
 import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
 
@@ -20,9 +20,14 @@ export const ListFriendContainer = styled.div`
   gap: 0.5rem;
   padding: 0.5em 1em;
 
-  & span {
+  & > span {
     font-weight: bold;
-    font-size: 1em;
+    font-size: ${clampSize({
+      minWidth: 100,
+      maxWidth: 300,
+      maxFontSize: 1,
+      minFontSize: 0.8,
+    })};
   }
 `;
 
@@ -30,7 +35,6 @@ export const ListFriendHeaderTitle = styled.span`
   display: flex;
   flex-direction: row;
   gap: 0.5em;
-
   align-items: stretch;
   justify-content: space-between;
   padding: 0.5rem 0;
@@ -53,10 +57,16 @@ export const ListFriendItemBody = styled.div`
   flex-direction: row;
   align-items: center;
   gap: 1em;
-  & span {
+  & > span {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    font-size: ${clampSize({
+      minWidth: 100,
+      maxWidth: 300,
+      maxFontSize: 1,
+      minFontSize: 0.8,
+    })};
   }
 `;
 

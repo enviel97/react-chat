@@ -9,13 +9,16 @@ export const RandomName = styled.div``;
 export const ControllerLazyLoadImage = styled.div`
   width: 100%;
   height: 100%;
-
+  display: flex;
+  align-items: center;
+  justify-content: center;
   & ${RandomName} {
     height: 100%;
     width: 100%;
+    min-height: 50px;
+    min-width: 50px;
     & > img {
       width: 100%;
-      object-fit: contain;
     }
   }
 `;
@@ -25,7 +28,6 @@ export const PlaceholderContainer = styled.img<PlaceholderContainerProps>`
   width: 100%;
   object-position: center;
   object-fit: contain;
-
   ${({ $isLoading, $isError }) => {
     if ($isLoading && !$isError) {
       return css`
@@ -35,5 +37,5 @@ export const PlaceholderContainer = styled.img<PlaceholderContainerProps>`
     return css`
       filter: blur(1px);
     `;
-  }}
+  }};
 `;

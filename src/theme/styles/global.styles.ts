@@ -11,6 +11,48 @@ const GlobalStyle = createGlobalStyle`
     font: inherit;
   }
 
+  html {
+    height: 100%;
+    /* resize */ 
+    font-size: 100%;
+    ${breakpoint.down("desktop")} {
+      font-size: 80%;
+    }
+    
+    ${breakpoint.down("laptop")} {
+      font-size: 70%;
+    }
+    ${breakpoint.down("tablet")} {
+      font-size: 62.5%;
+    }
+    
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    -webkit-text-size-adjust: 100%; 
+    &:focus-within{
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    position: relative;
+    user-select: none;
+    background-color: ${({ theme }) => theme.backgroundColor};
+    color:  ${({ theme }) => theme.onBackgroundColor};
+
+    /* Typography */
+    text-rendering: optimizeSpeed;
+    font-weight: 400;
+    line-height: 1.5; 
+    font-family: ${typography.fontFamily.regular};
+    font-size: 16px;
+
+    /* Sized */
+    min-width: 100%;
+    min-height: 0;
+    overflow: hidden;
+  }
+
   *::-webkit-scrollbar {
     border: none;
     outline: none;
@@ -44,70 +86,35 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
-  html {
-    height: 100%;
-    /* resize */ 
-    font-size: 100%;
-    ${breakpoint.down("desktop")} {
-      font-size: 80%;
-    }
-    
-    ${breakpoint.down("laptop")} {
-      font-size: 70%;
-    }
-    ${breakpoint.down("tablet")} {
-      font-size: 62.5%;
-    }
-    box-sizing: border-box;
-    -webkit-tap-highlight-color: transparent;
-    -webkit-text-size-adjust: 100%; 
-    &:focus-within{
-      scroll-behavior: smooth;
-    }
-  }
-  body {
-    position: relative;
-    user-select: none;
-    background-color: ${({ theme }) => theme.backgroundColor};
-    color:  ${({ theme }) => theme.onBackgroundColor};
-
-    /* Typography */
-    text-rendering: optimizeSpeed;
-    font-weight: 400;
-    line-height: 1.5; 
-    font-size: 16px;
-    font-family: ${typography.fontFamily.regular};
-
-    /* Sized */
-    min-width: 100%;
-    min-height: 0;
-    overflow: hidden;
-  }
-
   img, picture, svg {
     height: 100%;
     max-width: 100%;
     display: block;
   }
+
+  img {
+    object-fit: contain;
+    object-position: center;
+  }
   
-  p { margin-bottom: 1rem; }
+  p { margin-bottom: 1em; }
 
   h1, h2, h3, h4, h5 {
     font-weight: 400;
     line-height: 1.3;
   }
 
-  h1 {font-size: 3.052rem;}
+  h1 {font-size: 3.052em;}
 
-  h2 {font-size: 2.441rem;}
+  h2 {font-size: 2.441em;}
 
-  h3 {font-size: 1.953rem;}
+  h3 {font-size: 1.953em;}
 
-  h4 {font-size: 1.563rem;}
+  h4 {font-size: 1.563em;}
 
-  h5 {font-size: 1.25rem;}
+  h5 {font-size: 1.25em;}
   
-  small, caption {font-size: 0.85rem; padding-top: 0.5rem;}
+  small, caption {font-size: 0.85em; padding-top: 0.5em;}
 
   button {
     cursor: pointer;
@@ -118,7 +125,7 @@ const GlobalStyle = createGlobalStyle`
   a {
     cursor: pointer;
     text-decoration: none;
-    font-size: 0.9rem;
+    font-size: 0.9em;
     color: ${({ theme }) => theme.disableColor};
     & strong {
       color: ${({ theme }) => theme.secondaryColor};
@@ -129,11 +136,9 @@ const GlobalStyle = createGlobalStyle`
     font-size: inherit;
   }
 
-  
-
   input { 
     color: inherit; 
-    font-size: 1rem;
+    font-size: 1em;
     &:focus {
       inset: none;
       border: none;

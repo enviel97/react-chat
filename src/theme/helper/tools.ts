@@ -101,3 +101,24 @@ export const colorTheme = ({
 
   return !themeColor ? color : themeColor;
 };
+
+export const clampSize = ({
+  minWidth,
+  maxWidth,
+  minFontSize,
+  maxFontSize,
+}: ClampProps) => {
+  const root = document.querySelector("html");
+  if (!root) return;
+  const pixelsPerRem = Number(getComputedStyle(root).fontSize.slice(0, -2));
+
+  const minW = minWidth / pixelsPerRem;
+  const maxW = maxWidth / pixelsPerRem;
+
+  const slope = (maxFontSize - minFontSize) / (maxW - minW);
+  const yAxisIntersection = -minW * slope + minFontSize;
+
+  return `clamp( ${minFontSize}rem, ${yAxisIntersection}rem + ${
+    slope * 100
+  }svw, ${maxFontSize}rem )`;
+};

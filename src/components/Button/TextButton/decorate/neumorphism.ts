@@ -46,7 +46,7 @@ export const Neumorphism = styled.div<{
 
     &:active:enabled {
       & span {
-        font-size: 70%;
+        scale: 0.98;
       }
       box-shadow: ${neumorphismBoxShadowInset(true, {
         x: 2,

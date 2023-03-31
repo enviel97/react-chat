@@ -43,8 +43,6 @@ const NetworkImage: FC<NetworkImageProps> = ({
       <LazyLoadImage
         alt={alt}
         src={img}
-        height={height}
-        width={width}
         effect='opacity'
         delayTime={1000}
         placeholder={Placeholder}

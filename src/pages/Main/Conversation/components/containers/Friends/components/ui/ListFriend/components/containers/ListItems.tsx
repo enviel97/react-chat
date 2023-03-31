@@ -54,7 +54,9 @@ const FriendItem: FC<FriendItemProps> = ({
     <Items>
       <ListFriendItemContainer id={userId}>
         <ListFriendItemBody>
-          <CircleAvatar className='status' online={isPending || isOnline} />
+          <span>
+            <CircleAvatar className='status' online={isPending || isOnline} />
+          </span>
           {breakpoint.up("laptop") && (
             <span>{string.getFullName(user, { short: true })}</span>
           )}

@@ -1,3 +1,8 @@
+interface CustomBreakpoint {
+  maxPx?: string;
+  minPx?: string;
+}
+
 export const DevicesValue = {
   mobile: 450,
   tablet: 800,
@@ -14,7 +19,7 @@ export const breakpoint = {
   down: (devices: Devices) =>
     `@media only screen and (max-width: ${DevicesValue[devices]}px)`,
   /**
-   * type Device: "mobile" | "tablet" | "laptop" | "desktop" | "tv"
+   * @type Device: "mobile" | "tablet" | "laptop" | "desktop" | "tv"
    */
   up: (devices: Devices) =>
     `@media only screen and (min-width: ${DevicesValue[devices]}px)`,
@@ -24,4 +29,10 @@ export const breakpoint = {
    */
   between: (maxDevices: Devices, minDevices: Devices) =>
     `@media only screen and (min-width: ${DevicesValue[minDevices]}px) and (max-width: ${DevicesValue[maxDevices]}px)`,
+
+  /**
+   * @type Device: "mobile" | "tablet" | "laptop" | "desktop" | "tv"
+   */
+  custom: ({ maxPx = "0px", minPx = "100%" }: CustomBreakpoint) =>
+    `@media only screen and (min-width: ${minPx}) and (max-width: ${maxPx})`,
 };

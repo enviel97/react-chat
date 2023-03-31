@@ -20,20 +20,19 @@ const ListFriend: FC<ListFriendProps> = ({
         <span>{`(${data.length})`}</span>
       </ListFriendHeaderTitle>
       <Divider />
-      <Suspense fallback={"Loading ..."}>
-        {data.length !== 0 &&
-          data.map((user) => {
-            const _role = (role && role[string.getId(user)]) ?? "Member";
-            return (
-              <FriendItem
-                key={string.getId(user)}
-                user={user}
-                role={_role}
-                canBanned={canBanned}
-              />
-            );
-          })}
-      </Suspense>
+      {data.map((user) => {
+        const _role = (role && role[string.getId(user)]) ?? "Member";
+        return (
+          <Suspense fallback={"Loading ..."}>
+            <FriendItem
+              key={string.getId(user)}
+              user={user}
+              role={_role}
+              canBanned={canBanned}
+            />
+          </Suspense>
+        );
+      })}
     </ListFriendContainer>
   );
 };

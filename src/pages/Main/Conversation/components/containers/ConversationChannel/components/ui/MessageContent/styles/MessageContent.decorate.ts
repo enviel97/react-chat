@@ -1,3 +1,4 @@
+import { clampSize } from "@theme/helper/tools";
 import styled from "styled-components";
 
 export const MessageContentContainer = styled.div<MessageStyledProps>`
@@ -8,6 +9,13 @@ export const MessageContentContainer = styled.div<MessageStyledProps>`
   max-width: 50vw;
   background-color: ${({ fromYou, theme }) =>
     fromYou ? theme.secondaryColor : theme.surfaceColor};
+
+  font-size: ${clampSize({
+    minWidth: 282,
+    maxWidth: 748.4,
+    maxFontSize: 1,
+    minFontSize: 0.75,
+  })};
 
   &:focus[contenteditable="true"] {
     display: -webkit-box;
