@@ -8,28 +8,30 @@ import {
   FriendListItemContainer,
   FriendListItemTrail,
 } from "./styles/FriendListItem.decorate";
+import useAppSelector from "@hooks/useAppSelector";
+import { selectUserById } from "@store/slices/users";
+import UserActive from "./components/ui/Active";
 
 interface FriendListItemProps {
   friendId: string;
 }
 
 const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
+  const friend = useAppSelector((state) => selectUserById(state, friendId));
+  if (!friend) return <></>;
+
   return (
     <FriendListItemContainer>
       <FriendListItemTrail>
-        <NetworkImage
-          src={friendId}
-          alt='Avatar'
-          width={Number(100).toPx()}
-          height={Number(100).toPx()}
-        />
+        <NetworkImage src={friend.avatar} alt='Avatar' />
       </FriendListItemTrail>
       <FriendListItemBody>
-        <h5>Ha Ton Nu Tra My</h5>
+        <h4>{friend.user.getFullName()}</h4>
         <p>
-          <strong>Bio.</strong> Nothing to say...
+          <strong>Bio.</strong>
+          {friend.bio ?? " Nothing to say..."}
         </p>
-        <p>Online</p>
+        <UserActive friendUserActive={friend.status ?? "not-disturb"} />
       </FriendListItemBody>
       <FriendListItemAction>
         <ButtonIcon

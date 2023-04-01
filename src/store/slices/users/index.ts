@@ -5,12 +5,13 @@ import userProfilesAdapter from "./adapter/user.adapter";
 import fetchListFriendsThunk from "./extraReducer/fetchListFriendsThunk";
 import { addFriendAction } from "./actions/addFriend.action";
 import { RootState } from "@store/index";
+import { UserProfileState } from "../state/user";
 
 export const usersSlice = createSlice({
   name: SliceName.user,
   initialState: userProfilesAdapter.getInitialState({
     process: State.IDLE,
-  }),
+  }) as UserProfileState,
   reducers: {
     addFriend: addFriendAction,
   },

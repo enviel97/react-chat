@@ -18,14 +18,13 @@ export const CardBody = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-  height: 17svh;
+  height: fit-content;
   padding: 0.5em;
   font-weight: normal;
   justify-content: space-between;
 `;
 
-export const CardTitle = styled.span`
-  font-size: 1em;
+export const CardTitle = styled.h5`
   font-weight: bold;
   border-bottom: 2px solid ${({ theme }) => theme.disableColor};
   overflow: hidden;
@@ -39,9 +38,10 @@ export const CardBio = styled.span`
   font-weight: 300;
   font-style: italic;
   overflow: hidden;
+  height: 3rem;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
-  font-size: 1.5svh;
+  font-size: 1rem;
   & b {
     font-weight: bold;
     color: ${({ theme }) => theme.primaryColor};
@@ -61,6 +61,6 @@ export const CardAction = styled.div`
   flex-direction: column;
   gap: 10px;
   & span {
-    font-size: 1.5svh;
+    font-size: 1rem;
   }
 `;

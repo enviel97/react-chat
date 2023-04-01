@@ -44,5 +44,4 @@ export const FriendPageNotificationEmpty = styled.span`
   font-style: italic;
   width: 100%;
   color: ${({ theme }) => theme.disableColor};
-  grid-column: 1/3;
 `;

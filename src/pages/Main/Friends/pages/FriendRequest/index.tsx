@@ -4,15 +4,19 @@ import useAppSelector from "@hooks/useAppSelector";
 import useSocket from "@hooks/useSocket";
 import { fetchListFriendRequest } from "@store/repo/user";
 import { addFriendRequest } from "@store/slices/friendRequest";
-import { memo, useCallback, useEffect } from "react";
+import { lazy, memo, useCallback, useEffect, Suspense } from "react";
+import { toast } from "react-toastify";
 import CornerLoading from "../../components/CornerLoading";
-import FriendRequestList from "./components/container/FriendRequestList";
 import FriendRequestTitle from "./components/container/FriendRequestTitle";
 import { FriendRequestContainer } from "./styles/FriendRequest.decorate";
+const FriendRequestList = lazy(
+  () => import("./components/container/FriendRequestList")
+);
 
 const FriendRequest = () => {
   const dispatch = useAppDispatch();
   const socket = useSocket();
+  const currentTab = useAppSelector((state) => state.ui.tabFriendSelect);
 
   const status = useAppSelector((state) => {
     return state["friend-request"].process;
@@ -20,9 +24,11 @@ const FriendRequest = () => {
 
   const onHasFriendRequest = useCallback(
     (payload: FriendRequest) => {
-      dispatch(addFriendRequest(payload));
+      if (currentTab === "request") {
+        dispatch(addFriendRequest(payload));
+      }
     },
-    [dispatch]
+    [dispatch, currentTab]
   );
 
   useEffect(() => {
@@ -42,7 +48,9 @@ const FriendRequest = () => {
   return (
     <FriendRequestContainer>
       <FriendRequestTitle />
-      <FriendRequestList />
+      <Suspense fallback={<>Loading...</>}>
+        <FriendRequestList />
+      </Suspense>
       <CornerLoading status={status} />
     </FriendRequestContainer>
   );

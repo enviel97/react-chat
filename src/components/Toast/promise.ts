@@ -8,6 +8,8 @@ interface PromiseToastProps<T = any> {
   action: () => Promise<T>;
   position?: ToastPosition;
   pending?: string;
+  delayOnSuccess?: number;
+  delayOnFailure?: number;
   updateToastOnError?: boolean;
   /**
    * onSuccess when call promise function, get return of callback function if have
@@ -32,6 +34,8 @@ export const PromiseToast = async (props: PromiseToastProps) => {
     onFinally,
     position = "top-right",
     updateToastOnError = false,
+    delayOnFailure = 1500,
+    delayOnSuccess = 1000,
   } = props;
 
   const toastOption: UpdateOptions = {
@@ -63,7 +67,7 @@ export const PromiseToast = async (props: PromiseToastProps) => {
         render: `${res?.message ?? "Success"}`,
         ...(toastOption as any),
         type: "success",
-        autoClose: 1000,
+        autoClose: delayOnSuccess,
       });
       onFinally && onFinally();
     })
@@ -74,7 +78,7 @@ export const PromiseToast = async (props: PromiseToastProps) => {
           render: `${err?.message ?? "Error"}`,
           ...(toastOption as any),
           type: "error",
-          autoClose: 1500,
+          autoClose: delayOnFailure,
         });
       } else {
         toast.dismiss(toastId);

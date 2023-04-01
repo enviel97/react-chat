@@ -1,3 +1,4 @@
+import { breakpoint } from "@theme/helper/breakpoint";
 import styled from "styled-components";
 
 export const FriendListContainer = styled.div`
@@ -11,5 +12,8 @@ export const FriendListItemsContainer = styled.div`
   display: inline-grid;
   grid-gap: 1em;
   grid-template-columns: repeat(2, 1fr);
-  padding-bottom: 10svh;
+  padding-bottom: 5svh;
+  ${breakpoint.down("tablet")} {
+    grid-template-columns: auto;
+  }
 `;

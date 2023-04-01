@@ -12,7 +12,7 @@ export const SideBarActionContainer = styled(motion.ul)`
   justify-content: flex-start;
   width: 100%;
   max-width: 100%;
-  height: 7%;
+  height: clamp(6rem, 0.125rem + 1svh, 7%);
   box-shadow: 0 1em 1.2em -0.5em ${({ theme }) => colorBrightness(theme.backgroundColor, 5)};
   z-index: 1;
 `;

@@ -19,7 +19,7 @@ const fetchListFriendsThunk = (builder: UserProfileExtraBuilder) => {
     .addCase(
       fetchListFriends.fulfilled,
       (state, { payload }: PayloadAction<PayloadActionList>) => {
-        const userProfiles = payload.data;
+        const userProfiles = payload.data ?? [];
         state.process = State.FULFILLED;
         if (!userProfiles) return;
         userProfilesAdapter.upsertMany(state, userProfiles);

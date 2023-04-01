@@ -1,11 +1,14 @@
 import { breakpoint } from "@theme/helper/breakpoint";
+import { clampSize } from "@theme/helper/tools";
 import { motion, Variants } from "framer-motion";
 import { Link } from "react-router-dom";
-import { Tooltip } from "react-tooltip";
 import styled, { css } from "styled-components";
 
 interface NavProps {
-  status: string;
+  $status: string;
+}
+interface QuantityProps {
+  $quantity?: number;
 }
 
 export const iconVariants: Variants = {
@@ -15,23 +18,42 @@ export const iconVariants: Variants = {
 
 export const SelectBorder = styled(motion.span)`
   position: absolute;
-  width: 100%;
-  height: 100%;
   border-bottom: 3px solid ${({ theme }) => theme.disableColor};
+  bottom: 0;
+  right: 0;
+  width: 100%;
 `;
 
 export const NavLinkLabel = styled.span`
   display: flex;
   color: currentColor;
-  font-size: 1em;
-  ${breakpoint.down("mobile")} {
-    font-size: 1em;
-  }
+  font-size: inherit;
 `;
-export const NavLinkIcon = styled(motion.i)<NavProps>`
+export const NavLinkIcon = styled(motion.i)<QuantityProps>`
+  position: relative;
   height: 1.5em;
   aspect-ratio: 1/1;
   color: currentColor;
+  ${({ $quantity, theme }) => {
+    if (!$quantity) return css``;
+    return css`
+      &::after {
+        content: "${$quantity}";
+        position: absolute;
+        height: 2rem;
+        min-width: 2rem;
+        font-weight: bold;
+        font-size: 1rem;
+        text-align: center;
+        padding: 0.2rem 0.25rem;
+        border-radius: 0.5rem;
+        color: ${theme.onNotificationColor};
+        background-color: ${theme.notificationColor};
+        top: -40%;
+        left: -120%;
+      }
+    `;
+  }}
 `;
 
 export const NavLinkItem = styled(motion(Link))<NavProps>`
@@ -44,29 +66,26 @@ export const NavLinkItem = styled(motion(Link))<NavProps>`
   align-items: center;
   justify-content: center;
   transition: height 4s ease-in-out;
+  font-size: ${clampSize({
+    minWidth: 50,
+    maxWidth: 178.234,
+    minFontSize: 0.9,
+    maxFontSize: 1.2,
+  })};
   ${breakpoint.down("mobile")} {
     flex-direction: column;
     gap: 0;
   }
-  ${({ status, theme }) => {
-    if (status === "active") {
+  ${({ $status, theme }) => {
+    if ($status === "active") {
       return css`
-        font-size: 1.1em;
         color: ${theme.primaryColor};
         font-weight: bold;
       `;
     }
     return css`
-      font-size: 1em;
       color: ${theme.disableColor};
       font-weight: normal;
     `;
   }};
-`;
-
-export const KTooltip = styled(Tooltip)`
-  padding: 0em 0.5em;
-  font-weight: bold;
-  background-color: ${({ theme }) => theme.notificationColor};
-  color: ${({ theme }) => theme.onNotificationColor};
 `;

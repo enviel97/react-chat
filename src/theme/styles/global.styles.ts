@@ -1,4 +1,4 @@
-import { neumorphismBoxShadowInset } from "@theme/helper/tools";
+import { clampSize, neumorphismBoxShadowInset } from "@theme/helper/tools";
 import { createGlobalStyle } from "styled-components";
 import { breakpoint } from "../helper/breakpoint";
 import { typography } from "../helper/typography";
@@ -97,24 +97,58 @@ const GlobalStyle = createGlobalStyle`
     object-position: center;
   }
   
-  p { margin-bottom: 1em; }
+  p { font-size: 1rem; margin-bottom: 1rem; }
 
   h1, h2, h3, h4, h5 {
-    font-weight: 400;
+    font-weight: 500;
     line-height: 1.3;
   }
-
-  h1 {font-size: 3.052em;}
-
-  h2 {font-size: 2.441em;}
-
-  h3 {font-size: 1.953em;}
-
-  h4 {font-size: 1.563em;}
-
-  h5 {font-size: 1.25em;}
   
-  small, caption {font-size: 0.85em; padding-top: 0.5em;}
+
+  h1 {font-size: ${clampSize({
+    maxWidth: 1980,
+    minWidth: 320,
+    maxFontSize: 3.052,
+    minFontSize: 2.5433,
+  })};}
+
+  h2 {font-size: ${clampSize({
+    maxWidth: 1980,
+    minWidth: 320,
+    maxFontSize: 2.441,
+    minFontSize: 2.034167,
+  })};}
+
+  h3 {font-size: ${clampSize({
+    maxWidth: 1980,
+    minWidth: 320,
+    maxFontSize: 1.953,
+    minFontSize: 1.6275,
+  })};}
+
+  h4 {font-size: ${clampSize({
+    maxWidth: 1980,
+    minWidth: 320,
+    maxFontSize: 1.563,
+    minFontSize: 1.3025,
+  })};}
+
+  h5 {font-size: ${clampSize({
+    maxWidth: 1980,
+    minWidth: 320,
+    maxFontSize: 1.25,
+    minFontSize: 1.04167,
+  })};}
+  
+  small, caption {
+    font-size: ${clampSize({
+      maxWidth: 1980,
+      minWidth: 320,
+      maxFontSize: 0.85,
+      minFontSize: 0.6,
+    })};
+    padding-top: 0.5em;
+  }
 
   button {
     cursor: pointer;

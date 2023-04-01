@@ -95,6 +95,7 @@ const ConversationChannel = () => {
       socket.off(Event.EVENT_CONNECTED_ROOM);
       socket.off(Event.EVENT_LEAVED_ROOM);
       socket.off(Event.EVENT_BANNED_USER);
+      socket.off(Event.EVENT_CONVERSATION_LEAVE_GROUP);
     };
   }, [
     dispatchBannerUser,

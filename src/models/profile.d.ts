@@ -1,4 +1,4 @@
-const UserStatus = "active" | "not-disturb" | "waiting";
+type UserStatus = "active" | "not-disturb" | "waiting";
 
 interface UserProfileCommon extends Identity, TimeStamp {
   bio?: string;

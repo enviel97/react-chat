@@ -6,6 +6,8 @@ import userFriendRequestAdapter from "./adapter/friendRequest.adapter";
 import { FriendRequestState } from "../state/friendRequest";
 import fetchListFriendRequestThunk from "./extraReducer/fetchListFriendRequest.thunk";
 import addFriendRequestAction from "./action/addFriendRequest.action";
+import removeFriendRequestAction from "./action/removeFriendRequest.action";
+import fetchFriendRequestResponseThunk from "./extraReducer/fetchFriendRequestResponse.thunk";
 
 export const friendRequestSlice = createSlice({
   name: SliceName.friend_request,
@@ -14,19 +16,23 @@ export const friendRequestSlice = createSlice({
   }) as FriendRequestState,
   reducers: {
     addFriendRequest: addFriendRequestAction,
+    removeFriendRequest: removeFriendRequestAction,
   },
   extraReducers: (builder) => {
     fetchListFriendRequestThunk(builder);
+    fetchFriendRequestResponseThunk(builder);
   },
 });
 
 export const {
   selectIds: selectFriendRequestIds,
   selectById: selectFriendRequestById,
+  selectTotal: selectFriendRequestTotal,
 } = userFriendRequestAdapter.getSelectors(
   (state: RootState) => state[SliceName.friend_request]
 );
 
-export const { addFriendRequest } = friendRequestSlice.actions;
+export const { addFriendRequest, removeFriendRequest } =
+  friendRequestSlice.actions;
 
 export default friendRequestSlice.reducer;
