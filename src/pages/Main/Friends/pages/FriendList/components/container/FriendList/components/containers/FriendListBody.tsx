@@ -1,17 +1,16 @@
 import useAppSelector from "@hooks/useAppSelector";
 import { selectUserIds } from "@store/slices/users";
 import { Suspense, lazy, useMemo } from "react";
+import ListFriendEmpty from "./ListFriendEmpty";
+import { isSuccess } from "@utils/validate";
+import FriendListItemLoading from "../ui/FriendListItemLoading";
 import {
   FriendListItemsContainer,
   FriendListItemsContainerScrollbar,
 } from "../../styles/FriendList.decorate";
-import ListFriendEmpty from "./ListFriendEmpty";
-import { isSuccess } from "@utils/validate";
-import FriendListItemLoading from "../ui/FriendListItemLoading";
-
 const FriendListItem = lazy(() => import("../ui/FriendListItem"));
 
-const FriendList = () => {
+const FriendListBody = () => {
   const data = useAppSelector(selectUserIds);
   const status = useAppSelector((state) => state.user.process);
   const Friends = useMemo(() => {
@@ -38,4 +37,4 @@ const FriendList = () => {
     </FriendListItemsContainerScrollbar>
   );
 };
-export default FriendList;
+export default FriendListBody;

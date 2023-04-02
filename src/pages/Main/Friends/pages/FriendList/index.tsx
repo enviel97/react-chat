@@ -1,25 +1,19 @@
 import useAppDispatch from "@hooks/useAppDispatch";
 import { fetchListFriends } from "@store/repo/user";
-import { memo, useEffect, lazy, Suspense, useCallback } from "react";
-import FriendListLoading from "./components/ui/FriendListLoading";
-import FriendListTitle from "./components/container/FriendListTitle";
-import { FriendListContainer } from "./styles/FriendList.decorate";
+import { memo, useEffect, useCallback, Fragment } from "react";
 import useAppSelector from "@hooks/useAppSelector";
-import CornerLoading from "../../components/CornerLoading";
 import useSocket from "@hooks/useSocket";
 import { Event } from "@common/socket.define";
 import { addFriend } from "@store/slices/users";
 import { removeFriendRequest } from "@store/slices/friendRequest";
-const FriendList = lazy(() => import("./components/container/FriendList"));
+import FriendList from "./components/container/FriendList";
+import FiendPending from "./components/container/FriendPending";
+import AddFriendButton from "./components/ui/AddFriendButton";
 
 const FriendListLayout = () => {
   const dispatch = useAppDispatch();
   const socket = useSocket();
   const currentTab = useAppSelector((state) => state.ui.tabFriendSelect);
-
-  const status = useAppSelector((state) => {
-    return state.user.process;
-  });
 
   const handleOnReceiveAllowFriendRequest = useCallback(
     (payload: FriendRequest) => {
@@ -69,13 +63,11 @@ const FriendListLayout = () => {
   }, [dispatch]);
 
   return (
-    <FriendListContainer>
-      <FriendListTitle />
-      <Suspense fallback={<FriendListLoading />}>
-        <FriendList />
-      </Suspense>
-      <CornerLoading status={status} />
-    </FriendListContainer>
+    <Fragment>
+      <AddFriendButton />
+      <FiendPending />
+      <FriendList />
+    </Fragment>
   );
 };
 

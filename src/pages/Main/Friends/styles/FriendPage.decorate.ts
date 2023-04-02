@@ -12,6 +12,7 @@ export const FriendPageDecorate = styled.div`
 `;
 
 export const FriendPageLayout = styled.div`
+  position: relative;
   display: inline-block;
   padding: 0.5em;
   box-sizing: border-box;
