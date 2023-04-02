@@ -1,7 +1,10 @@
 import useAppSelector from "@hooks/useAppSelector";
 import { selectUserIds } from "@store/slices/users";
 import { Suspense, lazy, useMemo } from "react";
-import { FriendListItemsContainer } from "../../styles/FriendList.decorate";
+import {
+  FriendListItemsContainer,
+  FriendListItemsContainerScrollbar,
+} from "../../styles/FriendList.decorate";
 import ListFriendEmpty from "./ListFriendEmpty";
 import { isSuccess } from "@utils/validate";
 import FriendListItemLoading from "../ui/FriendListItemLoading";
@@ -29,6 +32,10 @@ const FriendList = () => {
     });
   }, [data, status]);
 
-  return <FriendListItemsContainer>{Friends}</FriendListItemsContainer>;
+  return (
+    <FriendListItemsContainerScrollbar>
+      <FriendListItemsContainer>{Friends}</FriendListItemsContainer>
+    </FriendListItemsContainerScrollbar>
+  );
 };
 export default FriendList;

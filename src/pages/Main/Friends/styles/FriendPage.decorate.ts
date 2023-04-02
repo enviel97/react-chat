@@ -2,33 +2,33 @@ import { typography } from "@theme/helper/typography";
 import styled from "styled-components";
 
 export const FriendPageDecorate = styled.div`
+  position: relative;
   display: flex;
   width: 100%;
+  max-height: 100svh;
   font-weight: bold;
+  box-sizing: border-box;
   flex-direction: column;
 `;
 
 export const FriendPageLayout = styled.div`
-  display: flex;
+  display: inline-block;
   padding: 0.5em;
-  flex-direction: column;
-  flex: 1;
-  overflow-y: auto;
-  scrollbar-gutter: stable both-edges;
+  box-sizing: border-box;
+  overflow: hidden;
+  height: 100%;
 `;
 
 export const FriendPageTitle = styled.h4`
   display: flex;
+  flex-shrink: 0;
   align-items: center;
   justify-content: space-between;
   font-weight: bold;
-  padding-top: 1em;
-  padding-bottom: 0.25em;
-  margin-bottom: 1em;
   width: fit-content;
+  padding: 1rem;
   gap: 1rem;
   border-bottom: 1px solid ${({ theme }) => theme.disableColor};
-
   & > strong,
   & > span > strong {
     font-weight: 300;

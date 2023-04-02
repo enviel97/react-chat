@@ -59,7 +59,7 @@ const GlobalStyle = createGlobalStyle`
     width: 0.8em;
     height: 0.8em;
     background: ${({ theme }) => theme.backgroundColor};
-      border-radius: 10px;
+    border-radius: inherit;
     &:horizontal {
       background-color: ${({ theme }) => theme.surfaceColor};
     }
@@ -69,7 +69,7 @@ const GlobalStyle = createGlobalStyle`
         neumorphismBoxShadowInset(true, {
           background: theme.backgroundColor,
         })}; 
-      border-radius: 10px;
+      border-radius: inherit;
     }
     &-thumb {
       border: 1px solid #000000;
@@ -78,7 +78,7 @@ const GlobalStyle = createGlobalStyle`
         inset -5px -5px 5px #0d0d0d,
         inset 10px 10px 20px ${({ theme }) => theme.surfaceColor} ;
       
-      border-radius: 10px;
+      border-radius: inherit;
       &:hover {
         background-color: ${({ theme }) => theme.surfaceColor};
         box-shadow: inset -4px -4px 4px #0d0d0d;
