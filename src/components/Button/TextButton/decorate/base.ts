@@ -7,6 +7,7 @@ export const Base = styled.div<{
   textColor?: string;
   height?: string;
   width?: string;
+  highlightColor?: string;
 }>`
   ${({ width = "100%", height = "1.15em" }) => css`
     width: ${width};
@@ -36,28 +37,23 @@ export const Base = styled.div<{
       opacity: 0.5;
       pointer-events: none;
     }
+    ${({ color, theme, highlightColor }) => {
+      const mainColor = colorTheme({ color: highlightColor ?? color, theme });
+      return css`
+        border: 2px solid ${colorBrightness(mainColor, -2)};
+        box-shadow: 0.3em 0.3em 0.4em ${colorBrightness(mainColor, -10)}80;
+        &:hover {
+          background-color: ${colorBrightness(mainColor, 10)};
+        }
+        &:focus {
+          border: 2px solid ${colorBrightness(mainColor, 10)};
+        }
 
-    border: 2px solid
-      ${({ color, theme }) => colorBrightness(colorTheme({ color, theme }), -2)};
-    box-shadow: 0.3em 0.3em 0.4em
-      ${({ color, theme }) =>
-        colorBrightness(colorTheme({ color, theme }), -10)}80;
-
-    &:hover {
-      background-color: ${({ color, theme }) =>
-        colorBrightness(colorTheme({ color, theme }), 10)};
-    }
-
-    &:focus {
-      border: 2px solid
-        ${({ color, theme }) =>
-          colorBrightness(colorTheme({ color, theme }), 10)};
-    }
-
-    &:active {
-      font-size: 98%;
-      background-color: ${({ color, theme }) =>
-        colorBrightness(colorTheme({ color, theme }), -10)};
-    }
+        &:active {
+          font-size: 98%;
+          background-color: ${colorBrightness(mainColor, -10)};
+        }
+      `;
+    }}
   }
 `;

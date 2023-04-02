@@ -5,6 +5,7 @@ interface ButtonDecorate {
   height?: string;
   size?: string;
   textColor?: string;
+  highlightColor?: string;
 }
 
 interface ButtonTextProps

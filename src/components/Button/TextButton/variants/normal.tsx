@@ -2,8 +2,16 @@ import { Base } from "../decorate/base";
 import Button from "./base";
 
 const ButtonText = (props: ButtonDecorate & ButtonTextProps) => {
-  const { height, width, textColor, className, color, disabled, ...rest } =
-    props;
+  const {
+    height,
+    width,
+    textColor,
+    className,
+    color,
+    disabled,
+    highlightColor,
+    ...rest
+  } = props;
 
   return (
     <Base
@@ -12,6 +20,7 @@ const ButtonText = (props: ButtonDecorate & ButtonTextProps) => {
       width={width}
       textColor={textColor}
       color={color}
+      highlightColor={highlightColor}
     >
       <Button {...rest} disabled={disabled} />
     </Base>
