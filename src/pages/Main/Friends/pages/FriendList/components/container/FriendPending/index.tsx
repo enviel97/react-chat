@@ -1,5 +1,14 @@
+import { FriendPageTitle } from "@pages/Main/Friends/styles/FriendPage.decorate";
+import { Fragment, memo } from "react";
+import FriendPendingBody from "./components/container/FriendPendingBody";
+
 const FiendPending = () => {
-  return <div></div>;
+  return (
+    <Fragment>
+      <FriendPageTitle>Friend Pending</FriendPageTitle>
+      <FriendPendingBody />
+    </Fragment>
+  );
 };
 
-export default FiendPending;
+export default memo(FiendPending);

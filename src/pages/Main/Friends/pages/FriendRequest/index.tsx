@@ -5,7 +5,6 @@ import useSocket from "@hooks/useSocket";
 import { fetchListFriendRequest } from "@store/repo/user";
 import { addFriendRequest } from "@store/slices/friendRequest";
 import { lazy, memo, useCallback, useEffect, Suspense } from "react";
-import { toast } from "react-toastify";
 import CornerLoading from "../../components/CornerLoading";
 import FriendRequestTitle from "./components/container/FriendRequestTitle";
 import { FriendRequestContainer } from "./styles/FriendRequest.decorate";

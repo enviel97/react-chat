@@ -1,14 +1,6 @@
 import { breakpoint } from "@theme/helper/breakpoint";
 import styled from "styled-components";
 
-export const FriendListContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  box-sizing: border-box;
-  width: 100%;
-  height: 100%;
-`;
-
 export const FriendListItemsContainerScrollbar = styled.div`
   display: flex;
   flex-direction: column;
