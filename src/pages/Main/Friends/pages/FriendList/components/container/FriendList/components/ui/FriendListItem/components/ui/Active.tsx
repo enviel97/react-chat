@@ -8,6 +8,7 @@ const UserActiveContainer = styled.span<{ $friendUserActive: UserStatus }>`
   position: relative;
   font-weight: bold;
   text-indent: 1.5rem;
+  text-transform: capitalize;
   color: ${({ $friendUserActive, theme }) => {
     switch ($friendUserActive) {
       case "active":
@@ -36,7 +37,7 @@ const UserActiveContainer = styled.span<{ $friendUserActive: UserStatus }>`
 const UserActive: FC<UserActiveProps> = ({ friendUserActive }) => {
   return (
     <UserActiveContainer $friendUserActive={friendUserActive}>
-      Online
+      {friendUserActive}
     </UserActiveContainer>
   );
 };

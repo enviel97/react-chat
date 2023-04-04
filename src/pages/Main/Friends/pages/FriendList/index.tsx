@@ -1,5 +1,4 @@
 import useAppDispatch from "@hooks/useAppDispatch";
-import { fetchListFriends } from "@store/repo/user";
 import { memo, useEffect, useCallback, Fragment } from "react";
 import useAppSelector from "@hooks/useAppSelector";
 import useSocket from "@hooks/useSocket";
@@ -13,6 +12,7 @@ import {
   FriendListContainer,
   FriendPendingContainer,
 } from "./styles/FriendListTab.decorate";
+import { removeFriendPending } from "@store/slices/friendPending";
 
 const FriendListLayout = () => {
   const dispatch = useAppDispatch();
@@ -23,6 +23,7 @@ const FriendListLayout = () => {
     (payload: FriendRequest) => {
       if (currentTab === "list") {
         dispatch(addFriend(payload.authorProfile));
+        dispatch(removeFriendPending(payload.getId()));
       }
       if (currentTab === "request") {
         dispatch(removeFriendRequest(payload.getId()));
@@ -33,6 +34,9 @@ const FriendListLayout = () => {
 
   const handleOnReceiveRejectFriendRequest = useCallback(
     (payload: FriendRequest) => {
+      if (currentTab === "list") {
+        dispatch(removeFriendPending(payload.getId()));
+      }
       if (currentTab === "request") {
         dispatch(removeFriendRequest(payload.getId()));
       }
@@ -58,13 +62,6 @@ const FriendListLayout = () => {
     handleOnReceiveRejectFriendRequest,
     socket,
   ]);
-
-  useEffect(() => {
-    const promise = dispatch(fetchListFriends());
-    return () => {
-      promise.abort();
-    };
-  }, [dispatch]);
 
   return (
     <Fragment>

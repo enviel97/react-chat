@@ -9,3 +9,4 @@ export { default as fetchSearchFriend } from "./apis/friends/fetchSearchFriend";
 export { default as fetchSendFriendRequest } from "./apis/friendRequest/fetchSendFriendRequest";
 export { default as fetchListFriendRequest } from "./apis/friendRequest/fetchListFriendRequest";
 export { default as fetchFriendRequestResponse } from "./apis/friendRequest/fetchFriendRequestResponse";
+export { default as fetchFriendPending } from "./apis/friendRequest/fetchFriendPending";

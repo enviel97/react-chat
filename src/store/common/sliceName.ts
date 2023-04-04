@@ -3,6 +3,7 @@ const SliceName = Object.freeze({
   message: "message",
   user: "user",
   friend_request: "friend-request",
+  friend_pending: "friend-pending",
   ui: "ui",
 });
 

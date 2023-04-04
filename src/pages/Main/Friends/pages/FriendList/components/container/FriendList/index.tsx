@@ -1,4 +1,6 @@
-import { memo, lazy, Suspense } from "react";
+import useAppDispatch from "@hooks/useAppDispatch";
+import { fetchListFriends } from "@store/repo/user";
+import { memo, lazy, Suspense, useEffect } from "react";
 import FriendListTitle from "./components/containers/FriendListTitle";
 import FriendListLoading from "./components/ui/FriendListLoading";
 const FriendListBody = lazy(
@@ -6,6 +8,13 @@ const FriendListBody = lazy(
 );
 
 const FriendList = () => {
+  const dispatch = useAppDispatch();
+  useEffect(() => {
+    const promise = dispatch(fetchListFriends());
+    return () => {
+      promise.abort();
+    };
+  }, [dispatch]);
   return (
     <>
       <FriendListTitle />

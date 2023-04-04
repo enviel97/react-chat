@@ -1,9 +1,6 @@
-import { ButtonIcon } from "@components/Button";
-import NetworkImage from "@components/Image/NetworkImage";
-import { MdCancel } from "react-icons/md";
 import styled from "styled-components";
 
-const Container = styled.div`
+export const Container = styled.div`
   position: relative;
   display: flex;
   align-items: center;
@@ -15,7 +12,7 @@ const Container = styled.div`
   background-color: ${({ theme }) => theme.surfaceColor};
 `;
 
-const Title = styled.div`
+export const Title = styled.div`
   height: 4rem;
   aspect-ratio: 1 / 1;
   background-color: ${({ theme }) => theme.backgroundColor};
@@ -23,7 +20,7 @@ const Title = styled.div`
   overflow: hidden;
 `;
 
-const Body = styled.div`
+export const Body = styled.div`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
@@ -41,33 +38,8 @@ const Body = styled.div`
   }
 `;
 
-const Action = styled.div`
+export const Action = styled.div`
   position: absolute;
   bottom: 0;
   right: 0;
 `;
-
-const FriendPendingItem = () => {
-  return (
-    <Container>
-      <Title>
-        <NetworkImage />
-      </Title>
-      <Body>
-        <span>Hello world</span>
-        <span>pending...</span>
-      </Body>
-      <Action>
-        <ButtonIcon
-          icon={<MdCancel />}
-          circle
-          color='notification'
-          hint='Cancel'
-          hintPosition='left'
-        />
-      </Action>
-    </Container>
-  );
-};
-
-export default FriendPendingItem;

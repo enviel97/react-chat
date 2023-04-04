@@ -10,4 +10,11 @@ export const FriendPendingBodyContainer = styled.div`
   &::-webkit-scrollbar {
     display: none;
   }
+
+  & > span {
+    font-weight: 300;
+    text-indent: 2rem;
+    font-style: italic;
+    color: ${({ theme }) => theme.disableColor};
+  }
 `;

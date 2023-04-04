@@ -2,6 +2,7 @@ import { PromiseToast } from "@components/Toast/promise";
 import useAppDispatch from "@hooks/useAppDispatch";
 import FriendRequestCard from "@pages/Main/Friends/components/FriendRequestCard";
 import { fetchSendFriendRequest } from "@store/repo/user";
+import { addFriendPending } from "@store/slices/friendPending";
 import { FC, useCallback, useRef, useState } from "react";
 import useSearch from "../hooks/useSearch";
 
@@ -26,7 +27,8 @@ const AddFriendCard: FC<AddFriendCardProps> = ({ profile }) => {
           );
           return await storePromise.current.unwrap();
         },
-        onSuccess: () => {
+        onSuccess: (res: FriendRequest) => {
+          dispatch(addFriendPending({ friendReq: res }));
           remove(profile.getId());
         },
         onFinally: () => {
