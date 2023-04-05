@@ -20,8 +20,8 @@ const fetchListFriendRequestThunk = (builder: FriendRequestExtraBuilder) => {
     .addCase(
       fetchFriendPending.fulfilled,
       (state, { payload }: PayloadAction<PayloadActionList>) => {
-        const userProfiles = payload.data ?? [];
-        friendPendingAdapter.upsertMany(state, userProfiles);
+        const friendRequests = payload.data ?? [];
+        friendPendingAdapter.upsertMany(state, friendRequests);
         state.process = State.FULFILLED;
       }
     );

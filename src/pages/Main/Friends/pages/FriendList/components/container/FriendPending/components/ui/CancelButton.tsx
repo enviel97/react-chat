@@ -1,5 +1,8 @@
 import { ButtonIcon } from "@components/Button";
-import { FC } from "react";
+import { PromiseToast } from "@components/Toast/promise";
+import useAppDispatch from "@hooks/useAppDispatch";
+import { fetchFriendRequestCancel } from "@store/repo/user";
+import { FC, useState } from "react";
 import { MdCancel } from "react-icons/md";
 
 interface Props {
@@ -9,14 +12,29 @@ interface Props {
 }
 
 const CancelButton: FC<Props> = ({ friendId, friendName, isLoading }) => {
+  const dispatch = useAppDispatch();
+  const [isPending, setPending] = useState(false);
+
+  const handleCancelPendingRequest = () => {
+    PromiseToast({
+      action() {
+        setPending(true);
+        return dispatch(fetchFriendRequestCancel(friendId)).unwrap();
+      },
+      onSuccess: () => {},
+      onFinally: () => setPending(false),
+    });
+  };
+
   return (
     <ButtonIcon
       icon={<MdCancel />}
       circle
       color='notification'
       hint='Cancel'
-      disabled={!!isLoading}
+      disabled={!!isLoading || isPending}
       hintPosition='left'
+      onClick={handleCancelPendingRequest}
     />
   );
 };

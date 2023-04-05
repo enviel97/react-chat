@@ -23,6 +23,7 @@ export const Event = Object.freeze({
   EVENT_FRIEND_RECEIVE_FRIEND_REQUEST: "onReceiveFriendRequest",
   EVENT_FRIEND_RECEIVE_ALLOW_FRIEND: "onReceiveAllowFriendRequest",
   EVENT_FRIEND_RECEIVE_REJECT_FRIEND: "onReceiveRejectFriendRequest",
+  EVENT_FRIEND_RECEIVE_CANCEL_FRIEND_REQUEST: "onReceiveCancelFriendRequest",
 
   EVENT_SOCKET_CONNECTED: "connected",
   EVENT_SOCKET_ERROR: "connect_error",

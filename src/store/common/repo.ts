@@ -24,3 +24,4 @@ export const USER_GET_FRIEND_REQUESTS = "/users/friend/request";
 export const USER_PATCH_FRIEND_PENDING = "/users/friend/pending";
 export const USER_PATCH_FRIEND_REQUESTS_RESPONSE =
   "/users/friend/response/:friendRequestId";
+export const USER_DELETE_FRIEND_REQUEST_CANCEL = "/users/friend/cancel/:id";

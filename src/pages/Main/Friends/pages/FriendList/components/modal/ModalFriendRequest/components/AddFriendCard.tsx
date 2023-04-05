@@ -28,8 +28,10 @@ const AddFriendCard: FC<AddFriendCardProps> = ({ profile }) => {
           return await storePromise.current.unwrap();
         },
         onSuccess: (res: FriendRequest) => {
-          dispatch(addFriendPending({ friendReq: res }));
-          remove(profile.getId());
+          Promise.allSettled([
+            dispatch(addFriendPending(res)),
+            remove(profile.getId()),
+          ]);
         },
         onFinally: () => {
           setLoading(false);
