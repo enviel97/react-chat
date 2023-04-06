@@ -1,4 +1,8 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+interface Props {
+  $isOpen: boolean;
+}
 
 export const PickerEmojiContainer = styled.div`
   position: relative;
@@ -9,8 +13,21 @@ export const PickerEmojiContainer = styled.div`
   width: fit-content;
 `;
 
-export const PickerContainer = styled.div`
+export const PickerContainer = styled.div<Props>`
   position: absolute;
   bottom: 50%;
   right: 50%;
+  ${({ $isOpen }) => {
+    if ($isOpen) {
+      return css`
+        display: initial;
+        visibility: visible;
+      `;
+    }
+
+    return css`
+      display: none;
+      visibility: hidden;
+    `;
+  }}
 `;

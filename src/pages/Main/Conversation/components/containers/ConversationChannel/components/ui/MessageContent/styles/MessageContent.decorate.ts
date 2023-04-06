@@ -13,7 +13,7 @@ export const MessageContentContainer = styled.div<MessageStyledProps>`
   font-size: ${clampSize({
     minWidth: 282,
     maxWidth: 748.4,
-    maxFontSize: 1,
+    maxFontSize: 1.2,
     minFontSize: 0.75,
   })};
 
