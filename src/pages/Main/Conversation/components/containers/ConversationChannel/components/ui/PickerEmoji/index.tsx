@@ -15,6 +15,7 @@ const PickerEmoji: FC<PickerEmojiProps> = ({ onSelected, ...rest }) => {
   const { targetRef, isOpen, toggle } = useCLoseOnClickOutside(true);
 
   const onSelectEmoji = (emoji: EmojiClickData, event: MouseEvent) => {
+    event.stopPropagation();
     const value = emoji.emoji;
     onSelected && onSelected(value);
   };
@@ -27,20 +28,18 @@ const PickerEmoji: FC<PickerEmojiProps> = ({ onSelected, ...rest }) => {
         icon={<TfiThemifyFaviconAlt />}
         onClick={toggle}
       />
-      {isOpen && (
-        <PickerContainer>
-          <EmojiPicker
-            {...rest}
-            onEmojiClick={onSelectEmoji}
-            autoFocusSearch={true}
-            theme={Theme[theme.isDark ? "DARK" : "LIGHT"]}
-            previewConfig={{ showPreview: false }}
-            searchPlaceHolder="Your's feel ?"
-            skinTonesDisabled={true}
-            lazyLoadEmojis
-          />
-        </PickerContainer>
-      )}
+      <PickerContainer $isOpen={isOpen}>
+        <EmojiPicker
+          {...rest}
+          onEmojiClick={onSelectEmoji}
+          autoFocusSearch={true}
+          theme={Theme[theme.isDark ? "DARK" : "LIGHT"]}
+          previewConfig={{ showPreview: false }}
+          searchPlaceHolder="Your's feel ?"
+          skinTonesDisabled={true}
+          lazyLoadEmojis={false}
+        />
+      </PickerContainer>
     </PickerEmojiContainer>
   );
 };

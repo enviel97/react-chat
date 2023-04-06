@@ -1,4 +1,4 @@
-import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 
 const useCLoseOnClickOutside = (pressEscapeToClose?: boolean) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +32,7 @@ const useCLoseOnClickOutside = (pressEscapeToClose?: boolean) => {
     [ref]
   );
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     document.addEventListener("click", onClickEvent);
     document.addEventListener("keydown", onPressEscape);
 
