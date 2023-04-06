@@ -23,13 +23,8 @@ const ListFriend: FC<ListFriendProps> = ({
       {data.map((user) => {
         const _role = (role && role[string.getId(user)]) ?? "Member";
         return (
-          <Suspense fallback={"Loading ..."}>
-            <FriendItem
-              key={string.getId(user)}
-              user={user}
-              role={_role}
-              canBanned={canBanned}
-            />
+          <Suspense key={string.getId(user)} fallback={"Loading ..."}>
+            <FriendItem user={user} role={_role} canBanned={canBanned} />
           </Suspense>
         );
       })}

@@ -7,9 +7,7 @@ import { updateLastMessage } from "@store/slices/conversations";
 const postMessage = async (req: RequestSendMessage) => {
   const response = await client.post<any, Response<Message>>(
     MESSAGE_POST,
-    {
-      content: req.message,
-    },
+    { content: req.message },
     { pathVariable: { conversationId: req.conversationId } }
   );
   if (response.data) return response;

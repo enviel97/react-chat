@@ -24,8 +24,7 @@ const createTemp = ({
     updatedAt: time,
     action: "Seen",
     _id: tempId,
-    getId: () => tempId,
-  };
+  } as any;
 };
 
 const messageUtils = {

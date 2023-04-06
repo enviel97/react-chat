@@ -3,13 +3,13 @@ import { FC, useEffect, useId, useState } from "react";
 import useAppSelector from "@hooks/useAppSelector";
 import { State } from "@store/common/state";
 import { selectMessageById } from "@store/slices/messages";
-import ErrorIcon from "./components/ErrorIcon";
-import SuccessIcon from "./components/SuccessIcon";
 import containerVariants from "./variants/container.variant";
 import {
+  HintContainer,
   KTooltip,
   PromiseLoadingContainer,
 } from "./styles/PromiseLoading.decorate";
+import { FaCheck, FaExclamation } from "react-icons/fa";
 
 const PromiseLoading: FC<{ messageId: string }> = ({ messageId }) => {
   const message = useAppSelector((state) =>
@@ -47,22 +47,23 @@ const PromiseLoading: FC<{ messageId: string }> = ({ messageId }) => {
   if (isPending === undefined) return <></>;
 
   return (
-    <AnimatePresence mode='wait' presenceAffectsLayout>
-      <PromiseLoadingContainer
-        id={hintId}
-        variants={containerVariants}
-        initial='initial'
-        animate={isPending ? "loading" : hasError ? "error" : "success"}
-      >
-        {hasError ? <ErrorIcon /> : <SuccessIcon />}
-        <KTooltip
-          id='tooltip'
-          anchorId={hintId}
-          content={isPending ? "Sending" : hasError ? "Error" : "Sent"}
-          place={"top"}
-        />
-      </PromiseLoadingContainer>
-    </AnimatePresence>
+    <HintContainer id={hintId}>
+      <AnimatePresence mode='wait' presenceAffectsLayout>
+        <PromiseLoadingContainer
+          variants={containerVariants}
+          initial='initial'
+          animate={isPending ? "loading" : hasError ? "error" : "success"}
+        >
+          {hasError ? <FaExclamation /> : <FaCheck />}
+        </PromiseLoadingContainer>
+      </AnimatePresence>
+      <KTooltip
+        id='tooltip'
+        anchorId={hintId}
+        content={isPending ? "Sending" : hasError ? "Error" : "Sent"}
+        place={"top"}
+      />
+    </HintContainer>
   );
 };
 
