@@ -18,7 +18,6 @@ const FriendRequestList = lazy(
 const FriendRequest = () => {
   const dispatch = useAppDispatch();
   const socket = useSocket();
-  const currentTab = useAppSelector((state) => state.ui.tabFriendSelect);
 
   const status = useAppSelector((state) => {
     return state["friend-request"].process;
@@ -26,20 +25,16 @@ const FriendRequest = () => {
 
   const onHasFriendRequest = useCallback(
     (payload: FriendRequest) => {
-      if (currentTab === "request") {
-        dispatch(addFriendRequest(payload));
-      }
+      dispatch(addFriendRequest(payload));
     },
-    [dispatch, currentTab]
+    [dispatch]
   );
 
   const handleRemoveFriendRequest = useCallback(
     (payload: FriendRequest) => {
-      if (currentTab === "request") {
-        dispatch(removeFriendRequest(payload.getId()));
-      }
+      dispatch(removeFriendRequest(payload.getId()));
     },
-    [dispatch, currentTab]
+    [dispatch]
   );
 
   useEffect(() => {

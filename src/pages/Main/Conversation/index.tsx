@@ -22,7 +22,7 @@ const ConversationLayout = () => {
         )}
         {params.id && <Outlet />}
       </Panel>
-      <Friends />
+      {breakpoint.up("tablet") && <Friends />}
     </Fragment>
   );
 };

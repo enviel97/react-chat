@@ -3,44 +3,14 @@ import { clampSize, colorBrightness } from "@theme/helper/tools";
 import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
 
-export const Items = styled.div`
+export const ParticipantItemParticipant = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme }) => theme.backgroundColor};
 `;
 
-export const ListFriendEmpty = styled.span`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-export const ListFriendContainer = styled.div`
-  gap: 0.5rem;
-  padding: 0.5em 1em;
-
-  & > span {
-    font-weight: bold;
-    font-size: ${clampSize({
-      minWidth: 100,
-      maxWidth: 300,
-      maxFontSize: 1,
-      minFontSize: 0.8,
-    })};
-  }
-`;
-
-export const ListFriendHeaderTitle = styled.span`
-  display: flex;
-  flex-direction: row;
-  gap: 0.5em;
-  align-items: stretch;
-  justify-content: space-between;
-  padding: 0.5rem 0;
-`;
-
-export const ListFriendItemContainer = styled.div`
+export const ParticipantItemContainer = styled.div`
   display: flex;
   width: 100%;
   padding: 0.5em 0.8em;
@@ -52,7 +22,7 @@ export const ListFriendItemContainer = styled.div`
   }
 `;
 
-export const ListFriendItemBody = styled.div`
+export const ParticipantItemBody = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -70,7 +40,7 @@ export const ListFriendItemBody = styled.div`
   }
 `;
 
-export const ListItemHint = styled(Tooltip)`
+export const ParticipantItemHint = styled(Tooltip)`
   padding: 0.25em 0.5em;
   border: 1px solid ${({ theme }) => theme.backgroundColor};
   background-color: ${(props) => colorBrightness(props.theme.surfaceColor, 5)};

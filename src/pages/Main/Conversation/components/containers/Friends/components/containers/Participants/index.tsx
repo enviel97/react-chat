@@ -1,10 +1,16 @@
 import useAppSelector from "@hooks/useAppSelector";
 import { selectConversationById } from "@store/slices/conversations";
-import { memo, useMemo } from "react";
+import { lazy, memo, Suspense, useMemo } from "react";
 import { useParams } from "react-router-dom";
-import ListFriend from "../ui/ListFriend";
 import string from "@utils/string";
 import useAuthenticate from "@hooks/useAuthenticate";
+import {
+  ParticipantListContainer,
+  ParticipantListHeaderTitle,
+} from "./styles/ParticipantList.decorate";
+import Divider from "@components/Divider";
+import ParticipantItemLoading from "./components/ParticipantItem/components/containers/ParticipantItemLoading";
+const ParticipantItem = lazy(() => import("./components/ParticipantItem"));
 
 const Participants = () => {
   const { id = "" } = useParams();
@@ -17,6 +23,7 @@ const Participants = () => {
     const members = Array.from(conversation?.participant.members ?? []);
     return members.sort((a, b) => a.lastName.localeCompare(b.lastName));
   }, [conversation]);
+
   const roles = useMemo(() => {
     return conversation?.participant.roles;
   }, [conversation]);
@@ -29,12 +36,24 @@ const Participants = () => {
   }, [roles, conversation, user]);
 
   return (
-    <ListFriend
-      groupTitle='Participants'
-      data={members}
-      role={roles}
-      canBanned={canBanned}
-    />
+    <ParticipantListContainer>
+      <ParticipantListHeaderTitle>
+        <span>Participant</span>
+        <span>{`(${members.length})`}</span>
+      </ParticipantListHeaderTitle>
+      <Divider />
+      {members.map((user) => {
+        const _role = (roles && roles[string.getId(user)]) ?? "Member";
+        return (
+          <Suspense
+            key={string.getId(user)}
+            fallback={<ParticipantItemLoading />}
+          >
+            <ParticipantItem user={user} role={_role} canBanned={canBanned} />
+          </Suspense>
+        );
+      })}
+    </ParticipantListContainer>
   );
 };
 

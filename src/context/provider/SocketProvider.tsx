@@ -17,6 +17,10 @@ export const SocketProvider = ({ children }: Components) => {
     if (!user) return;
     // TODO: Connect socket reconnect if socket connect failure
     if (!socket.connected) socket.connect();
+
+    return () => {
+      socket.close();
+    };
   }, [user]);
 
   useEffect(() => {

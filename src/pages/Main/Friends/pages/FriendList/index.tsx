@@ -1,6 +1,5 @@
 import useAppDispatch from "@hooks/useAppDispatch";
 import { memo, useEffect, useCallback, Fragment } from "react";
-import useAppSelector from "@hooks/useAppSelector";
 import useSocket from "@hooks/useSocket";
 import { Event } from "@common/socket.define";
 import { addFriend } from "@store/slices/users";
@@ -15,26 +14,21 @@ import { removeFriendPending } from "@store/slices/friendPending";
 
 const FriendListLayout = () => {
   const dispatch = useAppDispatch();
-  const socket = useSocket();
-  const currentTab = useAppSelector((state) => state.ui.tabFriendSelect);
 
+  const socket = useSocket();
   const handleOnReceiveAllowFriendRequest = useCallback(
     (payload: FriendRequest) => {
-      if (currentTab === "list") {
-        dispatch(addFriend(payload.authorProfile));
-        dispatch(removeFriendPending(payload.getId()));
-      }
+      dispatch(addFriend(payload.authorProfile));
+      dispatch(removeFriendPending(payload.getId()));
     },
-    [dispatch, currentTab]
+    [dispatch]
   );
 
   const handleOnReceiveRejectFriendRequest = useCallback(
     (payload: FriendRequest) => {
-      if (currentTab === "list") {
-        dispatch(removeFriendPending(payload.getId()));
-      }
+      dispatch(removeFriendPending(payload.getId()));
     },
-    [dispatch, currentTab]
+    [dispatch]
   );
 
   useEffect(() => {

@@ -4,7 +4,7 @@ import { BiLogOutCircle, BiUser, BiMessageSquareDots } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
 interface ActionButtonProps {
-  icon: "Conversation" | "Friends" | "Sign out";
+  icon: "Conversation" | "Profiles" | "Sign out";
   to: string;
   state?: any;
   onClick?: () => void;
@@ -18,7 +18,7 @@ const ActionButton: FC<ActionButtonProps> = ({ icon, onClick, to, state }) => {
       case "Conversation": {
         return <BiMessageSquareDots size={size} />;
       }
-      case "Friends": {
+      case "Profiles": {
         return <BiUser size={size} />;
       }
       case "Sign out": {

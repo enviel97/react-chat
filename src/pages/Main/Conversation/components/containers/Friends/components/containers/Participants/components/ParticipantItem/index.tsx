@@ -5,14 +5,29 @@ import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import string from "@utils/string";
 import { FC, memo, useEffect, useMemo, useState, useTransition } from "react";
 import { useParams } from "react-router-dom";
+import BannedButton from "./components/ui/BannedButton";
+import RoleIcon from "./components/ui/RoleIcon";
+
 import {
-  Items,
-  ListFriendItemBody,
-  ListFriendItemContainer,
-  ListItemHint,
-} from "../../styles/ListFriend.decorate";
-import BannedButton from "../ui/BannedButton";
-import RoleIcon from "../ui/RoleIcon";
+  ParticipantItemBody,
+  ParticipantItemContainer,
+  ParticipantItemHint,
+  ParticipantItemParticipant,
+} from "./styles/ParticipantItem.decorate";
+
+interface FriendItemProps {
+  user: User;
+  role?: Role;
+  canBanned?: boolean;
+  currentStatus?: boolean;
+}
+type StatusActions = "online" | "offline";
+
+interface StatusUserPayload {
+  id: string;
+  message: string;
+  action: StatusActions;
+}
 
 const FriendItem: FC<FriendItemProps> = ({
   user,
@@ -47,23 +62,24 @@ const FriendItem: FC<FriendItemProps> = ({
     );
     return () => {
       socket.off(Event.EVENT_NOTIFICATION_CHANGE_STATUS);
+      socket.off(Event.EVENT_PARTICIPANT_STATUS_RESPONSE);
     };
   }, [socket, userId, id]);
 
   return (
-    <Items>
-      <ListFriendItemContainer id={userId}>
-        <ListFriendItemBody>
+    <ParticipantItemParticipant>
+      <ParticipantItemContainer id={userId}>
+        <ParticipantItemBody>
           <span>
             <CircleAvatar className='status' online={isPending || isOnline} />
           </span>
           {breakpoint.up("laptop") && (
             <span>{string.getFullName(user, { short: true })}</span>
           )}
-        </ListFriendItemBody>
-      </ListFriendItemContainer>
+        </ParticipantItemBody>
+      </ParticipantItemContainer>
       {breakpoint.down("laptop") && (
-        <ListItemHint
+        <ParticipantItemHint
           id='tooltip'
           anchorId={userId}
           content={`${string.getFullName(user, { short: true })} (${
@@ -75,7 +91,7 @@ const FriendItem: FC<FriendItemProps> = ({
       )}
       <RoleIcon role={role} id={string.getId(user)} />
       <BannedButton conversationId={id} user={user} canBanned={canBanned} />
-    </Items>
+    </ParticipantItemParticipant>
   );
 };
 

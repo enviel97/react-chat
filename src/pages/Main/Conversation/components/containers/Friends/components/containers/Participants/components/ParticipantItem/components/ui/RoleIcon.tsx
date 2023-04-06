@@ -1,7 +1,7 @@
 import { FC, useMemo } from "react";
 import { IconType } from "react-icons";
 import { MdKey, MdPerson } from "react-icons/md";
-import { ListItemHint } from "../../styles/ListFriend.decorate";
+import { ParticipantItemHint } from "../../styles/ParticipantItem.decorate";
 
 interface RoleIconProps {
   role?: Role;
@@ -22,7 +22,7 @@ const RoleIcon: FC<RoleIconProps> = ({ role, id }) => {
   return (
     <>
       <Icon size={28} id={`role-${id}`} tabIndex={-1} />
-      <ListItemHint
+      <ParticipantItemHint
         id='tooltip'
         anchorId={`role-${id}`}
         content={role}

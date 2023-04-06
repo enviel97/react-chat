@@ -4,7 +4,7 @@ import ActionButton from "../ui/ActionButton";
 const FriendsChatButton = () => {
   return (
     <ActionButton
-      icon={"Friends"}
+      icon={"Profiles"}
       onClick={function (): void {}}
       to={"/friends"}
     />
