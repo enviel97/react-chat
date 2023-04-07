@@ -1,6 +1,5 @@
 import { breakpoint } from "@theme/helper/breakpoint";
 import { colorBrightness } from "@theme/helper/tools";
-import { typography } from "@theme/helper/typography";
 import styled from "styled-components";
 import { Page } from "@utils/styles";
 
@@ -9,36 +8,11 @@ interface AnimationProps {
 }
 
 export const AuthPage = styled(Page)<AnimationProps>`
-  width: 100vw;
+  width: 100svw;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow-y: visible;
-
-  &::before {
-    content: "${({ active }) => (active ? "Sign Up" : "Sign In")}";
-    transition: 0.5s;
-    padding: 2rem;
-    position: absolute;
-    text-transform: uppercase;
-    font-size: calc(5rem + 1vw);
-    font-weight: bold;
-    font-family: ${typography.fontFamily.decorate};
-    color: ${({ theme }) => theme.backgroundColor};
-    top: 2rem;
-    text-shadow: -8px -8px 12px ${({ theme }) => colorBrightness(theme.backgroundColor, -10)}99,
-      8px 8px 12px
-        ${({ theme }) => colorBrightness(theme.backgroundColor, 10)}14;
-    left: ${({ active }) => (!active ? "calc(100vw - 28rem)" : "0")};
-    right: ${({ active }) => (!active ? "0" : "calc(100vw - 28rem)")};
-
-    ${breakpoint.down("tablet")} {
-      padding: 2rem;
-      left: 0;
-      height: 10rem;
-      top: ${({ active }) => (!active ? "calc(100vh - 18rem)" : "0")};
-    }
-  }
 `;
 
 export const Box = styled.div`
@@ -72,9 +46,9 @@ export const FormContainer = styled.div<AnimationProps>`
   background-color: ${({ theme }) => theme.backgroundColor};
   height: 100%;
   width: 50%;
-  box-shadow: 0 0 5em ${({ theme }) => theme.disableColor}45;
   transition: 0.5s ease-in-out;
   overflow: hidden;
+  box-shadow: 0 0 5em ${({ theme }) => theme.disableColor}45;
 
   & .loginForm {
     left: ${({ active }) => (active ? "-100%" : "0")};
@@ -88,7 +62,7 @@ export const FormContainer = styled.div<AnimationProps>`
     transition-delay: ${({ active }) => (active ? "0.25s" : "0")};
   }
 
-  ${breakpoint.down("tablet")} {
+  ${breakpoint.down("laptop")} {
     left: 0;
     top: ${({ active }) => (active ? "15%" : "0")};
   }
@@ -110,16 +84,16 @@ export const Container = styled.div`
   align-items: center;
   justify-content: center;
   position: relative;
-  width: 60vw;
-  height: 70vh;
+  width: 60svw;
+  height: 70svh;
   background-color: transparent;
-  ${breakpoint.down("laptop")} {
-    width: 80vw;
+  ${breakpoint.down("desktop")} {
+    width: 60svw;
   }
 
-  ${breakpoint.down("tablet")} {
-    height: 80vh;
-    width: 50vw;
+  ${breakpoint.down("laptop")} {
+    height: 80svh;
+    width: min(500px + 2svw, 75svw);
 
     & ${Box} {
       top: 0;
@@ -143,10 +117,10 @@ export const Container = styled.div`
     & ${FormContainer} {
       width: 100%;
       height: 85%;
-      box-shadow: none;
     }
   }
-  ${breakpoint.down("mobile")} {
-    width: 90vw;
+  ${breakpoint.down("tablet")} {
+    width: min(400px + 1svw, 85svw);
+    height: 60svh;
   }
 `;

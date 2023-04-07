@@ -4,6 +4,7 @@ import { TextFieldNeumorphism as TextField } from "@components/TextInput";
 import { useForm } from "react-hook-form";
 import { forwardRef, useImperativeHandle } from "react";
 import { signUp } from "@store/repo/authenticate/authenticate";
+import Title from "./Title";
 
 interface RegisterValue extends User {
   confirmPassword: string;
@@ -52,6 +53,7 @@ const RegisterForm = forwardRef<FormHandler, RegisterFormProps>(
 
     return (
       <FormDecorate>
+        <Title title='Register' />
         <TextField
           id='email'
           label='Email'

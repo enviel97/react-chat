@@ -6,6 +6,7 @@ import { forwardRef, useImperativeHandle } from "react";
 import { signIn } from "@store/repo/authenticate/authenticate";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuthenticate from "@hooks/useAuthenticate";
+import Title from "./Title";
 
 const LoginForm = forwardRef<FormHandler>((_, ref) => {
   const {
@@ -46,6 +47,7 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
 
   return (
     <FormDecorate onSubmit={handleSubmit(onSubmit)}>
+      <Title title='Login' />
       <TextField
         label='Email'
         register={register("email", {

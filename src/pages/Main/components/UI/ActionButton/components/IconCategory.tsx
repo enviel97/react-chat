@@ -3,11 +3,7 @@ import { IconContext } from "react-icons";
 import { BiLogOutCircle } from "react-icons/bi";
 import { RiUser4Fill, RiMessage3Fill } from "react-icons/ri";
 
-const IconCategory: FC<IconProvider> = ({
-  iconName,
-  isSelected,
-  className,
-}) => {
+const IconCategory: FC<IconProvider> = ({ iconName, className }) => {
   const Icon = useMemo(() => {
     switch (iconName) {
       case "Conversation": {
@@ -20,7 +16,7 @@ const IconCategory: FC<IconProvider> = ({
         return <BiLogOutCircle />;
       }
     }
-  }, [iconName, isSelected]);
+  }, [iconName]);
 
   return (
     <IconContext.Provider value={{ size: "2em", className }}>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 export const FormDecorate = styled.form.attrs({ noValidate: true })`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
