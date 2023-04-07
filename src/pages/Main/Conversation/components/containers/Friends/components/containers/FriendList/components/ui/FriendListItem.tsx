@@ -43,7 +43,6 @@ const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
       Event.EVENT_FRIEND_LIST_RETRIEVE,
       (payload: FriendRetrievePayload) => {
         if (friendId === payload.userId) {
-          console.log(payload, friendId);
           updateSwap({ id: payload.userId, status: payload.status });
         }
       }

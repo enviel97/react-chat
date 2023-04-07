@@ -8,7 +8,6 @@ interface Props {
 }
 
 const FriendListHeader: FC<Props> = ({ title, quantity = 0 }) => {
-  console.log(quantity);
   const size = useMemo(
     () => `(${Math.min(quantity, 99)}${quantity > 99 ? "+" : ""})`,
     [quantity]
