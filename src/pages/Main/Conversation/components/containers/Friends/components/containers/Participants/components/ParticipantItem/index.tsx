@@ -12,7 +12,7 @@ import {
   ParticipantItemBody,
   ParticipantItemContainer,
   ParticipantItemHint,
-  ParticipantItemParticipant,
+  ParticipantItemContent,
 } from "./styles/ParticipantItem.decorate";
 
 interface FriendItemProps {
@@ -62,13 +62,12 @@ const FriendItem: FC<FriendItemProps> = ({
     );
     return () => {
       socket.off(Event.EVENT_NOTIFICATION_CHANGE_STATUS);
-      socket.off(Event.EVENT_PARTICIPANT_STATUS_RESPONSE);
     };
   }, [socket, userId, id]);
 
   return (
-    <ParticipantItemParticipant>
-      <ParticipantItemContainer id={userId}>
+    <ParticipantItemContainer>
+      <ParticipantItemContent id={userId}>
         <ParticipantItemBody>
           <span>
             <CircleAvatar className='status' online={isPending || isOnline} />
@@ -77,7 +76,7 @@ const FriendItem: FC<FriendItemProps> = ({
             <span>{string.getFullName(user, { short: true })}</span>
           )}
         </ParticipantItemBody>
-      </ParticipantItemContainer>
+      </ParticipantItemContent>
       {breakpoint.down("laptop") && (
         <ParticipantItemHint
           id='tooltip'
@@ -91,7 +90,7 @@ const FriendItem: FC<FriendItemProps> = ({
       )}
       <RoleIcon role={role} id={string.getId(user)} />
       <BannedButton conversationId={id} user={user} canBanned={canBanned} />
-    </ParticipantItemParticipant>
+    </ParticipantItemContainer>
   );
 };
 

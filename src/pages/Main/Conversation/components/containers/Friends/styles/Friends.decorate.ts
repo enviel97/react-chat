@@ -1,7 +1,7 @@
 import { breakpoint } from "@theme/helper/breakpoint";
 import styled from "styled-components";
 
-export const FriendContainer = styled.div`
+export const RelationShipContainer = styled.div`
   display: flex;
   flex-direction: column;
   width: 350px;
@@ -11,4 +11,9 @@ export const FriendContainer = styled.div`
   ${breakpoint.down("laptop")} {
     width: 150px;
   }
+`;
+
+export const UserProfileListContainer = styled.div`
+  width: 100%;
+  overflow: auto;
 `;

@@ -27,4 +27,6 @@ export const Event = Object.freeze({
 
   EVENT_SOCKET_CONNECTED: "connected",
   EVENT_SOCKET_ERROR: "connect_error",
+  EVENT_FRIEND_LIST_STATUS: "onFriendListStatus",
+  EVENT_FRIEND_LIST_RETRIEVE: "onFriendListRetrieve",
 });

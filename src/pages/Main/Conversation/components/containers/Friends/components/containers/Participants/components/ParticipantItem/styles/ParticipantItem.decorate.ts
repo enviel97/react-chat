@@ -3,14 +3,14 @@ import { clampSize, colorBrightness } from "@theme/helper/tools";
 import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
 
-export const ParticipantItemParticipant = styled.div`
+export const ParticipantItemContainer = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
   background-color: ${({ theme }) => theme.backgroundColor};
 `;
 
-export const ParticipantItemContainer = styled.div`
+export const ParticipantItemContent = styled.div`
   display: flex;
   width: 100%;
   padding: 0.5em 0.8em;
