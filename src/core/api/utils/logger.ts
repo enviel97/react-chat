@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 
 export const Status = new Map<number, string>([
   [500, "Internal Server Error"],
-  [401, "You should login first"],
+  [401, "You should login to continue"],
   [403, "Your login phase are expired"],
   [400, "Bad request error!"],
 ]);
