@@ -1,12 +1,39 @@
+import useAppSelector from "@hooks/useAppSelector";
+import { selectProfile, selectUser } from "@store/slices/profiles";
 import { memo } from "react";
-import { FriendPageTitle } from "../../styles/FriendPage.decorate";
-import { ProfileContainer } from "./styles/Profile.decorate";
-// https://codesandbox.io/s/upbeat-marco-83uju3?file=/src/App.js
+import { FormProvider, useForm } from "react-hook-form";
+import AccountDetail from "./components/container/AccountDetail";
+import ProfileDetail from "./components/container/ProfileDetail";
+import {
+  ProfileContainer,
+  MainContainer,
+  EditableContainer,
+} from "./styles/Profile.decorate";
+
 const Profile = () => {
+  const profile = useAppSelector(selectProfile);
+  const user = useAppSelector(selectUser);
+  const formRef = useForm<ProfileEditable>({
+    defaultValues: {
+      bio: profile.bio,
+      username: profile.username ?? user.getFullName(),
+      status: profile.status ?? "not-disturb",
+    },
+  });
   return (
-    <ProfileContainer>
-      <FriendPageTitle>Profile</FriendPageTitle>
-    </ProfileContainer>
+    <FormProvider {...formRef}>
+      <ProfileContainer>
+        {/* Account part */}
+        <MainContainer>
+          <AccountDetail />
+        </MainContainer>
+
+        {/* Profile part */}
+        <EditableContainer>
+          <ProfileDetail />
+        </EditableContainer>
+      </ProfileContainer>
+    </FormProvider>
   );
 };
 

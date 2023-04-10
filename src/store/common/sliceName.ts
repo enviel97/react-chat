@@ -5,6 +5,7 @@ const SliceName = Object.freeze({
   friend_request: "friend-request",
   friend_pending: "friend-pending",
   ui: "ui",
+  profile: "profile",
 });
 
 export default SliceName;

@@ -1,3 +1,6 @@
+import useAppDispatch from "@hooks/useAppDispatch";
+import { fetchProfile } from "@store/repo/user";
+import { updateUser } from "@store/slices/profiles";
 import string from "@utils/string";
 import { createContext, FC, useCallback, useState, useEffect } from "react";
 
@@ -14,6 +17,7 @@ export const AuthContext = createContext<AuthenticateController>({
 
 export const AuthProvider: FC<Components> = ({ children }) => {
   const [user, setUser] = useState<User>();
+  const dispatch = useAppDispatch();
   const updateAuthUser = useCallback((user?: User) => {
     setUser(user);
   }, []);
@@ -26,10 +30,13 @@ export const AuthProvider: FC<Components> = ({ children }) => {
   );
 
   useEffect(() => {
-    if (user) {
-      console.log({ user });
-    }
-  }, [user]);
+    if (!user) return;
+    dispatch(updateUser(user));
+    const promise = dispatch(fetchProfile());
+    return () => {
+      promise.abort();
+    };
+  }, [user, dispatch]);
 
   return (
     <AuthContext.Provider value={{ user, updateAuthUser, isUser }}>

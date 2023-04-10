@@ -11,3 +11,6 @@ export { default as fetchListFriendRequest } from "./apis/friendRequest/fetchLis
 export { default as fetchFriendRequestResponse } from "./apis/friendRequest/fetchFriendRequestResponse";
 export { default as fetchFriendPending } from "./apis/friendRequest/fetchFriendPending";
 export { default as fetchFriendRequestCancel } from "./apis/friendRequest/fetchFriendRequestCancel";
+
+// current user
+export { default as fetchProfile } from "./apis/profile/fetchProfile";

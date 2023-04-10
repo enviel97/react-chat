@@ -25,3 +25,4 @@ export const USER_PATCH_FRIEND_PENDING = "/users/friend/pending";
 export const USER_PATCH_FRIEND_REQUESTS_RESPONSE =
   "/users/friend/response/:friendRequestId";
 export const USER_DELETE_FRIEND_REQUEST_CANCEL = "/users/friend/cancel/:id";
+export const USER_PROFILE_DETAIL = "/users/profile";

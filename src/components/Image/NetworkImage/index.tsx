@@ -44,6 +44,8 @@ const NetworkImage: FC<NetworkImageProps> = ({
         alt={alt}
         src={img}
         effect='opacity'
+        height={height}
+        width={width}
         delayTime={1000}
         placeholder={Placeholder}
         visibleByDefault={img === placeholder}
