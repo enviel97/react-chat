@@ -1,5 +1,5 @@
 import { colorBrightness, colorTheme } from "@theme/helper/tools";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 interface ButtonIconProps {
   textColor?: string;
@@ -7,14 +7,23 @@ interface ButtonIconProps {
   color?: string;
   circle?: boolean;
   isTransparent?: boolean;
+  width?: string;
 }
 
 export const ButtonIconDecorate = styled.div<ButtonIconProps>`
   position: relative;
   height: ${({ size }) => size ?? "2rem"};
+  ${({ width }) => {
+    if (width)
+      return css`
+        width: ${width};
+      `;
+    return css`
+      aspect-ratio: 1 / 1;
+    `;
+  }}
 
   cursor: pointer;
-  aspect-ratio: 1 / 1;
   color: ${({ textColor, theme }) =>
     colorTheme({ color: `${textColor ?? "onPrimary"}`, theme })};
   border-radius: ${({ circle }) => (circle ? "50%" : "0")};
@@ -23,17 +32,6 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
     position: relative;
     height: 100%;
     width: 100%;
-    background: ${({ theme, color, isTransparent }) => {
-      if (isTransparent) return "transparent";
-      return `linear-gradient(
-      -45deg,
-      ${colorBrightness(colorTheme({ color, theme }), -5)}
-        75%,
-      #ffffff
-    )`;
-    }};
-
-    border-radius: ${({ circle }) => (circle ? "50%" : "0")};
     border: none;
     outline: none;
     font-weight: bold;
@@ -42,18 +40,68 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
     align-items: center;
     justify-content: center;
 
+    ${({ theme, color, isTransparent, circle }) => {
+      if (isTransparent)
+        return css`
+          background: transparent;
+        `;
+      const _color = colorTheme({ color, theme });
+      if (circle) {
+        return css`
+          border-radius: 50%;
+          background: linear-gradient(
+            -45deg,
+            ${colorBrightness(_color, -5)} 75%,
+            #ffffff
+          );
+          &:active:enabled {
+            background: linear-gradient(
+              135deg,
+              ${colorBrightness(_color, -5)} 85%,
+              #ffffff
+            );
+          }
+        `;
+      }
+      return css`
+        border-radius: 20px;
+        background: linear-gradient(
+          0deg,
+          ${_color} 68%,
+          ${colorBrightness(_color, 20)} 100%
+        );
+        box-shadow: 0 0 10px ${colorBrightness(_color, -20)},
+          0 0 11px ${colorBrightness(_color, -20)},
+          0 0 12px ${colorBrightness(_color, -20)};
+        &:active:enabled {
+          background: linear-gradient(
+            0deg,
+            ${colorBrightness(_color, -20)} 98%,
+            ${colorBrightness(colorBrightness(_color, -20), 20)} 100%
+          );
+          box-shadow: inset 0 0 10px ${colorBrightness(_color, -20)},
+            inset 0 0 11px ${colorBrightness(_color, -20)},
+            inset 0 0 12px ${colorBrightness(_color, 20)};
+        }
+      `;
+    }};
+
     & span {
-      padding: 0.5rem;
+      text-transform: capitalize;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
       & > svg {
-        aspect-ratio: 1 / 1;
         height: 1.5rem;
+        aspect-ratio: 1 / 1;
       }
     }
 
     &:hover,
     &:focus {
       & span {
-        font-size: 110%;
+        scale: 1.02;
       }
     }
 
@@ -63,15 +111,8 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
     }
 
     &:active:enabled {
-      background: linear-gradient(
-        135deg,
-        ${({ theme, color }) =>
-            colorBrightness(colorTheme({ color, theme }), -5)}
-          85%,
-        #ffffff
-      );
       & span {
-        font-size: 90%;
+        scale: 0.98;
       }
     }
   }
