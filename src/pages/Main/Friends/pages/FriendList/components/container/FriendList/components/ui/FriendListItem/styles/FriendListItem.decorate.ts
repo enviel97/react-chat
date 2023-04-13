@@ -35,27 +35,6 @@ export const FriendListItemBody = styled.div`
   padding: 0.25rem;
   max-height: 100%;
 
-  & h4 {
-    cursor: pointer;
-    font-weight: bold;
-    position: relative;
-    width: fit-content;
-    &:hover::after {
-      display: initial;
-      visibility: visible;
-    }
-    &::after {
-      position: absolute;
-      bottom: -0.2rem;
-      left: 0;
-      content: "";
-      width: 100%;
-      height: 3px;
-      background-color: gray;
-      display: none;
-      visibility: hidden;
-    }
-  }
   & p {
     font-weight: 300;
     font-size: 1rem;
@@ -63,6 +42,34 @@ export const FriendListItemBody = styled.div`
       color: ${({ theme }) => theme.disableColor};
       font-weight: 400;
     }
+  }
+`;
+
+export const FriendItemTitleContainer = styled.h4`
+  display: flex;
+  cursor: pointer;
+  font-weight: bold;
+  position: relative;
+  width: fit-content;
+  & span:nth-of-type(2) {
+    scale: 0.7;
+    font-weight: 300;
+  }
+
+  &:hover::after {
+    display: initial;
+    visibility: visible;
+  }
+  &::after {
+    position: absolute;
+    bottom: -0.05rem;
+    left: 0;
+    content: "";
+    width: 100%;
+    height: 2px;
+    background-color: gray;
+    display: none;
+    visibility: hidden;
   }
 `;
 

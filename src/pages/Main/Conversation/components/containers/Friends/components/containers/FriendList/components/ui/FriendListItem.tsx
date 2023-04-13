@@ -62,7 +62,11 @@ const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
     <FriendListItemContainer>
       <FriendListItemBody id={friendId}>
         <FriendListAvatarContainer $isOnline={isOnline}>
-          <CircleAvatar className='status' online={isOnline} />
+          <CircleAvatar
+            className='status'
+            online={isOnline}
+            src={profile.avatar}
+          />
         </FriendListAvatarContainer>
         {breakpoint.up("laptop") && (
           <Content isOnline={isOnline} profile={profile} />

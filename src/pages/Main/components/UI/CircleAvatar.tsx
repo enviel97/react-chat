@@ -90,6 +90,7 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
   const [imgSrc, setImgSrc] = useState(placeHolder);
   const [imgLoaded, setImgLoaded] = useState<State>(State.IDLE);
   const _size = pxToEm(size ?? 36);
+
   useEffect(() => {
     if (!src) return;
     const img = new Image();

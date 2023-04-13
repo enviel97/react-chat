@@ -11,6 +11,7 @@ import {
 import useAppSelector from "@hooks/useAppSelector";
 import { selectUserById } from "@store/slices/users";
 import UserActive from "./components/ui/Active";
+import FriendItemTitle from "./components/container/FriendItemTitle";
 
 interface FriendListItemProps {
   friendId: string;
@@ -26,7 +27,10 @@ const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
         <NetworkImage src={friend.avatar} alt='Avatar' />
       </FriendListItemTrail>
       <FriendListItemBody>
-        <h4>{friend.user.getFullName()}</h4>
+        <FriendItemTitle
+          mainName={friend.user.userName ?? friend.user.getFullName()}
+          subName={friend.user.userName && friend.user.getFullName()}
+        />
         <p>
           <strong>Bio.</strong>
           {friend.bio ?? " Nothing to say..."}
