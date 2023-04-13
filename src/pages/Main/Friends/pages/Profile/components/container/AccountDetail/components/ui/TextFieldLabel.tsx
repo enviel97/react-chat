@@ -10,8 +10,8 @@ interface Props {
 const TextFieldContainer = styled.span`
   white-space: nowrap;
   font-size: ${clampSize({
-    minFontSize: 1.2,
-    maxFontSize: 1.4,
+    minFontSize: 1,
+    maxFontSize: 1.2,
     minWidth: 224,
     maxWidth: 1697.61,
   })};
@@ -19,8 +19,8 @@ const TextFieldContainer = styled.span`
     color: ${({ theme }) => theme.disableColor};
     margin-right: 1rem;
     font-size: ${clampSize({
-      minFontSize: 1,
-      maxFontSize: 1.2,
+      minFontSize: 0.8,
+      maxFontSize: 1,
       minWidth: 224,
       maxWidth: 1697.61,
     })};

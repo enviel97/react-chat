@@ -4,4 +4,5 @@ interface Props extends SubProps {
   placeholder?: string;
   maxLines?: number;
   register?: any;
+  errorMessage?: string;
 }

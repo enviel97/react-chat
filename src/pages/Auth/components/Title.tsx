@@ -23,8 +23,8 @@ const WrapperTitle = styled.h1`
 const Title: FC<Props> = ({ title }) => {
   return (
     <WrapperTitle>
-      {title.split("").map((c) => {
-        return <span>{c}</span>;
+      {title.split("").map((c, index) => {
+        return <span key={index}>{c}</span>;
       })}
     </WrapperTitle>
   );

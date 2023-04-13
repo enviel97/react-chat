@@ -1,3 +1,4 @@
+import { breakpoint } from "@theme/helper/breakpoint";
 import styled from "styled-components";
 
 export const AccountTextFieldGroup = styled.p`
@@ -15,4 +16,9 @@ export const AccountDetailContainer = styled.div`
   gap: 0.5rem;
   width: 100%;
   z-index: 1;
+  ${breakpoint.down("tablet")} {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
 `;

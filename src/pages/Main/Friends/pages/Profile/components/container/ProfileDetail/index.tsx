@@ -1,15 +1,13 @@
 import { memo } from "react";
-import { useForm, useFormContext } from "react-hook-form";
+import { useFormContext } from "react-hook-form";
 import EditableProfileField from "./components/ui/EditableProfileField";
 import { ProfileDetailContainer } from "./styles/ProfileDetail.decorate";
 
 const ProfileDetail = () => {
   const {
     register,
-    watch,
-    handleSubmit,
     formState: { errors },
-  } = useFormContext();
+  } = useFormContext<ProfileEditable>();
 
   return (
     <ProfileDetailContainer>
@@ -18,6 +16,7 @@ const ProfileDetail = () => {
         label={"Username"}
         placeholder='This field will be not empty...'
         register={register("username", { required: "Username is required" })}
+        errorMessage={errors.username?.message}
       />
       <EditableProfileField
         type='textarea'
@@ -25,6 +24,7 @@ const ProfileDetail = () => {
         placeholder={"How are you today ..."}
         maxLines={5}
         register={register("bio")}
+        errorMessage={errors.bio?.message}
       />
     </ProfileDetailContainer>
   );

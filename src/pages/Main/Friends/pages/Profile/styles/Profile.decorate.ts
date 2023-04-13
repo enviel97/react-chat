@@ -6,13 +6,9 @@ interface ProfileContainerProps {
 
 export const ProfileContainer = styled.div`
   position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
   box-sizing: border-box;
   height: 100%;
-  width: 100%;
+  overflow: auto;
 `;
 
 export const MainContainer = styled.div<ProfileContainerProps>`
@@ -20,12 +16,15 @@ export const MainContainer = styled.div<ProfileContainerProps>`
   display: flex;
   flex-direction: row;
   width: 100%;
-  height: 30svh;
+  height: 350px;
   padding: 2rem;
   align-items: flex-end;
+  gap: 1rem;
 
   ${breakpoint.down("tablet")} {
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
 `;
 

@@ -3,7 +3,9 @@ import { notEmpty } from "./validate";
 interface GetFullNameOptions {
   short?: boolean;
 }
+
 const getFullName = (user: User, options?: GetFullNameOptions) => {
+  if (user.userName) return user.userName;
   if (!options?.short) return `${user.lastName} ${user.firstName}`;
   const lastNameModified = user.firstName.split(" ");
   if (lastNameModified.length >= 2) {

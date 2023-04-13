@@ -1,5 +1,24 @@
+import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
 import Input from "../component/Input";
+
+export const ErrorMessage = styled(motion.div)`
+  color: ${(props) => props.theme.errorColor};
+  padding: 0 1rem;
+
+  & .mess {
+    position: absolute;
+    overflow: hidden;
+    font-size: 0.8em;
+    color: ${({ theme }) => theme.white};
+    background-color: red;
+    padding: 0rem 0.4rem;
+    border-radius: 5px 5px 0 5px;
+    white-space: nowrap;
+    top: 100%;
+    left: 0;
+  }
+`;
 
 export const InputWrapper = styled(Input)`
   border: none;

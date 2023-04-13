@@ -1,6 +1,6 @@
 import NetworkImage from "@components/Image/NetworkImage";
 import useAppSelector from "@hooks/useAppSelector";
-import selectProfile from "@store/slices/profiles/selector/selectUser";
+import selectProfile from "@store/slices/profiles/selector/selectProfile";
 import { neumorphismBoxShadowInset } from "@theme/helper/tools";
 import { FC, memo } from "react";
 import styled from "styled-components";
@@ -10,8 +10,8 @@ interface Props {}
 const AvatarBox = styled.div`
   position: relative;
   box-sizing: border-box;
-  height: min(150px + 1svw, 40svw);
-  width: min(150px + 1svw, 40svw);
+  height: min(150px + 1svw, 20svw);
+  aspect-ratio: 1/1;
   background-color: green;
   background-color: ${({ theme }) => theme.backgroundColor};
   border-radius: 1rem;
