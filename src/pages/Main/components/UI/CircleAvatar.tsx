@@ -98,7 +98,7 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
   const srcUrl = useMemo(() => {
     if (!src) return { src: placeHolder, srcset: "", sizes: "" };
     return avatarUrlImage(src);
-  }, [src]);
+  }, [src, placeHolder]);
 
   return (
     <SkeletonContainer height={_size}>

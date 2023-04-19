@@ -1,4 +1,3 @@
-import { clampSize } from "@theme/helper/tools";
 import styled, { css } from "styled-components";
 
 interface ActionProps {
