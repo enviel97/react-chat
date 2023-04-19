@@ -1,9 +1,15 @@
 import { ButtonText } from "@components/Button";
 import { useModals } from "@components/Modal/hooks/useModals";
 import { useCallback, useEffect } from "react";
-import { ModalConfirmContainer } from "../styles/decorates/MdalConfirm.decorate";
+import {
+  ModalConfirmContainer,
+  ModalConfirmBody,
+  ModalConfirmHeader,
+  ModalConfirmAction,
+} from "../styles/decorates/ModalConfirm.decorate";
 
 interface ModalConfirmProps {
+  title?: string;
   modalKey: string;
   content: any;
   onConfirm?: () => void;
@@ -20,6 +26,7 @@ const ModalConfirm = (props: ModalConfirmProps) => {
     onBack,
     justConfirm = false,
     positionAction = "right",
+    title,
   } = props;
 
   const controller = useModals();
@@ -43,29 +50,36 @@ const ModalConfirm = (props: ModalConfirmProps) => {
   }, [confirm]);
 
   return (
-    <ModalConfirmContainer position={positionAction}>
-      <p>{content}</p>
-      <div className='row'>
-        <ButtonText
-          size='2em'
-          type='submit'
-          color='#212121'
-          textColor='#cacaca'
-          width='fit-content'
-          text='Confirm'
-          onClick={confirm}
-        />
-        {!justConfirm && (
+    <ModalConfirmContainer>
+      {title && (
+        <ModalConfirmHeader>
+          <h6>{title}</h6>
+        </ModalConfirmHeader>
+      )}
+      <ModalConfirmBody>
+        <p>{content}</p>
+        <ModalConfirmAction $position={positionAction}>
           <ButtonText
             size='2em'
-            color='#aa0000'
+            type='submit'
+            color='#212121'
             textColor='#cacaca'
             width='fit-content'
-            text='Back'
-            onClick={closeButton}
+            text='Confirm'
+            onClick={confirm}
           />
-        )}
-      </div>
+          {!justConfirm && (
+            <ButtonText
+              size='2em'
+              color='#aa0000'
+              textColor='#cacaca'
+              width='fit-content'
+              text='Back'
+              onClick={closeButton}
+            />
+          )}
+        </ModalConfirmAction>
+      </ModalConfirmBody>
     </ModalConfirmContainer>
   );
 };

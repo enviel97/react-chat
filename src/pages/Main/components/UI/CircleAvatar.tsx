@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { colorBrightness, pxToEm } from "@theme/helper/tools";
 import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useMemo, useState } from "react";
 import string from "@utils/string";
 import local from "@common/local.define";
 import { State } from "@store/common/state";
 import { isError, isSuccess } from "@utils/validate";
 import { BiError } from "react-icons/bi";
+import { avatarUrlImage } from "@utils/image";
 
 interface CircleAvatarDecorate {
   size?: number;
@@ -86,23 +87,17 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
   src,
   online,
 }) => {
-  const placeHolder = local.image.UnknownAvatar;
-  const [imgSrc, setImgSrc] = useState(placeHolder);
+  const placeHolder = useMemo(() => {
+    const placeHolder = local.image.UnknownAvatar;
+    return placeHolder;
+  }, []);
+  const [imgSrc, setImgSrc] = useState(src ?? placeHolder);
   const [imgLoaded, setImgLoaded] = useState<State>(State.IDLE);
   const _size = pxToEm(size ?? 36);
 
-  useEffect(() => {
-    if (!src) return;
-    const img = new Image();
-    img.src = src;
-    img.onloadstart = () => {};
-    img.onload = () => {
-      setImgSrc(img.src);
-      setImgLoaded(State.FULFILLED);
-    };
-    img.onerror = () => {
-      setImgLoaded(State.ERROR);
-    };
+  const srcUrl = useMemo(() => {
+    if (!src) return { src: placeHolder, srcset: "", sizes: "" };
+    return avatarUrlImage(src);
   }, [src]);
 
   return (
@@ -123,7 +118,17 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
             className={string.classList(
               (imgSrc === placeHolder || isSuccess(imgLoaded)) && "loaded"
             )}
+            onLoad={({ currentTarget }) => {
+              setImgSrc(currentTarget.currentSrc);
+              setImgLoaded(State.FULFILLED);
+            }}
+            onError={() => {
+              setImgLoaded(State.ERROR);
+              setImgSrc(placeHolder);
+            }}
+            srcSet={srcUrl?.srcset}
             src={imgSrc}
+            sizes={srcUrl?.sizes}
             alt=''
           />
           {isError(imgLoaded) && <BiError color='red' />}

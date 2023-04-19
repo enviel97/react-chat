@@ -15,6 +15,7 @@ const ThumbnailContainer = styled(motion.div)`
   right: 0;
   width: 100%;
   height: 100%;
+  aspect-ratio: 16 / 9;
 
   & img {
     width: 100%;

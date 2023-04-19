@@ -15,7 +15,7 @@ const AccountDetail = () => {
   const user = useAppSelector(selectUser);
   return (
     <Fragment>
-      <Thumbnail />
+      <Thumbnail src={profile.banner} />
       <ProfileAvatar />
       <AccountDetailContainer>
         <AccountTextFieldGroup>

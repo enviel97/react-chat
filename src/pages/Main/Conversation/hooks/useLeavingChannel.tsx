@@ -11,8 +11,8 @@ const idModal = "ChannelHeaderId";
 const modalOptions: ModalOptions = {
   modalId: idModal,
   isDialog: false,
-  height: "200px",
-  width: "fit-content",
+  height: "fit-content",
+  width: "21rem",
 };
 
 const useLeavingChannel = () => {
@@ -40,7 +40,7 @@ const useLeavingChannel = () => {
           modalKey={idModal}
           content={<span>You want to leave this group</span>}
           onConfirm={() => onConfirm(conversationId)}
-          positionAction={"center"}
+          positionAction={"right"}
         />,
         modalOptions
       );

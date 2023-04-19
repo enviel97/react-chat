@@ -6,6 +6,7 @@ export const FriendPendingBodyContainer = styled.div`
   white-space: nowrap;
   overflow-y: hidden;
   scroll-behavior: smooth;
+  min-height: 6rem;
   margin-top: 1rem;
   &::-webkit-scrollbar {
     display: none;

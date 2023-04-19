@@ -6,8 +6,7 @@ interface Props {
 }
 
 const WrapperTitle = styled.h1`
-  position: absolute;
-  top: 20%;
+  position: relative;
   font-weight: bold;
   & span {
     color: ${({ theme }) => theme.onBackgroundColor};

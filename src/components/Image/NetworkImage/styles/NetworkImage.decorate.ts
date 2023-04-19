@@ -7,6 +7,7 @@ interface PlaceholderContainerProps {
 export const RandomName = styled.div``;
 
 export const ControllerLazyLoadImage = styled.div`
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
@@ -17,6 +18,7 @@ export const ControllerLazyLoadImage = styled.div`
     width: 100%;
     min-height: 50px;
     min-width: 50px;
+
     & > img {
       width: 100%;
     }
@@ -38,4 +40,11 @@ export const PlaceholderContainer = styled.img<PlaceholderContainerProps>`
       filter: blur(1px);
     `;
   }};
+`;
+
+export const AbsoluteContainer = styled.div`
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  margin: 0.5rem;
 `;

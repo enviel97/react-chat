@@ -12,6 +12,7 @@ import useAppSelector from "@hooks/useAppSelector";
 import { selectUserById } from "@store/slices/users";
 import UserActive from "./components/ui/Active";
 import FriendItemTitle from "./components/container/FriendItemTitle";
+import NormalAvatar from "@pages/Main/components/ui/NormalAvatar";
 
 interface FriendListItemProps {
   friendId: string;
@@ -24,7 +25,7 @@ const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
   return (
     <FriendListItemContainer>
       <FriendListItemTrail>
-        <NetworkImage src={friend.avatar} alt='Avatar' />
+        <NormalAvatar friendAvatarId={friend.avatar} />
       </FriendListItemTrail>
       <FriendListItemBody>
         <FriendItemTitle
