@@ -122,21 +122,18 @@ const ChannelBody = () => {
       {messages.length === 0 && <ChannelEmpty id={id} />}
       {messages.length !== 0 &&
         messages.map((mess, index, arr) => {
-          const presentChatter =
-            index === 0 ? undefined : arr[index - 1].author;
-          const lastChatter = index === arr.length - 1;
+          const key = `${string.getId(mess)}$${index}`;
           if (mess.action === "Notice") {
-            return (
-              <MessageNotice
-                key={`${string.getId(mess)}$${index}`}
-                message={mess}
-              />
-            );
+            return <MessageNotice key={key} message={mess} />;
           }
-
+          const presentChatter =
+            index === 0 || arr[index - 1]?.action === "Notice"
+              ? undefined
+              : arr[index - 1].author;
+          const lastChatter = index === arr.length - 1;
           return (
             <MessageItem
-              key={`${string.getId(mess)}$${index}`}
+              key={key}
               message={mess}
               preChatter={presentChatter}
               lastChatter={lastChatter}
