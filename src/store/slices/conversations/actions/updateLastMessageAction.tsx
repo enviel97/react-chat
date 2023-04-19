@@ -11,7 +11,11 @@ export const updateLastMessageAction = (
   action: PayloadAction<ActionUpdateLastMessageConversation>
 ) => {
   const payload = action.payload;
-  if (payload.message === null) return;
+  if (
+    payload.message === null ||
+    (payload.message && payload.message?.action === "Notice")
+  )
+    return;
   const { adapter, state: eState } = getAdapterConversation(
     state,
     payload.type
