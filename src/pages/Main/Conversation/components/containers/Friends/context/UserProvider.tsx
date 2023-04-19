@@ -58,17 +58,21 @@ const UserProvider: FC<Components> = ({ children }) => {
   const selectOfflineIds = useCallback(() => [...state.offlineIds], [state]);
 
   useEffect(() => {
-    socket.emit(
-      Event.EVENT_FRIEND_LIST_STATUS,
-      undefined,
-      ({ online, offline, listFriend }: FriendListStatus) => {
-        Promise.all([
-          dispatch({ type: Action.UPDATE_ONLINE, payload: online }),
-          dispatch({ type: Action.UPDATE_OFFLINE, payload: offline }),
-          dispatch({ type: Action.SET_FRIENDS, payload: listFriend }),
-        ]);
+    socket.on(
+      Event.EVENT_FRIEND_LIST_STATUS_RESPONSE,
+      ({ online, offline, listFriend }) => {
+        dispatch({ type: Action.UPDATE_ONLINE, payload: online });
+        dispatch({ type: Action.UPDATE_OFFLINE, payload: offline });
+        dispatch({ type: Action.SET_FRIENDS, payload: listFriend });
       }
     );
+    return () => {
+      socket.off(Event.EVENT_FRIEND_LIST_STATUS_RESPONSE);
+    };
+  }, [socket, dispatch]);
+
+  useEffect(() => {
+    socket.emit(Event.EVENT_FRIEND_LIST_STATUS);
   }, [socket, dispatch]);
 
   return (

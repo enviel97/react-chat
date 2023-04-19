@@ -1,8 +1,8 @@
 import { FC, Fragment, lazy, Suspense, useMemo } from "react";
 import useUserProvider from "@pages/Main/Conversation/components/containers/Friends/hook/useUserProvider";
 import FriendListHeader from "../ui/FriendListHeader";
-import FriendListItem from "../ui/FriendListItem";
-const FriendListItemLoading = lazy(() => import("../ui/FriendListItemLoading"));
+import FriendListItemLoading from "../ui/FriendListItemLoading";
+const FriendListItem = lazy(() => import("../ui/FriendListItem"));
 
 interface Props {}
 const OnlineList: FC<Props> = () => {

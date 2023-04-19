@@ -10,7 +10,7 @@ const NormalAvatar: FC<NormalAvatarProps> = ({ friendAvatarId }) => {
   const url = useMemo(() => {
     if (!friendAvatarId) return;
     return avatarUrlImage(friendAvatarId);
-  }, []);
+  }, [friendAvatarId]);
   return (
     <NetworkImage
       src={url?.src}
