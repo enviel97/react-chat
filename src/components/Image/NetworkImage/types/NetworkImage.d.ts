@@ -3,10 +3,8 @@ interface NetworkImageProps {
   srcset?: string;
   placeholder?: string;
   alt?: string;
-  wrapperClassName?: string;
   width?: string;
   height?: string;
-  showLoading?: boolean;
   sizes?: string;
 }
 
