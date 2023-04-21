@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import UploadImageButton from "../../../../ui/UploadImageButton";
+import NetworkImage from "@components/Image/NetworkImage";
 interface Props {
   src?: string;
 }
@@ -31,15 +32,10 @@ const Thumbnail: FC<Props> = ({ src = local.image.backgroundDefault }) => {
   return (
     <ThumbnailContainer>
       <UploadImageButton />
-      <img
+      <NetworkImage
         src={imageUrl}
         alt={"Thumbnail"}
-        loading='lazy'
-        onLoad={() => {}}
-        onError={() => {
-          setImageUrl(local.image.backgroundDefault);
-          toast.error("Load thumbnail error !!");
-        }}
+        placeholder={local.image.backgroundDefault}
       />
     </ThumbnailContainer>
   );

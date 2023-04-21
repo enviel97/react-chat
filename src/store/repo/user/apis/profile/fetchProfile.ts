@@ -1,6 +1,6 @@
 import client from "@core/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { USER_PROFILE_DETAIL } from "@store/common/repo";
+import { PROFILE_DETAIL } from "@store/common/repo";
 import axios from "axios";
 
 const fetchProfile = createAsyncThunk("user/profile", async (_, { signal }) => {
@@ -9,7 +9,7 @@ const fetchProfile = createAsyncThunk("user/profile", async (_, { signal }) => {
     source.cancel();
   });
   const response = await client.get<any, Response<UserProfile>>(
-    USER_PROFILE_DETAIL,
+    PROFILE_DETAIL,
     { cancelToken: source.token }
   );
   if (!response || !response.data) {

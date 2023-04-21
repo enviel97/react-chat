@@ -16,7 +16,7 @@ const Profile = () => {
   const formRef = useForm<ProfileEditable>({
     defaultValues: {
       bio: profile.bio,
-      username: profile.username ?? user.getFullName(),
+      displayName: profile.displayName ?? user.getFullName(),
       status: profile.status ?? "not-disturb",
     },
   });

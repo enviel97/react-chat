@@ -8,7 +8,8 @@ export const PreviewAnimation: MotionProps = {
 };
 
 export const PreviewAddButtonAnimation: MotionProps = {
-  transition: { duration: 0.5 },
+  whileHover: { scale: 1.2 },
+  whileTap: { scale: 0.98 },
 };
 
 export const PreviewImageAnimation: MotionProps = {

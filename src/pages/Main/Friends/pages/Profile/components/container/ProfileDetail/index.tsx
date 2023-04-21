@@ -13,10 +13,12 @@ const ProfileDetail = () => {
     <ProfileDetailContainer>
       <EditableProfileField
         type='text'
-        label={"Username"}
+        label={"Display Name"}
         placeholder='This field will be not empty...'
-        register={register("username", { required: "Username is required" })}
-        errorMessage={errors.username?.message}
+        register={register("displayName", {
+          required: "Display name is required",
+        })}
+        errorMessage={errors.displayName?.message}
       />
       <EditableProfileField
         type='textarea'

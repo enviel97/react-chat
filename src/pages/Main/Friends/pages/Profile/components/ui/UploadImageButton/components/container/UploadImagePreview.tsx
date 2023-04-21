@@ -1,4 +1,5 @@
 import {
+  FC,
   forwardRef,
   memo,
   useCallback,
@@ -12,7 +13,7 @@ import {
   PreviewContainer,
   UploadImageInput,
   UploadImageNotificationContainer,
-  UploadImageNotificationText,
+  UploadImageNotification,
   UploadImagePreviewerContainer,
 } from "../../styles/UploadImagePreview.decorate";
 import {
@@ -20,96 +21,107 @@ import {
   PreviewAddButtonAnimation,
   PreviewAnimation,
 } from "../../animation/UploadImagePreview.animate";
-import { TbPhotoPlus } from "react-icons/tb";
+import { TbPhotoCancel, TbPhotoPlus } from "react-icons/tb";
+import { AnimatePresence } from "framer-motion";
 
-interface Props {
+interface Props extends Components {
   initialSrc?: string;
+  aspectRatio?: "1/1" | "16/9";
+  onSelectImage?: (file?: File) => void;
 }
 
-export type UploadImagePreviewController = {
-  clearImage: () => void;
-  getImage: () => File | undefined;
-};
+const UploadImagePreview: FC<Props> = ({
+  initialSrc,
+  aspectRatio = "1/1",
+  onSelectImage,
+  children,
+}) => {
+  const [currentImage, setCurrentImage] = useState<File>();
+  const [previewImage, setPreviewImage] = useState<string>(initialSrc ?? "");
+  const inputRef = useRef<HTMLInputElement>(null);
+  const showPreview = useCallback((selectedFile: File) => {
+    setPreviewImage(URL.createObjectURL(selectedFile));
+    setCurrentImage(selectedFile);
+  }, []);
 
-const UploadImagePreview = forwardRef<UploadImagePreviewController, Props>(
-  ({ initialSrc }, ref) => {
-    const [currentImage, setCurrentImage] = useState<File>();
-    const [previewImage, setPreviewImage] = useState<string>(initialSrc ?? "");
-    const inputRef = useRef<HTMLInputElement>(null);
-    const showPreview = useCallback((selectedFile: File) => {
-      setPreviewImage(URL.createObjectURL(selectedFile));
-      setCurrentImage(selectedFile);
-    }, []);
+  const clearImage = () => {
+    setCurrentImage(undefined);
+    onSelectImage && onSelectImage(undefined);
+    setPreviewImage("");
+    if (inputRef.current) {
+      inputRef.current.value = "";
+    }
+  };
 
-    useImperativeHandle(
-      ref,
-      () => ({
-        clearImage() {
-          setCurrentImage(undefined);
-          setPreviewImage("");
-          if (inputRef.current) {
-            inputRef.current.value = "";
-          }
-        },
-        getImage() {
-          return currentImage;
-        },
-      }),
-      [currentImage, inputRef]
-    );
+  const selectImage = () => {
+    const upload = inputRef.current;
+    if (!upload) return;
+    upload.click();
+  };
 
-    const onSelect = useCallback(
-      (event: Event) => {
-        const reactEvent: React.ChangeEvent<HTMLInputElement> = event as any;
-        const selectedFile = reactEvent.target.files?.item(0);
-        if (!selectedFile) return;
-        showPreview(selectedFile);
-      },
-      [showPreview]
-    );
+  const onSelect = useCallback(
+    (event: Event) => {
+      const reactEvent: React.ChangeEvent<HTMLInputElement> = event as any;
+      const selectedFile = reactEvent.target.files?.item(0);
+      if (!selectedFile) return;
+      onSelectImage && onSelectImage(selectedFile);
+      showPreview(selectedFile);
+    },
+    [showPreview, onSelectImage]
+  );
 
-    // listen
-    useEffect(() => {
-      return () => {
-        previewImage && URL.revokeObjectURL(previewImage);
-      };
-    }, [previewImage]);
+  // listen
+  useEffect(() => {
+    return () => {
+      previewImage && URL.revokeObjectURL(previewImage);
+    };
+  }, [previewImage]);
 
-    useEffect(() => {
-      const upload = inputRef.current;
-      if (!upload) return;
-      upload.addEventListener("change", onSelect);
-      return () => upload.removeEventListener("change", onSelect);
-    }, [onSelect]);
+  useEffect(() => {
+    const upload = inputRef.current;
+    if (!upload) return;
+    upload.addEventListener("change", onSelect);
+    return () => upload.removeEventListener("change", onSelect);
+  }, [onSelect]);
 
-    return (
-      <UploadImagePreviewerContainer>
-        {previewImage && (
-          <PreviewContainer
-            {...PreviewImageAnimation}
+  return (
+    <UploadImagePreviewerContainer $aspectRatio={aspectRatio}>
+      {previewImage && (
+        <PreviewContainer {...PreviewImageAnimation}>
+          <img
             src={previewImage}
             alt={"Preview select image"}
             onError={() => setPreviewImage("")}
           />
-        )}
-        <UploadImageInput $hasPreview={!!previewImage}>
-          <UploadImageNotificationContainer>
-            <UploadImageNotificationText
-              variants={PreviewAnimation.variants}
-              animate={!!previewImage ? "hidden" : "visible"}
-            >
-              Drag & drop photos here or <strong>Browse</strong>
-            </UploadImageNotificationText>
-            <IconBox transition={PreviewAddButtonAnimation.transition} layout>
-              <TbPhotoPlus size={"4rem"} />
-            </IconBox>
-          </UploadImageNotificationContainer>
+        </PreviewContainer>
+      )}
+      <UploadImageInput $hasPreview={!!previewImage}>
+        <UploadImageNotificationContainer>
+          <UploadImageNotification
+            variants={PreviewAnimation.variants}
+            animate={!!previewImage ? "hidden" : "visible"}
+          >
+            Drag & drop photos here or <strong>Browse</strong>
+          </UploadImageNotification>
+          <AnimatePresence>
+            <UploadImageNotification layout>
+              {currentImage && (
+                <IconBox {...PreviewAddButtonAnimation} onClick={clearImage}>
+                  <TbPhotoCancel size={"2.5em"} />
+                </IconBox>
+              )}
+              <IconBox {...PreviewAddButtonAnimation} onClick={selectImage}>
+                <TbPhotoPlus size={"2.5em"} />
+              </IconBox>
+            </UploadImageNotification>
+          </AnimatePresence>
+        </UploadImageNotificationContainer>
 
-          <input ref={inputRef} type='file' accept='image/*' id='upload' />
-        </UploadImageInput>
-      </UploadImagePreviewerContainer>
-    );
-  }
-);
+        <input ref={inputRef} type='file' accept='image/*' id='upload' />
+      </UploadImageInput>
+      {children}
+    </UploadImagePreviewerContainer>
+  );
+};
 
 export default memo(UploadImagePreview);

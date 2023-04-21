@@ -122,3 +122,40 @@ export const clampSize = ({
     slope * 100
   }svw, ${maxFontSize}rem )`;
 };
+type Filter = {
+  blur?: string;
+  brightness?: string;
+  contrast?: string;
+  grayscale?: string;
+  hueRotate?: string;
+  invert?: string;
+  opacity?: string;
+  saturate?: string;
+  sepia?: string;
+};
+export const imageFilter = (props?: Filter) => {
+  const {
+    blur,
+    brightness,
+    contrast,
+    grayscale,
+    hueRotate,
+    invert,
+    opacity,
+    saturate,
+    sepia,
+  } = props || {
+    blur: "0.2px",
+    brightness: "104%",
+    contrast: "90%",
+    grayscale: "10%",
+    hueRotate: "0deg",
+    invert: "0%",
+    opacity: "100%",
+    saturate: "110%",
+    sepia: "5%",
+  };
+
+  return `blur(${blur}) brightness(${brightness}) contrast(${contrast}) grayscale(${grayscale})
+      hue-rotate(${hueRotate}) invert(${invert}) opacity(${opacity}) saturate(${saturate}) sepia(${sepia})`;
+};

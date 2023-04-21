@@ -6,7 +6,10 @@ import { fetchProfileThunk } from "./extraReducers/fetchProfile.thunk";
 
 export const profilesSlice = createSlice({
   name: SliceName.message,
-  initialState: {} as ProfileState,
+  initialState: {
+    percentageAvatar: -1,
+    percentageBanner: -1,
+  } as ProfileState,
   reducers: {
     updateUser: updateUserAction,
   },

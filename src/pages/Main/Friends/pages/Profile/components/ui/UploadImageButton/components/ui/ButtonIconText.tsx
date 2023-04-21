@@ -8,16 +8,17 @@ interface SubProps {
 
 interface Props extends SubProps {
   onClick: () => void;
+  disable?: boolean;
 }
 
 const IconDefault = {
   upload: {
     icon: <TbUpload />,
-    color: "background",
+    color: "secondary",
   },
   clear: {
     icon: <TbTrash />,
-    color: "notification",
+    color: "background",
   },
 };
 
@@ -30,12 +31,13 @@ const Content: FC<SubProps> = ({ text }) => {
   );
 };
 
-const ButtonIconText: FC<Props> = ({ text, onClick }) => {
+const ButtonIconText: FC<Props> = ({ text, disable, onClick }) => {
   return (
     <ButtonIcon
       icon={<Content text={text} />}
       size={"2.5rem"}
       width={"10rem"}
+      disabled={disable}
       color={IconDefault[text].color}
       onClick={onClick}
     />

@@ -4,6 +4,8 @@ interface UserProfileCommon extends Identity, TimeStamp {
   bio?: string;
   status?: UserStatus;
   avatar?: string;
+  banner?: string;
+  displayName?: string;
 }
 
 interface UserProfile extends UserProfileCommon {

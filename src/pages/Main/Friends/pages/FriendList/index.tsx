@@ -18,8 +18,7 @@ const FriendListLayout = () => {
   const socket = useSocket();
   const handleOnReceiveAllowFriendRequest = useCallback(
     (payload: FriendRequest) => {
-      console.log({ payload });
-      dispatch(addFriend(payload.authorProfile));
+      dispatch(addFriend(payload.friendProfile));
       dispatch(removeFriendPending(payload.getId()));
     },
     [dispatch]

@@ -22,9 +22,9 @@ export const ControllerLazyLoadImage = styled.div`
     height: 100%;
     top: 0;
     left: 0;
-    mix-blend-mode: multiply;
+    mix-blend-mode: soft-light;
     background: #f6ddbf;
-    opacity: 0.13;
+    opacity: 0.23;
   }
 `;
 
@@ -46,11 +46,9 @@ export const ImageContainer = styled.img<ImageContainerProps>`
   mix-blend-mode: none;
   border: none;
   outline: none;
+  filter: blur(0.2px) brightness(104%) contrast(120%) grayscale(25%)
+    hue-rotate(0deg) invert(0%) opacity(100%) saturate(105%) sepia(0%);
 
-  /* filter: blur(0.5px) brightness(135%) contrast(88%) opacity(100%) saturate(80%)
-    sepia(21%); */
-  filter: blur(0.5px) brightness(104%) contrast(104%) grayscale(10%)
-    hue-rotate(0deg) invert(0%) opacity(100%) saturate(122%) sepia(0%);
   ${({ $isLoading, $isError }) => {
     if ($isLoading && !$isError) {
       return css`

@@ -11,7 +11,9 @@ interface AuthenticateController {
 }
 
 export const AuthContext = createContext<AuthenticateController>({
-  updateAuthUser: (user?: User) => {},
+  updateAuthUser: (user?: User) => {
+    throw new Error("Feature not implement");
+  },
   isUser: (another) => false,
 });
 
@@ -33,9 +35,7 @@ export const AuthProvider: FC<Components> = ({ children }) => {
     if (!user) return;
     dispatch(updateUser(user));
     const promise = dispatch(fetchProfile());
-    return () => {
-      promise.abort();
-    };
+    return () => promise.abort();
   }, [user, dispatch]);
 
   return (

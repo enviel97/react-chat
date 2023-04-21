@@ -1,6 +1,5 @@
 import local from "@common/local.define";
-import { safeLog } from "@core/api/utils/logger";
-import { FC, memo, ReactEventHandler, useEffect, useState } from "react";
+import { FC, memo, ReactEventHandler } from "react";
 import useProtectImage from "./hook/useProtectImage";
 import {
   ControllerLazyLoadImage,

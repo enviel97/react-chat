@@ -16,7 +16,7 @@ const AccountDetail = () => {
   return (
     <Fragment>
       <Thumbnail src={profile.banner} />
-      <ProfileAvatar />
+      <ProfileAvatar avatarSrc={profile.avatar} />
       <AccountDetailContainer>
         <AccountTextFieldGroup>
           <TextField label='First Name' value={user.firstName} />

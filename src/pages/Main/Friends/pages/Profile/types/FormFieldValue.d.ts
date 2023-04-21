@@ -1,5 +1,5 @@
 interface ProfileEditable {
   bio: string;
-  username: string;
+  displayName: string;
   status: UserStatus;
 }

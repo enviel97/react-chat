@@ -1,5 +1,4 @@
 import { ButtonIcon } from "@components/Button";
-import NetworkImage from "@components/Image/NetworkImage";
 import { FC, memo } from "react";
 import { FaUserAltSlash } from "react-icons/fa";
 import {
@@ -29,8 +28,12 @@ const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
       </FriendListItemTrail>
       <FriendListItemBody>
         <FriendItemTitle
-          mainName={friend.user.userName ?? friend.user.getFullName()}
-          subName={friend.user.userName && friend.user.getFullName()}
+          mainName={
+            friend.user.profile?.displayName ?? friend.user.getFullName()
+          }
+          subName={
+            friend.user.profile?.displayName && friend.user.getFullName()
+          }
         />
         <p>
           <strong>Bio.</strong>

@@ -5,19 +5,27 @@ import UploadImageModal, { ModalOption } from "./modal/UploadImageModal";
 import { ButtonContainer } from "./styles/UploadImageButton.decorate";
 
 const UploadImageButton: FC<UploadImageButtonProps> = ({
-  onSelectImage,
+  onUploadSuccess,
+  onUploadError,
   separateSpace,
   size = "2rem",
+  type = "avatar",
 }) => {
   const modal = useModals();
 
   const handleUploadImage = () => {
     modal.show(
       <UploadImageModal
-        onSelectedImage={(image) => {
-          if (!image || !onSelectImage) return;
-          onSelectImage && onSelectImage(image);
+        onUploadImageSuccess={(image) => {
+          if (!onUploadSuccess) return;
+          if (!image) onUploadSuccess("");
+          else {
+            const urlBlob = URL.createObjectURL(image);
+            onUploadSuccess(urlBlob);
+          }
         }}
+        onUploadImageError={onUploadError}
+        type={type}
       />,
       ModalOption
     );

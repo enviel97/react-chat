@@ -1,5 +1,8 @@
+type UploadImageType = "avatar" | "banner";
 interface UploadImageButtonProps {
-  onSelectImage?: (image: File) => void;
   separateSpace?: string;
   size?: string;
+  type?: UploadImageType;
+  onUploadSuccess?: (blobString: string) => void;
+  onUploadError?: (error?: any) => void;
 }

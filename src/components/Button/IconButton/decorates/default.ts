@@ -46,6 +46,7 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
           background: transparent;
         `;
       const _color = colorTheme({ color, theme });
+      const _disable = theme.disableColor;
       if (circle) {
         return css`
           border-radius: 50%;
@@ -61,6 +62,12 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
               #ffffff
             );
           }
+          &:disabled {
+            box-shadow: none;
+            color: ${_disable};
+            background: ${colorBrightness(_color, -50)};
+            pointer-events: none;
+          }
         `;
       }
       return css`
@@ -70,14 +77,24 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
           ${_color} 68%,
           ${colorBrightness(_color, 20)} 100%
         );
+        border: 2px solid ${_color};
         box-shadow: 0 0 10px ${colorBrightness(_color, -20)},
           0 0 11px ${colorBrightness(_color, -20)},
           0 0 12px ${colorBrightness(_color, -20)};
+
+        transition: background 1s ease-in-out, border 100ms ease-in-out;
+        &:disabled {
+          box-shadow: none;
+          color: ${_disable};
+          pointer-events: none;
+          border: 2px solid ${colorBrightness(_color, 20)}80;
+          background: ${colorBrightness(_color, -20)};
+        }
         &:active:enabled {
           background: linear-gradient(
             0deg,
             ${colorBrightness(_color, -20)} 98%,
-            ${colorBrightness(colorBrightness(_color, -20), 20)} 100%
+            ${colorBrightness(_color, 20)} 100%
           );
           box-shadow: inset 0 0 10px ${colorBrightness(_color, -20)},
             inset 0 0 11px ${colorBrightness(_color, -20)},
@@ -102,17 +119,6 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
     &:focus {
       & span {
         scale: 1.02;
-      }
-    }
-
-    &:disabled {
-      box-shadow: none;
-      background-color: ${({ theme }) => theme.disableColor}20;
-    }
-
-    &:active:enabled {
-      & span {
-        scale: 0.98;
       }
     }
   }
