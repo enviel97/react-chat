@@ -11,7 +11,7 @@ export const uploadImage = async (
   onUploadProgress: (progressEvent: AxiosProgressEvent) => void
 ) => {
   const formData = new FormData();
-  formData.append("avatar", file);
+  formData.append("image", file);
   return await client.patch<any, Response<UserProfile>>(
     PROFILE_UPLOAD_IMAGE,
     formData,

@@ -1,6 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 import SliceName from "@store/common/sliceName";
-import { ClearAction, UpdateAction, SetAction, DeleteAction } from "./actions";
+import {
+  ClearAction,
+  UpdateAction,
+  SetAction,
+  DeleteAction,
+  DeleteManyAction,
+} from "./actions";
 import type { CacheState } from "../state/cache";
 import cacheAdapter from "./adapter/cacheAdapter";
 import type { RootState } from "@store/index";
@@ -13,14 +19,20 @@ export const cacheSlice = createSlice({
     updateCache: UpdateAction,
     clearCache: ClearAction,
     deleteCache: DeleteAction,
+    deleteMultiCache: DeleteManyAction,
   },
 });
 
-export const { setCache, updateCache, clearCache, deleteCache } =
-  cacheSlice.actions;
+export const {
+  setCache,
+  updateCache,
+  clearCache,
+  deleteCache,
+  deleteMultiCache,
+} = cacheSlice.actions;
 
 export const { selectById: selectCacheByKey } = cacheAdapter.getSelectors(
   (state: RootState) => state[SliceName.cache]
 );
-
+export { default as selectCacheImage } from "./selectors/selectCacheImage";
 export default cacheSlice.reducer;

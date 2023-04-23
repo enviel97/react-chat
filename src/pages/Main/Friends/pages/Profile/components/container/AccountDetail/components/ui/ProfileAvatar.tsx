@@ -1,8 +1,11 @@
 import NetworkImage from "@components/Image/NetworkImage";
+import useAppDispatch from "@hooks/useAppDispatch";
 import useBreakpoint from "@hooks/useBreakpoint";
+import { deleteMultiCache } from "@store/slices/cache";
 import { neumorphismBoxShadowInset } from "@theme/helper/tools";
+import { avatarUrlImage, imageSize } from "@utils/image";
 import { AnimatePresence, motion } from "framer-motion";
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
 import UploadImageButton from "../../../../ui/UploadImageButton";
 
@@ -25,29 +28,45 @@ const AvatarBox = styled(motion.div)`
     })};
 `;
 
+interface ImageSrc {
+  src?: string;
+  srcSet?: string;
+  sizes?: string;
+}
+
 const ProfileAvatar: FC<Props> = ({ avatarSrc }) => {
-  const [src, setSrc] = useState(avatarSrc);
+  const [avatar, setAvatar] = useState<ImageSrc>({ src: avatarSrc });
+  const [cache, setCache] = useState<boolean>(true);
+  const dispatch = useAppDispatch();
   const breakpoint = useBreakpoint();
   const [isHover, setHover] = useState(false);
+  const isShowUploadButton = useMemo(
+    () => isHover || breakpoint.down("laptop"),
+    [breakpoint, isHover]
+  );
+  useEffect(() => {
+    if (!avatarSrc || avatarSrc.includes("http")) return;
+    const avatar = avatarUrlImage(avatarSrc);
+    setAvatar(avatar);
+  }, [avatarSrc]);
+
   const handleUploadSuccess = (src: string) => {
-    setSrc(src);
+    dispatch(
+      deleteMultiCache({
+        keys: imageSize.map((size) => `${avatarSrc}?size=${size}`),
+      })
+    );
+    setAvatar({ src: src });
+    setCache(false);
   };
 
-  useEffect(() => {
-    return () => {
-      if (src?.includes("blob")) {
-        URL.revokeObjectURL(src);
-      }
-    };
-  }, [src]);
-  const a = isHover || breakpoint.down("laptop");
   return (
     <AnimatePresence>
       <AvatarBox
         onHoverStart={() => setHover(true)}
         onHoverEnd={() => setHover(false)}
       >
-        {a && (
+        {isShowUploadButton && (
           <UploadImageButton
             separateSpace='0.5rem'
             size='1.5rem'
@@ -55,7 +74,12 @@ const ProfileAvatar: FC<Props> = ({ avatarSrc }) => {
             onUploadSuccess={handleUploadSuccess}
           />
         )}
-        <NetworkImage src={src} />
+        <NetworkImage
+          src={avatar.src}
+          srcset={avatar.srcSet}
+          sizes={avatar.sizes}
+          cache={cache}
+        />
       </AvatarBox>
     </AnimatePresence>
   );

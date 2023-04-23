@@ -1,7 +1,9 @@
 import { useModals } from "@components/Modal/hooks/useModals";
 import { safeLog } from "@core/api/utils/logger";
+import useAppDispatch from "@hooks/useAppDispatch";
+import useSocket from "@hooks/useSocket";
 import { uploadImage } from "@store/repo/user/apis/profile/updateProfile";
-import { FC, useCallback, useState } from "react";
+import { FC, useCallback, useEffect, useState } from "react";
 import UploadImagePreview from "../components/container/UploadImagePreview";
 import ButtonIconText from "../components/ui/ButtonIconText";
 import {
@@ -34,30 +36,49 @@ const UploadImageModal: FC<Props> = ({
 
   const isDisableAction = isLoading || !file;
 
+  const socket = useSocket();
+
   const onSelectedImage = useCallback((image?: File) => {
     setFile(image);
   }, []);
 
+  const resetUploadImage = useCallback(() => {
+    setPercentage(undefined);
+    setLoading(false);
+  }, []);
+
+  useEffect(() => {
+    socket.on("IMAGE_UPLOAD_ERROR", (payload) => {
+      setError(true);
+      resetUploadImage();
+    });
+
+    return () => {
+      socket.off("IMAGE_UPLOAD_ERROR");
+    };
+  }, [socket, resetUploadImage]);
+
   const handleUploadImage = async () => {
     if (!file) return;
     setLoading(true);
-    uploadImage({ file: file, pathVariable: type }, (processEvent) => {
-      const { loaded, total = 1 } = processEvent;
-      let uploadPercentage = Math.floor(loaded * 100) / total;
-      if (uploadPercentage <= 100) setPercentage(uploadPercentage);
-    })
-      .then(() => {
-        setTimeout(() => setPercentage(undefined), 500);
-        setLoading(false);
-        onUploadImageSuccess && onUploadImageSuccess(file);
-        modal.close(MODAL_ID);
-      })
-      .catch((error) => {
-        safeLog(error);
-        setError(true);
-        setLoading(false);
-        onUploadImageError && onUploadImageError();
+    setError(undefined);
+    try {
+      await uploadImage({ file: file, pathVariable: type }, (processEvent) => {
+        const { loaded, total = 1 } = processEvent;
+        let uploadPercentage = Math.floor(loaded * 100) / total;
+        if (uploadPercentage <= 100) setPercentage(uploadPercentage);
       });
+      setTimeout(() => {
+        modal.close(MODAL_ID);
+        onUploadImageSuccess && onUploadImageSuccess(file);
+        resetUploadImage();
+      }, 1200);
+    } catch (error) {
+      setError(true);
+      resetUploadImage();
+      onUploadImageError && onUploadImageError();
+      safeLog(error);
+    }
   };
 
   return (

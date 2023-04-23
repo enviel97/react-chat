@@ -31,7 +31,7 @@ const Thumbnail: FC<Props> = ({ src = local.image.backgroundDefault }) => {
 
   return (
     <ThumbnailContainer>
-      <UploadImageButton />
+      <UploadImageButton type='banner' />
       <NetworkImage
         src={imageUrl}
         alt={"Thumbnail"}

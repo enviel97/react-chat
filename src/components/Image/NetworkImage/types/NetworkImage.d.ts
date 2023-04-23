@@ -6,6 +6,7 @@ interface NetworkImageProps {
   width?: string;
   height?: string;
   sizes?: string;
+  cache?: boolean;
 }
 
 interface NetworkLoading {

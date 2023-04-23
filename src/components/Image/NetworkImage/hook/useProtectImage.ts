@@ -1,49 +1,91 @@
 import { safeLog } from "@core/api/utils/logger";
-import { useEffect, useState } from "react";
-
+import useAppSelector from "@hooks/useAppSelector";
+import { selectCacheImage, setCache } from "@store/slices/cache";
+import { useCallback, useEffect, useState } from "react";
+import { convertBlobToBase64, createBlobUrl } from "../utils/ImageUtils";
+import type { CreateBlobUrlReturn } from "../utils/ImageUtils";
+import useAppDispatch from "@hooks/useAppDispatch";
+import axios from "axios";
 interface Props {
   src?: string;
   placeholder: string;
+  cache?: boolean;
 }
 
 const blobImage = async (imageUrl: string) => {
-  return await fetch(imageUrl)
-    .then((res) => res?.blob())
+  return await axios
+    .get(imageUrl, { responseType: "blob", withCredentials: true })
+    .then((res) => res.data)
     .catch((err) => Promise.reject(err));
 };
 
-const useProtectImage = ({ src, placeholder }: Props) => {
+const useProtectImage = ({ src, placeholder, cache }: Props) => {
   const [isError, setError] = useState<boolean>();
   const [isLoading, setLoading] = useState<boolean>(true);
   const [image, setImage] = useState(src);
+  const dispatch = useAppDispatch();
+
+  const getIdFromSrc = useCallback((src: string) => {
+    const srcSlice = src?.split("/");
+    if (!srcSlice) return;
+    return srcSlice.at(srcSlice.length - 1);
+  }, []);
+
+  const cachedImage = useAppSelector((state) => {
+    if (!src || !cache) return;
+    const idName = getIdFromSrc(src);
+    if (!idName) return;
+    return selectCacheImage(state, idName);
+  });
+
+  const loadedImage = useCallback((url: string) => {
+    setImage(url);
+    setLoading(false);
+  }, []);
 
   useEffect(() => {
-    if (!src || !src.includes("http")) {
-      setLoading(false);
-      setImage(placeholder);
+    // TODO: get
+    let imageBlob: CreateBlobUrlReturn;
+    if (cachedImage) {
+      imageBlob = createBlobUrl(cachedImage);
+      loadedImage(imageBlob.url);
       return;
     }
-    let imageBlob: string;
+    if (!src || !src.includes("http")) {
+      loadedImage(placeholder);
+      return;
+    }
+    setError(undefined);
     setLoading(true);
     blobImage(src)
-      .then((blob) => {
-        setLoading(false);
-        if (!blob || !blob.type?.includes("image")) {
+      .then(async (blob) => {
+        if (!blob || !(blob instanceof Blob) || !blob.type.includes("image")) {
           return Promise.reject("Not image");
         }
-        imageBlob = URL.createObjectURL(blob);
-        setImage(imageBlob);
+        imageBlob = createBlobUrl(blob);
+        loadedImage(imageBlob.url);
+        if (!cache) return;
+        const key = getIdFromSrc(src);
+        const data = await convertBlobToBase64(blob);
+        dispatch(setCache({ key, value: data }));
       })
       .catch((error) => {
         setError(true);
-        setLoading(false);
         safeLog(`Error:::${error}`);
-        setImage(placeholder);
+        loadedImage(placeholder);
       });
     return () => {
-      !!imageBlob && URL.revokeObjectURL(imageBlob);
+      !!imageBlob && imageBlob.clear();
     };
-  }, [src, placeholder]);
+  }, [
+    src,
+    placeholder,
+    cachedImage,
+    loadedImage,
+    dispatch,
+    getIdFromSrc,
+    cache,
+  ]);
 
   return {
     isError,

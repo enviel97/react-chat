@@ -1,5 +1,5 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-
+import expireReducer from "redux-persist-expire";
 import {
   FLUSH,
   PAUSE,
@@ -14,6 +14,7 @@ import {
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import ReducerList, { reducerStorage } from "./slices";
+import SliceName from "./common/sliceName";
 
 const reducer = combineReducers(ReducerList);
 
@@ -23,6 +24,12 @@ const persistConfig: PersistConfig<ReturnType<typeof reducer>> = {
   storage,
   stateReconciler: autoMergeLevel2,
   whitelist: reducerStorage,
+  throttle: 500,
+  transforms: [
+    expireReducer(SliceName.cache, {
+      expireSeconds: 24 * 60 * 60 * 2, // cache store in 2 day
+    }),
+  ],
 };
 const persistedReducer = persistReducer(persistConfig, reducer);
 

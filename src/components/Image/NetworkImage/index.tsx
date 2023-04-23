@@ -14,8 +14,13 @@ const NetworkImage: FC<NetworkImageProps> = ({
   width,
   height,
   placeholder = local.image.UnknownAvatar,
+  cache,
 }) => {
-  const { image, isLoading, isError } = useProtectImage({ src, placeholder });
+  const { image, isLoading, isError } = useProtectImage({
+    src,
+    placeholder,
+    cache,
+  });
   const _revokeImage: ReactEventHandler<HTMLImageElement> = (event) => {
     // Onload revoke blob
     const currentSrc = event.currentTarget.currentSrc;

@@ -19,10 +19,7 @@ const ReducerList = Object.freeze({
   [SliceName.profile]: ProfileReducer,
 });
 
-export const reducerStorage = [
-  SliceName.ui,
-  SliceName.profile,
-  SliceName.cache,
-];
+export const reducerStorage = [SliceName.ui, SliceName.profile];
 
+// SliceName.cache,
 export default ReducerList;

@@ -1,4 +1,4 @@
-import { animate, AnimatePresence } from "framer-motion";
+import { animate, AnimatePresence, useAnimationControls } from "framer-motion";
 import { FC, memo, useEffect, useRef, useState } from "react";
 import {
   MdCheckCircleOutline,
@@ -41,9 +41,18 @@ const UploadPercentage: FC<Props> = ({ percentage, isError }) => {
   const progressTextRef = useRef<HTMLDivElement>(null);
   const [progressValue, setProgressValue] = useState<number>(0);
   const [colorAnimate, setColorAnimation] = useState<ProgressState>("normal");
-  const duration = 1.5;
+  const controlLoading = useAnimationControls();
+
+  const duration = 0.5; // 500ms
 
   useEffect(() => {
+    if (isError) {
+      controlLoading.stop();
+    }
+  }, [isError]);
+
+  useEffect(() => {
+    controlLoading.start("animation");
     if (isError) {
       setColorAnimation("error");
       return;
@@ -57,7 +66,7 @@ const UploadPercentage: FC<Props> = ({ percentage, isError }) => {
 
   useEffect(() => {
     const progressText = progressTextRef.current?.textContent;
-    if (!progressText) return;
+    if (!progressText || !percentage) return;
 
     animate(parseInt(progressText), percentage, {
       duration: duration * 0.8,
@@ -72,13 +81,12 @@ const UploadPercentage: FC<Props> = ({ percentage, isError }) => {
 
   return (
     <AnimatePresence>
-      {!!percentage && (
+      {percentage && (
         <UploadPercentageContainer
           variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
           transition={{ type: "spring", stiffness: 700, damping: 30 }}
           animate='visible'
           initial='hidden'
-          exit='hidden'
         >
           <UploadProgressBarContainer
             variants={{
@@ -104,8 +112,7 @@ const UploadPercentage: FC<Props> = ({ percentage, isError }) => {
                 },
               }}
               initial='initial'
-              animate='animation'
-              exit='initial'
+              animate={controlLoading}
               transition={{ duration: duration }}
             >
               <span>
