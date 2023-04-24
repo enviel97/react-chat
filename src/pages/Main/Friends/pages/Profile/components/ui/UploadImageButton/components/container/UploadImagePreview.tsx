@@ -1,13 +1,4 @@
-import {
-  FC,
-  forwardRef,
-  memo,
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useRef,
-  useState,
-} from "react";
+import { FC, memo, useCallback, useEffect, useRef, useState } from "react";
 import {
   IconBox,
   PreviewContainer,
@@ -90,7 +81,7 @@ const UploadImagePreview: FC<Props> = ({
         <PreviewContainer {...PreviewImageAnimation}>
           <img
             src={previewImage}
-            alt={"Preview select image"}
+            alt={"Preview select file"}
             onError={() => setPreviewImage("")}
           />
         </PreviewContainer>

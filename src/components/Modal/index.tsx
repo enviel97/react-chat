@@ -1,5 +1,12 @@
 import { AnimatePresence } from "framer-motion";
-import { createContext, ReactElement, useMemo, useRef, useState } from "react";
+import {
+  createContext,
+  ReactElement,
+  useCallback,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import Modal from "./components/Modal";
 import useId from "./hooks/useId";
 
@@ -14,38 +21,47 @@ const ModalProvider = (props: Components) => {
   const [modals, setModals] = useState<ReactElement[]>([]);
   const uid = useId();
 
+  const closeModal = useCallback((id: string) => {
+    setModals((prevModals) => prevModals.filter((m) => m.key !== id));
+    modalIds.current.delete(id);
+  }, []);
+
+  const showModal = useCallback(
+    (children: any, options?: ModalOptions) => {
+      const modalId = options?.modalId ?? uid();
+      if (!modalIds.current.has(modalId)) {
+        const modal = (
+          <Modal
+            {...options}
+            key={modalId}
+            handleClose={() => {
+              options?.handleClose && options.handleClose();
+              closeModal(modalId);
+            }}
+          >
+            {children}
+          </Modal>
+        );
+        setModals((prevModal) => [...prevModal, modal]);
+        modalIds.current.set(modalId, 0);
+      }
+      return modalId;
+    },
+    [closeModal, uid]
+  );
+
+  const clearAll = useCallback(() => {
+    setModals([]);
+    modalIds.current.clear();
+  }, []);
+
   const actions = useMemo(
     () => ({
-      close: (id: string) => {
-        setModals((prevModals) => prevModals.filter((m) => m.key !== id));
-        modalIds.current.delete(id);
-      },
-      show: (children: any, options?: ModalOptions) => {
-        const modalId = options?.modalId ?? uid();
-        if (!modalIds.current.has(modalId)) {
-          const close = () => {
-            options?.handleClose && options.handleClose();
-            setModals((prevModals) =>
-              prevModals.filter((m) => m.key !== modalId)
-            );
-            modalIds.current.delete(modalId);
-          };
-          const modal = (
-            <Modal {...options} key={modalId} handleClose={close}>
-              {children}
-            </Modal>
-          );
-          setModals((prevModal) => [...prevModal, modal]);
-          modalIds.current.set(modalId, 0);
-        }
-        return modalId;
-      },
-      closeAll: () => {
-        setModals([]);
-        modalIds.current.clear();
-      },
+      close: closeModal,
+      show: showModal,
+      closeAll: clearAll,
     }),
-    [uid]
+    [closeModal, showModal, clearAll]
   );
 
   return (

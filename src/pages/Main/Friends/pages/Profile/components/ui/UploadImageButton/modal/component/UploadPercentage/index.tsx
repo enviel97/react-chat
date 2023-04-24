@@ -1,128 +1,109 @@
-import { animate, AnimatePresence, useAnimationControls } from "framer-motion";
-import { FC, memo, useEffect, useRef, useState } from "react";
 import {
-  MdCheckCircleOutline,
-  MdCloudUpload,
-  MdErrorOutline,
-} from "react-icons/md";
+  animate,
+  AnimatePresence,
+  useAnimation,
+  useMotionValue,
+  useSpring,
+} from "framer-motion";
+import { FC, memo, useEffect, useState } from "react";
+
 import { useTheme } from "styled-components";
+import Icon from "./components/Icons/Icon";
+import Percentage from "./components/PercentageText";
+import {
+  AnimationColor,
+  DisplayContainerAnimate,
+} from "./styles/UploadPercentage.animate";
 import {
   UploadPercentageContainer,
   UploadProgressBarCircle,
   UploadProgressBarContainer,
-  UploadProgressBarText,
 } from "./styles/UploadPercentage.decorate";
-interface Props {
-  percentage?: number;
-  isError?: boolean;
-}
 
-type ProgressState = "error" | "success" | "normal";
-interface IconProps {
-  type: ProgressState;
-}
-
-const Icon: FC<IconProps> = memo(({ type }) => {
-  switch (type) {
-    case "error": {
-      return <MdErrorOutline />;
-    }
-    case "normal": {
-      return <MdCloudUpload />;
-    }
-    case "success": {
-      return <MdCheckCircleOutline />;
-    }
-  }
-});
-
-const UploadPercentage: FC<Props> = ({ percentage, isError }) => {
+const duration = 0.5;
+const UploadPercentage: FC<UploadPercentageProps> = ({ percentage, type }) => {
   const theme = useTheme();
-  const progressTextRef = useRef<HTMLDivElement>(null);
-  const [progressValue, setProgressValue] = useState<number>(0);
-  const [colorAnimate, setColorAnimation] = useState<ProgressState>("normal");
-  const controlLoading = useAnimationControls();
-
-  const duration = 0.5; // 500ms
+  const count = useMotionValue(0);
+  const xSmooth = useSpring(count, { damping: 50, stiffness: 400 });
+  const [colorAnimate, setColorAnimation] = useState<ProgressState>("pending");
+  const processAnimation = useAnimation();
 
   useEffect(() => {
-    if (isError) {
-      controlLoading.stop();
-    }
-  }, [isError]);
-
-  useEffect(() => {
-    controlLoading.start("animation");
-    if (isError) {
-      setColorAnimation("error");
-      return;
-    }
-    if (+progressValue >= 85) {
-      setColorAnimation("success");
-      return;
-    }
-    setColorAnimation("normal");
-  }, [progressValue, isError]);
-
-  useEffect(() => {
-    const progressText = progressTextRef.current?.textContent;
-    if (!progressText || !percentage) return;
-
-    animate(parseInt(progressText), percentage, {
-      duration: duration * 0.8,
+    if (!percentage) return;
+    const controller = animate(xSmooth, percentage, {
+      duration: 0.8,
       onUpdate: (cv) => {
-        if (!cv) return;
-        const percent = cv.toFixed(0);
-        progressTextRef.current!.textContent = percent;
-        setProgressValue(+percent);
+        if (type === "error") {
+          setColorAnimation("error");
+          return;
+        }
+        if (cv >= 100) {
+          setColorAnimation("success");
+          return;
+        }
+        setColorAnimation("pending");
+        return;
       },
     });
-  }, [percentage, progressTextRef]);
+    return controller.stop;
+  }, [percentage, type, xSmooth]);
+
+  useEffect(() => {
+    if (!percentage) return;
+    switch (type) {
+      case "error": {
+        processAnimation.stop();
+        return;
+      }
+      case "pending": {
+        processAnimation.start("proccess");
+        return;
+      }
+      case "success": {
+        return;
+      }
+    }
+
+    return processAnimation.stop;
+  }, [percentage, processAnimation, type]);
+
+  const getBackgroundConic = (percentage: number) => {
+    return `conic-gradient(
+      currentColor ${percentage * 3.6}deg,
+      ${theme.backgroundColor} 0deg
+    )`;
+  };
 
   return (
-    <AnimatePresence>
+    <AnimatePresence mode='wait'>
       {percentage && (
-        <UploadPercentageContainer
-          variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
-          transition={{ type: "spring", stiffness: 700, damping: 30 }}
-          animate='visible'
-          initial='hidden'
-        >
+        <UploadPercentageContainer {...DisplayContainerAnimate}>
           <UploadProgressBarContainer
-            variants={{
-              success: { color: theme.successColor },
-              error: { color: theme.errorColor },
-              normal: { color: theme.primaryColor },
-            }}
+            {...AnimationColor}
             animate={colorAnimate}
           >
             <UploadProgressBarCircle
               variants={{
-                initial: {
-                  background: `conic-gradient(
-                    currentColor 0deg,
-                    ${theme.disableColor} 0deg
-                  )`,
-                },
-                animation: {
-                  background: `conic-gradient(
-                    currentColor ${percentage * 3.6}deg,
-                    ${theme.disableColor} 0deg
-                  )`,
-                },
+                initial: { background: getBackgroundConic(0) },
+                proccess: { background: getBackgroundConic(percentage) },
               }}
-              initial='initial'
-              animate={controlLoading}
-              transition={{ duration: duration }}
+              style={{
+                background: getBackgroundConic(0),
+                filter: `
+                  drop-shadow(0 0 1px ${theme.surfaceColor}) 
+                  drop-shadow(0 0 2px ${theme.surfaceColor})
+                  drop-shadow(0 0 3px ${theme.surfaceColor}) 
+                  drop-shadow(0 0 4px ${theme.surfaceColor})
+                  drop-shadow(0 0 5px ${theme.surfaceColor})
+                `,
+              }}
+              initial={"initial"}
+              animate={processAnimation}
+              transition={{ duration }}
             >
-              <span>
-                <Icon type={colorAnimate} />
-              </span>
+              <Icon type={colorAnimate} />
             </UploadProgressBarCircle>
-            <UploadProgressBarText>
-              <p ref={progressTextRef}>0</p>
-              <p>%</p>
-            </UploadProgressBarText>
+            <Percentage percentage={percentage} />
           </UploadProgressBarContainer>
         </UploadPercentageContainer>
       )}

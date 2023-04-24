@@ -1,6 +1,5 @@
 import { useModals } from "@components/Modal/hooks/useModals";
 import { safeLog } from "@core/api/utils/logger";
-import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
 import { uploadImage } from "@store/repo/user/apis/profile/updateProfile";
 import { FC, useCallback, useEffect, useState } from "react";
@@ -29,12 +28,11 @@ const UploadImageModal: FC<Props> = ({
   onUploadImageSuccess,
 }) => {
   const modal = useModals();
-  const [isLoading, setLoading] = useState(false);
-  const [isError, setError] = useState<boolean>();
+  const [state, setState] = useState<ProgressState>("pending");
   const [file, setFile] = useState<File>();
   const [percentage, setPercentage] = useState<number>();
 
-  const isDisableAction = isLoading || !file;
+  const isDisableAction = state !== "pending" || !file;
 
   const socket = useSocket();
 
@@ -42,15 +40,15 @@ const UploadImageModal: FC<Props> = ({
     setFile(image);
   }, []);
 
-  const resetUploadImage = useCallback(() => {
+  const resetUploadImage = useCallback((type: ProgressState) => {
     setPercentage(undefined);
-    setLoading(false);
+    setState(type);
   }, []);
 
   useEffect(() => {
-    socket.on("IMAGE_UPLOAD_ERROR", (payload) => {
-      setError(true);
-      resetUploadImage();
+    socket.on("IMAGE_UPLOAD_ERROR", () => {
+      setState("error");
+      resetUploadImage("pending");
     });
 
     return () => {
@@ -60,8 +58,7 @@ const UploadImageModal: FC<Props> = ({
 
   const handleUploadImage = async () => {
     if (!file) return;
-    setLoading(true);
-    setError(undefined);
+    setState("pending");
     try {
       await uploadImage({ file: file, pathVariable: type }, (processEvent) => {
         const { loaded, total = 1 } = processEvent;
@@ -71,11 +68,10 @@ const UploadImageModal: FC<Props> = ({
       setTimeout(() => {
         modal.close(MODAL_ID);
         onUploadImageSuccess && onUploadImageSuccess(file);
-        resetUploadImage();
-      }, 1200);
+        resetUploadImage("success");
+      }, 2000);
     } catch (error) {
-      setError(true);
-      resetUploadImage();
+      resetUploadImage("error");
       onUploadImageError && onUploadImageError();
       safeLog(error);
     }
@@ -89,7 +85,7 @@ const UploadImageModal: FC<Props> = ({
         aspectRatio={getImageAspectRatio(type)}
         onSelectImage={onSelectedImage}
       >
-        <UploadPercentage percentage={percentage} isError={isError} />
+        <UploadPercentage percentage={percentage} type={state} />
       </UploadImagePreview>
       <UploadInfo file={file} />
       <UploadImageAction>
@@ -107,6 +103,8 @@ export const ModalOption: ModalOptions = {
   modalId: MODAL_ID,
   height: "fit-content",
   width: "fit-content",
+  isDialog: true,
+  isDisableExitClose: true,
 };
 
 export default UploadImageModal;

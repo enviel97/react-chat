@@ -5,6 +5,7 @@ interface ModalOptions {
   isDialog?: boolean;
   height?: string;
   width?: string;
+  isDisableExitClose?: boolean;
   onCloseModel?: () => void;
   showCloseButton?: boolean;
   handleClose?: () => void;

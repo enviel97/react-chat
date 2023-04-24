@@ -1,6 +1,7 @@
 import NetworkImage from "@components/Image/NetworkImage";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useBreakpoint from "@hooks/useBreakpoint";
+import useSocket from "@hooks/useSocket";
 import { deleteMultiCache } from "@store/slices/cache";
 import { neumorphismBoxShadowInset } from "@theme/helper/tools";
 import { avatarUrlImage, imageSize } from "@utils/image";
@@ -40,10 +41,22 @@ const ProfileAvatar: FC<Props> = ({ avatarSrc }) => {
   const dispatch = useAppDispatch();
   const breakpoint = useBreakpoint();
   const [isHover, setHover] = useState(false);
+  const socket = useSocket();
   const isShowUploadButton = useMemo(
     () => isHover || breakpoint.down("laptop"),
     [breakpoint, isHover]
   );
+
+  useEffect(() => {
+    socket.on("IMAGE_UPLOAD_ERROR", (payload) => {
+      console.log(payload);
+    });
+
+    return () => {
+      socket.off("IMAGE_UPLOAD_ERROR");
+    };
+  }, [socket]);
+
   useEffect(() => {
     if (!avatarSrc || avatarSrc.includes("http")) return;
     const avatar = avatarUrlImage(avatarSrc);

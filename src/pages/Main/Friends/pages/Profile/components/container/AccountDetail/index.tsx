@@ -1,7 +1,6 @@
 import useAppSelector from "@hooks/useAppSelector";
-import useSocket from "@hooks/useSocket";
 import { selectProfile, selectUser } from "@store/slices/profiles";
-import { Fragment, useEffect } from "react";
+import { Fragment } from "react";
 import DropdownAction from "./components/ui/DropdownAction";
 import ProfileAvatar from "./components/ui/ProfileAvatar";
 import TextField from "./components/ui/TextFieldLabel";
@@ -14,17 +13,6 @@ import {
 const AccountDetail = () => {
   const profile = useAppSelector(selectProfile);
   const user = useAppSelector(selectUser);
-  const socket = useSocket();
-
-  useEffect(() => {
-    socket.on("IMAGE_UPLOAD_ERROR", (payload) => {
-      console.log(payload);
-    });
-
-    return () => {
-      socket.off("IMAGE_UPLOAD_ERROR");
-    };
-  }, [socket]);
 
   return (
     <Fragment>

@@ -1,6 +1,5 @@
 import local from "@common/local.define";
 import { FC, memo, useState } from "react";
-import { toast } from "react-toastify";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import UploadImageButton from "../../../../ui/UploadImageButton";
@@ -27,7 +26,7 @@ const ThumbnailContainer = styled(motion.div)`
 `;
 
 const Thumbnail: FC<Props> = ({ src = local.image.backgroundDefault }) => {
-  const [imageUrl, setImageUrl] = useState(src);
+  const [imageUrl] = useState(src);
 
   return (
     <ThumbnailContainer>

@@ -16,6 +16,7 @@ export const uploadImage = async (
     PROFILE_UPLOAD_IMAGE,
     formData,
     {
+      timeout: 10 * 1000,
       headers: { "Content-Type": "multipart/form-data" },
       pathVariable: { type: pathVariable },
       onUploadProgress,

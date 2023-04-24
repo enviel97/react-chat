@@ -16,6 +16,8 @@ const Modal = (props: Props) => {
     showCloseButton = true,
     height = "25rem",
     width = "35rem",
+    isDisableExitClose = false,
+    handleClose,
   } = props;
   const tabRef = useRef(0);
   const focusableModalElements = useRef<NodeListOf<Element>>();
@@ -39,14 +41,18 @@ const Modal = (props: Props) => {
     },
     [modalRef]
   );
+  const handleEscKey = useCallback(() => {
+    if (isDisableExitClose || !handleClose) return;
+    handleClose();
+  }, [isDisableExitClose, handleClose]);
 
   const keyListenersMap = useMemo(
     () =>
       new Map([
-        ["Escape", props.handleClose],
+        ["Escape", handleEscKey],
         ["Tab", handleTabKey],
       ]),
-    [props.handleClose, handleTabKey]
+    [handleTabKey, handleEscKey]
   );
 
   useEffect(() => {
@@ -91,11 +97,12 @@ const Modal = (props: Props) => {
       >
         {props.children}
         {showCloseButton && (
-          <CloseButtonContainer tabIndex={-1}>
+          <CloseButtonContainer tabIndex={-1} onClick={props.handleClose}>
             <ButtonIconNeumorphism
               itemType='close'
               icon={<RiCloseLine />}
-              onClick={props.handleClose}
+              hint={"Close modal"}
+              size={"2em"}
             />
           </CloseButtonContainer>
         )}
