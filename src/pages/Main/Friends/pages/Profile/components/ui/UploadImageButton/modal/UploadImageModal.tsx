@@ -28,11 +28,10 @@ const UploadImageModal: FC<Props> = ({
   onUploadImageSuccess,
 }) => {
   const modal = useModals();
-  const [state, setState] = useState<ProgressState>("pending");
+  const [state, setState] = useState<ProgressState>("idle");
   const [file, setFile] = useState<File>();
   const [percentage, setPercentage] = useState<number>();
-
-  const isDisableAction = state !== "pending" || !file;
+  const isDisableAction = state !== "idle" || !file;
 
   const socket = useSocket();
 
@@ -60,11 +59,13 @@ const UploadImageModal: FC<Props> = ({
     if (!file) return;
     setState("pending");
     try {
+      setPercentage(100);
       await uploadImage({ file: file, pathVariable: type }, (processEvent) => {
         const { loaded, total = 1 } = processEvent;
         let uploadPercentage = Math.floor(loaded * 100) / total;
         if (uploadPercentage <= 100) setPercentage(uploadPercentage);
       });
+
       setTimeout(() => {
         modal.close(MODAL_ID);
         onUploadImageSuccess && onUploadImageSuccess(file);

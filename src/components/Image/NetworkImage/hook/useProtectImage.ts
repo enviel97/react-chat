@@ -1,96 +1,88 @@
-import { safeLog } from "@core/api/utils/logger";
-import useAppSelector from "@hooks/useAppSelector";
-import { selectCacheImage, setCache } from "@store/slices/cache";
-import { useCallback, useEffect, useState } from "react";
-import { convertBlobToBase64, createBlobUrl } from "../utils/ImageUtils";
-import type { CreateBlobUrlReturn } from "../utils/ImageUtils";
-import useAppDispatch from "@hooks/useAppDispatch";
+import { useEffect, useMemo, useState } from "react";
+import {
+  convertBase64ToBlob,
+  convertBlobToBase64,
+  getImageFromSrc,
+} from "../utils/ImageUtils";
 import axios from "axios";
+import { createCache, useCache } from "@react-hook/cache";
+import { toast } from "react-toastify";
 interface Props {
   src?: string;
+  viewPort?: ViewPort;
   placeholder: string;
-  cache?: boolean;
+  refresh?: boolean;
 }
 
-const blobImage = async (imageUrl: string) => {
-  return await axios
-    .get(imageUrl, { responseType: "blob", withCredentials: true })
-    .then((res) => res.data)
-    .catch((err) => Promise.reject(err));
-};
-
-const useProtectImage = ({ src, placeholder, cache }: Props) => {
-  const [isError, setError] = useState<boolean>();
-  const [isLoading, setLoading] = useState<boolean>(true);
-  const [image, setImage] = useState(src);
-  const dispatch = useAppDispatch();
-
-  const getIdFromSrc = useCallback((src: string) => {
-    const srcSlice = src?.split("/");
-    if (!srcSlice) return;
-    return srcSlice.at(srcSlice.length - 1);
-  }, []);
-
-  const cachedImage = useAppSelector((state) => {
-    if (!src || !cache) return;
-    const idName = getIdFromSrc(src);
-    if (!idName) return;
-    return selectCacheImage(state, idName);
+const blobImage = createCache(async (key: string, url: string) => {
+  if (!key) return;
+  if (key.includes("default") || url.includes("blob")) return url;
+  const response = await axios.get(url, {
+    responseType: "blob",
+    withCredentials: true,
   });
+  if (!response?.data) {
+    toast.error("Image loaded error");
+    return;
+  }
+  const image = await convertBlobToBase64(response.data);
+  return image as string;
+}, 400);
 
-  const loadedImage = useCallback((url: string) => {
-    setImage(url);
-    setLoading(false);
-  }, []);
+const useProtectImage = ({ src, placeholder, refresh, viewPort }: Props) => {
+  const [forceRefresh, setForceRefresh] = useState<boolean>(refresh ?? false);
+
+  const image = useMemo(() => {
+    /**
+     * Cache placeholder
+     */
+    const imageUrl = getImageFromSrc({ src, viewPort });
+    if (!src || !imageUrl) {
+      return { key: "default", url: placeholder };
+    }
+    return imageUrl;
+  }, [src, placeholder, viewPort]);
+  const [{ status, value }, refetch] = useCache(
+    blobImage,
+    image.key,
+    image.url
+  );
+  const [srcImage, setSrcImage] = useState<string>(placeholder);
 
   useEffect(() => {
-    // TODO: get
-    let imageBlob: CreateBlobUrlReturn;
-    if (cachedImage) {
-      imageBlob = createBlobUrl(cachedImage);
-      loadedImage(imageBlob.url);
+    /** Fetch first time */
+    if (status === "idle" || forceRefresh) {
+      refetch();
+      setForceRefresh(false);
+    }
+  }, [refetch, status, forceRefresh]);
+
+  useEffect(() => {
+    if (["idle", "loading"].includes(status)) {
       return;
     }
-    if (!src || !src.includes("http")) {
-      loadedImage(placeholder);
+    if (!value || status === "error" || status === "cancelled") {
+      setSrcImage(placeholder);
       return;
     }
-    setError(undefined);
-    setLoading(true);
-    blobImage(src)
-      .then(async (blob) => {
-        if (!blob || !(blob instanceof Blob) || !blob.type.includes("image")) {
-          return Promise.reject("Not image");
-        }
-        imageBlob = createBlobUrl(blob);
-        loadedImage(imageBlob.url);
-        if (!cache) return;
-        const key = getIdFromSrc(src);
-        const data = await convertBlobToBase64(blob);
-        dispatch(setCache({ key, value: data }));
-      })
-      .catch((error) => {
-        setError(true);
-        safeLog(`Error:::${error}`);
-        loadedImage(placeholder);
-      });
-    return () => {
-      !!imageBlob && imageBlob.clear();
-    };
-  }, [
-    src,
-    placeholder,
-    cachedImage,
-    loadedImage,
-    dispatch,
-    getIdFromSrc,
-    cache,
-  ]);
+    if (status === "success") {
+      if (value.includes("assets")) {
+        return setSrcImage(placeholder);
+      }
+      if (value.includes("blob")) {
+        setSrcImage(value);
+        return;
+      }
+      const blob = convertBase64ToBlob(value);
+      const url = URL.createObjectURL(blob);
+      setSrcImage(url);
+    }
+  }, [value, status, placeholder]);
 
   return {
-    isError,
-    image,
-    isLoading,
+    image: srcImage,
+    isLoading: status === "idle" || status === "loading",
+    isError: status === "error" && !!src,
   };
 };
 

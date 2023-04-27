@@ -1,5 +1,5 @@
 import useAppSelector from "@hooks/useAppSelector";
-import { selectProfile, selectUser } from "@store/slices/profiles";
+import { selectProfile, selectUser, selectImage } from "@store/slices/profiles";
 import { Fragment } from "react";
 import DropdownAction from "./components/ui/DropdownAction";
 import ProfileAvatar from "./components/ui/ProfileAvatar";
@@ -13,11 +13,13 @@ import {
 const AccountDetail = () => {
   const profile = useAppSelector(selectProfile);
   const user = useAppSelector(selectUser);
+  const profileAvatar = useAppSelector((state) => selectImage(state, "avatar"));
+  const profileBanner = useAppSelector((state) => selectImage(state, "banner"));
 
   return (
     <Fragment>
-      <Thumbnail src={profile.banner} />
-      <ProfileAvatar avatarSrc={profile.avatar} />
+      <Thumbnail thumbnailSrc={profileBanner} />
+      <ProfileAvatar avatarSrc={profileAvatar} />
       <AccountDetailContainer>
         <AccountTextFieldGroup>
           <TextField label='First Name' value={user.firstName} />

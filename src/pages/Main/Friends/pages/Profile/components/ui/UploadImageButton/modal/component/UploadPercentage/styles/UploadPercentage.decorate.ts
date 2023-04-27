@@ -15,7 +15,6 @@ export const UploadPercentageContainer = styled(motion.div)<Props>`
   width: 100%;
   box-sizing: border-box;
   background-color: ${({ theme }) => theme.backgroundColor}af;
-  backdrop-filter: blur(10px);
   font-size: 2rem;
   z-index: 1000;
 `;
@@ -37,10 +36,16 @@ export const UploadProgressBarText = styled.div`
   right: auto;
   display: flex;
   flex-direction: row;
-  & > p {
+  & > p,
+  & > span {
     font-size: 1.5rem;
     font-weight: bold;
     filter: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1ch;
   }
 `;
 

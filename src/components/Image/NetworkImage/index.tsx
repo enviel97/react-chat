@@ -1,49 +1,74 @@
-import local from "@common/local.define";
+import SkeletonContainer from "@components/Skeleton";
 import { FC, memo, ReactEventHandler } from "react";
+import Skeleton from "react-loading-skeleton";
+import { useTheme } from "styled-components";
 import useProtectImage from "./hook/useProtectImage";
+
 import {
   ControllerLazyLoadImage,
   ImageContainer,
 } from "./styles/NetworkImage.decorate";
 
 const NetworkImage: FC<NetworkImageProps> = ({
+  className,
   src,
-  srcset,
-  sizes,
+  placeholder,
+  onLoadedError,
+  onLoadedSuccess,
   alt = "",
-  width,
-  height,
-  placeholder = local.image.UnknownAvatar,
-  cache,
+  width = "100%",
+  height = "100%",
+  refresh = false,
+  preventAutoRevoke = false,
+  viewPort = "md",
 }) => {
+  const theme = useTheme();
+
   const { image, isLoading, isError } = useProtectImage({
     src,
     placeholder,
-    cache,
+    refresh,
+    viewPort,
   });
-  const _revokeImage: ReactEventHandler<HTMLImageElement> = (event) => {
+
+  const handleOnLoaded: ReactEventHandler<HTMLImageElement> = (event) => {
     // Onload revoke blob
-    const currentSrc = event.currentTarget.currentSrc;
-    if (currentSrc.includes("blob")) {
-      URL.revokeObjectURL(currentSrc);
+    if (isError) {
+      onLoadedError && onLoadedError(event);
+      return;
+    }
+    if (!isLoading && !isError) {
+      onLoadedSuccess && onLoadedSuccess(event);
+      if (!!preventAutoRevoke) return;
+      const currentSrc = event.currentTarget.currentSrc;
+      if (currentSrc.includes("blob")) {
+        URL.revokeObjectURL(currentSrc);
+      }
     }
   };
+
   return (
-    <ControllerLazyLoadImage>
-      <ImageContainer
-        src={image}
-        sizes={sizes}
-        srcSet={srcset}
-        height={height}
-        width={width}
-        alt={alt}
-        loading={"lazy"}
-        onLoad={_revokeImage}
-        $isError={isError}
-        $isLoading={isLoading}
-        $isPlaceholder={image === local.image.UnknownAvatar}
-      />
-    </ControllerLazyLoadImage>
+    <SkeletonContainer
+      height={height}
+      width={width}
+      baseColor={theme.backgroundColor}
+      highlightColor={theme.surfaceColor}
+    >
+      <ControllerLazyLoadImage className={className}>
+        {isLoading ?? <Skeleton height={height} width={width} />}
+        {!isLoading && (
+          <ImageContainer
+            src={image}
+            height={height}
+            width={width}
+            alt={alt}
+            loading={"lazy"}
+            onLoad={handleOnLoaded}
+            $isPlaceholder={image === placeholder}
+          />
+        )}
+      </ControllerLazyLoadImage>
+    </SkeletonContainer>
   );
 };
 

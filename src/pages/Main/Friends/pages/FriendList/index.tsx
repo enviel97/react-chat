@@ -26,7 +26,6 @@ const FriendListLayout = () => {
 
   const handleOnReceiveRejectFriendRequest = useCallback(
     (payload: FriendRequest) => {
-      console.log({ payload });
       dispatch(removeFriendPending(payload.getId()));
     },
     [dispatch]

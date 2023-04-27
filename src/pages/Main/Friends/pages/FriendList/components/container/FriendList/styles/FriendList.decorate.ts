@@ -13,6 +13,7 @@ export const FriendListItemsContainer = styled.div`
   grid-gap: 1em;
   width: 100%;
   padding: 1rem 0;
+  padding-right: 1rem;
   grid-template-columns: repeat(2, 1fr);
   overflow: hidden;
   height: 100%;

@@ -1,12 +1,22 @@
-interface NetworkImageProps {
+interface NetworkImageController {
+  onLoadedError?: (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => void;
+  onLoadedSuccess?: (
+    event: React.SyntheticEvent<HTMLImageElement, Event>
+  ) => void;
+}
+
+interface NetworkImageProps extends NetworkImageController {
+  className?: string;
   src?: string;
-  srcset?: string;
-  placeholder?: string;
+  placeholder: string;
   alt?: string;
   width?: string;
   height?: string;
-  sizes?: string;
-  cache?: boolean;
+  refresh?: boolean;
+  preventAutoRevoke?: boolean;
+  viewPort?: ViewPort;
 }
 
 interface NetworkLoading {

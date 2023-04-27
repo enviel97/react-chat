@@ -6,10 +6,8 @@ import UiReducer from "./ui";
 import FriendRequestReducer from "./friendRequest";
 import FriendPendingReducer from "./friendPending";
 import ProfileReducer from "./profiles";
-import CacheReducer from "./cache";
 
 const ReducerList = Object.freeze({
-  [SliceName.cache]: CacheReducer,
   [SliceName.conversation]: ConversationReducer,
   [SliceName.message]: MessageReducer,
   [SliceName.user]: UserReducer,

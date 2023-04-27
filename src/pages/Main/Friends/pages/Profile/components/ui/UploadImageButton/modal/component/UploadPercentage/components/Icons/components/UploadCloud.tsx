@@ -35,34 +35,37 @@ const Cloud = styled.path.attrs({
     960 560c0-92.7-63.1-170.7-148.6-193.3z`,
 })``;
 
-const UploadCloud: FC = () => {
+const UploadCloud: FC<{ type: ProgressState }> = ({ type }) => {
   return (
     <Svg viewBox='0 0 1024 1024' xmlns='http://www.w3.org/2000/svg'>
-      <Arrow
-        style={{
-          originY: 0,
-        }}
-        variants={{
-          fadeIn: {
-            y: "-50%",
-            scale: [0, 1, 0],
-          },
-          fadeOut: {
-            y: "0",
-            scale: [1, 0, 1],
-          },
-        }}
-        animate='fadeIn'
-        initial='fadeOut'
-        transition={{
-          duration: 1,
-          damping: 50,
-          stiffness: 400,
-          repeat: Infinity,
-          repeatDelay: 1,
-          repeatType: "loop",
-        }}
-      />
+      {type === "pending" && (
+        <Arrow
+          style={{
+            originY: 0,
+          }}
+          variants={{
+            fadeIn: {
+              y: "-50%",
+              scale: [0, 1, 0],
+            },
+            fadeOut: {
+              y: "0",
+              scale: [1, 0, 1],
+            },
+          }}
+          animate='fadeIn'
+          initial='fadeOut'
+          exit='fadeOut'
+          transition={{
+            duration: 1,
+            damping: 50,
+            stiffness: 400,
+            repeat: Infinity,
+            repeatDelay: 1,
+            repeatType: "loop",
+          }}
+        />
+      )}
       <Cloud />
     </Svg>
   );

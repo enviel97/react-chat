@@ -6,6 +6,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { FC, useEffect } from "react";
+import { ImpulseSpinner } from "react-spinners-kit";
 import { UploadProgressBarText } from "../../styles/UploadPercentage.decorate";
 interface PercentageProps {
   percentage?: number;
@@ -24,8 +25,18 @@ const Percentage: FC<PercentageProps> = ({ percentage }) => {
 
   return (
     <UploadProgressBarText>
-      <motion.p>{rounded}</motion.p>
-      <p>%</p>
+      {!percentage && (
+        <span>
+          CONNECTED
+          <ImpulseSpinner size={30} frontColor='currentColor' />
+        </span>
+      )}
+      {percentage && (
+        <>
+          <motion.p>{rounded}</motion.p>
+          <p>%</p>
+        </>
+      )}
     </UploadProgressBarText>
   );
 };

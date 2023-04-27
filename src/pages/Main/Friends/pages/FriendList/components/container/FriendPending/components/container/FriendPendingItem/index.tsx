@@ -1,3 +1,4 @@
+import local from "@common/local.define";
 import NetworkImage from "@components/Image/NetworkImage";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectFriendPendingById } from "@store/slices/friendPending";
@@ -30,7 +31,10 @@ const FriendPendingItem: FC<Props> = ({ friendId }) => {
   return (
     <Container>
       <Title>
-        <NetworkImage src={friend.friendProfile.avatar} />
+        <NetworkImage
+          placeholder={local.image.UnknownAvatar}
+          src={friend.friendProfile.avatar}
+        />
       </Title>
       <Body>
         <span>{name}</span>

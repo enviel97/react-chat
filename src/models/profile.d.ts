@@ -15,3 +15,5 @@ interface UserProfile extends UserProfileCommon {
 interface IUserProfile extends UserProfileCommon {
   user: string;
 }
+
+type MediaType = string;

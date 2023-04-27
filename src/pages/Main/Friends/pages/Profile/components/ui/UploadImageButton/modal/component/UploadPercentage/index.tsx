@@ -6,7 +6,6 @@ import {
   useSpring,
 } from "framer-motion";
 import { FC, memo, useEffect, useState } from "react";
-
 import { useTheme } from "styled-components";
 import Icon from "./components/Icons/Icon";
 import Percentage from "./components/PercentageText";
@@ -76,8 +75,11 @@ const UploadPercentage: FC<UploadPercentageProps> = ({ percentage, type }) => {
 
   return (
     <AnimatePresence mode='wait'>
-      {percentage && (
-        <UploadPercentageContainer {...DisplayContainerAnimate}>
+      {type !== "idle" && (
+        <UploadPercentageContainer
+          {...DisplayContainerAnimate}
+          style={{ backdropFilter: "blur(10px)" }}
+        >
           <UploadProgressBarContainer
             {...AnimationColor}
             animate={colorAnimate}
@@ -85,17 +87,17 @@ const UploadPercentage: FC<UploadPercentageProps> = ({ percentage, type }) => {
             <UploadProgressBarCircle
               variants={{
                 initial: { background: getBackgroundConic(0) },
-                proccess: { background: getBackgroundConic(percentage) },
+                proccess: { background: getBackgroundConic(percentage ?? 0) },
               }}
               style={{
                 background: getBackgroundConic(0),
                 filter: `
-                  drop-shadow(0 0 1px ${theme.surfaceColor}) 
-                  drop-shadow(0 0 2px ${theme.surfaceColor})
-                  drop-shadow(0 0 3px ${theme.surfaceColor}) 
-                  drop-shadow(0 0 4px ${theme.surfaceColor})
-                  drop-shadow(0 0 5px ${theme.surfaceColor})
-                `,
+                    drop-shadow(0 0 1px ${theme.surfaceColor}) 
+                    drop-shadow(0 0 2px ${theme.surfaceColor})
+                    drop-shadow(0 0 3px ${theme.surfaceColor}) 
+                    drop-shadow(0 0 4px ${theme.surfaceColor})
+                    drop-shadow(0 0 5px ${theme.surfaceColor})
+                  `,
               }}
               initial={"initial"}
               animate={processAnimation}

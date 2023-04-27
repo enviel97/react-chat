@@ -1,13 +1,15 @@
 import { baseUrlAPI } from "@common/config.define";
 export const imageSize = ["xl", "lg", "md", "sm", "s"];
-const avatarSrcSet = ["1534w", "1493w", "1438w", "1032w", "190w"];
-const bannerSrcSet = ["1970w", "1670w", "1365w", "994w", "480w"];
 
 export const avatarUrlImage = (avatarId: string) => {
   const url = `${baseUrlAPI}/users/profile/avatar/${avatarId}?size=`;
-  const srcSet = avatarSrcSet
-    .map((size, index) => `${url}${imageSize[index]} ${size}`)
-    .join(",");
+  const srcSet = {
+    s: `${url}s`, // 190w
+    sm: `${url}sm`, // 1032w
+    md: `${url}md`, // 1438w
+    lg: `${url}lg`, // 1493w
+    xl: `${url}xl`, // 1534w
+  };
   return {
     src: `${url}default`,
     srcset: srcSet,
@@ -17,9 +19,13 @@ export const avatarUrlImage = (avatarId: string) => {
 
 export const bannerUrlImage = (bannerId: string) => {
   const url = `${baseUrlAPI}/users/profile/banner/${bannerId}?size=`;
-  const srcSet = bannerSrcSet
-    .map((size, index) => `${url}${imageSize[index]} ${size}`)
-    .join(",");
+  const srcSet = {
+    s: `${url}s`, //480w
+    sm: `${url}sm`, //994w
+    md: `${url}md`, //1365w
+    lg: `${url}lg`, //1670w
+    xl: `${url}xl`, //1970w
+  };
   return {
     src: `${url}default`,
     srcset: srcSet,

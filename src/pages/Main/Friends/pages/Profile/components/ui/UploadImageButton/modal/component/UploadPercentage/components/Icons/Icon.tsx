@@ -3,6 +3,7 @@ import { motion, Variants } from "framer-motion";
 import { FC } from "react";
 import { MdCheckCircle, MdError } from "react-icons/md";
 import styled, { css } from "styled-components";
+
 import UploadCloud from "./components/UploadCloud";
 
 const UploadIconNotificationContainer = styled.span`
@@ -27,6 +28,7 @@ const UploadIconNotificationContainer = styled.span`
 const IconNotification = styled(motion.span)`
   position: relative;
   font-size: 4rem;
+  background-color: red;
   & > svg {
     opacity: 1;
   }
@@ -34,8 +36,11 @@ const IconNotification = styled(motion.span)`
 
 const IconAbsolute = styled(motion.span)`
   position: absolute;
-  bottom: 0.25rem;
-  right: 0.2rem;
+  bottom: 50%;
+  top: 50%;
+  left: 50%;
+  translate: -50% 0;
+  height: fit-content;
   font-size: 40%;
   color: inherit;
   background-color: transparent;
@@ -43,12 +48,11 @@ const IconAbsolute = styled(motion.span)`
   box-shadow: inset 0 0 0px 10px ${({ theme }) => theme.surfaceColor};
 `;
 
-const variable: Variants = {
-  hidden: { x: 1, y: 1, opacity: 0 },
+const IconVariables: Variants = {
+  hidden: { opacity: 0, rotateY: 180 },
   visible: {
     opacity: 1,
-    y: 0,
-    x: 0,
+    rotateY: 0,
     transition: {
       delay: 0.05,
       type: "spring",
@@ -59,31 +63,34 @@ const variable: Variants = {
   },
 };
 
+const IconNotificationVariables: Variants = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0.5 },
+};
+
 const Icon: FC<UploadPercentageIconProps> = ({ type }) => {
   return (
     <UploadIconNotificationContainer>
       <IconNotification
         key={type}
-        variants={{
-          visible: { opacity: 1 },
-          hidden: { opacity: 0.5 },
-        }}
+        variants={IconNotificationVariables}
         initial='hidden'
         animate='visible'
         exit='hidden'
         transition={{ duration: 0.5 }}
       >
-        <UploadCloud />
+        <UploadCloud type={type} />
+
         {type === "error" && (
-          <IconAbsolute variants={variable}>
+          <IconAbsolute variants={IconVariables}>
             <MdError />
           </IconAbsolute>
         )}
-        {
-          <IconAbsolute variants={variable}>
+        {type === "success" && (
+          <IconAbsolute variants={IconVariables}>
             <MdCheckCircle />
           </IconAbsolute>
-        }
+        )}
       </IconNotification>
     </UploadIconNotificationContainer>
   );

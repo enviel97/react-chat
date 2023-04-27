@@ -4,12 +4,15 @@ export const FriendPendingContainer = styled.div`
   display: inline-block;
   box-sizing: border-box;
   overflow: hidden;
-  max-width: 100%;
+  width: 100%;
+  height: 16svh;
 `;
 
 export const FriendListContainer = styled.div`
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+  overflow: hidden;
   width: 100%;
+  height: calc(100% - 16svh);
 `;

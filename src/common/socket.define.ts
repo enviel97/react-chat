@@ -30,4 +30,7 @@ export const Event = Object.freeze({
   EVENT_FRIEND_LIST_STATUS: "onFriendListStatus",
   EVENT_FRIEND_LIST_STATUS_RESPONSE: "onFriendListStatusResponse",
   EVENT_FRIEND_LIST_RETRIEVE: "onFriendListRetrieve",
+
+  IMAGE_UPLOAD_AVATAR_ERROR: "IMAGE_UPLOAD_ERROR",
+  IMAGE_UPLOAD_AVATAR_SUCCESS: "IMAGE_UPLOAD_SUCCESS",
 });

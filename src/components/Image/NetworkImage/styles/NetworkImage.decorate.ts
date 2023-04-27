@@ -1,12 +1,11 @@
+import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
 
 interface ImageContainerProps {
-  $isLoading?: boolean;
-  $isError?: boolean;
   $isPlaceholder?: boolean;
 }
 
-export const ControllerLazyLoadImage = styled.div`
+export const ControllerLazyLoadImage = styled(motion.div)`
   position: relative;
   width: 100%;
   height: 100%;
@@ -14,6 +13,7 @@ export const ControllerLazyLoadImage = styled.div`
   display: inline-block;
   overflow: hidden;
   line-height: 0;
+  background-color: ${({ theme }) => theme.backgroundColor};
 
   &::after {
     content: "";
@@ -48,13 +48,4 @@ export const ImageContainer = styled.img<ImageContainerProps>`
   outline: none;
   filter: blur(0.2px) brightness(104%) contrast(120%) grayscale(25%)
     hue-rotate(0deg) invert(0%) opacity(100%) saturate(105%) sepia(0%);
-
-  ${({ $isLoading, $isError }) => {
-    if ($isLoading && !$isError) {
-      return css`
-        filter: blur(20px);
-      `;
-    }
-    return css``;
-  }};
 `;

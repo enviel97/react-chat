@@ -1,10 +1,10 @@
+import local from "@common/local.define";
+import { Event } from "@common/socket.define";
 import NetworkImage from "@components/Image/NetworkImage";
-import useAppDispatch from "@hooks/useAppDispatch";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useSocket from "@hooks/useSocket";
-import { deleteMultiCache } from "@store/slices/cache";
 import { neumorphismBoxShadowInset } from "@theme/helper/tools";
-import { avatarUrlImage, imageSize } from "@utils/image";
+import { avatarUrlImage } from "@utils/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { FC, memo, useEffect, useMemo, useState } from "react";
 import styled from "styled-components";
@@ -29,16 +29,8 @@ const AvatarBox = styled(motion.div)`
     })};
 `;
 
-interface ImageSrc {
-  src?: string;
-  srcSet?: string;
-  sizes?: string;
-}
-
 const ProfileAvatar: FC<Props> = ({ avatarSrc }) => {
-  const [avatar, setAvatar] = useState<ImageSrc>({ src: avatarSrc });
-  const [cache, setCache] = useState<boolean>(true);
-  const dispatch = useAppDispatch();
+  const [avatar, setAvatar] = useState<string | undefined>(avatarSrc);
   const breakpoint = useBreakpoint();
   const [isHover, setHover] = useState(false);
   const socket = useSocket();
@@ -48,29 +40,26 @@ const ProfileAvatar: FC<Props> = ({ avatarSrc }) => {
   );
 
   useEffect(() => {
-    socket.on("IMAGE_UPLOAD_ERROR", (payload) => {
+    socket.on(Event.IMAGE_UPLOAD_AVATAR_ERROR, (payload) => {
       console.log(payload);
     });
-
     return () => {
-      socket.off("IMAGE_UPLOAD_ERROR");
+      socket.off(Event.IMAGE_UPLOAD_AVATAR_ERROR);
     };
   }, [socket]);
 
   useEffect(() => {
-    if (!avatarSrc || avatarSrc.includes("http")) return;
-    const avatar = avatarUrlImage(avatarSrc);
-    setAvatar(avatar);
+    if (!avatarSrc) return;
+    if (avatarSrc.includes("http")) {
+      setAvatar(avatarSrc);
+    } else {
+      const avatar = avatarUrlImage(avatarSrc);
+      setAvatar(avatar.src);
+    }
   }, [avatarSrc]);
 
   const handleUploadSuccess = (src: string) => {
-    dispatch(
-      deleteMultiCache({
-        keys: imageSize.map((size) => `${avatarSrc}?size=${size}`),
-      })
-    );
-    setAvatar({ src: src });
-    setCache(false);
+    setAvatar(src);
   };
 
   return (
@@ -88,10 +77,9 @@ const ProfileAvatar: FC<Props> = ({ avatarSrc }) => {
           />
         )}
         <NetworkImage
-          src={avatar.src}
-          srcset={avatar.srcSet}
-          sizes={avatar.sizes}
-          cache={cache}
+          placeholder={local.image.UnknownAvatar}
+          src={avatar}
+          viewPort={"md"}
         />
       </AvatarBox>
     </AnimatePresence>

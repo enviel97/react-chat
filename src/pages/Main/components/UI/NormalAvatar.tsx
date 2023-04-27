@@ -1,24 +1,23 @@
+import local from "@common/local.define";
 import NetworkImage from "@components/Image/NetworkImage";
 import { avatarUrlImage } from "@utils/image";
-import { FC, useMemo } from "react";
+import { FC, useEffect, useState } from "react";
 
 interface NormalAvatarProps {
   friendAvatarId?: string;
 }
 
 const NormalAvatar: FC<NormalAvatarProps> = ({ friendAvatarId }) => {
-  const url = useMemo(() => {
+  const [src, setSrc] = useState<string>();
+
+  useEffect(() => {
     if (!friendAvatarId) return;
-    return avatarUrlImage(friendAvatarId);
+    const avatar = avatarUrlImage(friendAvatarId);
+    setSrc(avatar.srcset.md);
   }, [friendAvatarId]);
+
   return (
-    <NetworkImage
-      src={url?.src}
-      srcset={url?.srcset}
-      sizes={url?.sizes}
-      alt='Avatar'
-      showLoading
-    />
+    <NetworkImage src={src} placeholder={local.image.UnknownAvatar} alt='' />
   );
 };
 export default NormalAvatar;

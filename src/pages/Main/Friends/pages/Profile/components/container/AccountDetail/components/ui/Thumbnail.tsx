@@ -1,11 +1,12 @@
 import local from "@common/local.define";
-import { FC, memo, useState } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import UploadImageButton from "../../../../ui/UploadImageButton";
 import NetworkImage from "@components/Image/NetworkImage";
+import { bannerUrlImage } from "@utils/image";
 interface Props {
-  src?: string;
+  thumbnailSrc?: string;
 }
 
 const ThumbnailContainer = styled(motion.div)`
@@ -25,16 +26,22 @@ const ThumbnailContainer = styled(motion.div)`
   }
 `;
 
-const Thumbnail: FC<Props> = ({ src = local.image.backgroundDefault }) => {
-  const [imageUrl] = useState(src);
+const Thumbnail: FC<Props> = ({ thumbnailSrc }) => {
+  const [banner, setBanner] = useState<string | undefined>(thumbnailSrc);
+  useEffect(() => {
+    if (!thumbnailSrc || thumbnailSrc.includes("http")) return;
+    const banner = bannerUrlImage(thumbnailSrc);
+    setBanner(banner.src);
+  }, [thumbnailSrc]);
 
   return (
     <ThumbnailContainer>
       <UploadImageButton type='banner' />
       <NetworkImage
-        src={imageUrl}
+        src={banner}
         alt={"Thumbnail"}
         placeholder={local.image.backgroundDefault}
+        viewPort={"md"}
       />
     </ThumbnailContainer>
   );

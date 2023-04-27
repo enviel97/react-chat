@@ -1,4 +1,4 @@
-type ProgressState = "error" | "success" | "pending";
+type ProgressState = "idle" | "error" | "success" | "pending";
 
 interface UploadPercentageProps {
   percentage?: number;

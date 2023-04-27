@@ -1,3 +1,4 @@
+import local from "@common/local.define";
 import NetworkImage from "@components/Image/NetworkImage";
 import { FC, memo, useCallback } from "react";
 import ActionButton from "./components/ActionButton";
@@ -37,7 +38,11 @@ const FriendCard: FC<FriendCardProps> = ({
   return (
     <CardContainer>
       <CardHeader>
-        <NetworkImage src={avatar} alt='image' />
+        <NetworkImage
+          placeholder={local.image.UnknownAvatar}
+          src={avatar}
+          alt='image'
+        />
       </CardHeader>
       <CardBody>
         <CardContent>
