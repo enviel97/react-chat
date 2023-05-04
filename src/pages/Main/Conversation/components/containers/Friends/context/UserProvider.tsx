@@ -51,7 +51,7 @@ const UserProvider: FC<Components> = ({ children }) => {
     (payload: string) => {
       return state.friends.get(payload)!;
     },
-    [state]
+    [state.friends]
   );
 
   const selectOnlineIds = useCallback(() => [...state.onlineIds], [state]);

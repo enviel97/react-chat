@@ -10,6 +10,8 @@ export const DropdownActionContainer = styled(motion.div)`
   background-color: ${({ theme }) => theme.backgroundColor};
   border: 2px solid ${({ theme }) => theme.surfaceColor};
   border-radius: 1rem;
+  pointer-events: fill;
+  cursor: pointer;
 `;
 
 export const DropdownActionMenu = styled(motion.ul)`

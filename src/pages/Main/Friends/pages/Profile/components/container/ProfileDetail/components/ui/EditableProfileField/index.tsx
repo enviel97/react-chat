@@ -20,13 +20,16 @@ const EditableProfileField: FC<Props> = ({
   return (
     <EditableProfileFieldContainer>
       <InputWrapper
+        id={label}
         type={type}
         placeholder={placeholder}
         defaultValue={initialValue}
         {...(props as any)}
         {...(type === "textarea" && { rows: maxLines })}
       />
-      <LabelWrapper itemType={type}>{label}</LabelWrapper>
+      <LabelWrapper itemType={type} htmlFor={label}>
+        {label}
+      </LabelWrapper>
 
       <AnimatePresence>
         {errorMessage && (

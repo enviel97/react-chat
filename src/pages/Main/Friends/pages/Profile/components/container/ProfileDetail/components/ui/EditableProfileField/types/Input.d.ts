@@ -9,6 +9,7 @@ type BaseTextareaProps = React.DetailedHTMLProps<
 >;
 
 interface SubProps extends BaseInputProps, BaseTextareaProps {
+  className?: string;
   type?: "text" | "textarea";
   register?: any;
 }

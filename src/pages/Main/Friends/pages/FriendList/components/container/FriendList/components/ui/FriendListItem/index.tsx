@@ -19,6 +19,7 @@ interface FriendListItemProps {
 
 const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
   const friend = useAppSelector((state) => selectUserById(state, friendId));
+  console.log({ friend });
   if (!friend) return <></>;
 
   return (
@@ -28,12 +29,8 @@ const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
       </FriendListItemTrail>
       <FriendListItemBody>
         <FriendItemTitle
-          mainName={
-            friend.user.profile?.displayName ?? friend.user.getFullName()
-          }
-          subName={
-            friend.user.profile?.displayName && friend.user.getFullName()
-          }
+          mainName={friend.displayName ?? friend.user.getFullName()}
+          subName={friend.displayName && friend.user.getFullName()}
         />
         <p>
           <strong>Bio.</strong>

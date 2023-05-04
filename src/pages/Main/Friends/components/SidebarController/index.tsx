@@ -4,6 +4,6 @@ import { Navigate } from "react-router-dom";
 
 const SidebarController = () => {
   const tabSelected = useAppSelector(selectTabFriends);
-  return <Navigate to={tabSelected} replace />;
+  return <Navigate to={`/friends/${tabSelected}`} replace />;
 };
 export default SidebarController;

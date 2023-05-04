@@ -1,16 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
-const useCLoseOnClickOutside = (pressEscapeToClose?: boolean) => {
+const useCLoseOnClickOutside = (
+  /**
+   * Active press press esc to close dropdown
+   */
+  pressEscapeToClose?: boolean
+) => {
   const [isOpen, setIsOpen] = useState(false);
   const ref = useRef<any>();
 
-  const handleClosing = () => {
+  const handleClosing = useCallback(() => {
     setIsOpen(false);
-  };
-
-  const handleToggle = () => {
+  }, []);
+  const handleOpening = useCallback(() => {
+    setIsOpen(true);
+  }, []);
+  const handleToggle = useCallback(() => {
     setIsOpen((prev) => !prev);
-  };
+  }, []);
 
   const onPressEscape = useCallback(
     (event: KeyboardEvent) => {
@@ -22,10 +29,10 @@ const useCLoseOnClickOutside = (pressEscapeToClose?: boolean) => {
   );
 
   const onClickEvent = useCallback(
-    (event: MouseEvent) => {
+    (event: MouseEvent | TouchEvent) => {
       if (!ref.current || !event.target) return;
       if (!ref.current.contains(event.target)) {
-        event.preventDefault();
+        event.stopPropagation();
         setIsOpen(false);
       }
     },
@@ -34,10 +41,12 @@ const useCLoseOnClickOutside = (pressEscapeToClose?: boolean) => {
 
   useEffect(() => {
     document.addEventListener("click", onClickEvent);
+    document.addEventListener("touchstart", onClickEvent);
     document.addEventListener("keydown", onPressEscape);
 
     return () => {
       document.removeEventListener("click", onClickEvent);
+      document.removeEventListener("touchstart", onClickEvent);
       document.removeEventListener("keydown", onPressEscape);
     };
   }, [onPressEscape, onClickEvent]);
@@ -46,6 +55,7 @@ const useCLoseOnClickOutside = (pressEscapeToClose?: boolean) => {
     targetRef: ref,
     isOpen,
     close: handleClosing,
+    open: handleOpening,
     toggle: handleToggle,
   };
 };

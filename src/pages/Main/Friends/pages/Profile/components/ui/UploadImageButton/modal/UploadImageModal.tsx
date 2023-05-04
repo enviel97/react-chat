@@ -1,7 +1,7 @@
 import { useModals } from "@components/Modal/hooks/useModals";
 import { safeLog } from "@core/api/utils/logger";
 import useSocket from "@hooks/useSocket";
-import { uploadImage } from "@store/repo/user/apis/profile/updateProfile";
+import { uploadImage } from "@store/repo/user";
 import { FC, useCallback, useEffect, useState } from "react";
 import UploadImagePreview from "../components/container/UploadImagePreview";
 import ButtonIconText from "../components/ui/ButtonIconText";

@@ -3,7 +3,7 @@ import useBreakpoint from "@hooks/useBreakpoint";
 import useSocket from "@hooks/useSocket";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import string from "@utils/string";
-import { FC, memo, useEffect, useMemo } from "react";
+import { FC, memo, useCallback, useEffect, useState } from "react";
 import useUserProvider from "../../../../../hook/useUserProvider";
 import {
   FriendListAvatarContainer,
@@ -26,7 +26,10 @@ interface SubProps {
 const Content: FC<SubProps> = memo(({ isOnline, profile }) => {
   return (
     <FriendListItemContent $isOnline={isOnline} $status={profile.status}>
-      <span>{string.getFullName(profile.user, { short: true })}</span>
+      <span>
+        {profile.displayName ??
+          string.getFullName(profile.user, { short: true })}
+      </span>
       {isOnline && <span>{profile.status ?? "not-disturb"}</span>}
     </FriendListItemContent>
   );
@@ -35,26 +38,44 @@ const Content: FC<SubProps> = memo(({ isOnline, profile }) => {
 const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
   const { selectById } = useUserProvider();
   const breakpoint = useBreakpoint();
+  const [profile, setProfile] = useState<UserProfile>();
   const socket = useSocket();
   const { updateSwap } = useUserProvider();
 
   useEffect(() => {
-    socket.on(
-      Event.EVENT_FRIEND_LIST_RETRIEVE,
-      (payload: FriendRetrievePayload) => {
-        if (friendId === payload.userId) {
-          updateSwap({ id: payload.userId, status: payload.status });
-        }
+    setProfile(selectById(friendId));
+  }, [friendId, selectById]);
+
+  const _handleFriendListRetrieve = useCallback(
+    (payload: FriendRetrievePayload) => {
+      if (friendId === payload.userId) {
+        updateSwap({ id: payload.userId, status: payload.status });
       }
-    );
+    },
+    [friendId, updateSwap]
+  );
+
+  const _handleUpdateProfile = useCallback(
+    (payload: { id: string; avatar: string }) => {
+      if (friendId === payload.id) {
+        setProfile((prev) => {
+          if (!prev) return prev;
+          return { ...prev, avatar: payload.avatar };
+        });
+      }
+    },
+    [friendId]
+  );
+
+  useEffect(() => {
+    socket.on(Event.EVENT_FRIEND_LIST_RETRIEVE, _handleFriendListRetrieve);
+    socket.on(Event.EVENT_FRIEND_UPLOAD_IMAGE, _handleUpdateProfile);
+
     return () => {
       socket.off(Event.EVENT_FRIEND_LIST_RETRIEVE);
+      socket.off(Event.EVENT_FRIEND_UPLOAD_IMAGE);
     };
-  }, [socket, friendId, updateSwap]);
-
-  const profile = useMemo(() => {
-    return selectById(friendId);
-  }, [friendId, selectById]);
+  }, [socket, _handleFriendListRetrieve, _handleUpdateProfile]);
 
   if (!profile) return <FriendListItemLoading />;
 

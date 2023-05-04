@@ -1,7 +1,5 @@
 import useAppDispatch from "@hooks/useAppDispatch";
-import useAppSelector from "@hooks/useAppSelector";
 import { updateTabFriends } from "@store/slices/ui";
-import selectTabFriends from "@store/slices/ui/selector/getTabFriends";
 import {
   FC,
   memo,
@@ -10,6 +8,7 @@ import {
   useMemo,
   useState,
 } from "react";
+import { useLocation } from "react-router-dom";
 import FriendsTab from "./components/container/FriendsTab";
 import ProfileTab from "./components/container/ProfileTab";
 import RequestTab from "./components/container/RequestTab";
@@ -19,6 +18,7 @@ import {
   SidebarActionItemContainer,
 } from "./styles/SidebarAction.decorate";
 
+type TabKey = "profile" | "list" | "request";
 interface TabOption {
   index: number;
   Node: NamedExoticComponent<NavLinkAnimationController>;
@@ -28,10 +28,10 @@ interface SidebarActionProps {}
 const SidebarAction: FC<SidebarActionProps> = () => {
   const [activeIndex, setActiveIndex] = useState<number | undefined>();
   const [selectedIndex, setSelectedIndex] = useState<number | undefined>();
-  const tabSelected = useAppSelector(selectTabFriends);
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const tabList = useMemo(() => {
-    return new Map<"profile" | "list" | "request", TabOption>([
+    return new Map<TabKey, TabOption>([
       ["profile", { Node: ProfileTab, index: 0 }],
       ["list", { Node: FriendsTab, index: 1 }],
       ["request", { Node: RequestTab, index: 2 }],
@@ -39,11 +39,12 @@ const SidebarAction: FC<SidebarActionProps> = () => {
   }, []);
 
   useEffect(() => {
+    const pathname = location.pathname.split("/");
+    const tabSelected = pathname.at(pathname.length - 1) as TabKey;
     const { index } = tabList.get(tabSelected) || { index: 0 };
-    setActiveIndex(index);
     setSelectedIndex(index);
     // eslint
-  }, [tabList, tabSelected]);
+  }, [tabList, location]);
 
   return (
     <SideBarActionContainer

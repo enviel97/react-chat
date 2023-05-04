@@ -33,4 +33,8 @@ export const Event = Object.freeze({
 
   IMAGE_UPLOAD_AVATAR_ERROR: "IMAGE_UPLOAD_ERROR",
   IMAGE_UPLOAD_AVATAR_SUCCESS: "IMAGE_UPLOAD_SUCCESS",
+
+  EVENT_FRIEND_UPLOAD_IMAGE: "onFriendUploadImage",
+  EVENT_FRIEND_UPDATE_INFO: "onFriendUpdateInfo",
+  EVENT_FRIEND_CHANGE_STATUS: "onFriendChangeStatus",
 });

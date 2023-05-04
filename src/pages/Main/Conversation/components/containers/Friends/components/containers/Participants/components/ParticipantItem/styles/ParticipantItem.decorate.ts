@@ -29,7 +29,6 @@ export const ParticipantItemBody = styled.div`
   gap: 1em;
   & > span {
     white-space: nowrap;
-    overflow: hidden;
     text-overflow: ellipsis;
     font-size: ${clampSize({
       minWidth: 100,

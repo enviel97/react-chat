@@ -86,7 +86,11 @@ const MessageItem: FC<MessageItemProps> = ({
       onMouseEnter={() => allowModified && setIsHover(true)}
       onMouseLeave={() => allowModified && setIsHover(false)}
     >
-      <MessageAvatar isShow={!getAvatar} size={36} />
+      <MessageAvatar
+        isShow={!getAvatar}
+        size={36}
+        src={message.author.profile?.avatar}
+      />
       <Box
         display='flex'
         width='fit-content'

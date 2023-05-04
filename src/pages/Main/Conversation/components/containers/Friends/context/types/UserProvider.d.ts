@@ -20,9 +20,17 @@ type UPDATE_ONLINE = { type: "update.online"; payload: string[] };
 type UPDATE_OFFLINE = { type: "update.offline"; payload: string[] };
 type SWAP_STATUS = { type: "update.swap"; payload: SwapStatusPayload };
 type SET_FRIEND_LIST = { type: "update.friends"; payload: UserProfile[] };
+type UPDATE_FRIEND_INFO = {
+  type: "update.friendInfo";
+  payload: {
+    id: string;
+    change: Partial<UserProfile>;
+  };
+};
 
 type UseProviderAction =
   | UPDATE_ONLINE
   | UPDATE_OFFLINE
   | SWAP_STATUS
-  | SET_FRIEND_LIST;
+  | SET_FRIEND_LIST
+  | UPDATE_FRIEND_INFO;

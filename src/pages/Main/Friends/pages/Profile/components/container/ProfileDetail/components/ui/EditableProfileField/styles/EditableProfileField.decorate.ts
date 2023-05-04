@@ -6,14 +6,14 @@ export const ErrorMessage = styled(motion.div)`
   color: ${(props) => props.theme.errorColor};
   padding: 0 1rem;
 
-  & .mess {
+  & > small {
     position: absolute;
     overflow: hidden;
     font-size: 0.8em;
     color: ${({ theme }) => theme.white};
-    background-color: red;
+    background-color: ${({ theme }) => theme.notificationColor};
     padding: 0rem 0.4rem;
-    border-radius: 5px 5px 0 5px;
+    border-radius: 5px 0 5px 5px;
     white-space: nowrap;
     top: 100%;
     left: 0;
@@ -31,7 +31,7 @@ export const InputWrapper = styled(Input)`
   font-weight: normal;
   color: ${({ theme }) => theme.onBackgroundColor};
   font-size: 1em;
-  padding: 0rem 0.8rem;
+  padding: 1.25rem 0.8rem;
 
   ${({ theme }) => {
     return css`
@@ -77,7 +77,6 @@ export const LabelWrapper = styled.label`
   position: absolute;
   display: flex;
   padding: 0.5rem;
-  background-color: ${({ theme }) => theme.backgroundColor};
   border-radius: inherit;
   height: fit-content;
   width: fit-content;
@@ -90,6 +89,7 @@ export const LabelWrapper = styled.label`
   border-left: 2.5px solid;
   border-right: 2.5px solid;
   border-color: ${({ theme }) => theme.surfaceColor};
+  background-color: ${({ theme }) => theme.backgroundColor};
 
   ${(props) => {
     if (props.itemType === "textarea") {
@@ -112,10 +112,9 @@ export const EditableProfileFieldContainer = styled.div`
   flex-direction: row;
   background-color: ${({ theme }) => theme.backgroundColor};
   border-radius: 10px;
-  border: 2px solid ${({ theme }) => theme.surfaceColor};
-  padding: 1.5rem 0rem;
 
   ${InputWrapper} {
+    border: 2px solid ${({ theme }) => theme.surfaceColor};
     &:disabled {
       color: ${({ theme }) => theme.disableColor};
       background-color: ${({ theme }) => theme.white}10;

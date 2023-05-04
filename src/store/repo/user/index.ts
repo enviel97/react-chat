@@ -14,3 +14,6 @@ export { default as fetchFriendRequestCancel } from "./apis/friendRequest/fetchF
 
 // current user
 export { default as fetchProfile } from "./apis/profile/fetchProfile";
+export { default as uploadImage } from "./apis/profile/uploadImage";
+export { default as updateProfile } from "./apis/profile/updateProfile";
+export { default as changeStatus } from "./apis/profile/changeStatus";

@@ -1,3 +1,5 @@
+import string from "@utils/string";
+
 export const userProviderReducer = (
   state: UserProviderState,
   action: UseProviderAction
@@ -44,6 +46,17 @@ export const userProviderReducer = (
       );
 
       return { ...state, friends: state.friends };
+    }
+
+    case "update.friendInfo": {
+      const payload = action.payload;
+      if (state.friends.has(payload.id)) {
+        state.friends.set(string.getId(payload.id), {
+          ...state.friends.get(payload.id)!,
+          ...payload.change,
+        });
+      }
+      return state;
     }
     default:
       return state;

@@ -4,4 +4,5 @@ interface DropdownActionOptions {
 
 interface DropdownActionProps {
   defaultValue: UserStatus;
+  onSelectedOption: (selected: UserStatus) => void;
 }

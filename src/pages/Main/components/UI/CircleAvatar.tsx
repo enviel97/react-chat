@@ -52,6 +52,15 @@ const CircleAvatarContainer = styled.div<CircleAvatarDecorate>`
     border-radius: 50%;
     background-color: ${({ theme, online }) =>
       online ? "#16FF00" : theme.backgroundColor};
+
+    box-shadow: 0.12em 0.12em 0.25em
+        ${({ theme }) => colorBrightness(theme.backgroundColor, 15)},
+      -0.12em -0.12em 0.25em
+        ${({ theme }) => colorBrightness(theme.backgroundColor, 15)},
+      -0.12em -0.12em 0.25em
+        ${({ theme }) => colorBrightness(theme.backgroundColor, -10)},
+      -0.12em -0.12em 0.5em
+        ${({ theme }) => colorBrightness(theme.backgroundColor, -10)};
   }
 
   & svg {

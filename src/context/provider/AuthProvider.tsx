@@ -7,7 +7,7 @@ import { createContext, FC, useCallback, useState, useEffect } from "react";
 interface AuthenticateController {
   user?: User;
   updateAuthUser: (user?: User) => void;
-  isUser: (another: User) => boolean;
+  isUser: (another: any) => boolean;
 }
 
 export const AuthContext = createContext<AuthenticateController>({
@@ -25,7 +25,7 @@ export const AuthProvider: FC<Components> = ({ children }) => {
   }, []);
 
   const isUser = useCallback(
-    (another: User) => {
+    (another: any) => {
       return !!user && string.getId(another) === string.getId(user);
     },
     [user]

@@ -14,26 +14,27 @@ const Profile = () => {
   const profile = useAppSelector(selectProfile);
   const user = useAppSelector(selectUser);
   const formRef = useForm<ProfileEditable>({
+    mode: "onBlur",
     defaultValues: {
-      bio: profile.bio,
+      bio: profile.bio ?? "",
       displayName: profile.displayName ?? user.getFullName(),
-      status: profile.status ?? "not-disturb",
     },
   });
-  return (
-    <FormProvider {...formRef}>
-      <ProfileContainer>
-        {/* Account part */}
-        <MainContainer>
-          <AccountDetail />
-        </MainContainer>
 
+  return (
+    <ProfileContainer>
+      {/* Account part */}
+      <MainContainer>
+        <AccountDetail />
+      </MainContainer>
+
+      <FormProvider {...formRef}>
         {/* Profile part */}
         <EditableContainer>
           <ProfileDetail />
         </EditableContainer>
-      </ProfileContainer>
-    </FormProvider>
+      </FormProvider>
+    </ProfileContainer>
   );
 };
 

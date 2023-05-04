@@ -5,6 +5,7 @@ import { updateImageAction } from "./actions/updateImage.action";
 import { updateProfileAction } from "./actions/updateProfile.action";
 import { updateUserAction } from "./actions/updateUser.action";
 import { fetchProfileThunk } from "./extraReducers/fetchProfile.thunk";
+import { fetchProfileUpdateThunk } from "./extraReducers/fetchProfileUpdate.thunk";
 
 export const profilesSlice = createSlice({
   name: SliceName.profile,
@@ -16,6 +17,7 @@ export const profilesSlice = createSlice({
   },
   extraReducers: (builder) => {
     fetchProfileThunk(builder);
+    fetchProfileUpdateThunk(builder);
   },
 });
 

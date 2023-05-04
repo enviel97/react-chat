@@ -7,7 +7,7 @@ declare global {
 /*eslint no-extend-native: ["error", { "exceptions": ["Object"] }]*/
 Object.defineProperty(Object.prototype, "getFullName", {
   value: function () {
-    return `${this.lastName} ${this.firstName}`;
+    return `${this.lastName} ${this.firstName}`.trim();
   },
 });
 

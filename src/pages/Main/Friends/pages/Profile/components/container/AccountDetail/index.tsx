@@ -1,7 +1,7 @@
 import useAppSelector from "@hooks/useAppSelector";
-import { selectProfile, selectUser, selectImage } from "@store/slices/profiles";
+import { selectUser, selectImage } from "@store/slices/profiles";
 import { Fragment } from "react";
-import DropdownAction from "./components/ui/DropdownAction";
+import ProfileStatus from "./components/container/ProfileStatus";
 import ProfileAvatar from "./components/ui/ProfileAvatar";
 import TextField from "./components/ui/TextFieldLabel";
 import Thumbnail from "./components/ui/Thumbnail";
@@ -11,7 +11,6 @@ import {
 } from "./styles/AccountProfile.decorate";
 
 const AccountDetail = () => {
-  const profile = useAppSelector(selectProfile);
   const user = useAppSelector(selectUser);
   const profileAvatar = useAppSelector((state) => selectImage(state, "avatar"));
   const profileBanner = useAppSelector((state) => selectImage(state, "banner"));
@@ -26,7 +25,7 @@ const AccountDetail = () => {
           <TextField label='Last Name' value={user.lastName} />
         </AccountTextFieldGroup>
         <TextField label='Email' value={user.email} />
-        <DropdownAction defaultValue={profile.status ?? "active"} />
+        <ProfileStatus />
       </AccountDetailContainer>
     </Fragment>
   );

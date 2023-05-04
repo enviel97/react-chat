@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import { FriendItemTitleContainer } from "../../styles/FriendListItem.decorate";
 
 interface Props {
@@ -15,4 +15,4 @@ const FriendItemTitle: FC<Props> = ({ mainName, subName }) => {
   );
 };
 
-export default FriendItemTitle;
+export default memo(FriendItemTitle);

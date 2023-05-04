@@ -8,6 +8,7 @@ import store, { persistor } from "@store";
 import { SocketProvider } from "./provider/SocketProvider";
 import { PersistGate } from "redux-persist/integration/react";
 import PageLoading from "@components/Loading/PageLoading";
+import RouterProvider from "./provider/RouterProvider";
 
 const MultiProvider: FC<Components> = ({ children }) => {
   useEffect(() => {
@@ -27,7 +28,7 @@ const MultiProvider: FC<Components> = ({ children }) => {
           <ThemeProvider>
             <ModalProvider>
               <PersistGate loading={<PageLoading />} persistor={persistor}>
-                {children}
+                <RouterProvider>{children}</RouterProvider>
               </PersistGate>
               <ToastProvider />
             </ModalProvider>

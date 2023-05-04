@@ -28,4 +28,8 @@ export const MainContainer = styled.div<ProfileContainerProps>`
   }
 `;
 
-export const EditableContainer = styled.div``;
+export const EditableContainer = styled.div`
+  display: inline-block;
+  width: 100%;
+  height: fit-content;
+`;

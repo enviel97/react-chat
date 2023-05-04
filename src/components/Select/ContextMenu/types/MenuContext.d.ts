@@ -1,8 +1,3 @@
-interface ContextMenuContainerProps {
-  width?: string;
-  height?: string;
-}
-
 interface ContextMenuItemContainerProps {
   hoverColor?: string;
   hoverBackgroundColor?: string;
@@ -22,8 +17,8 @@ interface ContextMenuRef {
 }
 
 interface ContextMenuProps extends ContextMenuContainerProps {
-  top: number;
-  left: number;
+  width?: string;
+  height?: string;
   menuTitle?: string;
   items: ContextMenuOption[];
 }

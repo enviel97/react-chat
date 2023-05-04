@@ -1,17 +1,19 @@
+import useCLoseOnClickOutside from "@hooks/useCloseOnClickOutside";
 import { AnimatePresence } from "framer-motion";
 import React, {
   createContext,
   forwardRef,
   memo,
-  useEffect,
   useImperativeHandle,
 } from "react";
 import { useCallback, useState } from "react";
 import ContextMenu from "./components/ContextMenu";
+import { MenuContextContainer } from "./styles/MenuContext.decorate";
+import { MenuContextAnimation } from "./styles/variants";
 
-interface ContextMenuProviderProps
-  extends Components,
-    ContextMenuContainerProps {
+interface ContextMenuProviderProps extends Components {
+  height?: string;
+  width?: string;
   menuItem: ContextMenuOption[];
   menuTitle?: string;
 }
@@ -23,32 +25,26 @@ export const MenuContext = createContext<any>({});
 const ContextMenuProvider = forwardRef<
   ContextMenuRef,
   ContextMenuProviderProps
->(({ children, menuItem, menuTitle, ...props }, ref) => {
-  const [isShow, setShow] = useState(false);
+>(({ children, menuItem, menuTitle, height, width }, ref) => {
   const [selectedValue, setSelectedValue] = useState();
   const [clickPointer, setClickPointer] = useState({
     x: 0,
     y: 0,
   });
+  const { targetRef, isOpen, open } = useCLoseOnClickOutside();
 
-  const onContextMenu = useCallback((e: ContextMenuEvent, value: any) => {
-    e.preventDefault();
-    setShow(true);
-    setClickPointer({
-      x: e.pageX,
-      y: e.pageY,
-    });
-    setSelectedValue(value);
-  }, []);
-
-  const onHandleClick = useCallback(() => {
-    isShow && setShow(false);
-  }, [isShow]);
-
-  useEffect(() => {
-    window.addEventListener("click", onHandleClick);
-    return () => window.removeEventListener("click", onHandleClick);
-  }, [onHandleClick]);
+  const onContextMenu = useCallback(
+    (e: ContextMenuEvent, value: any) => {
+      e.preventDefault();
+      open();
+      setClickPointer({
+        x: e.pageX,
+        y: e.pageY,
+      });
+      setSelectedValue(value);
+    },
+    [open]
+  );
 
   useImperativeHandle(
     ref,
@@ -62,14 +58,20 @@ const ContextMenuProvider = forwardRef<
     <MenuContext.Provider value={selectedValue}>
       {children}
       <AnimatePresence initial={false} mode='wait' onExitComplete={() => null}>
-        {isShow && (
-          <ContextMenu
-            {...props}
-            menuTitle={menuTitle}
-            items={menuItem}
-            top={clickPointer.y}
-            left={clickPointer.x}
-          />
+        {isOpen && (
+          <MenuContextContainer
+            ref={targetRef}
+            $height={height}
+            $width={width}
+            $top={clickPointer.y}
+            $left={clickPointer.x}
+            variants={MenuContextAnimation}
+            initial='exit'
+            animate='enter'
+            exit='exit'
+          >
+            <ContextMenu menuTitle={menuTitle} items={menuItem} />
+          </MenuContextContainer>
         )}
       </AnimatePresence>
     </MenuContext.Provider>

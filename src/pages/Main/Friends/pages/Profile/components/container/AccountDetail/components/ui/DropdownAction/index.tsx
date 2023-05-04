@@ -15,10 +15,13 @@ import {
   DropdownActionMenuItem,
 } from "./styles/DropdownAction.decorate";
 
-const DropdownAction: FC<DropdownActionProps> = ({ defaultValue }) => {
+const DropdownAction: FC<DropdownActionProps> = ({
+  defaultValue,
+  onSelectedOption,
+}) => {
   const [selectedOption, setSelectedOption] =
     useState<UserStatus>(defaultValue);
-  const { targetRef, isOpen, toggle } = useCLoseOnClickOutside();
+  const { targetRef, isOpen, toggle, close } = useCLoseOnClickOutside(true);
   const theme = useTheme();
 
   const reduceMotion = useReducedMotion();
@@ -52,6 +55,7 @@ const DropdownAction: FC<DropdownActionProps> = ({ defaultValue }) => {
           {isOpen &&
             data.map((option, index) => (
               <DropdownActionMenuItem
+                layout
                 key={`${option.value}$${index}`}
                 variants={menuItemAnimation?.variants}
                 transition={menuItemAnimation?.transition}
@@ -61,6 +65,8 @@ const DropdownAction: FC<DropdownActionProps> = ({ defaultValue }) => {
                   value={option.value}
                   onClick={function (value: UserStatus): void {
                     setSelectedOption(value);
+                    onSelectedOption(value);
+                    close();
                   }}
                 />
               </DropdownActionMenuItem>

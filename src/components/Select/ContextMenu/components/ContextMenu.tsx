@@ -1,24 +1,10 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import ContextMenuItems from "./ContextMenuItem";
-import {
-  MenuContextContainer,
-  MenuContextTitle,
-} from "../styles/MenuContext.decorate";
-import { MenuContextAnimation } from "../styles/variants";
+import { MenuContextTitle } from "../styles/MenuContext.decorate";
 
-const ContextMenu: FC<ContextMenuProps> = ({
-  menuTitle,
-  items,
-  ...containerDecorate
-}) => {
+const ContextMenu: FC<ContextMenuProps> = ({ menuTitle, items }) => {
   return (
-    <MenuContextContainer
-      {...containerDecorate}
-      variants={MenuContextAnimation}
-      initial='exit'
-      animate='enter'
-      exit='exit'
-    >
+    <>
       {menuTitle && (
         <MenuContextTitle>
           <span>{menuTitle}</span>
@@ -32,8 +18,8 @@ const ContextMenu: FC<ContextMenuProps> = ({
           hoverBackgroundColor={item.hoverBackgroundColor}
         />
       ))}
-    </MenuContextContainer>
+    </>
   );
 };
 
-export default ContextMenu;
+export default memo(ContextMenu);

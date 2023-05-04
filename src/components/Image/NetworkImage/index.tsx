@@ -20,7 +20,7 @@ const NetworkImage: FC<NetworkImageProps> = ({
   height = "100%",
   refresh = false,
   preventAutoRevoke = false,
-  viewPort = "md",
+  viewPort = "sm",
 }) => {
   const theme = useTheme();
 

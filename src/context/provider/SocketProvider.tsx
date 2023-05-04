@@ -24,13 +24,13 @@ export const SocketProvider = ({ children }: Components) => {
   }, [user]);
 
   useEffect(() => {
-    socket.on(Event.EVENT_SOCKET_CONNECTED, (payload: any) => {
+    socket.once(Event.EVENT_SOCKET_CONNECTED, (payload: any) => {
       console.log({
         status: "connected",
         payload,
       });
     });
-    socket.on(Event.EVENT_SOCKET_ERROR, (err) => {
+    socket.once(Event.EVENT_SOCKET_ERROR, (err) => {
       console.log(`connect_error due to ${err.message}`);
     });
     return () => {

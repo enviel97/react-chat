@@ -51,6 +51,8 @@ export const FriendItemTitleContainer = styled.h4`
   font-weight: bold;
   position: relative;
   width: fit-content;
+  align-items: center;
+  font-size: 1.1em;
   & span:nth-of-type(2) {
     scale: 0.7;
     font-weight: 300;

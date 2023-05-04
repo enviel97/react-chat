@@ -37,7 +37,7 @@ const PickerEmoji: FC<PickerEmojiProps> = ({ onSelected, ...rest }) => {
           previewConfig={{ showPreview: false }}
           searchPlaceHolder="Your's feel ?"
           skinTonesDisabled={true}
-          lazyLoadEmojis={false}
+          lazyLoadEmojis={true}
         />
       </PickerContainer>
     </PickerEmojiContainer>

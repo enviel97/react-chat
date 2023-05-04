@@ -1,25 +1,27 @@
 import client from "@core/api";
-import { PROFILE_UPLOAD_IMAGE } from "@store/common/repo";
-import type { AxiosProgressEvent } from "axios";
-
-interface FormData {
-  file: Blob;
-  pathVariable: "avatar" | "banner";
+import { mappingResponse } from "@core/utils/mapping";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { PROFILE_PATCH_UPDATE } from "@store/common/repo";
+import axios from "axios";
+interface Request {
+  bio?: string;
+  displayName: string;
 }
-export const uploadImage = async (
-  { file, pathVariable }: FormData,
-  onUploadProgress: (progressEvent: AxiosProgressEvent) => void
-) => {
-  const formData = new FormData();
-  formData.append("image", file);
-  return await client.patch<any, Response<UserProfile>>(
-    PROFILE_UPLOAD_IMAGE,
-    formData,
-    {
-      timeout: 10 * 1000,
-      headers: { "Content-Type": "multipart/form-data" },
-      pathVariable: { type: pathVariable },
-      onUploadProgress,
-    }
-  );
-};
+const updateProfile = createAsyncThunk(
+  "user/profile/update",
+  async ({ bio, displayName }: Request, { signal }) => {
+    const source = axios.CancelToken.source();
+    signal.addEventListener("abort", () => {
+      source.cancel();
+    });
+
+    const response = await client.patch<Request, Response<UserProfile>>(
+      PROFILE_PATCH_UPDATE,
+      { bio, displayName }
+    );
+
+    return mappingResponse(response);
+  }
+);
+
+export default updateProfile;

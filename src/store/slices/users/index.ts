@@ -7,6 +7,7 @@ import { addFriendAction } from "./actions/addFriend.action";
 import { RootState } from "@store/index";
 import { UserProfileState } from "../state/user";
 import string from "@utils/string";
+import { updateFriendProfileAction } from "./actions/updateFriendProfile.action";
 
 export const usersSlice = createSlice({
   name: SliceName.user,
@@ -15,6 +16,7 @@ export const usersSlice = createSlice({
   }) as UserProfileState,
   reducers: {
     addFriend: addFriendAction,
+    updateFriendProfile: updateFriendProfileAction,
   },
   extraReducers: (builder) => {
     fetchListFriendsThunk(builder);
@@ -33,6 +35,6 @@ export const selectAccountIdsFromUser = createSelector(selectUsers, (user) => {
   return user.map(string.getId);
 });
 
-export const { addFriend } = usersSlice.actions;
+export const { addFriend, updateFriendProfile } = usersSlice.actions;
 
 export default usersSlice.reducer;
