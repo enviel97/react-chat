@@ -20,12 +20,7 @@ const FriendList = () => {
   const socket = useSocket();
   const _handleUpdateProfile = useCallback(
     (payload: UpdateProfileProps) => {
-      dispatch(
-        updateFriendProfile({
-          id: payload.id,
-          changes: payload,
-        })
-      );
+      dispatch(updateFriendProfile(payload));
     },
     [dispatch]
   );
@@ -40,22 +35,16 @@ const FriendList = () => {
         });
       }
     );
-    socket.on(Event.EVENT_FRIEND_CHANGE_STATUS, (payload: UserProfile) => {
+    socket.on(Event.EVENT_FRIEND_UPDATE_PROFILE, (payload: UserProfile) => {
       _handleUpdateProfile({
         id: payload.getId(),
         changes: payload,
       });
     });
-    socket.on(Event.EVENT_FRIEND_UPDATE_INFO, (payload: UserProfile) => {
-      _handleUpdateProfile({
-        id: payload.getId(),
-        changes: payload,
-      });
-    });
+
     return () => {
       socket.off(Event.EVENT_FRIEND_UPLOAD_IMAGE);
-      socket.off(Event.EVENT_FRIEND_CHANGE_STATUS);
-      socket.off(Event.EVENT_FRIEND_UPDATE_INFO);
+      socket.off(Event.EVENT_FRIEND_UPDATE_PROFILE);
     };
   }, [socket, _handleUpdateProfile]);
 

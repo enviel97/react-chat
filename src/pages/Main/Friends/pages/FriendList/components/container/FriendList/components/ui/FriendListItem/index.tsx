@@ -19,7 +19,6 @@ interface FriendListItemProps {
 
 const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
   const friend = useAppSelector((state) => selectUserById(state, friendId));
-  console.log({ friend });
   if (!friend) return <></>;
 
   return (
