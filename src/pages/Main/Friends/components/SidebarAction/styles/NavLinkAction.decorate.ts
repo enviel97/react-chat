@@ -7,9 +7,6 @@ import styled, { css } from "styled-components";
 interface NavProps {
   $status: string;
 }
-interface QuantityProps {
-  $quantity?: number;
-}
 
 export const iconVariants: Variants = {
   select: { height: "2em" },
@@ -29,31 +26,11 @@ export const NavLinkLabel = styled.span`
   color: currentColor;
   font-size: inherit;
 `;
-export const NavLinkIcon = styled(motion.i)<QuantityProps>`
+export const NavLinkIcon = styled(motion.i)`
   position: relative;
   height: 1.5em;
   aspect-ratio: 1/1;
   color: currentColor;
-  ${({ $quantity, theme }) => {
-    if (!$quantity) return css``;
-    return css`
-      &::after {
-        content: "${$quantity}";
-        position: absolute;
-        height: 2rem;
-        min-width: 2rem;
-        font-weight: bold;
-        font-size: 1rem;
-        text-align: center;
-        padding: 0.2rem 0.25rem;
-        border-radius: 0.5rem;
-        color: ${theme.onNotificationColor};
-        background-color: ${theme.notificationColor};
-        top: -40%;
-        left: -120%;
-      }
-    `;
-  }}
 `;
 
 export const NavLinkItem = styled(motion(Link))<NavProps>`

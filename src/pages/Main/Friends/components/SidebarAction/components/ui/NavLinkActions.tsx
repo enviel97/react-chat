@@ -15,11 +15,10 @@ export interface NavLinkAnimationController {
   isSelected?: boolean;
 }
 
-interface NavLinkActionProps extends NavLinkAnimationController {
+interface NavLinkActionProps extends NavLinkAnimationController, Components {
   to: string;
   label: string;
   icon: ReactNode;
-  quantity?: number;
   activeIcon?: ReactNode;
 }
 
@@ -27,9 +26,9 @@ const NavLinkAction: FC<NavLinkActionProps> = ({
   to,
   icon,
   label,
-  quantity,
   isActive,
   isSelected,
+  children,
 }) => {
   const layoutIdShared = useMemo(() => SelectBorder, []);
   const breakpoint = useBreakpoint();
@@ -44,7 +43,6 @@ const NavLinkAction: FC<NavLinkActionProps> = ({
         {isActive && <SelectBorder layoutId={layoutIdShared} />}
         <IconContext.Provider value={{ color: "currentColor", size: "100%" }}>
           <NavLinkIcon
-            $quantity={quantity}
             variants={iconVariants}
             animate={isSelected ? "select" : "unselect"}
             transition={{
@@ -53,6 +51,7 @@ const NavLinkAction: FC<NavLinkActionProps> = ({
             }}
           >
             {icon}
+            {children}
           </NavLinkIcon>
         </IconContext.Provider>
         {breakpoint.up("mobile") && <NavLinkLabel>{label}</NavLinkLabel>}

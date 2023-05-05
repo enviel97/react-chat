@@ -36,4 +36,5 @@ export const Event = Object.freeze({
 
   EVENT_FRIEND_UPLOAD_IMAGE: "onFriendUploadImage",
   EVENT_FRIEND_UPDATE_PROFILE: "onFriendUploadProfile",
+  EVENT_FRIEND_REQUEST_QUANTITY: "get.quantity",
 });
