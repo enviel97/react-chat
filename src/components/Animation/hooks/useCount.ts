@@ -19,7 +19,7 @@ const useCount = ({ quantity, duration = 0.8 }: UseCountProps) => {
     if (!quantity) return;
     const controller = animate(xSmooth, quantity, { duration });
     return controller.stop;
-  }, [quantity, xSmooth]);
+  }, [quantity, xSmooth, duration]);
 
   return {
     count: rounded,

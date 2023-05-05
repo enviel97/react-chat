@@ -1,6 +1,7 @@
 import { breakpoint } from "@theme/helper/breakpoint";
 import { colorBrightness } from "@theme/helper/tools";
-import styled from "styled-components";
+import { motion } from "framer-motion";
+import styled, { css } from "styled-components";
 
 export const SidebarContainer = styled.aside`
   background-color: ${({ theme }) => theme.surfaceColor};
@@ -20,6 +21,7 @@ export const SidebarContainer = styled.aside`
 `;
 
 export const SideItemsContainer = styled.div`
+  position: relative;
   display: flex;
   width: 100%;
   padding-bottom: 2em;
@@ -30,7 +32,7 @@ export const SideItemsContainer = styled.div`
   /* scroll vertical setup */
   flex: 1 1 auto;
   overflow-y: auto;
-  height: calc(100vh - 7rem);
+  height: calc(100% - 10rem);
 
   ${breakpoint.down("tablet")} {
     overflow-x: auto;
@@ -128,4 +130,23 @@ export const SideItemContent = styled.div`
       font-style: italic;
     }
   }
+`;
+
+export const SideItemLoading = styled(motion.span)`
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  box-sizing: border-box;
+  height: fit-content;
+  border-radius: 50%;
+  padding: 0.25rem;
+  ${({ theme }) => {
+    const color = theme.backgroundColor;
+    const dark = colorBrightness(color, -30);
+    const light = colorBrightness(color, 30);
+    return css`
+      border: 2px solid ${color};
+      box-shadow: 0.15rem 0.15rem 1rem ${dark}, -0.15rem -0.15rem 1rem ${light};
+    `;
+  }}
 `;

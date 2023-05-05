@@ -1,7 +1,7 @@
 export enum State {
-  REFRESH,
-  PENDING,
-  FULFILLED,
   IDLE,
+  PENDING,
   ERROR,
+  FULFILLED,
+  REFRESH,
 }

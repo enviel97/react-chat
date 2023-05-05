@@ -1,10 +1,15 @@
 import ContextMenuProvider from "@components/Select/ContextMenu";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectConversationIds } from "@store/slices/conversations/selectors/getConversationSelector";
-import { isLoading } from "@utils/validate";
+import { isLoading, isRefresh } from "@utils/validate";
+import { AnimatePresence } from "framer-motion";
 import { memo, useCallback, useRef } from "react";
+
 import { useNavigate } from "react-router-dom";
+import { CircleSpinner } from "react-spinners-kit";
+import { useTheme } from "styled-components";
 import {
+  SideItemLoading,
   SideItemsContainer,
   SideItemsEmpty,
 } from "../../../styles/Sidebar.decorate";
@@ -14,6 +19,7 @@ import useSideConversationAction from "./hooks/useSideConversationAction";
 
 const SideItems = () => {
   const navigator = useNavigate();
+  const theme = useTheme();
   const status = useAppSelector((state) => state.conversation.process);
   const ref = useRef<ContextMenuRef>(null);
   const actions = useSideConversationAction();
@@ -34,6 +40,24 @@ const SideItems = () => {
 
   return (
     <SideItemsContainer>
+      <AnimatePresence mode='wait'>
+        {isRefresh(status) && (
+          <SideItemLoading
+            variants={{
+              visible: { x: 0, opacity: 1 },
+              hidden: { x: -10, opacity: 0 },
+            }}
+            initial='hidden'
+            animate='visible'
+            exit='hidden'
+            transition={{ bounce: 0 }}
+          >
+            <span>
+              <CircleSpinner color={theme.disableColor} size={24} />
+            </span>
+          </SideItemLoading>
+        )}
+      </AnimatePresence>
       {conversationIds.length === 0 && (
         <SideItemsEmpty>No messenger found.</SideItemsEmpty>
       )}
