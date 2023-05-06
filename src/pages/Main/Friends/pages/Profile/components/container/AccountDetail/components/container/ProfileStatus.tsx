@@ -2,7 +2,7 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
 import { changeStatus } from "@store/repo/user";
 import { selectProfile } from "@store/slices/profiles";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { FC, memo, useMemo, useState } from "react";
 import { RingSpinner } from "react-spinners-kit";
 import { useTheme } from "styled-components";
@@ -44,18 +44,20 @@ const ProfileStatus: FC = () => {
         defaultValue={profile.status ?? "active"}
         onSelectedOption={_handleOnSelected}
       />
-      <AnimatePresence mode='wait'>
-        {loading && (
-          <ProfileStatusLoadingContainer
-            initial={{ opacity: 0, scale: 0.5 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.5 }}
-            transition={{ delay: 0.25 }}
-          >
-            <RingSpinner color={selectedColor} size={16} />
-          </ProfileStatusLoadingContainer>
-        )}
-      </AnimatePresence>
+      <ProfileStatusLoadingContainer>
+        <AnimatePresence mode='wait'>
+          {loading && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.5 }}
+              transition={{ delay: 0.25 }}
+            >
+              <RingSpinner color={selectedColor} size={16} />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </ProfileStatusLoadingContainer>
     </ProfileStatusContainer>
   );
 };

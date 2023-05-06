@@ -22,6 +22,7 @@ export const SidebarContainer = styled.aside`
 
 export const SideItemsContainer = styled.div`
   position: relative;
+  box-sizing: border-box;
   display: flex;
   width: 100%;
   padding-bottom: 2em;
@@ -38,7 +39,7 @@ export const SideItemsContainer = styled.div`
     overflow-x: auto;
     overflow-y: hidden;
     flex-direction: row;
-    height: fit-content;
+    height: 6.5rem;
     padding: 0.5em;
     margin-bottom: 0.2em;
     background-color: ${({ theme }) => theme.backgroundColor};
@@ -134,8 +135,8 @@ export const SideItemContent = styled.div`
 
 export const SideItemLoading = styled(motion.span)`
   position: absolute;
-  bottom: 0.5rem;
-  right: 0.5rem;
+  bottom: 1.5rem;
+  right: 1rem;
   box-sizing: border-box;
   height: fit-content;
   border-radius: 50%;

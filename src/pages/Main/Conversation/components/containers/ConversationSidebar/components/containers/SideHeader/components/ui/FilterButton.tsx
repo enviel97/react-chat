@@ -20,6 +20,7 @@ const ButtonTextWrapper = styled(ButtonText)<{ ["data-select"]: boolean }>`
         )};
     background-color: ${(props) =>
       colorBrightness(props.theme.surfaceColor, props["data-select"] ? 20 : 0)};
+    height: 2rem;
   }
 `;
 
@@ -37,7 +38,6 @@ const FilterButton: FC<FilterButtonProps> = function ({ text, onClick }) {
       text={text}
       onClick={onClick}
       data-select={isSelected}
-      height={"fit-content"}
     />
   );
 };

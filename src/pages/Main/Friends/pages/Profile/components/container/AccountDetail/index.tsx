@@ -1,6 +1,6 @@
 import useAppSelector from "@hooks/useAppSelector";
 import { selectUser, selectImage } from "@store/slices/profiles";
-import { Fragment } from "react";
+import { Fragment, memo } from "react";
 import ProfileStatus from "./components/container/ProfileStatus";
 import ProfileAvatar from "./components/ui/ProfileAvatar";
 import TextField from "./components/ui/TextFieldLabel";
@@ -31,4 +31,4 @@ const AccountDetail = () => {
   );
 };
 
-export default AccountDetail;
+export default memo(AccountDetail);

@@ -56,11 +56,11 @@ const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
   );
 
   const _handleUpdateProfile = useCallback(
-    (payload: { id: string; avatar: string }) => {
+    (payload: UserProfile) => {
       if (friendId === payload.id) {
         setProfile((prev) => {
           if (!prev) return prev;
-          return { ...prev, avatar: payload.avatar };
+          return { ...prev, ...payload };
         });
       }
     },
@@ -70,10 +70,12 @@ const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
   useEffect(() => {
     socket.on(Event.EVENT_FRIEND_LIST_RETRIEVE, _handleFriendListRetrieve);
     socket.on(Event.EVENT_FRIEND_UPLOAD_IMAGE, _handleUpdateProfile);
+    socket.on(Event.EVENT_FRIEND_UPDATE_PROFILE, _handleUpdateProfile);
 
     return () => {
       socket.off(Event.EVENT_FRIEND_LIST_RETRIEVE);
       socket.off(Event.EVENT_FRIEND_UPLOAD_IMAGE);
+      socket.off(Event.EVENT_FRIEND_UPDATE_PROFILE);
     };
   }, [socket, _handleFriendListRetrieve, _handleUpdateProfile]);
 
