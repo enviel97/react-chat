@@ -1,11 +1,11 @@
 import {
   animate,
-  AnimatePresence,
+  AnimationPlaybackControls,
   useAnimation,
   useMotionValue,
   useSpring,
 } from "framer-motion";
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useEffect, useRef, useState } from "react";
 import { useTheme } from "styled-components";
 import Icon from "./components/Icons/Icon";
 import Percentage from "./components/PercentageText";
@@ -26,16 +26,22 @@ const UploadPercentage: FC<UploadPercentageProps> = ({ percentage, type }) => {
   const xSmooth = useSpring(count, { damping: 50, stiffness: 400 });
   const [colorAnimate, setColorAnimation] = useState<ProgressState>("pending");
   const processAnimation = useAnimation();
+  const percentCount = useRef<AnimationPlaybackControls>();
 
   useEffect(() => {
     if (!percentage) return;
-    const controller = animate(xSmooth, percentage, {
+    if (type === "error") {
+      setColorAnimation("error");
+      percentCount.current?.stop();
+      processAnimation.stop();
+      return;
+    }
+    percentCount.current = animate(xSmooth, percentage, {
       duration: 0.8,
+      onPlay: () => {
+        processAnimation.start("proccess");
+      },
       onUpdate: (cv) => {
-        if (type === "error") {
-          setColorAnimation("error");
-          return;
-        }
         if (cv >= 100) {
           setColorAnimation("success");
           return;
@@ -44,27 +50,12 @@ const UploadPercentage: FC<UploadPercentageProps> = ({ percentage, type }) => {
         return;
       },
     });
-    return controller.stop;
-  }, [percentage, type, xSmooth]);
 
-  useEffect(() => {
-    if (!percentage) return;
-    switch (type) {
-      case "error": {
-        processAnimation.stop();
-        return;
-      }
-      case "pending": {
-        processAnimation.start("proccess");
-        return;
-      }
-      case "success": {
-        return;
-      }
-    }
-
-    return processAnimation.stop;
-  }, [percentage, processAnimation, type]);
+    return () => {
+      percentCount.current?.stop();
+      processAnimation.stop();
+    };
+  }, [percentage, type, xSmooth, processAnimation]);
 
   const getBackgroundConic = (percentage: number) => {
     return `conic-gradient(
@@ -74,42 +65,34 @@ const UploadPercentage: FC<UploadPercentageProps> = ({ percentage, type }) => {
   };
 
   return (
-    <AnimatePresence mode='wait'>
-      {type !== "idle" && (
-        <UploadPercentageContainer
-          {...DisplayContainerAnimate}
-          style={{ backdropFilter: "blur(10px)" }}
-        >
-          <UploadProgressBarContainer
-            {...AnimationColor}
-            animate={colorAnimate}
-          >
-            <UploadProgressBarCircle
-              variants={{
-                initial: { background: getBackgroundConic(0) },
-                proccess: { background: getBackgroundConic(percentage ?? 0) },
-              }}
-              style={{
-                background: getBackgroundConic(0),
-                filter: `
+    <UploadPercentageContainer
+      {...DisplayContainerAnimate}
+      style={{ backdropFilter: "blur(10px)" }}
+    >
+      <UploadProgressBarContainer {...AnimationColor} animate={colorAnimate}>
+        <UploadProgressBarCircle
+          variants={{
+            initial: { background: getBackgroundConic(0) },
+            proccess: { background: getBackgroundConic(percentage ?? 0) },
+          }}
+          style={{
+            background: getBackgroundConic(0),
+            filter: `
                     drop-shadow(0 0 1px ${theme.surfaceColor}) 
                     drop-shadow(0 0 2px ${theme.surfaceColor})
                     drop-shadow(0 0 3px ${theme.surfaceColor}) 
                     drop-shadow(0 0 4px ${theme.surfaceColor})
                     drop-shadow(0 0 5px ${theme.surfaceColor})
                   `,
-              }}
-              initial={"initial"}
-              animate={processAnimation}
-              transition={{ duration }}
-            >
-              <Icon type={colorAnimate} />
-            </UploadProgressBarCircle>
-            <Percentage percentage={percentage} />
-          </UploadProgressBarContainer>
-        </UploadPercentageContainer>
-      )}
-    </AnimatePresence>
+          }}
+          animate={processAnimation}
+          transition={{ duration }}
+        >
+          <Icon type={colorAnimate} />
+        </UploadProgressBarCircle>
+        <Percentage percentage={percentage} state={type} />
+      </UploadProgressBarContainer>
+    </UploadPercentageContainer>
   );
 };
 

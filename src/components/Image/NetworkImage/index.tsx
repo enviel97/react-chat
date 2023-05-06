@@ -55,7 +55,7 @@ const NetworkImage: FC<NetworkImageProps> = ({
       highlightColor={theme.surfaceColor}
     >
       <ControllerLazyLoadImage className={className}>
-        {isLoading ?? <Skeleton height={height} width={width} />}
+        {isLoading && <Skeleton height={height} width={width} />}
         {!isLoading && (
           <ImageContainer
             src={image}

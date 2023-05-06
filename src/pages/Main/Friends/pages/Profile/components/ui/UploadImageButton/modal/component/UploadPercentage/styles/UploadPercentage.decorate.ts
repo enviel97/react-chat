@@ -36,15 +36,12 @@ export const UploadProgressBarText = styled.div`
   right: auto;
   display: flex;
   flex-direction: row;
-  & > p,
   & > span {
     font-size: 1.5rem;
     font-weight: bold;
-    filter: none;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+    gap: 0.5ch;
+    filter: none;
     gap: 1ch;
   }
 `;

@@ -79,7 +79,7 @@ const ProfileAvatar: FC<Props> = ({ avatarSrc }) => {
         <NetworkImage
           placeholder={local.image.UnknownAvatar}
           src={avatar}
-          viewPort={"md"}
+          viewPort={"sm"}
         />
       </AvatarBox>
     </AnimatePresence>

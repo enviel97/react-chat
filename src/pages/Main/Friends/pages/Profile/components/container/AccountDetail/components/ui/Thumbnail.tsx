@@ -29,14 +29,22 @@ const ThumbnailContainer = styled(motion.div)`
 const Thumbnail: FC<Props> = ({ thumbnailSrc }) => {
   const [banner, setBanner] = useState<string | undefined>(thumbnailSrc);
   useEffect(() => {
-    if (!thumbnailSrc || thumbnailSrc.includes("http")) return;
-    const banner = bannerUrlImage(thumbnailSrc);
-    setBanner(banner.src);
+    if (!thumbnailSrc) return;
+    if (thumbnailSrc.includes("http")) {
+      setBanner(thumbnailSrc);
+    } else {
+      const banner = bannerUrlImage(thumbnailSrc);
+      setBanner(banner.src);
+    }
   }, [thumbnailSrc]);
+
+  const handleUploadSuccess = (src: string) => {
+    setBanner(src);
+  };
 
   return (
     <ThumbnailContainer>
-      <UploadImageButton type='banner' />
+      <UploadImageButton type='banner' onUploadSuccess={handleUploadSuccess} />
       <NetworkImage
         src={banner}
         alt={"Thumbnail"}
