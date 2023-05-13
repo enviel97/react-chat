@@ -22,12 +22,14 @@ export const PickerContainer = styled.div<Props>`
       return css`
         display: initial;
         visibility: visible;
+        pointer-events: auto;
       `;
     }
 
     return css`
       display: none;
       visibility: hidden;
+      pointer-events: none;
     `;
   }}
 `;

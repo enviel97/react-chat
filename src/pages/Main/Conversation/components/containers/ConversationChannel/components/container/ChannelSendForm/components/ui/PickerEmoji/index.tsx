@@ -29,16 +29,18 @@ const PickerEmoji: FC<PickerEmojiProps> = ({ onSelected, ...rest }) => {
         onClick={toggle}
       />
       <PickerContainer $isOpen={isOpen}>
-        <EmojiPicker
-          {...rest}
-          onEmojiClick={onSelectEmoji}
-          autoFocusSearch={true}
-          theme={Theme[theme.isDark ? "DARK" : "LIGHT"]}
-          previewConfig={{ showPreview: false }}
-          searchPlaceHolder="Your's feel ?"
-          skinTonesDisabled={true}
-          lazyLoadEmojis={true}
-        />
+        {isOpen && (
+          <EmojiPicker
+            {...rest}
+            onEmojiClick={onSelectEmoji}
+            autoFocusSearch={true}
+            theme={Theme[theme.isDark ? "DARK" : "LIGHT"]}
+            previewConfig={{ showPreview: false }}
+            searchPlaceHolder="Your's feel ?"
+            skinTonesDisabled={true}
+            lazyLoadEmojis={true}
+          />
+        )}
       </PickerContainer>
     </PickerEmojiContainer>
   );

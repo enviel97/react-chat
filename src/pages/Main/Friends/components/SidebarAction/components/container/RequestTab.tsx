@@ -18,7 +18,6 @@ const RequestTab: FC<RequestTabProps> = ({ isActive, isSelected }) => {
         Event.EVENT_FRIEND_REQUEST_QUANTITY,
         { quantity },
         (quantity?: number) => {
-          console.log(quantity);
           if (!quantity) return;
           setQuantity((prev) => {
             if (!prev || !quantity || prev === quantity) return prev;

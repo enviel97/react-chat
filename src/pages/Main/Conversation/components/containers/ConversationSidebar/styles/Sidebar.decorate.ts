@@ -27,11 +27,10 @@ export const SideItemsContainer = styled.div`
   width: 100%;
   padding-bottom: 2em;
   gap: 0.3rem;
-  overflow-x: hidden;
-  overflow-y: auto;
   flex-direction: column;
   /* scroll vertical setup */
   flex: 1 1 auto;
+  overflow-x: hidden;
   overflow-y: auto;
   height: calc(100% - 10rem);
 

@@ -54,29 +54,3 @@ export const ChannelMessageContainer = styled.div`
     padding: 4em 0.5em 1em;
   }
 `;
-
-export const ChannelFormContainer = styled.div`
-  position: relative;
-  height: fit-content;
-  border-top: 2px solid ${({ theme }) => theme.surfaceColor};
-  margin: 0 1rem;
-  padding: 1em 5px;
-  gap: 1px;
-`;
-
-export const ChannelForm = styled.form`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 1em;
-  flex: 1;
-`;
-
-export const ChannelSendingContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding: 1em;
-  font-weight: normal;
-  align-items: center;
-  gap: 1em;
-`;

@@ -13,6 +13,7 @@ interface TextFieldProps {
   fontSize?: string;
   tabIndex?: number;
   maxLines?: number;
+  autoFocus?: boolean;
 
   // color
   borderColor?: string;

@@ -17,8 +17,17 @@ export const SocketProvider = ({ children }: Components) => {
     if (!user) return;
     // TODO: Connect socket reconnect if socket connect failure
     if (!socket.connected) socket.connect();
-
+    socket.on(Event.EVENT_SOCKET_DISCONNECT, (reason) => {
+      if (!user) return;
+      if (reason === "io server disconnect") {
+        // the disconnection was initiated by the server, you need to reconnect manually
+        socket.connect();
+      }
+      console.log({ action: "disconnect socket", reason });
+      // else the socket will automatically try to reconnect
+    });
     return () => {
+      socket.off(Event.EVENT_SOCKET_DISCONNECT);
       socket.close();
     };
   }, [user]);
@@ -30,9 +39,11 @@ export const SocketProvider = ({ children }: Components) => {
         payload,
       });
     });
+
     socket.once(Event.EVENT_SOCKET_ERROR, (err) => {
       console.log(`connect_error due to ${err.message}`);
     });
+
     return () => {
       socket.off(Event.EVENT_SOCKET_CONNECTED);
       socket.off(Event.EVENT_SOCKET_ERROR);

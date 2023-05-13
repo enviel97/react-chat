@@ -5,7 +5,6 @@ import { Eyes, FloatingLabel, LockIcon } from "../decorate/base";
 
 interface BaseTextFieldProps extends TextFieldProps {
   disableFloatingLabel?: boolean;
-  autoFocus?: boolean;
 }
 
 const BaseTextField = (props: BaseTextFieldProps) => {
