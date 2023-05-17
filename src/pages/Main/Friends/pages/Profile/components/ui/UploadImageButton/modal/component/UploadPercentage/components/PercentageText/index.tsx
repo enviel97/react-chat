@@ -1,6 +1,5 @@
 import {
   animate,
-  AnimatePresence,
   motion,
   useMotionValue,
   useSpring,
@@ -21,21 +20,22 @@ const Percentage: FC<PercentageProps> = ({ percentage, state }) => {
   useEffect(() => {
     if (!percentage) return;
     const controller = animate(xSmooth, percentage, { duration: 0.8 });
+
     return controller.stop;
   }, [percentage, xSmooth, state]);
 
   return (
     <UploadProgressBarText>
-      <AnimatePresence>
-        {!percentage && <span>CONNECTED</span>}
-        {percentage && state !== "error" && (
+      {state === "error" && <span>ERROR</span>}
+      {state !== "error" &&
+        (percentage ? (
           <span>
             <motion.span>{rounded}</motion.span>
             <span>%</span>
           </span>
-        )}
-        {state === "error" && <span>ERROR</span>}
-      </AnimatePresence>
+        ) : (
+          <span>CONNECTED</span>
+        ))}
     </UploadProgressBarText>
   );
 };

@@ -29,7 +29,7 @@ const UploadPercentage: FC<UploadPercentageProps> = ({ percentage, type }) => {
   const percentCount = useRef<AnimationPlaybackControls>();
 
   useEffect(() => {
-    if (!percentage) return;
+    if (!percentage && percentage !== 0) return;
     if (type === "error") {
       setColorAnimation("error");
       percentCount.current?.stop();

@@ -8,7 +8,8 @@ interface FormData {
 }
 const uploadImage = async (
   { file, pathVariable }: FormData,
-  onUploadProgress: (progressEvent: AxiosProgressEvent) => void
+  onUploadProgress: (progressEvent: AxiosProgressEvent) => void,
+  onDownloadProgress: (progressEvent: AxiosProgressEvent) => void
 ) => {
   const formData = new FormData();
   formData.append("image", file);
@@ -20,6 +21,7 @@ const uploadImage = async (
       headers: { "Content-Type": "multipart/form-data" },
       pathVariable: { type: pathVariable },
       onUploadProgress,
+      onDownloadProgress,
     }
   );
 };

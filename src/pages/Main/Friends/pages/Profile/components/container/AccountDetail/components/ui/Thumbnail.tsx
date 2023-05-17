@@ -22,7 +22,20 @@ const ThumbnailContainer = styled(motion.div)`
     width: 100%;
     height: 100%;
     object-fit: cover;
-    mask-image: linear-gradient(black, transparent);
+  }
+
+  &::after {
+    position: absolute;
+    content: "";
+    bottom: 0;
+    right: 0;
+    height: 50px;
+    width: 100%;
+    background: linear-gradient(
+      0deg,
+      ${({ theme }) => theme.backgroundColor} 0%,
+      ${({ theme }) => theme.backgroundColor}10 100%
+    );
   }
 `;
 

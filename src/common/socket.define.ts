@@ -32,8 +32,8 @@ export const Event = Object.freeze({
   EVENT_FRIEND_LIST_STATUS_RESPONSE: "onFriendListStatusResponse",
   EVENT_FRIEND_LIST_RETRIEVE: "onFriendListRetrieve",
 
-  IMAGE_UPLOAD_AVATAR_ERROR: "IMAGE_UPLOAD_ERROR",
-  IMAGE_UPLOAD_AVATAR_SUCCESS: "IMAGE_UPLOAD_SUCCESS",
+  IMAGE_UPLOAD_AVATAR_ERROR: "image_profile_upload_error",
+  IMAGE_UPLOAD_AVATAR_SUCCESS: "image_profile_upload_success",
 
   EVENT_FRIEND_UPLOAD_IMAGE: "onFriendUploadImage",
   EVENT_FRIEND_UPDATE_PROFILE: "onFriendUploadProfile",

@@ -2,6 +2,7 @@ import { useModals } from "@components/Modal/hooks/useModals";
 import { safeLog } from "@core/api/utils/logger";
 import useSocket from "@hooks/useSocket";
 import { uploadImage } from "@store/repo/user";
+import type { AxiosProgressEvent } from "axios";
 import { AnimatePresence } from "framer-motion";
 import { FC, useCallback, useEffect, useState } from "react";
 import UploadImagePreview from "../components/container/UploadImagePreview";
@@ -67,19 +68,38 @@ const UploadImageModal: FC<Props> = ({
     };
   }, [socket, handleError]);
 
-  const handleUploadImage = () => {
-    if (!file) return;
-    resetUploadImage("pending", 10);
-    uploadImage({ file: file, pathVariable: type }, (processEvent) => {
+  const onUploadProgress = useCallback(
+    (processEvent: AxiosProgressEvent) => {
+      console.log({ upload: processEvent });
       const { loaded, total = 1 } = processEvent;
       let uploadPercentage = Math.floor(loaded * 100) / total;
-      if (uploadPercentage <= 100) setPercentage(uploadPercentage);
-    })
+      if (uploadPercentage <= 100) {
+        resetUploadImage("pending", uploadPercentage);
+      }
+    },
+    [resetUploadImage]
+  );
+
+  const onDownloadProgress = useCallback(
+    (event: any) => {
+      console.log({ download: event });
+      resetUploadImage("success", 100);
+    },
+    [resetUploadImage]
+  );
+
+  const handleUploadImage = () => {
+    if (!file) return;
+    resetUploadImage("pending", 0);
+    uploadImage(
+      { file: file, pathVariable: type },
+      onUploadProgress,
+      onDownloadProgress
+    )
       .then(() => {
         setTimeout(() => {
           modal.close(MODAL_ID);
           onUploadImageSuccess && onUploadImageSuccess(file);
-          resetUploadImage("success");
         }, 2000);
       })
       .catch(handleError);

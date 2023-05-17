@@ -6,7 +6,6 @@ import {
 } from "../utils/ImageUtils";
 import axios from "axios";
 import { createCache, useCache } from "@react-hook/cache";
-import { toast } from "react-toastify";
 interface Props {
   src?: string;
   viewPort?: ViewPort;
@@ -21,8 +20,7 @@ const blobImage = createCache(async (key: string, url: string) => {
     responseType: "blob",
     withCredentials: true,
   });
-  if (!response?.data) {
-    toast.error("Image loaded error");
+  if (!response?.data || response.data.size === 0) {
     return;
   }
   const image = await convertBlobToBase64(response.data);
