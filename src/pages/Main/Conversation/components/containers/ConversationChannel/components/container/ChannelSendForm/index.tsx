@@ -13,29 +13,50 @@ import PickerEmoji from "./components/ui/PickerEmoji";
 import { TbSend } from "react-icons/tb";
 import MessageInput from "./components/ui/MessageInput";
 import { MESSAGE_FORM_SENDING } from "./common/form";
+import { fetchAddMessages } from "@store/repo/message";
+import string from "@utils/string";
+import useAttachment from "../../../hooks/useAttachments";
 
 const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
   const dispatch = useAppDispatch();
   const caretPosition = useCaretPosition("message");
+  const { files, clear } = useAttachment();
+
   const controller = useForm<ChannelSendFormValue>({
     defaultValues: { message: "", attachments: [] },
   });
-  const { getValues, setValue, handleSubmit, resetField, setFocus, reset } =
-    controller;
+
+  const { getValues, setValue, handleSubmit, setFocus, reset } = controller;
+
+  useEffect(() => {
+    setValue(
+      "attachments",
+      files.map(([, file]) => file)
+    );
+  }, [setValue, files]);
 
   const _handleSubmit = useCallback(
-    (data: ChannelSendFormValue) => {
+    async (data: ChannelSendFormValue) => {
+      console.log({ data });
       if (data.attachments.length === 0 && data.message === "") return;
-      console.log(data);
+
       /**
        * Handle submit here
        */
-
+      dispatch(
+        fetchAddMessages({
+          tempId: string.genId("Temp"),
+          conversationId: id,
+          message: data.message,
+          attachments: data.attachments,
+        })
+      );
       // reset focus
+      clear();
       setFocus("message");
       reset();
     },
-    [reset, setFocus]
+    [reset, setFocus, id, dispatch, clear]
   );
 
   const _onSelectedEmoji = useCallback(
@@ -60,7 +81,9 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
             name={MESSAGE_FORM_SENDING}
             autoComplete='off'
             noValidate
-            onSubmit={handleSubmit(_handleSubmit)}
+            onSubmit={handleSubmit(_handleSubmit, (errors) => {
+              console.log(errors);
+            })}
           >
             <MessageInput conversationId={id} />
             <ButtonIconNeumorphism

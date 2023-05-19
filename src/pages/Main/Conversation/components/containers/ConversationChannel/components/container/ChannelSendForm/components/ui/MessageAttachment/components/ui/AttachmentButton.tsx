@@ -1,10 +1,8 @@
-import { InputFile } from "@components/Input";
-import { FileInputRef } from "@components/Input/variants/FileInput";
+import useAttachment from "@pages/Main/Conversation/components/containers/ConversationChannel/hooks/useAttachments";
 import { colorBrightness } from "@theme/helper/tools";
-import { FC, memo, MouseEventHandler, useCallback, useRef } from "react";
+import { FC, memo } from "react";
 import { TiAttachmentOutline } from "react-icons/ti";
 import styled, { css } from "styled-components";
-import useAttachment from "../../hooks/useAttachment";
 
 interface AttachmentButtonProps {}
 
@@ -42,31 +40,11 @@ const ButtonContainer = styled.div`
 `;
 
 const AttachmentButton: FC<AttachmentButtonProps> = () => {
-  const ref = useRef<FileInputRef>(null);
-  const { addAttachments } = useAttachment();
-
-  const _handleOnClick: MouseEventHandler<HTMLDivElement> = (event) => {
-    if (!ref.current) return;
-    ref.current.onOpenBrowser();
-  };
-
-  const _handleSelectedFile = useCallback(
-    (files: File[]) => {
-      if (files.length === 0) return;
-      addAttachments({ files: files });
-    },
-    [addAttachments]
-  );
+  const { open } = useAttachment();
 
   return (
-    <ButtonContainer onClick={_handleOnClick}>
+    <ButtonContainer onClick={open}>
       <TiAttachmentOutline size={"2rem"} />
-      <InputFile
-        selectedFile={_handleSelectedFile}
-        ref={ref}
-        multiple
-        allowSelectDuplicate
-      />
     </ButtonContainer>
   );
 };

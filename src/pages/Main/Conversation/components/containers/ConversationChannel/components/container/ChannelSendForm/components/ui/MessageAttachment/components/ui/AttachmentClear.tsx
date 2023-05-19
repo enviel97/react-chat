@@ -1,10 +1,11 @@
 import useCount from "@components/Animation/hooks/useCount";
-import { AnimatePresence, motion } from "framer-motion";
-import { memo } from "react";
+import useAttachment from "@pages/Main/Conversation/components/containers/ConversationChannel/hooks/useAttachments";
+
+import { motion } from "framer-motion";
+import { Fragment, memo } from "react";
 import { IoFileTrayFull } from "react-icons/io5";
 import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
-import useAttachment from "../../hooks/useAttachment";
 
 const AttachmentClearIcon = styled.span`
   font-size: 2rem;
@@ -46,20 +47,22 @@ const SizeBadge = styled(motion.span)`
 `;
 
 const AttachmentClear = () => {
-  const { files, clearAttachment } = useAttachment();
-  const { count } = useCount({ quantity: files.length });
+  const { files, clear } = useAttachment();
+  const { count } = useCount({ quantity: files.length, duration: 0.2 });
 
   return (
-    <AnimatePresence mode='wait'>
+    <Fragment>
       <AttachmentClearButton
         id='f-count'
         variants={{
+          hidden: { opacity: 0, transition: { duration: 0.2 } },
           hover: { scale: 1.1 },
           active: { scale: 0.98 },
         }}
+        exit='hidden'
         whileHover='hover'
         whileTap='active'
-        onClick={clearAttachment}
+        onClick={clear}
       >
         <AttachmentClearIcon>
           <IoFileTrayFull />
@@ -67,7 +70,7 @@ const AttachmentClear = () => {
         <SizeBadge>{count}</SizeBadge>
       </AttachmentClearButton>
       <Tooltip anchorSelect='#f-count' content='Click to remove all' />
-    </AnimatePresence>
+    </Fragment>
   );
 };
 

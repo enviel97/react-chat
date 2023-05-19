@@ -13,7 +13,8 @@ export const AnimationContainer: MotionProps = {
       height: 0,
       opacity: 0,
       transition: {
-        duration: 0.25,
+        height: { duration: 0.25 },
+        opacity: { duration: 0 },
       },
     },
   },

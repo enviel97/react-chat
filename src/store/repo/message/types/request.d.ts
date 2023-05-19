@@ -2,6 +2,7 @@ interface RequestSendMessage {
   tempId: string;
   conversationId: string;
   message: string;
+  attachments?: File[];
 }
 
 interface RequestDeleteMessage {

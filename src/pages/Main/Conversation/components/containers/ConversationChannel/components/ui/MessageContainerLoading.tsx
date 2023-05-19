@@ -15,7 +15,7 @@ const MessageContainerLoading = () => (
           gap='1em'
           flexDirection={i % 2 === 0 ? "row" : "row-reverse"}
         >
-          <CircleAvatar isLoading={true} />
+          <CircleAvatar />
           <SkeletonElement width={250} count={2} isLoading />
         </Box>
       ))}

@@ -1,7 +1,7 @@
-import { AnimatePresence, motion } from "framer-motion";
+import useAttachment from "@pages/Main/Conversation/components/containers/ConversationChannel/hooks/useAttachments";
+import { AnimatePresence } from "framer-motion";
 import { memo } from "react";
 import { AnimationItem } from "../../animation/AttachmentItem.animate";
-import useAttachment from "../../hooks/useAttachment";
 import {
   AttachmentItemsScrollWarper,
   AttachmentItemWrapper,
@@ -15,7 +15,7 @@ const AttachmentScrollView = () => {
   return (
     <AttachmentItemsScrollWarper>
       <AnimatePresence mode='popLayout'>
-        {files.map(({ id, file }, index) => {
+        {files.map(([id, file], index) => {
           return (
             <AttachmentItemWrapper
               layout
@@ -24,7 +24,7 @@ const AttachmentScrollView = () => {
               key={id}
               id={id}
             >
-              <AttachmentItem fileId={id} file={file} />
+              <AttachmentItem id={id} file={file} />
               <AttachmentHint
                 selector={`#${id}`}
                 fileName={file.name}

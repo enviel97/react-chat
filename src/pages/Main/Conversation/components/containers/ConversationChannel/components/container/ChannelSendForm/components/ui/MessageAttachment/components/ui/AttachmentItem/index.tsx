@@ -1,7 +1,6 @@
-import { AnimatePresence } from "framer-motion";
+import useAttachment from "@pages/Main/Conversation/components/containers/ConversationChannel/hooks/useAttachments";
 import { FC, memo, useEffect, useMemo, useState } from "react";
 import { TiDelete } from "react-icons/ti";
-import useAttachment from "../../../hooks/useAttachment";
 import AttachmentIcon from "./components/AttachmentIcon";
 import AttachmentImage from "./components/AttachmentImage";
 import {
@@ -11,36 +10,33 @@ import {
 } from "./styles/AttachmentItem.decorate";
 
 interface AttachmentItemProps {
-  fileId: string;
+  id: string;
   file: File;
 }
 
-const AttachmentItem: FC<AttachmentItemProps> = ({ file, fileId }) => {
-  const [imageSrc, setImageSrc] = useState<string>();
-  const { removeAttachment } = useAttachment();
+const AttachmentItem: FC<AttachmentItemProps> = ({ id, file }) => {
+  const { remove } = useAttachment();
+  const [blob, setBlob] = useState<string>();
 
   const isImage = useMemo(() => file?.type.includes("image"), [file]);
 
   useEffect(() => {
-    let blob = "";
-    if (!file) return;
-    if (file.type.includes("image")) {
-      blob = URL.createObjectURL(file);
-      setImageSrc(blob);
-    }
+    if (!isImage) return;
+    const blobUrl = URL.createObjectURL(file);
+    setBlob(blobUrl);
     return () => {
-      blob && URL.revokeObjectURL(blob);
+      URL.revokeObjectURL(blobUrl);
     };
-  }, [file]);
+  }, [file, isImage]);
 
   const handleOnRemoveItem = () => {
-    removeAttachment(fileId);
+    remove(id);
   };
 
   return (
     <AttachmentItemContainer>
       <AttachmentItemPreview>
-        {isImage && <AttachmentImage imageSrc={imageSrc} />}
+        {isImage && <AttachmentImage imageSrc={blob} />}
         {!isImage && <AttachmentIcon name={file.name} />}
       </AttachmentItemPreview>
       <AttachmentItemRemove onClick={handleOnRemoveItem}>

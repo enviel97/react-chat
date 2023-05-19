@@ -16,8 +16,6 @@ const MessageInput: FC<MessageInputProps> = ({ conversationId }) => {
   const {
     register,
     getValues,
-    setFocus,
-    reset,
     formState: { isSubmitting },
   } = useFormContext<ChannelSendFormValue>();
 
@@ -33,11 +31,9 @@ const MessageInput: FC<MessageInputProps> = ({ conversationId }) => {
         event.preventDefault();
         const forms = document.forms.namedItem(MESSAGE_FORM_SENDING);
         forms?.requestSubmit();
-        setFocus("message");
-        reset();
       }
     },
-    [handleNewLines, setFocus, reset]
+    [handleNewLines]
   );
 
   const keyListenersMap = useMemo(() => {
@@ -70,7 +66,6 @@ const MessageInput: FC<MessageInputProps> = ({ conversationId }) => {
       fontSize='1.2rem'
       maxLines={lines}
       register={register("message", {
-        required: true,
         disabled: isSubmitting,
         onChange: handleOnChange,
       })}

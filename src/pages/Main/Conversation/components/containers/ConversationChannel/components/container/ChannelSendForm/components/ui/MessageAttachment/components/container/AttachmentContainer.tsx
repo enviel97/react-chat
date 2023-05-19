@@ -1,26 +1,24 @@
+import useAttachment from "@pages/Main/Conversation/components/containers/ConversationChannel/hooks/useAttachments";
 import { AnimatePresence } from "framer-motion";
-import { memo, useEffect, useState } from "react";
+import { memo, useMemo } from "react";
 import { AnimationContainer } from "../../animation/AttachmentContainer.animate";
-import useAttachment from "../../hooks/useAttachment";
 import { AttachmentItemsContainer } from "../../styles/Attachment.decorate";
 import AttachmentClear from "../ui/AttachmentClear";
 import AttachmentScrollView from "./AttachmentScrollView";
 
 const AttachmentContainer = () => {
-  const [open, setOpen] = useState<boolean>(false);
-  const { files } = useAttachment();
+  const { quantity } = useAttachment();
 
-  useEffect(() => {
-    setOpen(files.length !== 0);
-  }, [files]);
+  const isEmpty = useMemo(() => {
+    return quantity === 0;
+  }, [quantity]);
 
   return (
     <AnimatePresence mode='wait'>
       {/* Exit animation */}
-      {open && (
+      {!isEmpty && (
         <AttachmentItemsContainer layoutScroll {...AnimationContainer}>
-          {/* Exit without animation */}
-          {open && <AttachmentScrollView />}
+          <AttachmentScrollView />
           <AttachmentClear />
         </AttachmentItemsContainer>
       )}
