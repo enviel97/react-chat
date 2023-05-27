@@ -19,6 +19,7 @@ const GroupAvatar: FC<GroupAvatarProps> = ({ avatarIds }) => {
   const size = useMemo(() => {
     return breakpoint.up("tablet") ? 36 : 40;
   }, [breakpoint]);
+
   useEffect(() => {
     if (avatarIds.length > 3) {
       setSrc(avatarIds.slice(0, 3));

@@ -13,9 +13,9 @@ import PickerEmoji from "./components/ui/PickerEmoji";
 import { TbSend } from "react-icons/tb";
 import MessageInput from "./components/ui/MessageInput";
 import { MESSAGE_FORM_SENDING } from "./common/form";
+import useAttachment from "../../../hooks/useAttachments";
 import { fetchAddMessages } from "@store/repo/message";
 import string from "@utils/string";
-import useAttachment from "../../../hooks/useAttachments";
 
 const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
   const dispatch = useAppDispatch();
@@ -24,9 +24,21 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
 
   const controller = useForm<ChannelSendFormValue>({
     defaultValues: { message: "", attachments: [] },
+    shouldUnregister: false,
+    shouldUseNativeValidation: false,
   });
 
-  const { getValues, setValue, handleSubmit, setFocus, reset } = controller;
+  const { getValues, setValue, setFocus, reset } = controller;
+
+  const resetForms = useCallback(() => {
+    clear();
+    setFocus("message");
+    reset({ message: "", attachments: [] }, { keepTouched: true });
+  }, [reset, clear, setFocus]);
+
+  useEffect(() => {
+    return resetForms;
+  }, [resetForms]);
 
   useEffect(() => {
     setValue(
@@ -36,8 +48,9 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
   }, [setValue, files]);
 
   const _handleSubmit = useCallback(
-    async (data: ChannelSendFormValue) => {
-      console.log({ data });
+    async (event: React.BaseSyntheticEvent) => {
+      event.preventDefault();
+      const data = getValues();
       if (data.attachments.length === 0 && data.message === "") return;
 
       /**
@@ -52,11 +65,9 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
         })
       );
       // reset focus
-      clear();
-      setFocus("message");
-      reset();
+      resetForms();
     },
-    [reset, setFocus, id, dispatch, clear]
+    [id, dispatch, resetForms, getValues]
   );
 
   const _onSelectedEmoji = useCallback(
@@ -81,9 +92,7 @@ const ChannelSendForm: FC<ChannelSendFormProps> = ({ conversationId: id }) => {
             name={MESSAGE_FORM_SENDING}
             autoComplete='off'
             noValidate
-            onSubmit={handleSubmit(_handleSubmit, (errors) => {
-              console.log(errors);
-            })}
+            onSubmit={_handleSubmit}
           >
             <MessageInput conversationId={id} />
             <ButtonIconNeumorphism

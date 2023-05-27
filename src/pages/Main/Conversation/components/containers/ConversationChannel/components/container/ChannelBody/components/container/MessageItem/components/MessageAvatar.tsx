@@ -5,10 +5,10 @@ import { FC } from "react";
 interface MessageAvatarProps {
   isShow: boolean;
   src?: string;
-  size: number;
 }
-const MessageAvatar: FC<MessageAvatarProps> = ({ isShow, size, src }) => {
-  if (isShow) {
+const MessageAvatar: FC<MessageAvatarProps> = ({ isShow, src }) => {
+  const size = 36;
+  if (!isShow) {
     return <Placeholder height={pxToEm(size)} width={pxToEm(size)} />;
   }
 

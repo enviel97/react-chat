@@ -1,11 +1,10 @@
 import useAuthenticate from "@hooks/useAuthenticate";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { authStatus } from "../../../store/repo/authenticate/authenticate";
 
 const useAuthFetch = () => {
   const { user, updateAuthUser } = useAuthenticate();
   const [loading, setLoading] = useState<boolean>(true);
-  const controller = useMemo(() => new AbortController(), []);
 
   useEffect(() => {
     setLoading(true);
@@ -19,11 +18,7 @@ const useAuthFetch = () => {
         updateAuthUser(undefined);
         setLoading(false);
       });
-
-    return () => {
-      controller.abort();
-    };
-  }, [controller, updateAuthUser]);
+  }, [updateAuthUser]);
   return { user, loading };
 };
 

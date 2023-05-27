@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, memo } from "react";
 import styled from "styled-components";
 
 interface MessageNoticeProps {
@@ -28,4 +28,4 @@ const MessageNotice: FC<MessageNoticeProps> = ({ message }) => {
   );
 };
 
-export default MessageNotice;
+export default memo(MessageNotice);

@@ -41,6 +41,19 @@ export const selectConversationById = createSelector(
   }
 );
 
+export const selectAvatarConversationById = createSelector(
+  [selectConversationById, (state: RootState) => state.profile.profile.user],
+  (conversation, userProfile) => {
+    const participants = conversation?.participant?.members;
+    if (!participants) return;
+    if (conversation.type === "group") {
+      return participants.map((account) => account.profile?.avatar);
+    }
+    const index = participants[0].getId() === userProfile.getId() ? 1 : 0;
+    return [participants[index].profile?.avatar];
+  }
+);
+
 export const selectConversationIds = createSelector(
   selectDirectIds,
   selectGroupIds,

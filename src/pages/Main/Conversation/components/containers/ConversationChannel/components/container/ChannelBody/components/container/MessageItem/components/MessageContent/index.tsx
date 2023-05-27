@@ -11,7 +11,7 @@ import {
   useCallback,
 } from "react";
 import { toast, ToastItem } from "react-toastify";
-import { EditContent } from "../Modal.content";
+import { EditContent } from "./modals/Modal.content";
 import { MessageContentContainer } from "./styles/MessageContent.decorate";
 
 interface MessageContentProps {
@@ -39,7 +39,23 @@ const MessageContent: FC<MessageContentProps> = ({
   const messageRef = useRef<HTMLDivElement | null>(null);
   const modal = useModals();
 
-  const setCaretCursor = (node: any, content: string) => {
+  const onBack = useCallback(() => {
+    if (messageRef.current) {
+      messageRef.current.textContent = message;
+    }
+    onConfirmEdit();
+    setContent(message);
+  }, [messageRef, message, onConfirmEdit]);
+
+  const onConfirm = useCallback(
+    (newMessage: string) => {
+      onConfirmEdit(newMessage);
+      setContent(newMessage);
+    },
+    [onConfirmEdit]
+  );
+
+  const setCaretCursor = (node: HTMLDivElement, content: string) => {
     const sel = window.getSelection();
     if (sel && content.length > 0) {
       const range = document.createRange();
@@ -67,22 +83,6 @@ const MessageContent: FC<MessageContentProps> = ({
       setContent(text);
     }
   };
-
-  const onBack = useCallback(() => {
-    if (messageRef.current) {
-      messageRef.current.textContent = message;
-    }
-    onConfirmEdit();
-    setContent(message);
-  }, [messageRef, message, onConfirmEdit]);
-
-  const onConfirm = useCallback(
-    (newMessage: string) => {
-      onConfirmEdit(newMessage);
-      setContent(newMessage);
-    },
-    [onConfirmEdit]
-  );
 
   const isInvalidNewMessage = (newMessage: string) => {
     if (newMessage) return false;
@@ -126,36 +126,30 @@ const MessageContent: FC<MessageContentProps> = ({
   const handleBlurred = (event: any) => {
     event.preventDefault();
     messageRef.current?.blur();
-    onBlurred(event as any);
+    onBlurred(event);
   };
 
   const onKeyPressDetection = (event: KeyboardEvent) => {
     if (!isEditable) return;
     const key = event.key;
-    switch (key) {
-      case "Enter":
-        if (!event.shiftKey) handleBlurred(event);
-        break;
-      case "Escape":
-        handleBlurred(event);
-        break;
+    if ((key === "Enter" && !event.shiftKey) || key === "Escape") {
+      handleBlurred(event);
     }
   };
 
   return (
-    <>
-      <MessageContentContainer
-        fromYou={fromYou}
-        ref={messageRef}
-        contentEditable={isEditable}
-        suppressContentEditableWarning={true}
-        onBlur={onBlurred}
-        onKeyDown={onKeyPressDetection}
-        role='textbox'
-      >
-        {content}
-      </MessageContentContainer>
-    </>
+    <MessageContentContainer
+      ref={messageRef}
+      contentEditable={isEditable}
+      suppressContentEditableWarning={true}
+      onBlur={onBlurred}
+      onKeyDown={onKeyPressDetection}
+      role='textbox'
+      // Styled action
+      $fromYou={fromYou}
+    >
+      {content}
+    </MessageContentContainer>
   );
 };
 

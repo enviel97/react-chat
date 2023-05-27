@@ -1,4 +1,3 @@
-import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
 import useNameChannel from "@pages/Main/Conversation/hooks/useNameChannel";
 import string from "@utils/string";
 import { FC } from "react";
@@ -27,13 +26,9 @@ const HeaderConversation: FC<HeaderConversationProps> = ({
   const conversationName = useNameChannel(string.getId(conversationId));
 
   return (
-    <SkeletonContainer>
-      <SkeletonElement isLoading={!conversationId}>
-        <HeaderConversationContainer>
-          {conversationName}
-        </HeaderConversationContainer>
-      </SkeletonElement>
-    </SkeletonContainer>
+    <HeaderConversationContainer>
+      {conversationName}
+    </HeaderConversationContainer>
   );
 };
 

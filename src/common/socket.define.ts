@@ -12,6 +12,7 @@ export const Event = Object.freeze({
   EVENT_REMOVE_NEW_MEMBERS: "onRemoveMember",
   EVENT_BANNED_USER: "onBannedUser",
   EVENT_NOTIFICATION_CHANGE_STATUS: "onNotificationChangeStatus",
+  EVENT_MESSAGE_UPDATE_LAST_MESSAGE: "onUpdateLastMessage",
 
   EVENT_MESSAGE_CREATED: "onMessageCreated",
   EVENT_MESSAGE_REMOVE: "onMessageRemove",
@@ -28,6 +29,8 @@ export const Event = Object.freeze({
   EVENT_SOCKET_CONNECTED: "connected",
   EVENT_SOCKET_ERROR: "connect_error",
   EVENT_SOCKET_DISCONNECT: "disconnect",
+  EVENT_SOCKET_DDOS: "ddos_warning",
+  EVENT_SOCKET_RECONNECT: "reconnect",
   EVENT_FRIEND_LIST_STATUS: "onFriendListStatus",
   EVENT_FRIEND_LIST_STATUS_RESPONSE: "onFriendListStatusResponse",
   EVENT_FRIEND_LIST_RETRIEVE: "onFriendListRetrieve",

@@ -1,6 +1,7 @@
 // Brush: https://github.com/ipenywis/img-lazy-loading/tree/master
 
 import local from "@common/local.define";
+import useThemeMode from "@hooks/useThemeMode";
 import { FC } from "react";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import {
@@ -14,6 +15,7 @@ interface NormalImageProps {
 }
 
 const NormalImage: FC<NormalImageProps> = ({ width, height, src }) => {
+  const { isDark } = useThemeMode();
   return (
     <NormalImageContainer>
       <LazyLoadImage
@@ -23,7 +25,7 @@ const NormalImage: FC<NormalImageProps> = ({ width, height, src }) => {
         height={height}
         wrapperClassName={`${NormalImageWrapper}`.toClassName()}
         threshold={100}
-        placeholderSrc={local.image.PlaceholderImage}
+        placeholderSrc={local.image.EmptyImage[isDark ? "dark" : "light"]}
       />
     </NormalImageContainer>
   );

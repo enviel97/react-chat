@@ -1,49 +1,47 @@
 import useAppSelector from "@hooks/useAppSelector";
-import { FC, useEffect, useState } from "react";
-import { selectConversationById } from "@store/slices/conversations";
-import useAuthenticate from "@hooks/useAuthenticate";
+import { FC, memo } from "react";
+import { selectAvatarConversationById } from "@store/slices/conversations";
 import DirectAvatar from "./components/DirectAvatar";
 import GroupAvatar from "./components/GroupAvatar";
+import AvatarLoading from "./components/AvatarLoading";
+import styled from "styled-components";
 
 interface ConversationAvatarProps {
   conversationId: string;
 }
-type Srcset = string | undefined;
+
+const ConversationSize = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  width: 40px;
+  height: 40px;
+`;
 
 const ConversationAvatar: FC<ConversationAvatarProps> = ({
   conversationId,
 }) => {
-  const conversation = useAppSelector((state) =>
-    selectConversationById(state, conversationId)
+  const conversationAvatars = useAppSelector((state) =>
+    selectAvatarConversationById(state, conversationId)
   );
-  const { isUser } = useAuthenticate();
-  const [listSrc, setListSrc] = useState<Map<string, Srcset>>(new Map());
-
-  useEffect(() => {
-    if (!conversation) return;
-    const participants = conversation.participant.members;
-
-    setListSrc((prev) =>
-      participants.reduce((participantAvatar, currentParticipant) => {
-        if (conversation.type === "direct" && isUser(currentParticipant)) {
-          return participantAvatar;
-        }
-        participantAvatar.set(
-          currentParticipant.getId(),
-          currentParticipant.profile?.avatar
-        );
-        return participantAvatar;
-      }, prev)
+  if (!conversationAvatars) {
+    return (
+      <ConversationSize>
+        <AvatarLoading />
+      </ConversationSize>
     );
-  }, [conversation, isUser]);
-
-  if (!conversation) return <></>;
-
-  if (listSrc.size > 1) {
-    return <GroupAvatar avatarIds={[...listSrc.values()]} />;
   }
-
-  return <DirectAvatar avatarId={[...listSrc.values()].at(0)} />;
+  return (
+    <ConversationSize>
+      {conversationAvatars.length > 1 && (
+        <GroupAvatar avatarIds={conversationAvatars} />
+      )}
+      {conversationAvatars.length <= 1 && (
+        <DirectAvatar avatarId={conversationAvatars.at(0)} />
+      )}
+    </ConversationSize>
+  );
 };
 
-export default ConversationAvatar;
+export default memo(ConversationAvatar);

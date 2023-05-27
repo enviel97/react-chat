@@ -73,6 +73,7 @@ const RouterController = () => {
           });
         }
         const { status = 500 } = response;
+        console.warn({ status, response });
         if (isLoginRequired(status)) {
           return handlerLoginRequired(error);
         }

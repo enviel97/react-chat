@@ -70,7 +70,6 @@ const UploadImageModal: FC<Props> = ({
 
   const onUploadProgress = useCallback(
     (processEvent: AxiosProgressEvent) => {
-      console.log({ upload: processEvent });
       const { loaded, total = 1 } = processEvent;
       let uploadPercentage = Math.floor(loaded * 100) / total;
       if (uploadPercentage <= 100) {

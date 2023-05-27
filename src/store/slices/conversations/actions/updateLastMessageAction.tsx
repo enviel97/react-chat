@@ -20,10 +20,7 @@ export const updateLastMessageAction = (
     state,
     payload.type
   );
-
-  const conversation = adapter
-    .getSelectors()
-    .selectById(eState, payload.conversationId);
+  const conversation = eState.entities[payload.conversationId];
 
   if (!conversation || !payload.message) return;
   adapter.updateOne(eState, {

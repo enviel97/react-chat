@@ -93,8 +93,7 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
   const _size = pxToEm(size ?? 36);
 
   useEffect(() => {
-    if (!src) return;
-    if (src.includes("http")) setImgSrc(src);
+    if (!src || src.includes("http")) setImgSrc(src);
     else {
       const avatar = avatarUrlImage(src);
       setImgSrc(avatar.srcset.md);

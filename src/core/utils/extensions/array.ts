@@ -1,8 +1,9 @@
 import string from "@utils/string";
 
 declare global {
-  interface array {
+  interface Array<T = any> {
     toClasslist(): string;
+    isNotEmpty(): boolean;
   }
 }
 
@@ -10,6 +11,13 @@ declare global {
 Object.defineProperty(Array.prototype, "toClasslist", {
   value: function (this) {
     return string.classList(...this);
+  },
+});
+
+/*eslint no-extend-native: ["error", { "exceptions": ["Array"] }]*/
+Object.defineProperty(Array.prototype, "isNotEmpty", {
+  value: function (this) {
+    return (this?.length ?? 0) !== 0;
   },
 });
 

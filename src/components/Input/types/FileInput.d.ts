@@ -7,6 +7,7 @@ interface FileInputProps {
    * size: calc by bytes
    */
   maxSize?: number;
+  maxQuantity?: number;
   selectedFile?: (files: File[]) => void;
 }
 

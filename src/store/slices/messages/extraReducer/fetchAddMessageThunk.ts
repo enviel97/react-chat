@@ -33,12 +33,13 @@ export const fetchAddMessageThunk = (builder: MessageExtraBuilder) => {
         state,
         action: PayloadThunkAction<RequestSendMessage, Response<Message>>
       ) => {
-        const payload = action.payload;
-        const message = payload.data;
+        const message = action.payload.data;
+        if (!message) return;
+        const { content, attachments, ...updatePart } = message;
         if (message) {
           messagesAdapter.updateOne(state, {
             id: action.meta.arg.tempId,
-            changes: { ...message, modified: State.FULFILLED },
+            changes: { ...updatePart, modified: State.FULFILLED },
           });
         }
       }

@@ -72,7 +72,9 @@ const Item: FC<ItemProps> = ({
           <span
             className={string.classList(
               "Content--Text",
-              conversation.lastMessage ? "" : "Content--Default"
+              !conversation.lastMessage || !conversation.lastMessage.content
+                ? "Content--Default"
+                : ""
             )}
           >
             {lastMessenger}

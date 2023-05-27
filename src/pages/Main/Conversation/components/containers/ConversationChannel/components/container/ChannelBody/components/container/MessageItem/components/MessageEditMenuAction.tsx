@@ -1,14 +1,13 @@
 import ModalConfirm from "@components/Modal/components/ModalConfirm";
 import { useModals } from "@components/Modal/hooks/useModals";
 import { ActionMenu } from "@components/Select";
-import { FC, useCallback } from "react";
+import { FC, memo, useCallback } from "react";
 import { MdDeleteForever, MdEdit } from "react-icons/md";
 import styled from "styled-components";
-import { DeleteContent } from "../ui/Modal.content";
+import { DeleteContent } from "./MessageContent/modals/Modal.content";
 interface MessageEditMenuActionProps {
   onDeleteMessage: () => void;
   onEditMessage: () => void;
-  isShow?: boolean;
 }
 
 const MODAL_DELETE_ID = "modal_delete_id";
@@ -17,6 +16,7 @@ const MessageActionContainer = styled.div`
   position: absolute;
   right: auto;
   left: -2rem;
+  bottom: 0;
 `;
 
 const ModalDeleteOption = {
@@ -29,7 +29,6 @@ const ModalDeleteOption = {
 const MessageEditMenuAction: FC<MessageEditMenuActionProps> = ({
   onDeleteMessage,
   onEditMessage,
-  isShow,
 }) => {
   const modal = useModals();
 
@@ -44,9 +43,6 @@ const MessageEditMenuAction: FC<MessageEditMenuActionProps> = ({
     );
   }, [onDeleteMessage, modal]);
 
-  if (!isShow) {
-    return <></>;
-  }
   return (
     <MessageActionContainer>
       <ActionMenu
@@ -68,4 +64,4 @@ const MessageEditMenuAction: FC<MessageEditMenuActionProps> = ({
   );
 };
 
-export default MessageEditMenuAction;
+export default memo(MessageEditMenuAction);

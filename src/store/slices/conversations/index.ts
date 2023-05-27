@@ -48,6 +48,7 @@ export const {
 export {
   selectAllConversation,
   selectConversationById,
+  selectAvatarConversationById,
 } from "./selectors/getConversationSelector";
 
 export default conversationsSlice.reducer;

@@ -8,7 +8,7 @@ export const Panel = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   font-weight: bold;
 `;
 

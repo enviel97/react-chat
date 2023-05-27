@@ -26,5 +26,6 @@ export const { updateUser, updateProfile, updateImage } = profilesSlice.actions;
 export { default as selectProfile } from "./selector/selectProfile";
 export { default as selectImage } from "./selector/selectImage";
 export { default as selectUser } from "./selector/selectUser";
+export { default as validateUser } from "./selector/selectValidateIsUser";
 
 export default profilesSlice.reducer;

@@ -48,6 +48,11 @@ export const AttachmentsProvider: FC<Components> = ({ children }) => {
 
   const handleSelectedImage = useCallback(
     async (files: File[]) => {
+      const quantity = selectAttachmentsQuantity;
+      if (quantity + files.length >= MAX_FILE_IN_ONE_MESSAGE) {
+        toast.error(`You can't send more than ${MAX_FILE_IN_ONE_MESSAGE}`);
+        return;
+      }
       addAttachments(files);
     },
     [addAttachments, selectAttachmentsQuantity]

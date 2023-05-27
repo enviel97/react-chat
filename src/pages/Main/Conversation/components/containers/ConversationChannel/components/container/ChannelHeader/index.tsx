@@ -1,6 +1,5 @@
-import SkeletonContainer from "@components/Skeleton";
 import useAppSelector from "@hooks/useAppSelector";
-import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
+import ConversationAvatar from "@pages/Main/Conversation/components/ui/ConversationAvatar";
 import HeaderConversation from "@pages/Main/Conversation/components/ui/HeaderConversation";
 import { selectConversationById } from "@store/slices/conversations";
 import { FC, useMemo } from "react";
@@ -25,18 +24,16 @@ const ChannelHeader: FC<ChannelHeaderProps> = ({ conversationId }) => {
   }, [conversation]);
 
   return (
-    <SkeletonContainer>
-      <ChannelHeaderContainer>
-        <CircleAvatar />
-        <HeaderConversation conversationId={conversationId} />
-        <ConversationHeaderAction
-          roles={roles}
-          members={members}
-          type={conversation?.type ?? "direct"}
-          conversationId={conversationId}
-        />
-      </ChannelHeaderContainer>
-    </SkeletonContainer>
+    <ChannelHeaderContainer>
+      <ConversationAvatar conversationId={conversationId} />
+      <HeaderConversation conversationId={conversationId} />
+      <ConversationHeaderAction
+        roles={roles}
+        members={members}
+        type={conversation?.type ?? "direct"}
+        conversationId={conversationId}
+      />
+    </ChannelHeaderContainer>
   );
 };
 

@@ -36,7 +36,7 @@ const useProtectImage = ({ src, placeholder, refresh, viewPort }: Props) => {
      */
     const imageUrl = getImageFromSrc({ src, viewPort });
     if (!src || !imageUrl) {
-      return { key: "default", url: placeholder };
+      return { key: `default-${placeholder}`, url: placeholder };
     }
     return imageUrl;
   }, [src, placeholder, viewPort]);

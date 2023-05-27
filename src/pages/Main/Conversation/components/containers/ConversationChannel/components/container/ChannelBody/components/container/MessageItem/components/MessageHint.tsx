@@ -1,7 +1,7 @@
 import moment from "moment";
 import { FC, memo } from "react";
 import styled from "styled-components";
-import { MessageItemTimer } from "../../styles/Message.decorate";
+import { MessageItemTimer } from "../styles/Message.decorate";
 
 const HintEdit = styled.span`
   margin-top: 0.2em;

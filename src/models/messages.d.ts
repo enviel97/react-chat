@@ -1,15 +1,26 @@
 type MessageAction = "New" | "Edited" | "Removed" | "Seen" | "Notice";
 
+interface MessageAttachments extends TimeStamp, Identity {
+  downloadLink: string;
+  publicId: string;
+  type: string;
+}
+
 interface IMessage extends TimeStamp, Identity {
   conversationId: string;
   author: string;
-  content: string;
   action: MessageAction;
+  // content
+  content?: string;
+  attachments?: MessageAttachments[];
 }
 
 interface Message extends TimeStamp, Identity {
   conversationId: string;
   author: User;
-  content: string;
   action: MessageAction;
+
+  // content
+  content?: string;
+  attachments?: MessageAttachments[];
 }

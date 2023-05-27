@@ -1,3 +1,0 @@
-interface MessageStyledProps {
-  fromYou: boolean;
-}

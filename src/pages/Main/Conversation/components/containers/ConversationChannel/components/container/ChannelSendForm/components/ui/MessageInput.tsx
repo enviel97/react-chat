@@ -63,6 +63,7 @@ const MessageInput: FC<MessageInputProps> = ({ conversationId }) => {
       id='message'
       label='Enter message'
       type='rich'
+      autoFocus
       fontSize='1.2rem'
       maxLines={lines}
       register={register("message", {

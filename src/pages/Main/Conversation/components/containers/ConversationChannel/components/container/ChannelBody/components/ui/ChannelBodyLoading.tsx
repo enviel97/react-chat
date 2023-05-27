@@ -1,9 +1,9 @@
 import SkeletonContainer, { SkeletonElement } from "@components/Skeleton";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import { Box } from "@utils/styles";
-import { ChannelMessageContainer } from "../../styles/Channel.decorate";
+import { ChannelMessageContainer } from "../../../../../styles/Channel.decorate";
 
-const MessageContainerLoading = () => (
+const ChannelBodyLoading = () => (
   <SkeletonContainer>
     <ChannelMessageContainer>
       {Array.from({ length: 10 }, (_, i) => (
@@ -22,4 +22,4 @@ const MessageContainerLoading = () => (
     </ChannelMessageContainer>
   </SkeletonContainer>
 );
-export default MessageContainerLoading;
+export default ChannelBodyLoading;

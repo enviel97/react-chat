@@ -26,7 +26,8 @@ export const AuthProvider: FC<Components> = ({ children }) => {
 
   const isUser = useCallback(
     (another: any) => {
-      return !!user && string.getId(another) === string.getId(user);
+      if (!user) return false;
+      return string.getId(another) === string.getId(user);
     },
     [user]
   );
