@@ -11,7 +11,14 @@ import { fileInputFilter } from "../utils/FileInput.validate";
 
 const FileInput = forwardRef<FileInputRef, FileInputProps>(
   (
-    { multiple, accept, allowSelectDuplicate, selectedFile, maxSize },
+    {
+      multiple,
+      accept,
+      allowSelectDuplicate,
+      selectedFile,
+      maxSize,
+      className,
+    },
     controller
   ) => {
     const ref = useRef<HTMLInputElement>(null);
@@ -51,6 +58,7 @@ const FileInput = forwardRef<FileInputRef, FileInputProps>(
       <InvisibleInput
         type='file'
         ref={ref}
+        className={className}
         multiple={multiple}
         accept={accept}
         onClick={handleClick}

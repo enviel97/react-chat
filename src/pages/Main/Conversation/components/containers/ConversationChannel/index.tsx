@@ -29,7 +29,7 @@ const ConversationChannel = () => {
   }
 
   return (
-    <AttachmentsProvider>
+    <AttachmentsProvider accepts={["image"]}>
       <ChannelContainer>
         <Suspense fallback={<ChannelHeaderLoading />}>
           <Header conversationId={id} />

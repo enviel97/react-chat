@@ -2,6 +2,7 @@ interface FileInputProps {
   multiple?: boolean;
   accept?: string;
   allowSelectDuplicate?: boolean;
+  className?: string;
 
   /**
    * size: calc by bytes

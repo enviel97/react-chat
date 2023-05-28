@@ -7,11 +7,11 @@ import AttachmentClear from "../ui/AttachmentClear";
 import AttachmentScrollView from "./AttachmentScrollView";
 
 const AttachmentContainer = () => {
-  const { quantity } = useAttachment();
+  const { files } = useAttachment();
 
   const isEmpty = useMemo(() => {
-    return quantity === 0;
-  }, [quantity]);
+    return files.length === 0;
+  }, [files.length]);
 
   return (
     <AnimatePresence mode='wait'>

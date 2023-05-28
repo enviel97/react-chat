@@ -1,6 +1,5 @@
 import useAuthenticate from "@hooks/useAuthenticate";
 import string from "@utils/string";
-import { Box } from "@utils/styles";
 import { FC, memo, useCallback, useMemo, useState } from "react";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { fetchDeleteMessages, fetchEditMessages } from "@store/repo/message";
@@ -38,6 +37,8 @@ const MessageItem: FC<MessageItemProps> = ({
   const fromYou = useMemo(() => {
     if (messageUtils.isTemp(message)) return true;
     return isUser(message.author);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [message.author, message.id, message._id, isUser]);
 
   const getAvatar = useMemo(() => {
@@ -47,6 +48,7 @@ const MessageItem: FC<MessageItemProps> = ({
     if (!preChatter) return true;
 
     return string.getId(preChatter) !== string.getId(message.author);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     message.author.id,
     message.author._id,
@@ -65,6 +67,7 @@ const MessageItem: FC<MessageItemProps> = ({
           })
         ).unwrap(),
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch, message.id, message._id, message.conversationId]);
 
   const handleEditMessage = useCallback(
@@ -80,6 +83,7 @@ const MessageItem: FC<MessageItemProps> = ({
       }
       setEditable(false);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [dispatch, message.id, message._id, message.conversationId]
   );
 

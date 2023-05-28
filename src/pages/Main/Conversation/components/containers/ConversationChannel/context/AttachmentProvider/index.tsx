@@ -1,13 +1,14 @@
-import { InputFile } from "@components/Input";
-import {
-  createContext,
-  DragEventHandler,
-  FC,
-  useCallback,
-  useRef,
-} from "react";
+import { createContext, FC, useCallback, useMemo } from "react";
+import { FileRejection, useDropzone } from "react-dropzone";
 import { toast } from "react-toastify";
 import { DragAndDropZoneContainer } from "../../styles/DragAndDrop.decorate";
+import {
+  ACCEPT,
+  MAX_FILE_IN_ONE_MESSAGE,
+  MAX_FILE_SIZE,
+} from "./common/config.default";
+import DropNotification from "./components/DropNotification";
+import ToastAttachmentError from "./components/ToastAttachmentError";
 import useAttachmentReducer from "./hooks/useAttachmentsReducer";
 
 export const AttachmentContext = createContext<AttachmentContextProps>({
@@ -24,64 +25,69 @@ export const AttachmentContext = createContext<AttachmentContextProps>({
   },
 });
 
-const MAX_FILE_SIZE = 1024 * 1024 * 2; /** 2MB */
-const MAX_FILE_IN_ONE_MESSAGE = 15;
-
-export const AttachmentsProvider: FC<Components> = ({ children }) => {
-  const inputRef = useRef<FileInputRef>(null);
-  const dropzoneRef = useRef<HTMLDivElement>(null);
+export const AttachmentsProvider: FC<AttachmentProviderProps> = ({
+  children,
+  accepts,
+}) => {
   const { getSelector, addAttachments, clearAttachments, removeAttachments } =
     useAttachmentReducer();
-  const { selectAttachments, selectAttachmentsQuantity } = getSelector();
-
-  const handleOnDragFileToZone = (event: DragEvent) => {
-    event.stopPropagation();
-    event.preventDefault();
-    console.log({ drag_event: event });
-  };
-
-  const handleOnDropFileToZone: DragEventHandler<HTMLDivElement> = (event) => {
-    event.stopPropagation();
-    event.preventDefault();
-    console.log({ drag_event: event });
-  };
+  const { selectAttachments } = getSelector();
 
   const handleSelectedImage = useCallback(
-    async (files: File[]) => {
-      const quantity = selectAttachmentsQuantity;
-      if (quantity + files.length >= MAX_FILE_IN_ONE_MESSAGE) {
-        toast.error(`You can't send more than ${MAX_FILE_IN_ONE_MESSAGE}`);
+    async (acceptFiles: File[]) => {
+      toast.clearWaitingQueue();
+      const totalInAttachmentBucket =
+        acceptFiles.length + selectAttachments.length;
+      if (totalInAttachmentBucket > MAX_FILE_IN_ONE_MESSAGE) {
+        toast.error(`Too many file exceed (max: ${MAX_FILE_IN_ONE_MESSAGE})`);
         return;
       }
-      addAttachments(files);
+      addAttachments(acceptFiles);
     },
-    [addAttachments, selectAttachmentsQuantity]
+    [addAttachments, selectAttachments.length]
   );
 
-  const handleOpen = useCallback(() => {
-    if (!inputRef.current) return;
-    inputRef.current.onOpenBrowser();
+  const handleValidateDrop = useCallback((fileRejected: FileRejection[]) => {
+    fileRejected.forEach((error) => {
+      toast.error(<ToastAttachmentError fileReject={error} />, {
+        bodyStyle: { width: "fit-content" },
+      });
+    });
   }, []);
 
+  const {
+    getRootProps,
+    getInputProps,
+    isDragActive,
+    open: handleOpen,
+  } = useDropzone({
+    onDrop: handleSelectedImage,
+    multiple: true,
+    accept: accepts?.reduce((accepts, type) => {
+      return { ...accepts, ...ACCEPT[type] };
+    }, {}),
+    maxSize: MAX_FILE_SIZE,
+    onDropRejected: handleValidateDrop,
+    noClick: true,
+  });
+
+  const value = useMemo(
+    () => ({
+      files: selectAttachments,
+      quantity: selectAttachments.length,
+      open: handleOpen,
+      remove: removeAttachments,
+      clear: clearAttachments,
+    }),
+    [selectAttachments, handleOpen, removeAttachments, clearAttachments]
+  );
+
   return (
-    <AttachmentContext.Provider
-      value={{
-        files: selectAttachments,
-        quantity: selectAttachmentsQuantity,
-        open: handleOpen,
-        remove: removeAttachments,
-        clear: clearAttachments,
-      }}
-    >
-      <DragAndDropZoneContainer ref={dropzoneRef}>
+    <AttachmentContext.Provider value={value}>
+      <DragAndDropZoneContainer {...getRootProps()}>
         {children}
-        <InputFile
-          ref={inputRef}
-          selectedFile={handleSelectedImage}
-          maxSize={MAX_FILE_SIZE}
-          multiple
-          allowSelectDuplicate
-        />
+        <input {...getInputProps()} />
+        {isDragActive && <DropNotification />}
       </DragAndDropZoneContainer>
     </AttachmentContext.Provider>
   );
