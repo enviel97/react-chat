@@ -12,9 +12,15 @@ interface NormalImageProps {
   src?: string;
   width?: string;
   height?: string;
+  draggable?: "false" | "true";
 }
 
-const NormalImage: FC<NormalImageProps> = ({ width, height, src }) => {
+const NormalImage: FC<NormalImageProps> = ({
+  width,
+  height,
+  src,
+  draggable,
+}) => {
   const { isDark } = useThemeMode();
   return (
     <NormalImageContainer>
@@ -23,6 +29,7 @@ const NormalImage: FC<NormalImageProps> = ({ width, height, src }) => {
         effect='blur'
         width={width}
         height={height}
+        draggable={draggable}
         wrapperClassName={`${NormalImageWrapper}`.toClassName()}
         threshold={100}
         placeholderSrc={local.image.EmptyImage[isDark ? "dark" : "light"]}

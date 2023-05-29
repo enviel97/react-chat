@@ -6,6 +6,6 @@ interface AttachmentImageProps {
 }
 
 const AttachmentImage: FC<AttachmentImageProps> = ({ imageSrc }) => {
-  return <NormalImage src={imageSrc} />;
+  return <NormalImage src={imageSrc} draggable='false' />;
 };
 export default AttachmentImage;

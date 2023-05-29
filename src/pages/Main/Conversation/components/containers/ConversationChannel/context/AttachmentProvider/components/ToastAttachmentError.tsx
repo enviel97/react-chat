@@ -1,5 +1,5 @@
 import { FC, memo } from "react";
-import type { FileRejection, FileError } from "react-dropzone";
+import type { FileRejection } from "react-dropzone";
 import styled from "styled-components";
 
 interface ToastErrorProps {

@@ -1,6 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "@store/index";
-import messageUtils from "@store/repo/message/utils/utils";
 import string from "@utils/string";
 
 type UserObject = User | UserProfile | string | undefined;

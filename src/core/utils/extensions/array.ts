@@ -1,6 +1,7 @@
 import string from "@utils/string";
 
 declare global {
+  /* eslint-disable @typescript-eslint/no-unused-vars */
   interface Array<T = any> {
     toClasslist(): string;
     isNotEmpty(): boolean;
