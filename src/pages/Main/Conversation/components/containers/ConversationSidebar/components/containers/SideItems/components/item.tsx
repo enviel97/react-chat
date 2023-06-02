@@ -1,10 +1,11 @@
+import useContextMenu from "@components/Select/ContextMenu/hooks/useContextMenu";
 import useAppSelector from "@hooks/useAppSelector";
 import ConversationAvatar from "@pages/Main/Conversation/components/ui/ConversationAvatar";
 import HeaderConversation from "@pages/Main/Conversation/components/ui/HeaderConversation";
 import { selectConversationById } from "@store/slices/conversations";
 import string from "@utils/string";
 import { FC, memo, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   SideItemContainer,
   SideItemContent,
@@ -20,21 +21,14 @@ enum Status {
 
 interface ItemProps {
   conversationId: string;
-  onItemClick: () => void;
-  onContextMenu: (
-    event: React.MouseEvent<HTMLElement, MouseEvent>,
-    value: Conversation
-  ) => void;
 }
 
-const Item: FC<ItemProps> = ({
-  conversationId,
-  onItemClick,
-  onContextMenu,
-}) => {
+const Item: FC<ItemProps> = ({ conversationId }) => {
   const { id } = useParams();
+  const navigator = useNavigate();
   const [status, setStatus] = useState<Status>(Status.Seen);
   const [selected, setSelected] = useState<boolean>(false);
+  const { onContextMenu } = useContextMenu();
   const conversation = useAppSelector((state) =>
     selectConversationById(state, conversationId)
   );
@@ -53,17 +47,19 @@ const Item: FC<ItemProps> = ({
   const _seen = () => {
     // TODO: Seen
     setStatus(Status.Seen);
-    onItemClick();
+    navigator(`messenger/${conversationId}`);
+  };
+
+  const handleOnContextMenu = () => {
+    if (!conversation) return;
+    onContextMenu(conversation);
   };
 
   return (
     <SideItemContainer
       className={string.classList(selected ? "active" : "")}
       onClick={_seen}
-      onContextMenu={(event) => {
-        event.preventDefault();
-        onContextMenu(event, conversation);
-      }}
+      onContextMenu={handleOnContextMenu}
     >
       <ConversationAvatar conversationId={conversation.getId()} />
       <SideItemContent>

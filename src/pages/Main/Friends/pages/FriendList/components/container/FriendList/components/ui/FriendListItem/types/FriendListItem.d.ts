@@ -1,0 +1,3 @@
+interface FriendListItemProps {
+  friendId: string;
+}

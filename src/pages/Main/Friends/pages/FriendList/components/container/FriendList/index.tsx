@@ -6,9 +6,7 @@ import { updateFriendProfile } from "@store/slices/users";
 import { memo, lazy, Suspense, useEffect, useCallback } from "react";
 import FriendListTitle from "./components/containers/FriendListTitle";
 import FriendListLoading from "./components/ui/FriendListLoading";
-const FriendListBody = lazy(
-  () => import("./components/containers/FriendListBody")
-);
+const Body = lazy(() => import("./components/containers/FriendListBody"));
 
 interface UpdateProfileProps {
   id: string;
@@ -50,15 +48,14 @@ const FriendList = () => {
 
   useEffect(() => {
     const promise = dispatch(fetchListFriends());
-    return () => {
-      promise.abort();
-    };
+    return promise.abort;
   }, [dispatch]);
+
   return (
     <>
       <FriendListTitle />
       <Suspense fallback={<FriendListLoading />}>
-        <FriendListBody />
+        <Body />
       </Suspense>
     </>
   );

@@ -1,7 +1,7 @@
 import { colorBrightness } from "@theme/helper/tools";
-import { FC, useContext } from "react";
+import { FC, memo } from "react";
 import { useTheme } from "styled-components";
-import { MenuContext } from "..";
+import useContextMenu from "../hooks/useContextMenu";
 import { MenuContextItemContainer } from "../styles/MenuContextItem.decorate";
 
 const ContextMenuItems: FC<ContextMenuItemProps> = ({
@@ -10,21 +10,25 @@ const ContextMenuItems: FC<ContextMenuItemProps> = ({
   hoverBackgroundColor,
   ...containerDecorate
 }) => {
-  const selectedValue = useContext(MenuContext);
+  const { selectedValue, close } = useContextMenu();
   const theme = useTheme();
   return (
     <MenuContextItemContainer
       {...containerDecorate}
-      onContextMenu={(e) => e.preventDefault()}
       onClick={() => {
         onClick && onClick(selectedValue);
+        close();
       }}
       whileHover={{
-        fontSize: "16px",
+        scale: 1.05,
         backgroundColor:
           hoverBackgroundColor ?? colorBrightness(theme.surfaceColor, 10),
         color: hoverColor,
       }}
+      whileTap={{
+        scale: 0.98,
+      }}
+      transition={{ bounce: 0 }}
     >
       <i>{icon}</i>
       <span>{label}</span>
@@ -32,4 +36,4 @@ const ContextMenuItems: FC<ContextMenuItemProps> = ({
   );
 };
 
-export default ContextMenuItems;
+export default memo(ContextMenuItems);

@@ -1,13 +1,6 @@
-interface ActionEditParams {
-  messageId: string;
+interface ActionEditParams extends Message {
+  id: string;
   content: string;
-}
-
-interface ResponseEditMessage extends ActionEditParams {
   conversationId: string;
-  lastMessage?: Message;
-}
-interface ResponseDeleteMessage extends ActionEditParams {
-  conversationId: string;
-  lastMessage?: Message;
+  action: "Edited" | "Removed";
 }

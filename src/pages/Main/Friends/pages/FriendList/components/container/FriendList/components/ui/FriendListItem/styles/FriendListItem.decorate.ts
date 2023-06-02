@@ -1,7 +1,9 @@
 import { clampSize, colorBrightness } from "@theme/helper/tools";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const FriendListItemContainer = styled.div`
+  position: relative;
   height: ${clampSize({
     maxFontSize: 7.25,
     minFontSize: 7,
@@ -73,11 +75,4 @@ export const FriendItemTitleContainer = styled.h4`
     display: none;
     visibility: hidden;
   }
-`;
-
-export const FriendListItemAction = styled.div`
-  display: flex;
-  padding: 0.5em;
-  align-items: flex-start;
-  justify-content: center;
 `;

@@ -18,7 +18,7 @@ const UILoading = memo(() => {
   return (
     <SkeletonContainer>
       <SideItemContainer>
-        <CircleAvatar className='avatar' isLoading />
+        <CircleAvatar className='avatar' />
         <KSideItemContent>
           <SkeletonElement isLoading />
           <SkeletonElement isLoading />

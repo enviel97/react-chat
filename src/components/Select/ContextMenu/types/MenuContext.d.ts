@@ -1,3 +1,13 @@
+type ContextMenuEvent = React.MouseEvent<HTMLElement, MouseEvent>;
+
+interface ContextMenuProviderProps extends Components {
+  height?: string;
+  width?: string;
+  menuItem: ContextMenuOption[];
+  menuTitle?: string;
+  disable?: boolean;
+}
+
 interface ContextMenuItemContainerProps {
   hoverColor?: string;
   hoverBackgroundColor?: string;
@@ -9,13 +19,6 @@ interface ContextMenuOption extends ContextMenuItemContainerProps {
   onClick?: (value: any) => Promise<void> | void;
 }
 
-interface ContextMenuRef {
-  onContextMenu: <T>(
-    event: React.MouseEvent<HTMLElement, MouseEvent>,
-    value: T
-  ) => void;
-}
-
 interface ContextMenuProps extends ContextMenuContainerProps {
   width?: string;
   height?: string;
@@ -25,4 +28,10 @@ interface ContextMenuProps extends ContextMenuContainerProps {
 
 interface ContextMenuItemProps extends ContextMenuItemContainerProps {
   item: ContextMenuOption;
+}
+
+interface MenuContext {
+  selectedValue: any;
+  onContextMenu(targetValue: any): void;
+  close(): void;
 }

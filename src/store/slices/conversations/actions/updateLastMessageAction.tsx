@@ -6,28 +6,39 @@ interface ActionUpdateLastMessageConversation
   extends UpdateLastMessageConversationPayload {
   type: ConversationType;
 }
+const validateLastMessage = (conversation: Conversation, message: Message) => {
+  const { lastMessage } = conversation;
+  if (!lastMessage) return false;
+  return (
+    // message edit is not last message
+    (lastMessage.isSame(message) &&
+      ["Edited", "Removed"].includes(message.action)) ||
+    // message is new
+    message.action === "New"
+  );
+};
+
 export const updateLastMessageAction = (
   state: ConversationState,
   action: PayloadAction<ActionUpdateLastMessageConversation>
 ) => {
-  const payload = action.payload;
-  if (
-    payload.message === null ||
-    (payload.message && payload.message?.action === "Notice")
-  )
+  const { message, conversationId, type } = action.payload;
+  if (!message || message?.action === "Notice") {
     return;
-  const { adapter, state: eState } = getAdapterConversation(
-    state,
-    payload.type
-  );
-  const conversation = eState.entities[payload.conversationId];
-
-  if (!conversation || !payload.message) return;
+  }
+  const { author, ...updated } = message;
+  const entities = getAdapterConversation(state, type);
+  const { adapter, state: eState } = entities;
+  const conversation = eState.entities[conversationId];
+  if (!conversation) return;
+  if (!validateLastMessage(conversation, message)) {
+    return;
+  }
   adapter.updateOne(eState, {
-    id: payload.conversationId,
+    id: conversationId,
     changes: {
-      lastMessage: payload.message,
-      updatedAt: payload.message?.updatedAt ?? moment().toISOString(),
+      lastMessage: { ...conversation.lastMessage!, ...updated },
+      updatedAt: message?.updatedAt ?? moment().toISOString(),
     },
   });
 };

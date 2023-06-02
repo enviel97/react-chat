@@ -7,7 +7,7 @@ export const MenuContextItemContainer = styled(motion.li)<TypeDecorate>`
   padding: 0.5em 1em;
   width: 100%;
   gap: 1em;
-  font-size: 14px;
+  font-size: 1em;
   background-color: transparent;
   cursor: pointer;
 

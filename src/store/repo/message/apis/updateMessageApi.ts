@@ -1,12 +1,12 @@
 import client from "@core/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { MESSAGE_UPDATE } from "@store/common/repo";
-import { RootState } from "@store/index";
+import type { RootState } from "@store/index";
 import { updateLastMessage } from "@store/slices/conversations";
 
 const updateMessage = async (req: RequestEditMessage) => {
   const { conversationId, messageId, content } = req;
-  const response = await client.put<any, Response<ResponseEditMessage>>(
+  const response = await client.put<any, Response<ActionEditParams>>(
     MESSAGE_UPDATE,
     { content: content },
     {
@@ -22,7 +22,7 @@ const updateMessage = async (req: RequestEditMessage) => {
 
 const fetchEditMessages = createAsyncThunk(
   "messages/edit",
-  async (request: RequestEditMessage, { dispatch, getState }) => {
+  async (request: RequestEditMessage, { getState, dispatch }) => {
     const result = await updateMessage(request);
     if (result.data) {
       const state = getState() as RootState;
@@ -31,13 +31,13 @@ const fetchEditMessages = createAsyncThunk(
       dispatch(
         updateLastMessage({
           conversationId: data.conversationId,
-          message: data.lastMessage,
+          message: data,
           type,
         })
       );
+      return result;
     }
-
-    return result;
+    return Promise.reject(result.message ?? "Interval server error");
   }
 );
 

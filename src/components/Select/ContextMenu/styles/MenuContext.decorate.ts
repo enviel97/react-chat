@@ -1,11 +1,9 @@
 import { zIndex } from "@common/zIndex.define";
 import { motion } from "framer-motion";
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 type TypeDecorate = {
   $height?: string;
   $width?: string;
-  $top: number;
-  $left: number;
 };
 
 export const MenuContextContainer = styled(motion.ul)<TypeDecorate>`
@@ -18,10 +16,6 @@ export const MenuContextContainer = styled(motion.ul)<TypeDecorate>`
   padding: 0.5em 0em;
   border: 1px solid ${({ theme }) => `${theme.surfaceColor}ef`};
   box-shadow: 0.3em 0.5em 25px #000000ef;
-  ${({ $top, $left }) => css`
-    top: ${$top}px;
-    left: ${$left}px;
-  `}
 `;
 
 export const MenuContextTitle = styled.div`
@@ -31,4 +25,8 @@ export const MenuContextTitle = styled.div`
   padding: 0.25em;
   font-weight: bold;
   border-bottom: 2px solid ${({ theme }) => theme.backgroundColor};
+`;
+
+export const MenuOpacity = styled.div`
+  width: 100%;
 `;

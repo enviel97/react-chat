@@ -8,11 +8,13 @@ import {
   FriendListItemsContainer,
   FriendListItemsContainerScrollbar,
 } from "../../styles/FriendList.decorate";
+
 const FriendListItem = lazy(() => import("../ui/FriendListItem"));
 
 const FriendListBody = () => {
   const data = useAppSelector(selectUserIds);
   const status = useAppSelector((state) => state.user.process);
+
   const Friends = useMemo(() => {
     if (!data) return <>Loading...</>;
     if (data.length === 0 && isSuccess(status)) {

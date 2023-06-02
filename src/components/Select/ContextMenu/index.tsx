@@ -1,81 +1,94 @@
 import useCLoseOnClickOutside from "@hooks/useCloseOnClickOutside";
 import { AnimatePresence } from "framer-motion";
-import React, {
-  createContext,
-  forwardRef,
-  memo,
-  useImperativeHandle,
-} from "react";
+import { createContext, FC, memo, useEffect, useMemo, useRef } from "react";
 import { useCallback, useState } from "react";
 import ContextMenu from "./components/ContextMenu";
-import { MenuContextContainer } from "./styles/MenuContext.decorate";
+import {
+  MenuContextContainer,
+  MenuOpacity,
+} from "./styles/MenuContext.decorate";
 import { MenuContextAnimation } from "./styles/variants";
 
-interface ContextMenuProviderProps extends Components {
-  height?: string;
-  width?: string;
-  menuItem: ContextMenuOption[];
-  menuTitle?: string;
-}
+export const MenuContext = createContext<MenuContext>({
+  selectedValue: {},
+  onContextMenu(event) {
+    event.preventDefault();
+    throw new Error("Method not implement");
+  },
+  close() {
+    throw new Error("Method not implement");
+  },
+});
 
-type ContextMenuEvent = React.MouseEvent<HTMLElement, MouseEvent>;
-
-export const MenuContext = createContext<any>({});
-
-const ContextMenuProvider = forwardRef<
-  ContextMenuRef,
-  ContextMenuProviderProps
->(({ children, menuItem, menuTitle, height, width }, ref) => {
-  const [selectedValue, setSelectedValue] = useState();
+const ContextMenuProvider: FC<ContextMenuProviderProps> = ({
+  children,
+  menuItem,
+  menuTitle,
+  height,
+  width,
+  disable,
+}) => {
+  const targetValue = useRef<any>();
   const [clickPointer, setClickPointer] = useState({
     x: 0,
     y: 0,
   });
-  const { targetRef, isOpen, open } = useCLoseOnClickOutside();
-
+  const { targetRef, isOpen, open, close } = useCLoseOnClickOutside();
+  const preventContextMenu = (event: ContextMenuEvent) => {
+    event.preventDefault();
+    setClickPointer({
+      x: event.pageX,
+      y: event.pageY,
+    });
+  };
   const onContextMenu = useCallback(
-    (e: ContextMenuEvent, value: any) => {
-      e.preventDefault();
+    (value: any) => {
       open();
-      setClickPointer({
-        x: e.pageX,
-        y: e.pageY,
-      });
-      setSelectedValue(value);
+      targetValue.current = value;
     },
     [open]
   );
 
-  useImperativeHandle(
-    ref,
-    () => ({
-      onContextMenu,
-    }),
-    [onContextMenu]
-  );
+  const motionProps = useMemo(() => {
+    const { x, y } = clickPointer;
+    return MenuContextAnimation({ top: y, left: x });
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [clickPointer.x, clickPointer.y]);
+
+  useEffect(() => {
+    return close;
+  }, [close]);
 
   return (
-    <MenuContext.Provider value={selectedValue}>
-      {children}
-      <AnimatePresence initial={false} mode='wait' onExitComplete={() => null}>
-        {isOpen && (
-          <MenuContextContainer
-            ref={targetRef}
-            $height={height}
-            $width={width}
-            $top={clickPointer.y}
-            $left={clickPointer.x}
-            variants={MenuContextAnimation}
-            initial='exit'
-            animate='enter'
-            exit='exit'
-          >
-            <ContextMenu menuTitle={menuTitle} items={menuItem} />
-          </MenuContextContainer>
-        )}
-      </AnimatePresence>
+    <MenuContext.Provider
+      value={{
+        selectedValue: targetValue.current,
+        onContextMenu,
+        close,
+      }}
+    >
+      <MenuOpacity onContextMenu={preventContextMenu}>
+        {children}
+        <AnimatePresence
+          initial={false}
+          mode='wait'
+          onExitComplete={() => null}
+        >
+          {isOpen && !disable && (
+            <MenuContextContainer
+              ref={targetRef}
+              $height={height}
+              $width={width}
+              {...motionProps}
+            >
+              <ContextMenu menuTitle={menuTitle} items={menuItem} />
+            </MenuContextContainer>
+          )}
+        </AnimatePresence>
+      </MenuOpacity>
     </MenuContext.Provider>
   );
-});
+};
 
 export default memo(ContextMenuProvider);

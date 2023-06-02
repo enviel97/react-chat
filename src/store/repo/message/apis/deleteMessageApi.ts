@@ -6,7 +6,7 @@ import { updateLastMessage } from "@store/slices/conversations";
 
 const deleteMessage = async (req: RequestDeleteMessage) => {
   const { conversationId, messageId } = req;
-  const response = await client.delete<any, Response<ResponseDeleteMessage>>(
+  const response = await client.delete<any, Response<ActionEditParams>>(
     MESSAGE_DELETE,
     { pathVariable: { conversationId, messageId } }
   );
@@ -25,15 +25,13 @@ const fetchDeleteMessages = createAsyncThunk(
       dispatch(
         updateLastMessage({
           conversationId: data.conversationId,
-          message: data.lastMessage,
+          message: data,
           type,
         })
       );
+      return result;
     }
-    if (!result.data) {
-      return Promise.reject(result.message ?? "Interval server error");
-    }
-    return result;
+    return Promise.reject(result.message ?? "Interval server error");
   }
 );
 

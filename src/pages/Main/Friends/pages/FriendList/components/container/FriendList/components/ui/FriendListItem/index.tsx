@@ -1,8 +1,5 @@
-import { ButtonIcon } from "@components/Button";
-import { FC, memo } from "react";
-import { FaUserAltSlash } from "react-icons/fa";
+import { FC, memo, useState } from "react";
 import {
-  FriendListItemAction,
   FriendListItemBody,
   FriendListItemContainer,
   FriendListItemTrail,
@@ -12,13 +9,11 @@ import { selectUserById } from "@store/slices/users";
 import UserActive from "./components/ui/Active";
 import FriendItemTitle from "./components/container/FriendItemTitle";
 import NormalAvatar from "@pages/Main/components/ui/NormalAvatar";
-
-interface FriendListItemProps {
-  friendId: string;
-}
+import FriendActions from "./components/container/FriendActions";
 
 const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
   const friend = useAppSelector((state) => selectUserById(state, friendId));
+
   if (!friend) return <></>;
 
   return (
@@ -37,15 +32,7 @@ const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
         </p>
         <UserActive friendUserActive={friend.status ?? "not-disturb"} />
       </FriendListItemBody>
-      <FriendListItemAction>
-        <ButtonIcon
-          size='2.5rem'
-          icon={<FaUserAltSlash size='2rem' />}
-          circle
-          color='notification'
-          hint='Unfriend'
-        />
-      </FriendListItemAction>
+      <FriendActions friend={friend} />
     </FriendListItemContainer>
   );
 };
