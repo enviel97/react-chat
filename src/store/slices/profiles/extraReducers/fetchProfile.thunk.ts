@@ -1,15 +1,9 @@
 import { fetchProfile } from "@store/repo/user";
 import { ProfileExtraBuilder } from "@store/slices/state/profile";
+import { merge } from "lodash";
 
-export const fetchProfileThunk = (builder: ProfileExtraBuilder) => {
+export const getProfile = (builder: ProfileExtraBuilder) => {
   builder.addCase(fetchProfile.fulfilled, (state, action) => {
-    state.profile = Object.entries(action.payload).reduce(
-      (newObject: Record<string, any>, currentValue) => {
-        const [key, value] = currentValue;
-        if (value) newObject[key] = value;
-        return newObject;
-      },
-      { ...state.profile }
-    ) as UserProfile;
+    state.profile = merge(state.profile, action.payload);
   });
 };

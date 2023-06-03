@@ -23,7 +23,7 @@ const useListFriendAction = () => {
       if (!response.data) return;
       navigator(`/conversation/messenger/${response.data.getId()}`);
     },
-    [dispatch]
+    [dispatch, navigator]
   );
 
   const actions = useMemo<ContextMenuOption[]>(() => {
@@ -41,7 +41,7 @@ const useListFriendAction = () => {
         hoverColor: theme.errorColor,
       },
     ];
-  }, [theme.errorColor, theme.primaryColor]);
+  }, [theme.errorColor, theme.primaryColor, handleMessageToFriend]);
 
   return actions;
 };

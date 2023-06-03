@@ -20,10 +20,11 @@ const ProfileDetail = () => {
     PromiseToast({
       action: async () => await dispatch(updateProfile(data)).unwrap(),
       pending: "Updating profile ...",
-      onSuccess: (res: UserProfile) => {
-        reset(data);
-      },
-      onError: () => {},
+      onSuccess: () =>
+        reset({
+          bio: data.bio.trim(),
+          displayName: data.bio.trim(),
+        }),
     });
   };
   return (

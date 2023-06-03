@@ -29,12 +29,12 @@ const ThumbnailContainer = styled(motion.div)`
     content: "";
     bottom: 0;
     right: 0;
-    height: 50px;
+    height: 100%;
     width: 100%;
     background: linear-gradient(
       0deg,
-      ${({ theme }) => theme.backgroundColor} 0%,
-      ${({ theme }) => theme.backgroundColor}10 100%
+      ${({ theme }) => theme.backgroundColor} 5%,
+      transparent 20%
     );
   }
 `;

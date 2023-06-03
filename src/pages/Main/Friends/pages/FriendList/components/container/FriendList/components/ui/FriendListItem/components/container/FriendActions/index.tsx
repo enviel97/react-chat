@@ -18,7 +18,7 @@ const FriendActions: FC<FriendAction> = ({ friend }) => {
       if (!callback) return;
       callback(friend);
     },
-    [friend]
+    [friend, close]
   );
 
   return (

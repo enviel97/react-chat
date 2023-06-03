@@ -79,13 +79,9 @@ const UploadImageModal: FC<Props> = ({
     [resetUploadImage]
   );
 
-  const onDownloadProgress = useCallback(
-    (event: any) => {
-      console.log({ download: event });
-      resetUploadImage("success", 100);
-    },
-    [resetUploadImage]
-  );
+  const onDownloadProgress = useCallback(() => {
+    resetUploadImage("success", 100);
+  }, [resetUploadImage]);
 
   const handleUploadImage = () => {
     if (!file) return;
