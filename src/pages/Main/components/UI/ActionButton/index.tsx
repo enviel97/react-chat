@@ -3,7 +3,7 @@ import { FC, useCallback, useMemo } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { IconCategoryContainer } from "./styles/ActionButton.decorate";
 
-const ActionButton: FC<ActionButtonProps> = ({ icon, onClick, to, state }) => {
+const ActionButton: FC<ActionButtonProps> = ({ icon, to, state }) => {
   const navigator = useNavigate();
   const location = useLocation();
   const isCurrentTab = useMemo(() => {
@@ -13,9 +13,8 @@ const ActionButton: FC<ActionButtonProps> = ({ icon, onClick, to, state }) => {
   }, [location, to]);
 
   const onActionClick = useCallback(() => {
-    onClick && onClick();
     navigator(to, { replace: true, state });
-  }, [to, onClick, state, navigator]);
+  }, [to, state, navigator]);
 
   return (
     <ButtonIconNeumorphism

@@ -10,5 +10,4 @@ interface ActionButtonProps {
   icon: LabelIcon;
   to: string;
   state?: any;
-  onClick?: () => void;
 }

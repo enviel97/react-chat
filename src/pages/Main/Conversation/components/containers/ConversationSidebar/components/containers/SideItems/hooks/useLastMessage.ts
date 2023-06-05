@@ -14,18 +14,20 @@ const useLastMessage = (conversation?: Conversation) => {
   );
 
   useEffect(() => {
-    const lastMessage = conversation?.lastMessage?.content;
-    if (!!lastMessage) {
-      setLastMessage(lastMessage);
+    const lastMessage = conversation?.lastMessage;
+    if (!lastMessage) return;
+    const { content, attachments } = lastMessage;
+    if (!content && (attachments?.length ?? 0) === 0) {
+      toast.error("Something wrong on add message");
+      return;
+    }
+    if (content) {
+      setLastMessage(content);
     } else {
-      const attachments = conversation?.lastMessage?.attachments;
-      if (!attachments?.isNotEmpty()) {
-        toast.error("Something wrong on add message");
-        return;
-      }
       setLastMessage(`${Notification.lastMessageOnlyAttachments}`);
     }
   }, [
+    conversation?.lastMessage,
     conversation?.lastMessage?.content,
     conversation?.lastMessage?.attachments,
   ]);

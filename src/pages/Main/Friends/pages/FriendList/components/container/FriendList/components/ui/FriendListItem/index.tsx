@@ -1,4 +1,4 @@
-import { FC, memo, useState } from "react";
+import { FC, memo } from "react";
 import {
   FriendListItemBody,
   FriendListItemContainer,
@@ -28,7 +28,7 @@ const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
         />
         <p>
           <strong>Bio.</strong>
-          {friend.bio ?? " Nothing to say..."}
+          {friend.bio || " Nothing to say..."}
         </p>
         <UserActive friendUserActive={friend.status ?? "not-disturb"} />
       </FriendListItemBody>

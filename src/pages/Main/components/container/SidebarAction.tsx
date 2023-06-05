@@ -8,7 +8,7 @@ import {
 } from "../styles/Sidebar.decorate";
 import CircleAvatar from "../ui/CircleAvatar";
 import Conversation from "./Conversation";
-import FriendsChatButton from "./FriendRequest";
+import FriendRequest from "./FriendRequest";
 import LogoutButton from "./LogoutButton";
 
 const ConversationAction = () => {
@@ -20,7 +20,7 @@ const ConversationAction = () => {
         <CircleAvatar size={48} src={profileAvatar} />
         <Placeholder height='0.5em' width='auto' />
         <Conversation />
-        <FriendsChatButton />
+        <FriendRequest />
       </SidebarActionContainer>
       <LogoutButton />
     </SidebarContainer>

@@ -2,13 +2,7 @@ import { memo } from "react";
 import ActionButton from "../ui/ActionButton";
 
 const Conversation = () => {
-  return (
-    <ActionButton
-      icon={"Conversation"}
-      onClick={function (): void {}}
-      to={"/conversation"}
-    />
-  );
+  return <ActionButton icon={"Conversation"} to={"/conversation"} />;
 };
 
 export default memo(Conversation);

@@ -45,7 +45,7 @@ const useProtectImage = ({ src, placeholder, refresh, viewPort }: Props) => {
     image.key,
     image.url
   );
-  const [srcImage, setSrcImage] = useState<string>(placeholder);
+  const [srcImage, setSrcImage] = useState<string>();
 
   useEffect(() => {
     /** Fetch first time */
