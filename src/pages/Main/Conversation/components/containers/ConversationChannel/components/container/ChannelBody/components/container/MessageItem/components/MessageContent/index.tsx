@@ -1,17 +1,5 @@
-import ModalConfirm from "@components/Modal/components/ModalConfirm";
-import { useModals } from "@components/Modal/hooks/useModals";
-import {
-  FC,
-  useEffect,
-  useRef,
-  useState,
-  KeyboardEvent,
-  FocusEvent,
-  memo,
-  useCallback,
-} from "react";
-import { toast, ToastItem } from "react-toastify";
-import { EditContent } from "./modals/Modal.content";
+import { FC, useEffect, useRef, KeyboardEvent, FocusEvent, memo } from "react";
+import useEditedConfirmModal from "./hooks/useEditedConfirmModal";
 import { MessageContentContainer } from "./styles/MessageContent.decorate";
 
 interface MessageContentProps {
@@ -21,40 +9,13 @@ interface MessageContentProps {
   onConfirmEdit: (value?: string) => void;
 }
 
-const modalKey = "editConfirmKey";
-const toastWarningKey = "editConfirmKeyToast";
-const modalOption = {
-  modalId: modalKey,
-  height: "fit-content",
-  width: "fit-content",
-};
-
 const MessageContent: FC<MessageContentProps> = ({
   isEditable,
   message,
   onConfirmEdit,
   fromYou,
 }) => {
-  const [content, setContent] = useState(message);
   const messageRef = useRef<HTMLDivElement | null>(null);
-  const modal = useModals();
-
-  const onBack = useCallback(() => {
-    if (messageRef.current) {
-      messageRef.current.textContent = message;
-    }
-    onConfirmEdit();
-    setContent(message);
-  }, [messageRef, message, onConfirmEdit]);
-
-  const onConfirm = useCallback(
-    (newMessage: string) => {
-      onConfirmEdit(newMessage);
-      setContent(newMessage);
-    },
-    [onConfirmEdit]
-  );
-
   const setCaretCursor = (node: HTMLDivElement, content: string) => {
     const sel = window.getSelection();
     if (sel && content.length > 0) {
@@ -68,49 +29,23 @@ const MessageContent: FC<MessageContentProps> = ({
     node.focus();
   };
 
+  const { target, content, onSubmit } = useEditedConfirmModal({
+    initialMessage: message,
+    setCaretCursor,
+    onConfirmEdit,
+  });
+
   useEffect(() => {
     const messageContent = messageRef.current;
-    if (!isEditable || !messageContent || !messageContent.isContentEditable) {
+    if (!isEditable || !messageContent) {
       return;
     }
     setCaretCursor(messageContent, content);
   }, [isEditable, content]);
 
-  const reFocusMess = () => {
-    if (messageRef.current) {
-      const text = messageRef.current.textContent ?? message;
-      setCaretCursor(messageRef.current, content);
-      setContent(text);
-    }
-  };
-
-  const isInvalidNewMessage = (newMessage: string) => {
-    if (newMessage) return false;
-    if (toast.isActive(toastWarningKey)) return true;
-    toast.warn("Edit message don't allow empty", {
-      toastId: toastWarningKey,
-    });
-    toast.onChange((toastItem: ToastItem) => {
-      if (toastItem.status === "added") {
-        reFocusMess();
-        setContent(message);
-      }
-    });
-    return true;
-  };
-
-  const onSubmit = (newMessage: string) => {
-    if (isInvalidNewMessage(newMessage)) return;
-    modal.show(
-      <ModalConfirm
-        modalKey={modalKey}
-        content={<EditContent messageDirty={newMessage} />}
-        onConfirm={() => onConfirm(newMessage)}
-        onBack={onBack}
-      />,
-      { ...modalOption, handleClose: reFocusMess }
-    );
-  };
+  /**
+   * Handle Submit edited
+   */
 
   const onBlurred = (event: FocusEvent) => {
     if (!isEditable) return;
@@ -123,23 +58,21 @@ const MessageContent: FC<MessageContentProps> = ({
     }
   };
 
-  const handleBlurred = (event: any) => {
-    event.preventDefault();
-    messageRef.current?.blur();
-    onBlurred(event);
-  };
-
   const onKeyPressDetection = (event: KeyboardEvent) => {
     if (!isEditable) return;
     const key = event.key;
     if ((key === "Enter" && !event.shiftKey) || key === "Escape") {
-      handleBlurred(event);
+      event.preventDefault();
+      messageRef.current?.blur();
     }
   };
 
   return (
     <MessageContentContainer
-      ref={messageRef}
+      ref={(instants) => {
+        messageRef.current = instants;
+        target.current = instants;
+      }}
       contentEditable={isEditable}
       suppressContentEditableWarning={true}
       onBlur={onBlurred}

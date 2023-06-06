@@ -20,7 +20,7 @@ import MessageAttachments from "./components/MessageAttachments";
 
 interface MessageItemProps {
   message: Message;
-  preChatter?: User;
+  preChatter?: string;
   lastChatter: boolean;
 }
 
@@ -37,9 +37,8 @@ const MessageItem: FC<MessageItemProps> = ({
   const fromYou = useMemo(() => {
     if (messageUtils.isTemp(message)) return true;
     return isUser(message.author);
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [message.author, message.id, message._id, isUser]);
+  }, [message.id, message._id, isUser, message.author.id, message.author._id]);
 
   const getAvatar = useMemo(() => {
     if (messageUtils.isTemp(message)) {

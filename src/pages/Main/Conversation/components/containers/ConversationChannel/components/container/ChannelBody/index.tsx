@@ -1,5 +1,5 @@
 import string from "@utils/string";
-import { memo } from "react";
+import { memo, useEffect } from "react";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectAllMessage } from "@store/slices/messages";
 import { isLoading } from "@utils/validate";
@@ -19,6 +19,23 @@ const ChannelBody = () => {
   const status = useAppSelector((state) => state.message.process);
   const ref = useAutoScrollToBottom();
   useMessageSocket(id);
+
+  useEffect(() => {
+    const item = ref.current;
+    if (!item) return;
+    const unSelected = (event: MouseEvent) => {
+      event.stopPropagation();
+      event.preventDefault();
+      const sel = window.getSelection();
+      if (!sel || item.contains(event.target as any) || sel.rangeCount === 0) {
+        return;
+      }
+      sel.removeAllRanges();
+    };
+    document.addEventListener("click", unSelected);
+    return () => document.removeEventListener("click", unSelected);
+  }, [ref]);
+
   if (isLoading(status)) return <ChannelBodyLoading />;
 
   return (
@@ -36,7 +53,7 @@ const ChannelBody = () => {
           const presentChatter =
             index === 0 || arr[index - 1]?.action === "Notice"
               ? undefined
-              : arr[index - 1].author;
+              : arr[index - 1].author.getId();
           const lastChatter = index === arr.length - 1;
           return (
             <MessageItem

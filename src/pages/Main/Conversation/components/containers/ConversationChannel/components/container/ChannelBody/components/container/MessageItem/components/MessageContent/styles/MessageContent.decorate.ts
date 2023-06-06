@@ -12,6 +12,9 @@ export const MessageContentContainer = styled.div<MessageContentContainerProps>`
   padding: 0.75rem 1rem;
   display: flex;
   width: 100%;
+  user-select: text;
+  cursor: auto;
+
   ${({ $fromYou }) => {
     if ($fromYou) {
       return css`
