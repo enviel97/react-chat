@@ -1,4 +1,4 @@
-import { avatarUrlImage } from "@utils/image";
+import { imageUrl } from "@utils/image";
 import { Buffer } from "buffer";
 
 export const createBlobUrl = (
@@ -40,30 +40,20 @@ export const convertBlobToBase64 = async (blob: Blob) => {
 export const getImageFromSrc = ({
   src,
   viewPort = "md",
-}: GetIdImageFromSrcProps): GetIdImageFromSrcReturn | undefined => {
-  if (!src) return;
-  /**
-   * Default Image
-   */
-  if (!src.includes("assets")) {
-  }
-
+  type = "normal",
+}: GetIdImageFromSrcProps) => {
   /**
    * Blob or url image
    */
   if (!src.includes("http")) {
-    const url = avatarUrlImage(src);
-    return {
-      url: viewPort ? url.srcset[viewPort] : url.src,
-      key: src,
-    };
+    const url = imageUrl[type](src, viewPort);
+    return { url: url, key: src };
   }
 
   /**
-   * Avatar or thumnail image
+   * Avatar or thumbnail image
    */
   const srcSlice = src.split("/");
-  if (!srcSlice) return;
-  const key = srcSlice.at(srcSlice.length - 1)!.split("?")[0];
+  const key = srcSlice.at(-1)!;
   return { key, url: src };
 };

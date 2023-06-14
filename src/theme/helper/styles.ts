@@ -1,5 +1,8 @@
+import { colorBrightness } from "./tools";
+
 interface ShadowBaseProps {
   color: string;
+  brightness?: number;
   x?: number;
   y?: number;
   blur?: number;
@@ -13,8 +16,19 @@ interface BoxShaddowProps extends ShadowBaseProps {
 export const shaddow = Object.freeze({
   boxShadow: (...configs: BoxShaddowProps[]) => {
     const listShadow = configs.map(
-      ({ x = 0, y = 0, spread = 0, blur = 1, options = "", color }) =>
-        `${options} ${x}em ${y}em ${blur}em ${spread}em ${color}`.trim()
+      ({
+        x = 0,
+        y = 0,
+        spread = 0,
+        blur = 1,
+        options = "",
+        brightness = 0,
+        color,
+      }) =>
+        `${options} ${x}em ${y}em ${blur}em ${spread}em ${colorBrightness(
+          color,
+          brightness
+        )}`.trim()
     );
     return listShadow.join(",");
   },

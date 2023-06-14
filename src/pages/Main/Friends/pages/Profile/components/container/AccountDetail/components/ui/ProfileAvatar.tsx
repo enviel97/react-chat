@@ -1,5 +1,5 @@
 import local from "@common/local.define";
-import NetworkImage from "@components/Image/NetworkImage";
+import { CacheImage } from "@components/Image";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useAvatarSrc from "@pages/Main/hooks/useAvatarSrc";
 import { neumorphismBoxShadowInset } from "@theme/helper/tools";
@@ -57,10 +57,11 @@ const ProfileAvatar: FC<Props> = ({ avatarSrc }) => {
             onUploadSuccess={handleUploadSuccess}
           />
         )}
-        <NetworkImage
+        <CacheImage
           placeholder={local.image.UnknownAvatar}
           src={avatar}
           viewPort={"sm"}
+          type={"avatar"}
         />
       </AvatarBox>
     </AnimatePresence>

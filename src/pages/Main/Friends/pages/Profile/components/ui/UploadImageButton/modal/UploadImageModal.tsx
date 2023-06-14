@@ -95,7 +95,7 @@ const UploadImageModal: FC<Props> = ({
         setTimeout(() => {
           modal.close(MODAL_ID);
           onUploadImageSuccess && onUploadImageSuccess(file);
-        }, 2000);
+        }, 1000);
       })
       .catch(handleError);
   };

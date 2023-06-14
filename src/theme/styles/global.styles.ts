@@ -95,6 +95,7 @@ const GlobalStyle = createGlobalStyle`
   img {
     object-fit: contain;
     object-position: center;
+    border-radius: inherit;
   }
   
   p { font-size: 1rem; margin-bottom: 1rem; }

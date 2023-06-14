@@ -2,16 +2,12 @@ import { createContext, useState } from "react";
 import { ThemeProvider as StyledTheme } from "styled-components";
 import GlobalStyle from "./styles/global.styles";
 import { palette } from "./helper/palette";
+import SwiperGlobalStyles from "./styles/swiper.styles";
 import "normalize.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
 import "react-tooltip/dist/react-tooltip.css";
 import "react-lazy-load-image-component/src/effects/blur.css";
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 
 const initTheme: ThemeMode = "dark";
 
@@ -32,6 +28,7 @@ const ThemeProvider = ({ children }: Components) => {
     >
       <StyledTheme theme={palette[themeMode]}>
         <GlobalStyle />
+        <SwiperGlobalStyles />
         {children}
       </StyledTheme>
     </ThemeModeContext.Provider>

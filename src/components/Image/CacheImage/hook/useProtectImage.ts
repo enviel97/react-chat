@@ -9,6 +9,7 @@ import { createCache, useCache } from "@react-hook/cache";
 interface Props {
   src?: string;
   viewPort?: ViewPort;
+  type?: ImageType;
   placeholder: string;
   refresh?: boolean;
 }
@@ -27,25 +28,31 @@ const blobImage = createCache(async (key: string, url: string) => {
   return image as string;
 }, 400);
 
-const useProtectImage = ({ src, placeholder, refresh, viewPort }: Props) => {
+const useProtectImage = ({
+  src,
+  placeholder,
+  refresh,
+  viewPort,
+  type,
+}: Props) => {
   const [forceRefresh, setForceRefresh] = useState<boolean>(refresh ?? false);
+  const [srcImage, setSrcImage] = useState<string>();
 
   const image = useMemo(() => {
     /**
      * Cache placeholder
      */
-    const imageUrl = getImageFromSrc({ src, viewPort });
-    if (!src || !imageUrl) {
-      return { key: `default-${placeholder}`, url: placeholder };
-    }
+    if (!src) return { key: `default-${placeholder}`, url: placeholder };
+    const imageUrl = getImageFromSrc({ src, viewPort, type });
+
     return imageUrl;
-  }, [src, placeholder, viewPort]);
+  }, [src, placeholder, viewPort, type]);
+
   const [{ status, value }, refetch] = useCache(
     blobImage,
     image.key,
     image.url
   );
-  const [srcImage, setSrcImage] = useState<string>();
 
   useEffect(() => {
     /** Fetch first time */

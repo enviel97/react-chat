@@ -6,8 +6,6 @@ import styled from "styled-components";
 
 interface BadgeQuantityProps {
   quantity?: number;
-  height?: number;
-  width?: number;
 }
 
 export const BadgeQuantityContainer = styled(motion.div)`
@@ -30,11 +28,7 @@ export const BadgeQuantityContainer = styled(motion.div)`
   min-width: 2em;
 `;
 
-const BadgeQuantity: FC<BadgeQuantityProps> = ({
-  quantity,
-  height = "fit-content",
-  width = "2em",
-}) => {
+const BadgeQuantity: FC<BadgeQuantityProps> = ({ quantity }) => {
   const [_count, setCount] = useState<number>();
   useEffect(() => {
     if (!quantity) return;

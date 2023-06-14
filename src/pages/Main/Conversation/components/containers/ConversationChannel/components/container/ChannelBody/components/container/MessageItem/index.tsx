@@ -33,7 +33,6 @@ const MessageItem: FC<MessageItemProps> = ({
   const dispatch = useAppDispatch();
   const [isHover, setIsHover] = useState(false);
   const [isEditable, setEditable] = useState(false);
-
   const fromYou = useMemo(() => {
     if (messageUtils.isTemp(message)) return true;
     return isUser(message.author);
@@ -95,7 +94,7 @@ const MessageItem: FC<MessageItemProps> = ({
       <MessageAvatar isShow={getAvatar} src={message.author.profile?.avatar} />
       <MessageItemBody $fromYou={fromYou}>
         <MessageContentContainer $fromYou={fromYou}>
-          {message.attachments && (
+          {message.attachments?.isNotEmpty() && (
             <MessageAttachments attachments={message.attachments} />
           )}
           <MessageTextContainer $action={message.action}>

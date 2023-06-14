@@ -4,6 +4,8 @@ interface MessageAttachments extends TimeStamp, Identity {
   downloadLink: string;
   publicId: string;
   type: string;
+  originName: string;
+  size: number;
 }
 
 interface IMessage extends TimeStamp, Identity {

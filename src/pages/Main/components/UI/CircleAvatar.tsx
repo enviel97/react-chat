@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { colorBrightness, pxToEm } from "@theme/helper/tools";
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useState } from "react";
 import string from "@utils/string";
 import local from "@common/local.define";
 import { State } from "@store/common/state";
 import { isError } from "@utils/validate";
 import { BiError } from "react-icons/bi";
-import NetworkImage from "@components/Image/NetworkImage";
-import { avatarUrlImage } from "@utils/image";
+import useAvatarSrc from "@pages/Main/hooks/useAvatarSrc";
+import { CacheImage } from "@components/Image";
 
 interface CircleAvatarDecorate {
   size?: number;
@@ -88,17 +88,9 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
   src,
   online,
 }) => {
-  const [imgSrc, setImgSrc] = useState(src);
   const [imgLoaded, setImgLoaded] = useState<State>(State.IDLE);
   const _size = pxToEm(size ?? 36);
-
-  useEffect(() => {
-    if (!src || src.includes("http")) setImgSrc(src);
-    else {
-      const avatar = avatarUrlImage(src);
-      setImgSrc(avatar.srcset.md);
-    }
-  }, [src]);
+  const { avatar } = useAvatarSrc(src);
 
   return (
     <CircleAvatarContainer
@@ -107,15 +99,15 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
       size={size}
       online={online}
     >
-      <NetworkImage
-        key={"CircleAvatar"}
-        src={imgSrc}
+      <CacheImage
+        src={avatar}
         placeholder={local.image.UnknownAvatar}
         height={_size}
         width={_size}
         onLoadedError={() => setImgLoaded(State.ERROR)}
         onLoadedSuccess={() => setImgLoaded(State.FULFILLED)}
-        alt=''
+        type={"avatar"}
+        alt='avatar'
       />
       {isError(imgLoaded) && <BiError color='red' />}
     </CircleAvatarContainer>

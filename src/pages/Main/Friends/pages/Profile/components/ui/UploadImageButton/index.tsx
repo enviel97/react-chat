@@ -1,4 +1,4 @@
-import { convertBlobToBase64 } from "@components/Image/NetworkImage/utils/ImageUtils";
+import { convertBlobToBase64 } from "@components/Image/CacheImage/utils/ImageUtils";
 import { useModals } from "@components/Modal/hooks/useModals";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { updateImage } from "@store/slices/profiles";

@@ -3,8 +3,8 @@ import { FC, memo, useEffect, useState } from "react";
 import styled from "styled-components";
 import { motion } from "framer-motion";
 import UploadImageButton from "../../../../ui/UploadImageButton";
-import NetworkImage from "@components/Image/NetworkImage";
-import { bannerUrlImage } from "@utils/image";
+import { CacheImage } from "@components/Image";
+import { imageUrl } from "@utils/image";
 interface Props {
   thumbnailSrc?: string;
 }
@@ -46,8 +46,8 @@ const Thumbnail: FC<Props> = ({ thumbnailSrc }) => {
     if (thumbnailSrc.includes("http")) {
       setBanner(thumbnailSrc);
     } else {
-      const banner = bannerUrlImage(thumbnailSrc);
-      setBanner(banner.src);
+      const banner = imageUrl.banner(thumbnailSrc, "md");
+      setBanner(banner);
     }
   }, [thumbnailSrc]);
 
@@ -58,11 +58,12 @@ const Thumbnail: FC<Props> = ({ thumbnailSrc }) => {
   return (
     <ThumbnailContainer>
       <UploadImageButton type='banner' onUploadSuccess={handleUploadSuccess} />
-      <NetworkImage
+      <CacheImage
         src={banner}
         alt={"Thumbnail"}
         placeholder={local.image.backgroundDefault}
         viewPort={"md"}
+        type='banner'
       />
     </ThumbnailContainer>
   );

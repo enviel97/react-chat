@@ -7,9 +7,9 @@ import useProtectImage from "./hook/useProtectImage";
 import {
   ControllerLazyLoadImage,
   ImageContainer,
-} from "./styles/NetworkImage.decorate";
+} from "./styles/CacheImage.decorate";
 
-const NetworkImage: FC<NetworkImageProps> = ({
+const CacheImage: FC<CacheImageProps> = ({
   className,
   src,
   placeholder,
@@ -21,6 +21,7 @@ const NetworkImage: FC<NetworkImageProps> = ({
   refresh = false,
   preventAutoRevoke = false,
   viewPort = "sm",
+  type = "normal",
 }) => {
   const theme = useTheme();
 
@@ -29,6 +30,7 @@ const NetworkImage: FC<NetworkImageProps> = ({
     placeholder,
     refresh,
     viewPort,
+    type,
   });
 
   const handleOnLoaded: ReactEventHandler<HTMLImageElement> = (event) => {
@@ -72,4 +74,4 @@ const NetworkImage: FC<NetworkImageProps> = ({
   );
 };
 
-export default memo(NetworkImage);
+export default memo(CacheImage);

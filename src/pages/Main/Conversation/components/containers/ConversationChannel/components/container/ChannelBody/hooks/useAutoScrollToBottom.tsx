@@ -4,7 +4,7 @@ import { useLayoutEffect, useRef } from "react";
 
 const useAutoScrollToBottom = () => {
   const messages = useAppSelector(selectAllMessage);
-  const targetRef = useRef<HTMLDivElement>(null);
+  const targetRef = useRef<HTMLDivElement | null>(null);
   useLayoutEffect(() => {
     // Scroll to new messenger
     const container = targetRef.current;

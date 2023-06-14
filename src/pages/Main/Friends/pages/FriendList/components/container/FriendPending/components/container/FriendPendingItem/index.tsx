@@ -34,6 +34,7 @@ const FriendPendingItem: FC<Props> = ({ friendId }) => {
         <NetworkImage
           placeholder={local.image.UnknownAvatar}
           src={friend.friendProfile.avatar}
+          type='avatar'
         />
       </Title>
       <Body>

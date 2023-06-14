@@ -1,4 +1,4 @@
-import { convertBase64ToBlob } from "@components/Image/NetworkImage/utils/ImageUtils";
+import { convertBase64ToBlob } from "@components/Image/CacheImage/utils/ImageUtils";
 import { createSelector } from "@reduxjs/toolkit";
 import { RootState } from "@store/index";
 

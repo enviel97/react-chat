@@ -1,5 +1,5 @@
 import string from "@utils/string";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectAllMessage } from "@store/slices/messages";
 import { isLoading } from "@utils/validate";
@@ -12,59 +12,52 @@ import useMessageSocket from "./hooks/useMessageSocket";
 import MessageNotice from "./components/ui/MessageNotice";
 import ChannelBodyLoading from "./components/ui/ChannelBodyLoading";
 import MessageRemoved from "./components/ui/MessageRemoved";
+import useRemoveRange from "./hooks/useRemoveRange";
+import AttachmentSideProvider from "./components/container/AttachmentSideProvider";
 
 const ChannelBody = () => {
   const { id = "" } = useParams();
   const messages = useAppSelector(selectAllMessage);
   const status = useAppSelector((state) => state.message.process);
   const ref = useAutoScrollToBottom();
+  const { target } = useRemoveRange();
   useMessageSocket(id);
-
-  useEffect(() => {
-    const item = ref.current;
-    if (!item) return;
-    const unSelected = (event: MouseEvent) => {
-      event.stopPropagation();
-      event.preventDefault();
-      const sel = window.getSelection();
-      if (!sel || item.contains(event.target as any) || sel.rangeCount === 0) {
-        return;
-      }
-      sel.removeAllRanges();
-    };
-    document.addEventListener("click", unSelected);
-    return () => document.removeEventListener("click", unSelected);
-  }, [ref]);
-
   if (isLoading(status)) return <ChannelBodyLoading />;
 
   return (
-    <ChannelMessageContainer ref={ref}>
-      {messages.length === 0 && <ChannelEmpty id={id} />}
-      {messages.length !== 0 &&
-        messages.map((mess, index, arr) => {
-          const key = `${string.getId(mess)}$${index}`;
-          if (mess.action === "Notice") {
-            return <MessageNotice key={key} message={mess} />;
-          }
-          if (mess.action === "Removed") {
-            return <MessageRemoved key={key} message={mess} />;
-          }
-          const presentChatter =
-            index === 0 || arr[index - 1]?.action === "Notice"
-              ? undefined
-              : arr[index - 1].author.getId();
-          const lastChatter = index === arr.length - 1;
-          return (
-            <MessageItem
-              key={key}
-              message={mess}
-              preChatter={presentChatter}
-              lastChatter={lastChatter}
-            />
-          );
-        })}
-    </ChannelMessageContainer>
+    <AttachmentSideProvider>
+      <ChannelMessageContainer
+        ref={(instance) => {
+          ref.current = instance;
+          target.current = instance;
+        }}
+      >
+        {messages.length === 0 && <ChannelEmpty id={id} />}
+        {messages.length !== 0 &&
+          messages.map((mess, index, arr) => {
+            const key = `${string.getId(mess)}$${index}`;
+            if (mess.action === "Notice") {
+              return <MessageNotice key={key} message={mess} />;
+            }
+            if (mess.action === "Removed") {
+              return <MessageRemoved key={key} message={mess} />;
+            }
+            const presentChatter =
+              index === 0 || arr[index - 1]?.action === "Notice"
+                ? undefined
+                : arr[index - 1].author.getId();
+            const lastChatter = index === arr.length - 1;
+            return (
+              <MessageItem
+                key={key}
+                message={mess}
+                preChatter={presentChatter}
+                lastChatter={lastChatter}
+              />
+            );
+          })}
+      </ChannelMessageContainer>
+    </AttachmentSideProvider>
   );
 };
 

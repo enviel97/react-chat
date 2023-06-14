@@ -5,6 +5,7 @@ declare global {
   interface Array<T = any> {
     toClasslist(): string;
     isNotEmpty(): boolean;
+    isEmpty(): boolean;
   }
 }
 
@@ -19,6 +20,13 @@ Object.defineProperty(Array.prototype, "toClasslist", {
 Object.defineProperty(Array.prototype, "isNotEmpty", {
   value: function (this) {
     return (this?.length ?? 0) !== 0;
+  },
+});
+
+/*eslint no-extend-native: ["error", { "exceptions": ["Array"] }]*/
+Object.defineProperty(Array.prototype, "isEmpty", {
+  value: function (this) {
+    return (this?.length ?? 0) === 0;
   },
 });
 

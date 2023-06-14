@@ -1,4 +1,4 @@
-interface NetworkImageController {
+interface CacheImageController {
   onLoadedError?: (
     event: React.SyntheticEvent<HTMLImageElement, Event>
   ) => void;
@@ -7,7 +7,7 @@ interface NetworkImageController {
   ) => void;
 }
 
-interface NetworkImageProps extends NetworkImageController {
+interface CacheImageProps extends CacheImageController {
   className?: string;
   src?: string;
   placeholder: string;
@@ -17,6 +17,7 @@ interface NetworkImageProps extends NetworkImageController {
   refresh?: boolean;
   preventAutoRevoke?: boolean;
   viewPort?: ViewPort;
+  type?: ImageType;
 }
 
 interface NetworkLoading {

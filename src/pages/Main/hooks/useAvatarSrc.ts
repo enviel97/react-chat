@@ -1,4 +1,4 @@
-import { avatarUrlImage } from "@utils/image";
+import { imageUrl } from "@utils/image";
 import { useEffect, useState } from "react";
 
 const useAvatarSrc = (src?: string) => {
@@ -8,8 +8,8 @@ const useAvatarSrc = (src?: string) => {
     if (src.includes("http")) {
       setImageSrc(src);
     } else {
-      const image = avatarUrlImage(src);
-      setImageSrc(image.src);
+      const image = imageUrl.avatar(src, "s");
+      setImageSrc(image);
     }
   }, [src]);
 
