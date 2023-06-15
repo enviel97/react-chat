@@ -1,5 +1,6 @@
+import { breakpoint } from "@theme/helper/breakpoint";
 import { FC, memo } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import AttachmentsImage from "../../../MessageItem/components/MessageAttachments/components/ui/AttachmentsImage";
 
 interface SlideAttachmentItemProps {
@@ -18,13 +19,32 @@ const PreviewImage = styled(AttachmentsImage)<PreviewImageStyles>`
   width: 100%;
 
   & .kCN-a1b1c1 {
-    width: ${({ $mini }) => ($mini ? "100%" : "fit-content")};
     height: 100%;
+    ${({ $mini }) => {
+      if ($mini) {
+        return css`
+          width: 100%;
+        `;
+      }
+      return css`
+        width: fit-content;
+      `;
+    }}
   }
   & img {
     height: 100%;
     width: 100%;
-    object-position: center;
+    ${({ $mini }) => {
+      if ($mini) {
+        return css`
+          object-position: center;
+          object-fit: cover;
+        `;
+      }
+      return css`
+        object-fit: contain;
+      `;
+    }}
   }
 `;
 

@@ -1,7 +1,7 @@
 import { motion, MotionProps } from "framer-motion";
 import { FC, memo } from "react";
 import { IoClose } from "react-icons/io5";
-import styled, { useTheme } from "styled-components";
+import styled, { css, useTheme } from "styled-components";
 interface ModalActionProps {
   download: (downloadLink: string) => void;
   closeModal: () => void;
@@ -27,7 +27,18 @@ const ButtonAnimation = (activeColor: string): MotionProps => {
   };
 };
 
-const Button = styled(motion.div)``;
+const Button = styled(motion.div)`
+  padding: 0.1em;
+  border: none;
+  outline: none;
+  ${({ theme }) => {
+    const color = `${theme.backgroundColor}80`;
+    return css`
+      background-color: ${color};
+      box-shadow: 0 0 0.2em 0.4em ${color};
+    `;
+  }}
+`;
 
 const ModalAction: FC<ModalActionProps> = ({ closeModal }) => {
   const theme = useTheme();

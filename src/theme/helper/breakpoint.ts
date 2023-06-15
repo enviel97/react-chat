@@ -33,6 +33,6 @@ export const breakpoint = {
   /**
    * @type Device: "mobile" | "tablet" | "laptop" | "desktop" | "tv"
    */
-  custom: ({ maxPx = "0px", minPx = "100%" }: CustomBreakpoint) =>
+  custom: ({ maxPx = "0", minPx = "100%" }: CustomBreakpoint) =>
     `@media only screen and (min-width: ${minPx}) and (max-width: ${maxPx})`,
 };

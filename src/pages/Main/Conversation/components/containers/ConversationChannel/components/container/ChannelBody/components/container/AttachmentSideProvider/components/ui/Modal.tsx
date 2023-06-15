@@ -4,6 +4,7 @@ import { FC } from "react";
 import styled, { css } from "styled-components";
 import MessageAttachmentsSlide from "../container/MessageAttachmentsSlide";
 import Styles from "../../styles/AttachmentSide.decorate";
+import { clampSize } from "@theme/helper/tools";
 
 interface ModalContainerProps extends Components {
   attachments: MessageAttachments[];
@@ -13,8 +14,10 @@ interface ModalContainerProps extends Components {
 const Container = styled(motion.div)`
   position: relative;
   display: block;
+
   height: clamp(20svh, 800px + 1vh, 90svh);
-  width: 75svw;
+  width: 90svw;
+
   box-sizing: border-box;
   ${({ theme }) => {
     const mainColor = theme.backgroundColor;

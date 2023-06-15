@@ -3,12 +3,11 @@ import styled from "styled-components";
 
 export const ChannelFormContainer = styled.div`
   position: relative;
-  height: fit-content;
+  display: block;
   border-top: 2px solid ${({ theme }) => theme.surfaceColor};
-  margin: 0 1rem;
-  padding: 1em 5px;
-  gap: 1px;
+  padding: 0 15px;
   box-sizing: border-box;
+  width: 100%;
 `;
 
 export const ChannelForm = styled.form`

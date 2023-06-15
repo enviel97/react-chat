@@ -1,4 +1,4 @@
-import { motion, MotionProps } from "framer-motion";
+import { MotionProps } from "framer-motion";
 
 // Animation
 type Key = "overplay" | "container" | "item_mini" | "item_preview";

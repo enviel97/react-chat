@@ -1,5 +1,5 @@
 import local from "@common/local.define";
-import NetworkImage from "@components/Image/NetworkImage";
+import CacheImage from "@components/Image/CacheImage";
 import useAvatarSrc from "@pages/Main/hooks/useAvatarSrc";
 import { FC } from "react";
 
@@ -11,7 +11,7 @@ const NormalAvatar: FC<NormalAvatarProps> = ({ friendAvatarId }) => {
   const { avatar } = useAvatarSrc(friendAvatarId);
 
   return (
-    <NetworkImage
+    <CacheImage
       src={avatar}
       placeholder={local.image.UnknownAvatar}
       type='avatar'

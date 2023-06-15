@@ -27,7 +27,7 @@ const ChannelEmpty: FC<{ id: string }> = ({ id }) => {
     <Box
       display='flex'
       alignItems='center'
-      height='75vh'
+      height='70vh'
       justifyContent='center'
       flexDirection='column'
     >

@@ -54,9 +54,16 @@ const MessageAttachmentsSlide: FC<MessageAttachmentSlideProps> = ({
       </Styles.Preview.Full>
       {attachments.length !== 1 && (
         <Styles.Preview.Mini
-          onSwiper={setThumbsSwiper}
+          // onSwiper={setThumbsSwiper}
           spaceBetween={10}
-          slidesPerView={Math.min(attachments.length, 4)}
+          breakpoints={{
+            700: {
+              slidesPerView: Math.min(attachments.length, 4),
+            },
+            0: {
+              slidesPerView: Math.min(attachments.length, 2),
+            },
+          }}
           modules={[FreeMode, Navigation, Thumbs]}
           // flag
           freeMode

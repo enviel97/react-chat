@@ -2,8 +2,9 @@ import styled from "styled-components";
 
 export const Panel = styled.div`
   position: relative;
+  box-sizing: border-box;
   width: 100%;
-  height: 100%;
+  height: 100svh;
   overflow-y: hidden;
   display: flex;
   flex-direction: column;
