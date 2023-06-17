@@ -43,15 +43,17 @@ export const Base = styled.div<{
         border: 2px solid ${colorBrightness(mainColor, -2)};
         box-shadow: 0.3em 0.3em 0.4em ${colorBrightness(mainColor, -10)}80;
         &:hover {
-          background-color: ${colorBrightness(mainColor, 10)};
+          scale: 1.05;
+          background-color: ${`${mainColor}80`};
+          border: 2px solid ${`${mainColor}80`};
         }
         &:focus {
           border: 2px solid ${colorBrightness(mainColor, 10)};
         }
 
         &:active {
-          font-size: 98%;
-          background-color: ${colorBrightness(mainColor, -10)};
+          scale: 0.98;
+          background-color: ${`${mainColor}80`};
         }
       `;
     }}

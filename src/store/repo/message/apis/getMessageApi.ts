@@ -1,18 +1,14 @@
+import local from "@common/local.define";
 import client from "@core/api";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { MESSAGE_GET_LIST } from "@store/common/repo";
 import axios from "axios";
 
+const DEFAULT_PAGINATION = local.variable.pagination;
 const fetchMessages = createAsyncThunk(
   "messages/list",
   async (
-    {
-      conversationId,
-      options = {
-        limit: 20,
-        bucket: 0,
-      },
-    }: RequestFetchMessage,
+    { conversationId, options = DEFAULT_PAGINATION }: RequestFetchMessage,
     { signal }
   ) => {
     const source = axios.CancelToken.source();

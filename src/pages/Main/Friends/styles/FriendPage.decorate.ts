@@ -42,8 +42,9 @@ export const FriendPageTitle = styled.h4`
 `;
 
 export const FriendPageNotificationEmpty = styled.span`
-  font-weight: normal;
+  font-weight: 300;
   font-style: italic;
   width: 100%;
   color: ${({ theme }) => theme.disableColor};
+  padding: 1.2em;
 `;

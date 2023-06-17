@@ -1,14 +1,14 @@
 import { ButtonText } from "@components/Button";
 import { useModals } from "@components/Modal/hooks/useModals";
-import { memo } from "react";
+import { memo, useCallback } from "react";
 import styled from "styled-components";
 import ModalFriendRequest from "../modal/ModalFriendRequest";
 
 const FriendRequestModalId = "friendRequestModalId";
 const ModalOption: ModalOptions = {
   modalId: FriendRequestModalId,
-  height: "80vh",
-  width: "90vw",
+  height: "fit-content",
+  width: "75vw",
 };
 
 const AddFriendButtonContainer = styled(ButtonText)`
@@ -19,19 +19,20 @@ const AddFriendButtonContainer = styled(ButtonText)`
   right: 0;
   top: 0;
   margin: 1rem;
-  & button {
+  & > button {
     padding: 0.5rem;
   }
 `;
 
 const AddFriendButton = () => {
   const modal = useModals();
-  const onClickAddFriends = () => {
+  const onClickAddFriends = useCallback(() => {
     modal.show(<ModalFriendRequest />, ModalOption);
-  };
+  }, [modal]);
   return (
     <AddFriendButtonContainer
       text={"[+] Add friend"}
+      width='100px'
       onClick={onClickAddFriends}
       color='secondary'
     />

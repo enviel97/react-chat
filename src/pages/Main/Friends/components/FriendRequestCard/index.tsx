@@ -21,7 +21,7 @@ interface FriendCardProps {
 }
 
 const FriendCard: FC<FriendCardProps> = ({
-  friend: { user, bio = "Nothing to say", avatar },
+  friend: { user, bio, avatar },
   isShowRejectButton = true,
   onClickAdd,
   onClickReject,
@@ -47,8 +47,16 @@ const FriendCard: FC<FriendCardProps> = ({
       </CardHeader>
       <CardBody>
         <CardContent>
-          <CardTitle>{user.getFullName()}</CardTitle>
-          <CardBio>&ldquo;{bio}&rdquo;</CardBio>
+          <CardTitle>
+            {user
+              .getFullName()
+              .concat(
+                user.profile?.displayName
+                  ? ` (${user.profile?.displayName})`
+                  : ""
+              )}
+          </CardTitle>
+          <CardBio>&ldquo;{bio || "Nothing to say"}&rdquo;</CardBio>
         </CardContent>
         <CardAction>
           <ActionButton

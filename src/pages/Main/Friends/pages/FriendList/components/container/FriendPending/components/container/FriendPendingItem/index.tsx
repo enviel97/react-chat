@@ -1,5 +1,5 @@
 import local from "@common/local.define";
-import NetworkImage from "@components/Image/NetworkImage";
+import { CacheImage } from "@components/Image";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectFriendPendingById } from "@store/slices/friendPending";
 import { FC, useMemo } from "react";
@@ -31,7 +31,7 @@ const FriendPendingItem: FC<Props> = ({ friendId }) => {
   return (
     <Container>
       <Title>
-        <NetworkImage
+        <CacheImage
           placeholder={local.image.UnknownAvatar}
           src={friend.friendProfile.avatar}
           type='avatar'

@@ -3,12 +3,16 @@ import { FriendPageNotificationEmpty } from "@pages/Main/Friends/styles/FriendPa
 import { selectFriendRequestIds } from "@store/slices/friendRequest";
 import { Suspense } from "react";
 import { lazy, memo, useMemo } from "react";
-import { FriendRequestItemsContainer } from "../../styles/FriendRequest.decorate";
+import {
+  FriendRequestItemContainer,
+  FriendRequestItemsContainer,
+  FriendRequestItemsScroll,
+} from "../../styles/FriendRequest.decorate";
 import FriendRequestCardLoading from "../ui/FriendRequestCardLoading";
 import FriendRequestLoading from "../ui/FriendRequestLoading";
 import { isSuccess } from "@utils/validate";
 
-const FriendRequestCard = lazy(() => import("../ui/FriendRequestCard"));
+const Card = lazy(() => import("../ui/FriendRequestCard"));
 
 const FriendRequestList = () => {
   const data = useAppSelector(selectFriendRequestIds);
@@ -27,16 +31,22 @@ const FriendRequestList = () => {
           key={`${value}$${index}`}
           fallback={<FriendRequestCardLoading />}
         >
-          <FriendRequestCard friendId={value.toString()} />
+          <FriendRequestItemContainer>
+            <Card friendId={value.toString()} />
+          </FriendRequestItemContainer>
         </Suspense>
       );
     });
   }, [data, status]);
 
   return (
-    <FriendRequestItemsContainer>
-      <Suspense fallback={<FriendRequestLoading />}>{FriendRequests}</Suspense>
-    </FriendRequestItemsContainer>
+    <FriendRequestItemsScroll>
+      <FriendRequestItemsContainer>
+        <Suspense fallback={<FriendRequestLoading />}>
+          {FriendRequests}
+        </Suspense>
+      </FriendRequestItemsContainer>
+    </FriendRequestItemsScroll>
   );
 };
 

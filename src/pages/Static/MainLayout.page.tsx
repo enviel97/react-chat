@@ -7,10 +7,11 @@ import { Page } from "@utils/styles";
 import SidebarAction from "@pages/Main/components/container/SidebarAction";
 import { useEffect, useState } from "react";
 import { SidebarContainer } from "@pages/Main/components/styles/Sidebar.decorate";
+import useNotificationFriendToast from "@pages/Main/hooks/useNotificationFriendsToast";
 interface Props {
   $sidebarWidth: string;
 }
-export const MainContainer = styled.div`
+const MainContainer = styled.div`
   height: 100%;
   width: 100%;
   background-color: ${({ theme }) => theme.backgroundColor};
@@ -20,7 +21,7 @@ export const MainContainer = styled.div`
   flex-direction: row;
 `;
 
-export const MainLayoutContainer = styled.div<Props>`
+const MainLayoutContainer = styled.div<Props>`
   display: flex;
   box-sizing: border-box;
   flex: 1;
@@ -38,6 +39,7 @@ const MainLayout = () => {
   const location = useLocation();
   const [sidebarWidth, setSidebarWidth] = useState<string>("74px");
 
+  useNotificationFriendToast();
   useEffect(() => {
     const sidebar = document.querySelector(SidebarContainer.toString());
     if (!sidebar) return;

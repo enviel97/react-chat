@@ -1,3 +1,4 @@
+import { PromiseToast } from "@components/Toast/promise";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
 import { changeStatus } from "@store/repo/user";
@@ -32,10 +33,10 @@ const ProfileStatus: FC = () => {
   const _handleOnSelected = function (selected: UserStatus): void {
     setLoading(true);
     setSelectedColor(color.get(selected));
-    dispatch(changeStatus(selected))
-      .unwrap()
-      .then(() => setLoading(false))
-      .catch(() => setLoading(false));
+    PromiseToast({
+      action: async () => await dispatch(changeStatus(selected)).unwrap(),
+      onFinally: () => setLoading(false),
+    });
   };
 
   return (

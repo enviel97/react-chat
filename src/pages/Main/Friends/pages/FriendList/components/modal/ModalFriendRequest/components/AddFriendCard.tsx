@@ -33,9 +33,7 @@ const AddFriendCard: FC<AddFriendCardProps> = ({ profile }) => {
             remove(profile.getId()),
           ]);
         },
-        onFinally: () => {
-          setLoading(false);
-        },
+        onFinally: () => setLoading(false),
       });
     },
     [remove, dispatch, storePromise]

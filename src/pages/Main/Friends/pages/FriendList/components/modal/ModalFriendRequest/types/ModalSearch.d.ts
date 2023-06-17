@@ -1,9 +1,7 @@
 type SEARCH = { type: "search"; payload: UserProfile[] };
 type REMOVE = { type: "remove"; payload: string };
-type PROCESS = {
-  type: "process";
-  payload: Process;
-};
+type PROCESS = { type: "process"; payload: Process };
+type CLEAR = { type: "clear" };
 
 type Process = "idle" | "error" | "pending";
 
@@ -12,4 +10,4 @@ type UserProfileState = {
   process: Process;
 };
 
-type Action = SEARCH | REMOVE | PROCESS;
+type Action = SEARCH | REMOVE | PROCESS | CLEAR;

@@ -59,6 +59,7 @@ const useNotificationFriendToast = () => {
       socket.off(Event.EVENT_FRIEND_RECEIVE_ALLOW_FRIEND);
       socket.off(Event.EVENT_FRIEND_RECEIVE_REJECT_FRIEND);
       socket.off(Event.EVENT_FRIEND_RECEIVE_FRIEND_REQUEST);
+      socket.off(Event.EVENT_FRIEND_RECEIVE_CANCEL_FRIEND_REQUEST);
     };
   }, [
     socket,
@@ -66,8 +67,6 @@ const useNotificationFriendToast = () => {
     handleOnReceiveRejectFriendRequest,
     onHasFriendRequest,
   ]);
-
-  useEffect(() => {}, [socket]);
 };
 
 export default useNotificationFriendToast;

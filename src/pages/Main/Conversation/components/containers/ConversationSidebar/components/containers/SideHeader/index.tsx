@@ -1,7 +1,7 @@
 import { TextFieldSearchNeumorphism } from "@components/TextInput";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { updateTypeConversation } from "@store/slices/ui";
-import { useCallback } from "react";
+import { memo, useCallback } from "react";
 import AddChatButton from "./components/container/AddChatButton";
 import FilterButton from "./components/ui/FilterButton";
 import {
@@ -37,4 +37,4 @@ const SideHeader = () => {
   );
 };
 
-export default SideHeader;
+export default memo(SideHeader);

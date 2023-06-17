@@ -16,16 +16,14 @@ const RequestTab: FC<RequestTabProps> = ({ isActive, isSelected }) => {
     const _id = setInterval(() => {
       socket.emit(
         Event.EVENT_FRIEND_REQUEST_QUANTITY,
-        { quantity },
-        (quantity?: number) => {
-          if (!quantity) return;
-          setQuantity((prev) => {
-            if (!prev || !quantity || prev === quantity) return prev;
-            return quantity;
-          });
+        { quantity: quantity ?? 0 },
+        (payload?: number) => {
+          if (!payload) return;
+          setQuantity(payload);
         }
       );
-    }, 1000);
+      // 5s emit once
+    }, 5000);
     return () => {
       clearInterval(_id);
     };

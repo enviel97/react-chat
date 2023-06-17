@@ -8,8 +8,9 @@ export const fetchProfileUpdate = (builder: ProfileExtraBuilder) => {
   builder.addMatcher(
     isAnyOf(changeStatus.fulfilled, updateProfile.fulfilled),
     (state, action) => {
-      if (!action.payload) return;
-      state.profile = merge(state.profile, action.payload);
+      const payload = action.payload?.data;
+      if (!payload) return;
+      state.profile = merge(state.profile, payload);
     }
   );
 };

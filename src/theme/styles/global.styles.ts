@@ -10,7 +10,34 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: inherit;
     font: inherit;
   }
+  :root {
+    --black: ${({ theme }) => theme.black};
+    --white: ${({ theme }) => theme.white};
+    
+    --primary-color: ${({ theme }) => theme.primaryColor};
+    --on-primary-color: ${({ theme }) => theme.onPrimaryColor};
 
+    --secondary-color: ${({ theme }) => theme.secondaryColor};
+    --on-secondary-color: ${({ theme }) => theme.onSecondaryColor};
+
+    --tertiary-color: ${({ theme }) => theme.tertiaryColor};
+    --on-tertiary-color: ${({ theme }) => theme.onTertiaryColor};
+
+    --background-color: ${({ theme }) => theme.backgroundColor};
+    --on-primary-color: ${({ theme }) => theme.onPrimaryColor};
+
+    --surface-color: ${({ theme }) => theme.surfaceColor};
+    --on-surface-color: ${({ theme }) => theme.onSurfaceColor};
+
+    --notification-color: ${({ theme }) => theme.notificationColor};
+    --on-notification-color: ${({ theme }) => theme.onNotificationColor};
+
+    --error-color: ${({ theme }) => theme.errorColor};
+    --disable-color: ${({ theme }) => theme.disableColor};
+    --success-color: ${({ theme }) => theme.successColor};
+    --warning-color: ${({ theme }) => theme.disableColor};
+  }
+ 
   html {
     height: 100%;
     /* resize */ 

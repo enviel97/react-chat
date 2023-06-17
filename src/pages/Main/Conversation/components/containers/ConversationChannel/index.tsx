@@ -12,7 +12,7 @@ import {
   ChannelContainer,
 } from "./styles/Channel.decorate";
 import ChannelHeaderLoading from "./components/container/ChannelHeader/components/ChannelHeaderLoading";
-import MessageContainerLoading from "./components/container/ChannelBody/components/ui/ChannelBodyLoading";
+import ChannelBodyLoading from "./components/container/ChannelBody/components/ui/ChannelBodyLoading";
 
 const Body = lazy(() => import("./components/container/ChannelBody"));
 const Header = lazy(() => import("./components/container/ChannelHeader"));
@@ -35,7 +35,7 @@ const ConversationChannel = () => {
           <Header conversationId={id} />
         </Suspense>
         <ChannelBodyContainer>
-          <Suspense fallback={<MessageContainerLoading />}>
+          <Suspense fallback={<ChannelBodyLoading />}>
             <Body />
           </Suspense>
           <ChannelSendForm conversationId={id} />

@@ -23,7 +23,7 @@ const ProfileDetail = () => {
       onSuccess: () =>
         reset({
           bio: data.bio.trim(),
-          displayName: data.bio.trim(),
+          displayName: data.displayName.trim(),
         }),
     });
   };

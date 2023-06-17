@@ -1,10 +1,32 @@
+import { shaddow } from "@theme/helper/styles";
 import styled from "styled-components";
 
 export const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.surfaceColor};
-  height: fit-content;
+  height: 100%;
   border-radius: 10px;
   overflow: hidden;
+  border: 3px solid var(--background-color);
+
+  margin: 0.25em;
+  box-shadow: ${({ theme }) => {
+    return shaddow.boxShadow(
+      {
+        color: theme.surfaceColor,
+        brightness: 20,
+        spread: -0.2,
+        x: -0.1,
+        y: -0.1,
+      },
+      {
+        color: theme.surfaceColor,
+        brightness: -20,
+        spread: -0.1,
+        x: 0.1,
+        y: 0.1,
+      }
+    );
+  }};
 `;
 
 export const CardHeader = styled.div`
@@ -25,10 +47,13 @@ export const CardBody = styled.div`
 `;
 
 export const CardTitle = styled.h5`
+  text-align: center;
   font-weight: bold;
-  border-bottom: 2px solid ${({ theme }) => theme.disableColor};
   overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
   -webkit-line-clamp: 1;
+  line-clamp: 1;
   -webkit-box-orient: vertical;
 `;
 
