@@ -4,8 +4,16 @@ import { FC, useEffect, useState } from "react";
 import { clampSize } from "@theme/helper/tools";
 import styled from "styled-components";
 
+type Position = {
+  top?: number;
+  left?: number;
+  right?: number;
+  bottom?: number;
+};
+
 interface BadgeQuantityProps {
   quantity?: number;
+  position?: Position;
 }
 
 export const BadgeQuantityContainer = styled(motion.div)`
@@ -16,8 +24,6 @@ export const BadgeQuantityContainer = styled(motion.div)`
   border-radius: 0.5em;
   color: ${({ theme }) => theme.onNotificationColor};
   background-color: ${({ theme }) => theme.notificationColor};
-  right: -0.5em;
-  top: -1em;
   font-size: ${clampSize({
     minFontSize: 0.6,
     maxFontSize: 0.8,
@@ -28,7 +34,10 @@ export const BadgeQuantityContainer = styled(motion.div)`
   min-width: 2em;
 `;
 
-const BadgeQuantity: FC<BadgeQuantityProps> = ({ quantity }) => {
+const BadgeQuantity: FC<BadgeQuantityProps> = ({
+  quantity,
+  position = { right: -0.5, top: -1 },
+}) => {
   const [_count, setCount] = useState<number>();
   useEffect(() => {
     if (!quantity) return;
@@ -43,6 +52,12 @@ const BadgeQuantity: FC<BadgeQuantityProps> = ({ quantity }) => {
           variants={{
             hidden: { scale: 0, y: 10, x: -10 },
             visible: { scale: 1, y: 0, x: 0 },
+          }}
+          style={{
+            top: position.top?.toEm() ?? "auto",
+            right: position.right?.toEm() ?? "auto",
+            left: position.left?.toEm() ?? "auto",
+            bottom: position.bottom?.toEm() ?? "auto",
           }}
           initial='hidden'
           animate='visible'

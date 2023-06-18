@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import styled, { css } from "styled-components";
 
 interface NavProps {
-  $status: string;
+  $status: 0 | 1;
 }
 
 export const iconVariants: Variants = {
@@ -54,7 +54,7 @@ export const NavLinkItem = styled(motion(Link))<NavProps>`
     gap: 0;
   }
   ${({ $status, theme }) => {
-    if ($status === "active") {
+    if ($status === 1) {
       return css`
         color: ${theme.primaryColor};
         font-weight: bold;

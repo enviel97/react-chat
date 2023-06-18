@@ -1,4 +1,3 @@
-import { breakpoint } from "@theme/helper/breakpoint";
 import { FC, memo } from "react";
 import styled, { css } from "styled-components";
 import AttachmentsImage from "../../../MessageItem/components/MessageAttachments/components/ui/AttachmentsImage";

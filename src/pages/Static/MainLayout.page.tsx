@@ -8,6 +8,7 @@ import SidebarAction from "@pages/Main/components/container/SidebarAction";
 import { useEffect, useState } from "react";
 import { SidebarContainer } from "@pages/Main/components/styles/Sidebar.decorate";
 import useNotificationFriendToast from "@pages/Main/hooks/useNotificationFriendsToast";
+import useQuantityNotification from "@pages/Main/hooks/useQuantityNotification";
 interface Props {
   $sidebarWidth: string;
 }
@@ -40,6 +41,8 @@ const MainLayout = () => {
   const [sidebarWidth, setSidebarWidth] = useState<string>("74px");
 
   useNotificationFriendToast();
+  useQuantityNotification();
+
   useEffect(() => {
     const sidebar = document.querySelector(SidebarContainer.toString());
     if (!sidebar) return;

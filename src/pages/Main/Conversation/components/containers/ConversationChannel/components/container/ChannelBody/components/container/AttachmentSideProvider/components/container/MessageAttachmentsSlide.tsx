@@ -54,7 +54,7 @@ const MessageAttachmentsSlide: FC<MessageAttachmentSlideProps> = ({
       </Styles.Preview.Full>
       {attachments.length !== 1 && (
         <Styles.Preview.Mini
-          // onSwiper={setThumbsSwiper}
+          onSwiper={setThumbsSwiper}
           spaceBetween={10}
           breakpoints={{
             700: {

@@ -32,10 +32,7 @@ const NavLinkAction: FC<NavLinkActionProps> = ({
 }) => {
   const layoutIdShared = useMemo(() => SelectBorder, []);
   const breakpoint = useBreakpoint();
-  const status = useMemo(
-    () => (isSelected ? "active" : "un-active"),
-    [isSelected]
-  );
+  const status = useMemo(() => (isSelected ? 1 : 0), [isSelected]);
 
   return (
     <AnimatePresence mode='wait' initial={false}>

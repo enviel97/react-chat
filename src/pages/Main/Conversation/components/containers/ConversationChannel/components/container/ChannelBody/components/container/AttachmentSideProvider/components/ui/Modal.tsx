@@ -4,7 +4,6 @@ import { FC } from "react";
 import styled, { css } from "styled-components";
 import MessageAttachmentsSlide from "../container/MessageAttachmentsSlide";
 import Styles from "../../styles/AttachmentSide.decorate";
-import { clampSize } from "@theme/helper/tools";
 
 interface ModalContainerProps extends Components {
   attachments: MessageAttachments[];

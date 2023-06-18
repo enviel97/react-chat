@@ -29,10 +29,7 @@ const FriendRequestCard: FC<FriendRequestCardProps> = ({ friendId }) => {
             })
           ).unwrap();
         },
-
-        onFinally: () => {
-          setLoading(false);
-        },
+        onFinally: () => setLoading(false),
       });
     },
     [friendId, dispatch]

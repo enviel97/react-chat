@@ -17,3 +17,7 @@ export const SidebarActionContainer = styled.div`
   flex-direction: column;
   gap: 0.5em;
 `;
+
+export const ActionContainer = styled.div`
+  position: relative;
+`;
