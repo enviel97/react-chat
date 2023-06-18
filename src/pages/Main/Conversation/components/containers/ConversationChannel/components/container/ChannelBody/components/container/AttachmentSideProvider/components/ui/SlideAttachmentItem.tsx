@@ -1,4 +1,5 @@
-import { FC, memo } from "react";
+import { shaddow } from "@theme/helper/styles";
+import { FC, memo, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import AttachmentsImage from "../../../MessageItem/components/MessageAttachments/components/ui/AttachmentsImage";
 
@@ -19,7 +20,7 @@ const PreviewImage = styled(AttachmentsImage)<PreviewImageStyles>`
 
   & .kCN-a1b1c1 {
     height: 100%;
-    ${({ $mini }) => {
+    ${({ $mini, theme }) => {
       if ($mini) {
         return css`
           width: 100%;
@@ -27,12 +28,30 @@ const PreviewImage = styled(AttachmentsImage)<PreviewImageStyles>`
       }
       return css`
         width: fit-content;
+        border: 5px solid var(--background-color);
+        box-shadow: ${shaddow.boxShadow(
+          {
+            color: theme.backgroundColor,
+            brightness: 20,
+            x: -0.2,
+            y: -0.2,
+            spread: -0.1,
+          },
+          {
+            color: theme.backgroundColor,
+            brightness: -50,
+            x: 0.2,
+            y: 0.2,
+            spread: -0.1,
+          }
+        )};
       `;
     }}
   }
   & img {
     height: 100%;
     width: 100%;
+
     ${({ $mini }) => {
       if ($mini) {
         return css`
@@ -52,6 +71,12 @@ const SlideAttachmentItem: FC<SlideAttachmentItemProps> = ({
   viewport = "md",
   className,
 }) => {
+  const [isMini, setMini] = useState(false);
+
+  useEffect(() => {
+    setMini(["sm", "md", "s"].includes(viewport));
+  }, [viewport]);
+
   if (attachment.is("DOCS")) return <></>;
   return (
     <PreviewImage
@@ -59,7 +84,7 @@ const SlideAttachmentItem: FC<SlideAttachmentItemProps> = ({
       publicId={attachment.publicId}
       viewport={viewport}
       wrapperClassName='kCN-a1b1c1'
-      $mini={["sm", "md", "s"].includes(viewport)}
+      $mini={isMini}
     />
   );
 };

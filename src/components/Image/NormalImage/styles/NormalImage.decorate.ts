@@ -12,9 +12,10 @@ export const Placeholder = styled.span`
   border-radius: inherit;
   top: 0;
   left: 0;
+
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
   width: 100%;
   height: 100%;
   padding: 0.5em;

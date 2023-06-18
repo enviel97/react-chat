@@ -21,12 +21,9 @@ const AttachmentsHints: FC<AttachmentInfoProps> = ({
 }) => {
   return (
     <Styles.Tooltip {...Styles.Animation}>
-      <HintElement title='Name' content={originalName} />
-      <Styles.Group>
-        <HintElement title='Size' content={size?.toNormalSize()} />
-        &minus;
-        <HintElement title='Type' content={type} />
-      </Styles.Group>
+      <HintElement title='Name' content={originalName} />{" "}
+      <HintElement title='Size' content={size?.toNormalSize()} />
+      <HintElement title='Type' content={type} />
       <HintElement title='Send' content={moment(createdAt).fromNow()} />
     </Styles.Tooltip>
   );
