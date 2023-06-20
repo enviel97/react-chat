@@ -113,6 +113,14 @@ const GlobalStyle = createGlobalStyle`
     }
   }
 
+  svg {
+    shape-rendering: geometricPrecision;
+    text-rendering: geometricPrecision;
+    fill-rule: evenodd;
+    clip-rule: evenodd;
+    image-rendering: optimizeQuality;
+  }
+
   img, picture, svg {
     height: 100%;
     max-width: 100%;

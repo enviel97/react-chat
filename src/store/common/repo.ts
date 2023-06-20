@@ -30,3 +30,4 @@ export const PROFILE_DETAIL = "/users/profile";
 export const PROFILE_UPLOAD_IMAGE = `${PROFILE_DETAIL}/update/:type`;
 export const PROFILE_PATCH_UPDATE = `${PROFILE_DETAIL}/update`;
 export const PROFILE_PATCH_STATUS = `${PROFILE_DETAIL}/change/status`;
+export const PROFILE_PATCH_RELATIONSHIP = `${PROFILE_DETAIL}/relationship/:idFriendProfile`;

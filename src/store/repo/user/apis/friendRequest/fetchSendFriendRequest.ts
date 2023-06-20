@@ -20,7 +20,7 @@ const fetchSendFriendRequest = createAsyncThunk(
     if (!response.data) {
       return Promise.reject(response.message ?? "Interval Response Error");
     }
-    return response.data;
+    return response;
   }
 );
 

@@ -6,6 +6,8 @@ interface UserProfileCommon extends Identity, TimeStamp {
   avatar?: string;
   banner?: string;
   displayName?: string;
+  friends: string[];
+  blockList: string[];
 }
 
 interface UserProfile extends UserProfileCommon {

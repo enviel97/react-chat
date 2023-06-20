@@ -27,9 +27,10 @@ const AddFriendCard: FC<AddFriendCardProps> = ({ profile }) => {
           );
           return await storePromise.current.unwrap();
         },
-        onSuccess: (res: FriendRequest) => {
+        onSuccess: (res: Response<FriendRequest>) => {
+          if (!res.data) return;
           Promise.allSettled([
-            dispatch(addFriendPending(res)),
+            dispatch(addFriendPending(res.data)),
             remove(profile.getId()),
           ]);
         },

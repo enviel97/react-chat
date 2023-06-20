@@ -1,7 +1,7 @@
 // profile api
 export { default as fetchSearchUser } from "./apis/user/fetchSearchUser";
 
-// friend api1
+// friend api
 export { default as fetchListFriends } from "./apis/friends/fetchListFriends";
 export { default as fetchSearchFriend } from "./apis/friends/fetchSearchFriend";
 
@@ -17,3 +17,4 @@ export { default as fetchProfile } from "./apis/profile/fetchProfile";
 export { default as uploadImage } from "./apis/profile/uploadImage";
 export { default as updateProfile } from "./apis/profile/updateProfile";
 export { default as changeStatus } from "./apis/profile/changeStatus";
+export { default as getRelationship } from "./apis/profile/getRelationship";

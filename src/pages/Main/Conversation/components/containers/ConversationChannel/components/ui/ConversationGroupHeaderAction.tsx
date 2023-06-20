@@ -3,7 +3,7 @@ import styled from "styled-components";
 import AddUserToGroup from "../container/ChannelHeader/components/AddUserToGroup";
 import LeaveGroup from "../container/ChannelHeader/components/LeaveGroup";
 
-interface ConversationHeaderActionProps {
+interface ConversationGroupHeaderActionProps {
   roles: ParticipantRole;
   members: User[];
   type: ConversationType;
@@ -15,16 +15,12 @@ const Container = styled.div`
   gap: 1em;
 `;
 
-const ConversationHeaderAction: FC<ConversationHeaderActionProps> = ({
+const ConversationGroupHeaderAction: FC<ConversationGroupHeaderActionProps> = ({
   roles,
   conversationId,
   members,
   type,
 }) => {
-  if (type !== "group") {
-    return <></>;
-  }
-
   return (
     <Container>
       <AddUserToGroup
@@ -38,4 +34,4 @@ const ConversationHeaderAction: FC<ConversationHeaderActionProps> = ({
   );
 };
 
-export default memo(ConversationHeaderAction);
+export default memo(ConversationGroupHeaderAction);

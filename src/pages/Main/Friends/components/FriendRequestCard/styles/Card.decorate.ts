@@ -1,32 +1,26 @@
 import { shaddow } from "@theme/helper/styles";
 import styled from "styled-components";
 
+const _shadow = (color: string) => {
+  const dark = { brightness: -20, blur: 0.1, spread: -0.05, x: 0.1, y: 0.1 };
+  const light = { brightness: 20, blur: 0.1, spread: -0.05, x: -0.1, y: -0.1 };
+  return shaddow.boxShadow(
+    { ...light, color: color },
+    { ...light, color: color },
+    { ...dark, color: color },
+    { ...dark, color: color }
+  );
+};
+
 export const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.surfaceColor};
   height: 100%;
   border-radius: 10px;
   overflow: hidden;
-  border: 3px solid var(--background-color);
+  border: 2px solid var(--background-color);
 
   margin: 0.25em;
-  box-shadow: ${({ theme }) => {
-    return shaddow.boxShadow(
-      {
-        color: theme.surfaceColor,
-        brightness: 20,
-        spread: -0.2,
-        x: -0.1,
-        y: -0.1,
-      },
-      {
-        color: theme.surfaceColor,
-        brightness: -20,
-        spread: -0.1,
-        x: 0.1,
-        y: 0.1,
-      }
-    );
-  }};
+  box-shadow: ${({ theme }) => _shadow(theme.surfaceColor)};
 `;
 
 export const CardHeader = styled.div`
