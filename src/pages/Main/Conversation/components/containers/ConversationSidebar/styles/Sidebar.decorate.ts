@@ -8,11 +8,7 @@ export const SidebarContainer = styled.aside`
   position: relative;
   margin-right: 1rem;
   height: 100%;
-  width: fit-content;
-
-  ${breakpoint.down("laptop")} {
-    width: 22vw;
-  }
+  width: 20svw;
 
   ${breakpoint.down("tablet")} {
     height: fit-content;
@@ -47,7 +43,7 @@ export const SideItemsContainer = styled.div`
 
 export const SideItemsEmpty = styled.div`
   height: 100%;
-  width: 19.5rem;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: center;

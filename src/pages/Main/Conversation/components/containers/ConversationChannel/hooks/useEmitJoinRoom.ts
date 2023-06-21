@@ -1,16 +1,17 @@
 import { Event } from "@common/socket.define";
 import useSocket from "@hooks/useSocket";
-import { useLayoutEffect } from "react";
+import { useEffect } from "react";
 
 const useEmitJoinRoom = (id: string) => {
   const socket = useSocket();
-  useLayoutEffect(() => {
+  useEffect(() => {
     /**
      * Connect to conversation before render UI
      */
     socket.emit(Event.EVENT_CONNECT_ROOM_CONVERSATION, {
       conversationId: id,
     });
+    console.log({ emit: "emit" });
     return () => {
       socket.emit(Event.EVENT_LEAVE_ROOM_CONVERSATION, { conversationId: id });
     };

@@ -2,9 +2,10 @@ import { ButtonTextNeumorphism } from "@components/Button";
 import { FormDecorate } from "../decorates/decorates.form";
 import { TextFieldNeumorphism as TextField } from "@components/TextInput";
 import { useForm } from "react-hook-form";
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useCallback, useImperativeHandle } from "react";
 import { signUp } from "@store/repo/authenticate/authenticate";
 import Title from "./Title";
+import { toast } from "react-toastify";
 
 interface RegisterValue extends User {
   confirmPassword: string;
@@ -23,32 +24,33 @@ const RegisterForm = forwardRef<FormHandler, RegisterFormProps>(
       clearErrors,
       setValue,
       formState: { errors },
-    } = useForm<RegisterValue>({});
+    } = useForm<RegisterValue>();
 
-    useImperativeHandle(
-      ref,
+    const imperativeHandle = useCallback(
       () => ({
         reset: reset,
         clearError: clearErrors,
-        changeValue: (name: any, value) => {
+        changeValue: (name: any, value: any) => {
           setValue(name, value);
         },
       }),
       [reset, clearErrors, setValue]
     );
 
+    useImperativeHandle(ref, imperativeHandle, [imperativeHandle]);
+
     const onSubmit = async (data: User) => {
       const response = await signUp(data);
-      if (response?.data) {
-        const buttonAction = document.querySelector(
-          ".signInLink button"
-        ) as HTMLButtonElement;
-        if (!buttonAction) return;
-        buttonAction.click();
-        if (!props.changeLoginValue) return;
-        props.changeLoginValue("email", data.email);
-        props.changeLoginValue("password", "");
-      }
+      if (!response?.data) return;
+      const buttonAction = document.querySelector(
+        ".signInLink button"
+      ) as HTMLButtonElement;
+      if (!buttonAction) return;
+      buttonAction.click();
+      if (!props.changeLoginValue) return;
+      props.changeLoginValue("email", data.email);
+      props.changeLoginValue("password", "");
+      toast.success(`Register successfully`);
     };
 
     return (

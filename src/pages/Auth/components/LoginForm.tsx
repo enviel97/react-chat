@@ -2,11 +2,12 @@ import { ButtonTextNeumorphism } from "@components/Button";
 import { useForm } from "react-hook-form";
 import { FormDecorate } from "../decorates/decorates.form";
 import { TextFieldNeumorphism as TextField } from "@components/TextInput";
-import { forwardRef, useImperativeHandle } from "react";
+import { forwardRef, useCallback, useImperativeHandle } from "react";
 import { signIn } from "@store/repo/authenticate/authenticate";
 import { useLocation, useNavigate } from "react-router-dom";
 import useAuthenticate from "@hooks/useAuthenticate";
 import Title from "./Title";
+import { toast } from "react-toastify";
 
 const LoginForm = forwardRef<FormHandler>((_, ref) => {
   const {
@@ -22,27 +23,27 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
   const location = useLocation();
   const navigator = useNavigate();
   const { updateAuthUser } = useAuthenticate();
-
-  useImperativeHandle(
-    ref,
+  const imperativeHandle = useCallback(
     () => ({
       reset: reset,
       clearError: clearErrors,
-      changeValue: (name: any, value) => {
+      changeValue: (name: any, value: any) => {
         setValue(name, value);
       },
     }),
     [reset, clearErrors, setValue]
   );
 
+  useImperativeHandle(ref, imperativeHandle, [imperativeHandle]);
+
   const onSubmit = async (data: Account) => {
     const response = await signIn(data);
-    if (response.data) {
-      updateAuthUser(response.data);
-      const from = location.state.from;
-      const pathname = from?.pathname ?? "/";
-      navigator(pathname, { replace: true });
-    }
+    if (!response.data) return;
+    updateAuthUser(response.data);
+    const from = location.state.from;
+    const pathname = from?.pathname ?? "/";
+    navigator(pathname, { replace: true });
+    toast.success(`Hi! ${response.data.getFullName()}`);
   };
 
   return (
