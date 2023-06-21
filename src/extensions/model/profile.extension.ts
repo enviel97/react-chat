@@ -9,7 +9,7 @@ declare global {
 /*eslint no-extend-native: ["error", { "exceptions": ["Object"] }]*/
 Object.defineProperty(Object.prototype, "getProfileUserName", {
   value: function () {
-    if (!this?.displayName) {
+    if (!!this?.displayName) {
       return this.displayName;
     }
     if (typeof this.user === "string") {

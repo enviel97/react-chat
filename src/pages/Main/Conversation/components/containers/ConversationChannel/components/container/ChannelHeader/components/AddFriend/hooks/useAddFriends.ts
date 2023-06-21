@@ -19,7 +19,10 @@ const useAddFriend = (members: User[]) => {
     PromiseToast({
       action: promise.unwrap,
       abortCallback: promise.abort,
-      onSuccess: () => setLoadState("success"),
+      onSuccess: () => {
+        setLoadState("success");
+        setRelationship("pending");
+      },
       onError: () => setLoadState("error"),
     });
   }, [dispatch]);
