@@ -16,10 +16,8 @@ export const PromiseToast = async (props: Props) => {
     delayOnSuccess = 1000,
     abortCallback,
   } = props;
-  const toastId = string.genId();
 
   const toastOption: UpdateOptions = {
-    toastId: toastId,
     position: position,
     pauseOnHover: false,
     pauseOnFocusLoss: false,
@@ -31,38 +29,38 @@ export const PromiseToast = async (props: Props) => {
     draggablePercent: 40,
   };
 
-  toast(pending, { toastId, closeButton: false, isLoading: true });
+  const toastId = toast(pending, { closeButton: false, isLoading: true });
   setTimeout(() => {
     if (toast.isActive(toastId)) {
       abortCallback && abortCallback();
       toast.update(toastId, { closeButton: true });
     }
   }, 2500);
-
-  await action()
-    .then((res) => {
-      onSuccess && onSuccess(res);
-      toast.update(toastId, {
-        render: `${res?.message ?? "Success"}`,
-        ...(toastOption as any),
-        type: "success",
-        autoClose: delayOnSuccess,
-      });
-      onFinally && onFinally();
-    })
-    .catch((err) => {
-      onError && onError();
-      const axiosToastId = (err?.message ?? "Error")
-        .toLowerCase()
-        .replaceAll(" ", "");
-      toast.update(axiosToastId, {
-        render: `${err?.message ?? "Error"}`,
-        ...(toastOption as any),
-        updateId: axiosToastId,
-        isLoading: false,
-        type: "error",
-        autoClose: delayOnFailure,
-      });
-      onFinally && onFinally();
+  try {
+    const result = await action();
+    onSuccess && onSuccess(result);
+    toast.update(toastId, {
+      render: `${result?.message ?? "Success"}`,
+      ...(toastOption as any),
+      isLoading: false,
+      type: "success",
+      autoClose: delayOnSuccess,
     });
+    onFinally && onFinally();
+  } catch (err: any) {
+    onError && onError();
+    const axiosToastId = (err?.message ?? "Error")
+      .toLowerCase()
+      .replaceAll(" ", "");
+    toast.clearWaitingQueue();
+    toast.update(axiosToastId, {
+      render: `${err?.message ?? "Error"}`,
+      ...(toastOption as any),
+      toastId: toastId,
+      isLoading: false,
+      type: "error",
+      autoClose: delayOnFailure,
+    });
+    onFinally && onFinally();
+  }
 };

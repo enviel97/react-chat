@@ -42,10 +42,9 @@ const AddChatButton = () => {
 
   const onSuccess = useCallback(
     (res: Response<any>) => {
-      if (res.data) {
-        modelController.close(modalKey);
-        navigator(`/conversation/messenger/${string.getId(res.data)}`);
-      }
+      if (!res.data) return;
+      modelController.close(modalKey);
+      navigator(`/conversation/messenger/${string.getId(res.data)}`);
     },
     [modelController, navigator]
   );
@@ -59,7 +58,6 @@ const AddChatButton = () => {
       <AddChannelModal
         onSubmitted={(data) => {
           PromiseToast({
-            pending: "Create conversation",
             action: async () => await onAction(data),
             onSuccess: onSuccess,
           });
