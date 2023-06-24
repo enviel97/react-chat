@@ -1,5 +1,7 @@
 import { Event } from "@common/socket.define";
+import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
+import { fetchListFriends } from "@store/repo/user";
 import { createContext, FC, useCallback, useEffect, useReducer } from "react";
 import { userProviderReducer } from "./UserReducer";
 
@@ -19,7 +21,6 @@ const INIT_STATE = {
 interface Context {
   updateSwap: (payload: SwapStatusPayload) => void;
   // Selector
-  selectById: (friendId: string) => UserProfile | undefined;
   selectOnlineIds: () => string[];
   selectOfflineIds: () => string[];
 }
@@ -34,36 +35,32 @@ export const UserContext = createContext<Context>({
   selectOfflineIds: () => {
     throw new Error("Not Implement");
   },
-  selectById: (friendId: string) => {
-    throw new Error("Not Implement");
-  },
 });
 
 const UserProvider: FC<Components> = ({ children }) => {
   const [state, dispatch] = useReducer(userProviderReducer, INIT_STATE);
+  const reduxDispatch = useAppDispatch();
   const socket = useSocket();
 
   const updateSwap = useCallback((payload: SwapStatusPayload) => {
     dispatch({ type: Action.UPDATE_SWAP, payload });
   }, []);
 
-  const selectById = useCallback(
-    (payload: string) => {
-      return state.friends.get(payload)!;
-    },
-    [state.friends]
+  const selectOnlineIds = useCallback(
+    () => [...state.onlineIds],
+    [state.onlineIds]
   );
-
-  const selectOnlineIds = useCallback(() => [...state.onlineIds], [state]);
-  const selectOfflineIds = useCallback(() => [...state.offlineIds], [state]);
+  const selectOfflineIds = useCallback(
+    () => [...state.offlineIds],
+    [state.offlineIds]
+  );
 
   useEffect(() => {
     socket.on(
       Event.EVENT_FRIEND_LIST_STATUS_RESPONSE,
-      ({ online, offline, listFriend }) => {
+      ({ online, offline }) => {
         dispatch({ type: Action.UPDATE_ONLINE, payload: online });
         dispatch({ type: Action.UPDATE_OFFLINE, payload: offline });
-        dispatch({ type: Action.SET_FRIENDS, payload: listFriend });
       }
     );
     return () => {
@@ -72,14 +69,26 @@ const UserProvider: FC<Components> = ({ children }) => {
   }, [socket, dispatch]);
 
   useEffect(() => {
-    socket.emit(Event.EVENT_FRIEND_LIST_STATUS);
+    const promise = reduxDispatch(fetchListFriends());
+    promise.unwrap().then((response) => {
+      const friendList = response.data;
+      if (!friendList) return;
+      dispatch({ type: Action.SET_FRIENDS, payload: friendList });
+      socket.emit(
+        Event.EVENT_FRIEND_LIST_STATUS,
+        friendList.map((profile) => ({
+          id: profile.getId(),
+          userId: profile.user.getId(),
+        }))
+      );
+    });
+    return promise.abort;
   }, [socket, dispatch]);
 
   return (
     <UserContext.Provider
       value={{
         updateSwap,
-        selectById,
         selectOfflineIds,
         selectOnlineIds,
       }}

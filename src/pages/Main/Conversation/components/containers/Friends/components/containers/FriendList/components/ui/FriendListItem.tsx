@@ -1,9 +1,12 @@
 import { Event } from "@common/socket.define";
+import useAppSelector from "@hooks/useAppSelector";
 import useBreakpoint from "@hooks/useBreakpoint";
 import useSocket from "@hooks/useSocket";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
+import useFriendListSocket from "@pages/Main/Friends/pages/FriendList/hooks/useFriendListSocket";
+import { selectUserById } from "@store/slices/users";
 import string from "@utils/string";
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect } from "react";
 import useUserProvider from "../../../../../hook/useUserProvider";
 import {
   FriendListAvatarContainer,
@@ -36,15 +39,11 @@ const Content: FC<SubProps> = memo(({ isOnline, profile }) => {
 });
 
 const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
-  const { selectById } = useUserProvider();
   const breakpoint = useBreakpoint();
-  const [profile, setProfile] = useState<UserProfile>();
   const socket = useSocket();
   const { updateSwap } = useUserProvider();
-
-  useEffect(() => {
-    setProfile(selectById(friendId));
-  }, [friendId, selectById]);
+  const profile = useAppSelector((state) => selectUserById(state, friendId));
+  useFriendListSocket();
 
   const _handleFriendListRetrieve = useCallback(
     (payload: FriendRetrievePayload) => {
@@ -54,30 +53,13 @@ const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
     },
     [friendId, updateSwap]
   );
-
-  const _handleUpdateProfile = useCallback(
-    (payload: UserProfile) => {
-      if (friendId === payload.id) {
-        setProfile((prev) => {
-          if (!prev) return prev;
-          return { ...prev, ...payload };
-        });
-      }
-    },
-    [friendId]
-  );
-
   useEffect(() => {
     socket.on(Event.EVENT_FRIEND_LIST_RETRIEVE, _handleFriendListRetrieve);
-    socket.on(Event.EVENT_FRIEND_UPLOAD_IMAGE, _handleUpdateProfile);
-    socket.on(Event.EVENT_FRIEND_UPDATE_PROFILE, _handleUpdateProfile);
 
     return () => {
       socket.off(Event.EVENT_FRIEND_LIST_RETRIEVE);
-      socket.off(Event.EVENT_FRIEND_UPLOAD_IMAGE);
-      socket.off(Event.EVENT_FRIEND_UPDATE_PROFILE);
     };
-  }, [socket, _handleFriendListRetrieve, _handleUpdateProfile]);
+  }, [socket, _handleFriendListRetrieve]);
 
   if (!profile) return <FriendListItemLoading />;
 
