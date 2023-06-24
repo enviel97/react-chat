@@ -2,42 +2,42 @@ import { ButtonText } from "@components/Button";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectConversationType } from "@store/slices/ui";
 import { colorBrightness } from "@theme/helper/tools";
-import { FC, memo, useMemo } from "react";
-import styled from "styled-components";
+import { FC, memo, useEffect, useState } from "react";
+import styled, { css, useTheme } from "styled-components";
 
 interface FilterButtonProps {
   text: string;
   onClick: () => void;
 }
 
-const ButtonTextWrapper = styled(ButtonText)<{ ["data-select"]: boolean }>`
+const ButtonTextWrapper = styled(ButtonText)`
   & button {
-    border: 2px solid
-      ${(props) =>
-        colorBrightness(
-          props.theme.surfaceColor,
-          props["data-select"] ? 20 : 0
-        )};
-    background-color: ${(props) =>
-      colorBrightness(props.theme.surfaceColor, props["data-select"] ? 20 : 0)};
     height: 2rem;
   }
 `;
 
 const FilterButton: FC<FilterButtonProps> = function ({ text, onClick }) {
-  const getCurrentSelect = useAppSelector(selectConversationType);
-
-  const isSelected = useMemo(() => {
+  const conversationType = useAppSelector(selectConversationType);
+  const theme = useTheme();
+  const [activeColor, setActiveColor] = useState<string>(
+    colorBrightness(theme.surfaceColor, 0)
+  );
+  useEffect(() => {
     const filterType = text.toLowerCase() === "group" ? "group" : "direct";
-    return getCurrentSelect === filterType;
-  }, [getCurrentSelect, text]);
+    setActiveColor(() =>
+      colorBrightness(
+        theme.surfaceColor,
+        conversationType === filterType ? 20 : 0
+      )
+    );
+  }, [text, conversationType, theme]);
 
   return (
     <ButtonTextWrapper
       className='button'
       text={text}
       onClick={onClick}
-      data-select={isSelected}
+      color={activeColor}
     />
   );
 };
