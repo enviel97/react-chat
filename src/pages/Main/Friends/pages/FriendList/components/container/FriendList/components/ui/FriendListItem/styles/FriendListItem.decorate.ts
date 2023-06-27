@@ -1,5 +1,27 @@
-import { clampSize, colorBrightness } from "@theme/helper/tools";
-import styled from "styled-components";
+import { shaddow } from "@theme/helper/styles";
+import { clampSize } from "@theme/helper/tools";
+import styled, { DefaultTheme } from "styled-components";
+
+const _shadow = ({ theme }: { theme: DefaultTheme }) => {
+  return shaddow.boxShadow(
+    {
+      x: 0.1,
+      y: 0.1,
+      color: theme.backgroundColor,
+      blur: 0.1,
+      spread: -0.15,
+      brightness: -50,
+    },
+    {
+      x: -0.15,
+      y: -0.1,
+      color: theme.backgroundColor,
+      blur: 0.4,
+      spread: -0.1,
+      brightness: 50,
+    }
+  );
+};
 
 export const FriendListItemContainer = styled.div`
   position: relative;
@@ -15,8 +37,7 @@ export const FriendListItemContainer = styled.div`
   border-radius: 1rem;
   background-color: ${({ theme }) => theme.surfaceColor};
   padding: 0.25rem;
-  box-shadow: 0.6rem 0.5rem 1rem
-    ${({ theme }) => colorBrightness(theme.surfaceColor, -2)};
+  box-shadow: ${_shadow};
 `;
 
 export const FriendListItemTrail = styled.div`
@@ -46,32 +67,21 @@ export const FriendListItemBody = styled.div`
   }
 `;
 
-export const FriendItemTitleContainer = styled.h4`
-  display: flex;
+export const FriendItemTitleContainer = styled.h5`
   cursor: pointer;
   font-weight: bold;
   position: relative;
   width: fit-content;
-  align-items: center;
-  font-size: 1.1em;
-  & span:nth-of-type(2) {
-    scale: 0.7;
-    font-weight: 300;
-  }
+  user-select: text;
 
-  &:hover::after {
-    display: initial;
-    visibility: visible;
-  }
-  &::after {
-    position: absolute;
-    bottom: -0.05rem;
-    left: 0;
-    content: "";
-    width: 100%;
-    height: 2px;
-    background-color: gray;
-    display: none;
-    visibility: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  & span:nth-of-type(2) {
+    margin-left: 1ch;
+    font-size: 80%;
+    font-weight: 300;
   }
 `;

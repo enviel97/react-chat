@@ -6,7 +6,7 @@ import {
 } from "./styles/FriendListItem.decorate";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectUserById } from "@store/slices/users";
-import UserActive from "./components/ui/Active";
+import FriendStatus from "./components/ui/FriendStatus";
 import FriendItemTitle from "./components/container/FriendItemTitle";
 import NormalAvatar from "@pages/Main/components/ui/NormalAvatar";
 import FriendActions from "./components/container/FriendActions";
@@ -26,13 +26,9 @@ const FriendListItem: FC<FriendListItemProps> = ({ friendId }) => {
           mainName={friend.displayName ?? friend.user.getFullName()}
           subName={friend.displayName && friend.user.getFullName()}
         />
-        <p>
-          <strong>Bio.</strong>
-          {friend.bio || "Nothing to say..."}
-        </p>
-        <UserActive friendUserActive={friend.status ?? "not-disturb"} />
+        <FriendStatus friendStatus={friend.status} bio={friend.bio} />
+        <FriendActions friendId={friend.user.getId()} />
       </FriendListItemBody>
-      <FriendActions friend={friend} />
     </FriendListItemContainer>
   );
 };
