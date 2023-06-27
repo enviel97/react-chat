@@ -6,6 +6,7 @@ interface ShadowBaseProps {
   x?: number;
   y?: number;
   blur?: number;
+  opacity?: number;
 }
 
 interface BoxShaddowProps extends ShadowBaseProps {
@@ -24,10 +25,12 @@ export const shaddow = Object.freeze({
         options = "",
         brightness = 0,
         color,
+        opacity,
       }) =>
         `${options} ${x}em ${y}em ${blur}em ${spread}em ${colorBrightness(
           color,
-          brightness
+          brightness,
+          opacity
         )}`.trim()
     );
     return listShadow.join(",");

@@ -186,6 +186,7 @@ const GlobalStyle = createGlobalStyle`
     padding-top: 0.5em;
   }
 
+  
   button {
     cursor: pointer;
     color: inherit;

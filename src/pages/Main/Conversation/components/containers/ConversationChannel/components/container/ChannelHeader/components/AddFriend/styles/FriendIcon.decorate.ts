@@ -20,7 +20,7 @@ export const IconContainer = styled(motion.div)`
 
 export const Animation: MotionProps = {
   variants: {
-    visible: { opacity: 1, scale: 1 },
+    visible: (i) => ({ opacity: 1, scale: 1, transition: { delay: 0.5 * i } }),
     hidden: { opacity: 0, scale: 0 },
   },
   transition: { duration: 0.5 },

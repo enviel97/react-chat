@@ -8,5 +8,3 @@ interface NormalImageProps {
   wrapperInjection?: string;
   placeholderSrc?: string;
 }
-
-type LoadState = "idle" | "loading" | "success" | "error";

@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { SidebarContainer } from "@pages/Main/components/styles/Sidebar.decorate";
 import useNotificationFriendToast from "@pages/Main/hooks/useNotificationFriendsToast";
 import useQuantityNotification from "@pages/Main/hooks/useQuantityNotification";
+import WebRTCProvider from "@components/WebRTC";
 interface Props {
   $sidebarWidth: string;
 }
@@ -58,12 +59,14 @@ const MainLayout = () => {
   }
   return (
     <MainContainer id='app'>
-      <Page display='flex'>
-        <SidebarAction />
-        <MainLayoutContainer $sidebarWidth={sidebarWidth}>
-          <Outlet />
-        </MainLayoutContainer>
-      </Page>
+      <WebRTCProvider>
+        <Page display='flex'>
+          <SidebarAction />
+          <MainLayoutContainer $sidebarWidth={sidebarWidth}>
+            <Outlet />
+          </MainLayoutContainer>
+        </Page>
+      </WebRTCProvider>
     </MainContainer>
   );
 };

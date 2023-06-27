@@ -1,6 +1,15 @@
 import { DefaultTheme } from "styled-components";
 
-export const colorBrightness = (color: string, percent: number) => {
+export const colorBrightness = (
+  color: string,
+  percent: number,
+  opacity?: number
+) => {
+  const _opacity = opacity
+    ? Math.round(Math.min(Math.max(opacity, 0), 1) * 255)
+        .toString(16)
+        .toUpperCase()
+    : "";
   const num = parseInt(color.replace("#", ""), 16),
     amt = Math.round(2.55 * percent),
     R = (num >> 16) + amt,
@@ -15,7 +24,8 @@ export const colorBrightness = (color: string, percent: number) => {
       (G < 255 ? (G < 1 ? 0 : G) : 255)
     )
       .toString(16)
-      .slice(1)
+      .slice(1) +
+    _opacity
   );
 };
 

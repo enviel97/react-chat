@@ -11,7 +11,6 @@ const useEmitJoinRoom = (id: string) => {
     socket.emit(Event.EVENT_CONNECT_ROOM_CONVERSATION, {
       conversationId: id,
     });
-    console.log({ emit: "emit" });
     return () => {
       socket.emit(Event.EVENT_LEAVE_ROOM_CONVERSATION, { conversationId: id });
     };

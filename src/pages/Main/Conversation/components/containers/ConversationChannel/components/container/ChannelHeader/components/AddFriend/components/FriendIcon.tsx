@@ -21,43 +21,43 @@ const FriendIcon: FC<FriendIconProps> = ({ relationship, loadState }) => {
       <NotificationContainer>
         <AnimatePresence mode='wait'>
           {loadState === "loading" && (
-            <IconContainer {...Animation}>
+            <IconContainer {...Animation} custom={0}>
               <ClassicSpinner size={16} color='var(--white)' />
             </IconContainer>
           )}
+          {loadState !== "loading" && (
+            <>
+              <AnimatePresence mode='wait'>
+                {relationship === "guest" && (
+                  <IconContainer {...Animation} custom={1}>
+                    <IconPlus />
+                  </IconContainer>
+                )}
+              </AnimatePresence>
+              <AnimatePresence mode='wait'>
+                {relationship === "friend" && (
+                  <IconContainer {...Animation} custom={1}>
+                    <IconCheck />
+                  </IconContainer>
+                )}
+              </AnimatePresence>
+              <AnimatePresence mode='wait'>
+                {relationship === "pending" && (
+                  <IconContainer {...Animation} custom={1}>
+                    <IconPending />
+                  </IconContainer>
+                )}
+              </AnimatePresence>
+              <AnimatePresence mode='wait'>
+                {relationship === "block" && (
+                  <IconContainer {...Animation} custom={1}>
+                    <IconBlocked />
+                  </IconContainer>
+                )}
+              </AnimatePresence>
+            </>
+          )}
         </AnimatePresence>
-        {loadState !== "loading" && (
-          <>
-            <AnimatePresence mode='wait'>
-              {relationship === "guest" && (
-                <IconContainer {...Animation}>
-                  <IconPlus />
-                </IconContainer>
-              )}
-            </AnimatePresence>
-            <AnimatePresence mode='wait'>
-              {relationship === "friend" && (
-                <IconContainer {...Animation}>
-                  <IconCheck />
-                </IconContainer>
-              )}
-            </AnimatePresence>
-            <AnimatePresence mode='wait'>
-              {relationship === "pending" && (
-                <IconContainer {...Animation}>
-                  <IconPending />
-                </IconContainer>
-              )}
-            </AnimatePresence>
-            <AnimatePresence mode='wait'>
-              {relationship === "block" && (
-                <IconContainer {...Animation}>
-                  <IconBlocked />
-                </IconContainer>
-              )}
-            </AnimatePresence>
-          </>
-        )}
       </NotificationContainer>
     </SvgIconContainer>
   );

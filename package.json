@@ -17,6 +17,7 @@
     "mobile-detect": "^1.4.5",
     "moment": "^2.29.4",
     "normalize.css": "^8.0.1",
+    "peerjs": "^1.4.7",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-dropzone": "^14.2.3",

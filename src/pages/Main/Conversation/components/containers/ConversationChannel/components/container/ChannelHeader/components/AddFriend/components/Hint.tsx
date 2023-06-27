@@ -22,7 +22,7 @@ const Hint: FC<HintProps> = ({ relationship }) => {
   }, [relationship]);
 
   return (
-    <Container anchorSelect='#FriendAction' content={message} place='right' />
+    <Container anchorSelect='#FriendAction' content={message} place='bottom' />
   );
 };
 

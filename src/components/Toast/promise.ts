@@ -1,4 +1,3 @@
-import string from "@utils/string";
 import { toast, ToastPosition, UpdateOptions } from "react-toastify";
 interface Props extends PromiseToastProps {
   position?: ToastPosition;

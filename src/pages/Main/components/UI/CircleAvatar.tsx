@@ -18,6 +18,7 @@ interface CircleAvatarDecorate {
 interface CircleAvatarAtr {
   className?: string;
   src?: string;
+  viewPort?: ViewPort;
 }
 
 type CircleAvatarProps = CircleAvatarAtr & CircleAvatarDecorate;
@@ -86,6 +87,7 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
   className = "",
   mainColor,
   src,
+  viewPort,
   online,
 }) => {
   const [imgLoaded, setImgLoaded] = useState<State>(State.IDLE);
@@ -104,6 +106,7 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
         placeholder={local.image.UnknownAvatar}
         height={_size}
         width={_size}
+        viewPort={viewPort}
         onLoadedError={() => setImgLoaded(State.ERROR)}
         onLoadedSuccess={() => setImgLoaded(State.FULFILLED)}
         type={"avatar"}

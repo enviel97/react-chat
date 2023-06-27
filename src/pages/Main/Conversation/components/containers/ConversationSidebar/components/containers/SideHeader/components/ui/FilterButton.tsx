@@ -3,7 +3,7 @@ import useAppSelector from "@hooks/useAppSelector";
 import { selectConversationType } from "@store/slices/ui";
 import { colorBrightness } from "@theme/helper/tools";
 import { FC, memo, useEffect, useState } from "react";
-import styled, { css, useTheme } from "styled-components";
+import styled, { useTheme } from "styled-components";
 
 interface FilterButtonProps {
   text: string;

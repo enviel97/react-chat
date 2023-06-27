@@ -6,11 +6,11 @@ import useAddFriend from "./hooks/useAddFriends";
 import { AddFriendContainer } from "./styles/AddFriend.decorate";
 
 interface AddFriendProps {
-  members: User[];
+  friendId?: string;
 }
 
-const AddFriend: FC<AddFriendProps> = ({ members }) => {
-  const { loadState, relationship, trigger } = useAddFriend(members);
+const AddFriend: FC<AddFriendProps> = ({ friendId }) => {
+  const { loadState, relationship, trigger } = useAddFriend(friendId);
   const navigate = useNavigate();
 
   const onActionClick = () => {

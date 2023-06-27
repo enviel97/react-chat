@@ -83,7 +83,7 @@ const UserProvider: FC<Components> = ({ children }) => {
       );
     });
     return promise.abort;
-  }, [socket, dispatch]);
+  }, [socket, dispatch, reduxDispatch]);
 
   return (
     <UserContext.Provider
