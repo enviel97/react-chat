@@ -5,6 +5,7 @@ import { default as Card } from "../../../../components/FriendRequestCard";
 import useAppDispatch from "@hooks/useAppDispatch";
 import { PromiseToast } from "@components/Toast/promise";
 import { fetchFriendRequestResponse } from "@store/repo/user";
+import FriendRequestCardLoading from "./FriendRequestCardLoading";
 
 interface FriendRequestCardProps {
   friendId: string;
@@ -35,7 +36,7 @@ const FriendRequestCard: FC<FriendRequestCardProps> = ({ friendId }) => {
     [friendId, dispatch]
   );
 
-  if (!friend) return <></>;
+  if (!friend) return <FriendRequestCardLoading />;
 
   return (
     <Card

@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import SliceName from "@store/common/sliceName";
 import { ProfileState } from "../state/profile";
+import { updateFriendListAction } from "./actions/updateFriendList.action";
 import { updateImageAction } from "./actions/updateImage.action";
 import { updateProfileAction } from "./actions/updateProfile.action";
 import { updateUserAction } from "./actions/updateUser.action";
@@ -13,6 +14,7 @@ export const profilesSlice = createSlice({
   reducers: {
     updateUser: updateUserAction,
     updateProfile: updateProfileAction,
+    updateFriendList: updateFriendListAction,
     updateImage: updateImageAction,
   },
   extraReducers: (builder) => {
@@ -21,7 +23,8 @@ export const profilesSlice = createSlice({
   },
 });
 
-export const { updateUser, updateProfile, updateImage } = profilesSlice.actions;
+export const { updateUser, updateProfile, updateImage, updateFriendList } =
+  profilesSlice.actions;
 
 export { default as selectProfile } from "./selector/selectProfile";
 export { default as selectImage } from "./selector/selectImage";

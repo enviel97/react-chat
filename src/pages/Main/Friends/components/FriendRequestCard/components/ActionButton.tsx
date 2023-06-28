@@ -1,18 +1,22 @@
-import { ButtonText } from "@components/Button";
+import { ButtonIconCircle } from "@components/Button";
 import { FC, memo } from "react";
+
+type Text = "Allow" | "Reject";
 interface Props {
-  text: string;
+  text: Text;
   loading?: boolean;
-  color?: string;
   onClick: () => void;
 }
-const ActionButton: FC<Props> = ({ loading, onClick, text, color }) => {
+
+const ActionButton: FC<Props> = ({ loading, onClick, text }) => {
+  const color = text === "Allow" ? "#00f400" : "#f40000";
+
   return (
-    <ButtonText
-      text={loading ? "Pending..." : text}
-      color={color}
-      height='fit-content'
-      onClick={onClick}
+    <ButtonIconCircle
+      icon={text}
+      color={{ hex: color }}
+      size='2.75rem'
+      // onClick={onClick}
       disabled={loading}
     />
   );

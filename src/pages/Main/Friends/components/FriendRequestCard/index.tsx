@@ -59,17 +59,10 @@ const FriendCard: FC<FriendCardProps> = ({
           <CardBio>&ldquo;{bio || "Nothing to say"}&rdquo;</CardBio>
         </CardContent>
         <CardAction>
-          <ActionButton
-            key={"AddAction"}
-            text={"Add"}
-            onClick={_onConfirm}
-            loading={loading}
-          />
+          <ActionButton text={"Allow"} onClick={_onConfirm} loading={loading} />
           {isShowRejectButton && (
             <ActionButton
-              key={"RejectAction"}
               text={"Reject"}
-              color={"notification"}
               onClick={_onReject}
               loading={loading}
             />

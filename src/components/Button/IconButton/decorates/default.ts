@@ -114,12 +114,5 @@ export const ButtonIconDecorate = styled.div<ButtonIconProps>`
         aspect-ratio: 1 / 1;
       }
     }
-
-    &:hover,
-    &:focus {
-      & span {
-        scale: 1.02;
-      }
-    }
   }
 `;

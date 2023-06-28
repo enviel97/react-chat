@@ -1,16 +1,5 @@
-import { shaddow } from "@theme/helper/styles";
+import { avatarCardShadow, cardShadow } from "@pages/Main/Friends/styles/utils";
 import styled from "styled-components";
-
-const _shadow = (color: string) => {
-  const dark = { brightness: -20, blur: 0.1, spread: -0.05, x: 0.1, y: 0.1 };
-  const light = { brightness: 20, blur: 0.1, spread: -0.05, x: -0.1, y: -0.1 };
-  return shaddow.boxShadow(
-    { ...light, color: color },
-    { ...light, color: color },
-    { ...dark, color: color },
-    { ...dark, color: color }
-  );
-};
 
 export const CardContainer = styled.div`
   background-color: ${({ theme }) => theme.surfaceColor};
@@ -19,14 +8,18 @@ export const CardContainer = styled.div`
   overflow: hidden;
   border: 2px solid var(--background-color);
 
-  margin: 0.25em;
-  box-shadow: ${({ theme }) => _shadow(theme.surfaceColor)};
+  margin: 0.25rem;
+  box-shadow: ${cardShadow};
 `;
 
 export const CardHeader = styled.div`
   width: 100%;
   aspect-ratio: 1/1;
   border: 0;
+  border-radius: inherit;
+  box-shadow: ${avatarCardShadow};
+  padding: 0.5rem 0.4rem 0.4rem 0.5rem;
+  overflow: hidden;
 `;
 
 export const CardBody = styled.div`
@@ -58,28 +51,26 @@ export const CardBio = styled.span`
   font-style: italic;
   overflow: hidden;
   height: 3rem;
+  width: fit-content;
+  max-width: 100%;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   font-size: 1rem;
-  & b {
-    font-weight: bold;
-    color: ${({ theme }) => theme.primaryColor};
-  }
+  margin-bottom: 0.5rem;
 `;
 export const CardContent = styled.div`
   display: flex;
   flex: 1;
   flex-direction: column;
   gap: 0.5em;
+  align-items: center;
+  justify-content: center;
 `;
 
 export const CardAction = styled.div`
   display: flex;
   align-items: flex-end;
-  justify-content: flex-end;
-  flex-direction: column;
+  justify-content: space-between;
+  flex-direction: row-reverse;
   gap: 10px;
-  & span {
-    font-size: 1rem;
-  }
 `;

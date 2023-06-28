@@ -1,50 +1,51 @@
 import useAppSelector from "@hooks/useAppSelector";
-import { FriendPageNotificationEmpty } from "@pages/Main/Friends/styles/FriendPage.decorate";
 import { selectFriendRequestIds } from "@store/slices/friendRequest";
-import { Suspense } from "react";
-import { lazy, memo, useMemo } from "react";
+import { lazy, memo, Suspense, useMemo } from "react";
 import {
   FriendRequestItemContainer,
   FriendRequestItemsContainer,
   FriendRequestItemsScroll,
 } from "../../styles/FriendRequest.decorate";
-import FriendRequestCardLoading from "../ui/FriendRequestCardLoading";
-import FriendRequestLoading from "../ui/FriendRequestLoading";
+import FriendRequestSystem from "../ui/FriendRequestSystem";
 import { isSuccess } from "@utils/validate";
-
+import { AnimatePresence } from "framer-motion";
+import { Animate } from "../../styles/FriendRequest.animate";
+import FriendRequestCardLoading from "../ui/FriendRequestCardLoading";
 const Card = lazy(() => import("../ui/FriendRequestCard"));
+
+const FRIEND_REQUEST_EMPTY = "You don't have any friend request...";
 
 const FriendRequestList = () => {
   const data = useAppSelector(selectFriendRequestIds);
   const status = useAppSelector((state) => state["friend-request"].process);
   const FriendRequests = useMemo(() => {
-    if (data.length === 0 && isSuccess(status)) {
-      return (
-        <FriendPageNotificationEmpty>
-          You don't have any friend request...
-        </FriendPageNotificationEmpty>
-      );
-    }
     return data.map((value, index) => {
       return (
-        <Suspense
-          key={`${value}$${index}`}
-          fallback={<FriendRequestCardLoading />}
+        <FriendRequestItemContainer
+          key={`${value}`}
+          custom={index}
+          {...Animate.card}
         >
-          <FriendRequestItemContainer>
+          <Suspense fallback={<FriendRequestCardLoading />}>
             <Card friendId={value.toString()} />
-          </FriendRequestItemContainer>
-        </Suspense>
+          </Suspense>
+        </FriendRequestItemContainer>
       );
     });
-  }, [data, status]);
+  }, [data]);
 
   return (
     <FriendRequestItemsScroll>
       <FriendRequestItemsContainer>
-        <Suspense fallback={<FriendRequestLoading />}>
-          {FriendRequests}
-        </Suspense>
+        <AnimatePresence mode='wait'>
+          {data.length === 0 && isSuccess(status) && (
+            <FriendRequestSystem message={FRIEND_REQUEST_EMPTY} />
+          )}
+        </AnimatePresence>
+        <AnimatePresence mode='wait'>
+          {data.length === 0 && !isSuccess(status) && <FriendRequestSystem />}
+        </AnimatePresence>
+        <AnimatePresence mode='popLayout'>{FriendRequests}</AnimatePresence>
       </FriendRequestItemsContainer>
     </FriendRequestItemsScroll>
   );

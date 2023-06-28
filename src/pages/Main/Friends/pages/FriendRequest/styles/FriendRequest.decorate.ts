@@ -1,4 +1,5 @@
 import { breakpoint } from "@theme/helper/breakpoint";
+import { motion } from "framer-motion";
 import styled from "styled-components";
 
 export const FriendRequestContainer = styled.div`
@@ -19,30 +20,37 @@ export const FriendRequestItemsScroll = styled.div`
   padding: 1rem;
 `;
 
-export const FriendRequestItemContainer = styled.div`
+export const FriendRequestItemContainer = styled(motion.div)`
   background-color: transparent;
   height: fit-content;
   width: 100%;
 `;
 
-export const FriendRequestItemsContainer = styled.div`
+export const FriendRequestItemsContainer = styled(motion.div)`
   position: relative;
   max-width: 100%;
   display: flex;
   flex-flow: row wrap;
+  align-items: center;
   justify-content: flex-start;
   padding-bottom: 10svh;
+  font-weight: 300;
+  font-style: italic;
+  font-size: 1.25rem;
+  gap: 0.5rem;
 
   ${FriendRequestItemContainer} {
-    flex-basis: 12.5%;
+    flex-basis: calc(12.5% - 0.5rem);
     ${breakpoint.down("laptop")} {
-      flex-basis: 20%;
+      flex-basis: calc(20% - 0.5rem);
     }
     ${breakpoint.down("tablet")} {
-      flex-basis: 33.33%;
+      justify-content: center;
+      flex-basis: calc(33.33% - 0.5rem);
     }
     ${breakpoint.down("mobile")} {
-      flex-basis: 50%;
+      justify-content: center;
+      flex-basis: calc(50% - 0.5rem);
     }
   }
 `;

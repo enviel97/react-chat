@@ -1,15 +1,15 @@
 import Faded from "@components/Animation/Faded";
-import { State } from "@store/common/state";
+import useAppSelector from "@hooks/useAppSelector";
 import { isRefresh } from "@utils/validate";
-import { FC, memo } from "react";
+import { memo } from "react";
 import { PongSpinner } from "react-spinners-kit";
 import { useTheme } from "styled-components";
 
-interface Props {
-  status: State;
-}
-const CornerLoading: FC<Props> = ({ status }) => {
+const CornerLoading = () => {
   const theme = useTheme();
+  const status = useAppSelector((state) => {
+    return state["friend-request"].process;
+  });
   if (isRefresh(status))
     return (
       <Faded>

@@ -2,6 +2,7 @@ import { Event } from "@common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useSocket from "@hooks/useSocket";
 import { removeFriendPending } from "@store/slices/friendPending";
+import { updateFriendList } from "@store/slices/profiles";
 import { addFriend } from "@store/slices/users";
 import { useCallback, useEffect } from "react";
 
@@ -12,6 +13,7 @@ const useFriendListSocket = () => {
   const handleOnReceiveAllowFriendRequest = useCallback(
     (payload: FriendRequest) => {
       dispatch(addFriend(payload.friendProfile));
+      dispatch(updateFriendList(payload.friendProfile.getId()));
       dispatch(removeFriendPending(payload.getId()));
     },
     [dispatch]
