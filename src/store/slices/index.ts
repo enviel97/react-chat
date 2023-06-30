@@ -6,6 +6,7 @@ import UiReducer from "./ui";
 import FriendRequestReducer from "./friendRequest";
 import FriendPendingReducer from "./friendPending";
 import ProfileReducer from "./profiles";
+import CallReducer from "./call";
 
 const ReducerList = Object.freeze({
   [SliceName.conversation]: ConversationReducer,
@@ -15,6 +16,7 @@ const ReducerList = Object.freeze({
   [SliceName.friend_pending]: FriendPendingReducer,
   [SliceName.ui]: UiReducer,
   [SliceName.profile]: ProfileReducer,
+  [SliceName.call]: CallReducer,
 });
 
 export const reducerStorage = [SliceName.ui, SliceName.profile];

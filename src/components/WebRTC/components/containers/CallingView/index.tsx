@@ -1,4 +1,5 @@
-import CallObserver from "@components/WebRTC/common/peer";
+import useAppSelector from "@hooks/useAppSelector";
+import { selectCallById } from "@store/slices/call";
 import { AnimatePresence } from "framer-motion";
 import { FC, memo, useEffect, useState } from "react";
 import CallingAction from "./components/container/CallingAction";
@@ -10,19 +11,22 @@ import {
   CallingViewOverplay,
 } from "./styles/CallingView.decorate";
 
-const CallingView: FC<CallingViewProps> = ({ onStop, callerId, type }) => {
+const CallingView: FC<CallingViewProps> = ({ callerId }) => {
   const [callerStream, setCallerStream] = useState<MediaStream>();
   const [receiverStream, setReceiverStream] = useState<MediaStream>();
+  const callChannel = useAppSelector((state) =>
+    selectCallById(state, callerId)
+  );
 
   useEffect(() => {
-    const callChannel = CallObserver.get(callerId);
-    if (!callChannel) return;
-    setCallerStream(callChannel.localStream);
+    if (!callChannel || !callChannel.connection) return;
+    const connection = callChannel.connection;
+    setCallerStream(connection.localStream);
     // receiver
-    callChannel.on("stream", (remoteStream) => {
+    connection.on("stream", (remoteStream) => {
       setReceiverStream(remoteStream);
     });
-  }, [callerId]);
+  }, [callChannel]);
 
   return (
     <CallingViewOverplay {...CallingViewAnimation.overlay}>
@@ -31,18 +35,14 @@ const CallingView: FC<CallingViewProps> = ({ onStop, callerId, type }) => {
           <CallingContainer>
             <PersonCall
               stream={callerStream}
-              microphone={true}
-              webcam={type === "VideoCall"}
               metadata={{ name: "", avatar: "" }}
             />
             <PersonCall
               stream={receiverStream}
-              microphone={true}
-              webcam={type === "VideoCall"}
               metadata={{ name: "", avatar: "" }}
             />
           </CallingContainer>
-          <CallingAction onStop={onStop} />
+          <CallingAction />
         </CallingViewContainer>
       </AnimatePresence>
     </CallingViewOverplay>

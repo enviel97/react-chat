@@ -1,4 +1,3 @@
-import useWebRTC from "@components/WebRTC/hooks/useWebRTC";
 import { FC, Fragment, useCallback, useEffect, useState } from "react";
 import {
   CallNotificationAction,
@@ -6,15 +5,11 @@ import {
 } from "../styles/CallNotification.decorate";
 import CallAvatar from "@components/WebRTC/components/ui/CallAvatar";
 import IconButton from "@components/WebRTC/components/ui/IconButton";
-import { devicesPermission } from "@components/WebRTC/utils/permission";
-import { safeLog } from "@core/api/utils/logger";
+import useAppSelector from "@hooks/useAppSelector";
+import { selectPeer } from "@store/slices/call";
 
-const CallNotification: FC<CallNotificationProps> = ({
-  onAnswerCall,
-  onRejectCall,
-  connectionId,
-}) => {
-  const { peer } = useWebRTC();
+const CallNotification: FC<CallNotificationProps> = ({ connectionId }) => {
+  const peer = useAppSelector(selectPeer);
   const [name] = useState<string>("[Name]");
   const [type] = useState<CallType>("PhoneCall");
 
@@ -24,18 +19,9 @@ const CallNotification: FC<CallNotificationProps> = ({
     // Listener
   }, [peer]);
 
-  const handleAnswer = useCallback(async () => {
-    const userMedia = await devicesPermission(type);
-    if (!peer || !userMedia) {
-      return safeLog("No peer or devices");
-    }
-    // handle Answer call
-    onAnswerCall && onAnswerCall(connectionId, type);
-  }, [peer, type, onAnswerCall, connectionId]);
+  const handleAnswer = useCallback(async () => {}, []);
 
-  const handleReject = useCallback(async () => {
-    onRejectCall && onRejectCall(connectionId);
-  }, [onRejectCall, connectionId]);
+  const handleReject = useCallback(async () => {}, []);
 
   // hook data in here
   return (

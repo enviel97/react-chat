@@ -4,22 +4,23 @@ import { authStatus } from "../../../store/repo/authenticate/authenticate";
 
 const useAuthFetch = () => {
   const { user, updateAuthUser } = useAuthenticate();
-  const [loading, setLoading] = useState<boolean>(true);
+  const [loadState, setLoadState] = useState<LoadState>("idle");
 
   useEffect(() => {
-    setLoading(true);
+    setLoadState("loading");
 
     authStatus()
       .then((user) => {
         if (!!user) updateAuthUser(user);
-        setLoading(false);
+        setLoadState("success");
       })
       .catch((error) => {
         updateAuthUser(undefined);
-        setLoading(false);
+        setLoadState("error");
       });
   }, [updateAuthUser]);
-  return { user, loading };
+
+  return { user, loadState };
 };
 
 export default useAuthFetch;

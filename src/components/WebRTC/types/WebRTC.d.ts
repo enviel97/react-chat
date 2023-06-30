@@ -1,5 +1,4 @@
 type CallType = "VideoCall" | "PhoneCall";
-type State = "Idle" | "Connected" | "Destroyed" | "Disconnected" | "Error";
 
 interface CallModel {
   id: string;
@@ -7,7 +6,6 @@ interface CallModel {
 }
 
 interface IWebRTCContext<Socket> {
-  state: State;
   peer?: Socket;
   call: (receiver: CallModel) => void;
 }

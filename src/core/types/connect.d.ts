@@ -1,4 +1,4 @@
-type LoadState = "idle" | "loading" | "success" | "error";
+type LoadState = "idle" | "loading" | "success" | "error" | "refresh";
 
 interface AudioSetting {
   type: "audio";

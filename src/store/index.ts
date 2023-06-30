@@ -13,6 +13,7 @@ import {
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import ReducerList, { reducerStorage } from "./slices";
+import SliceName from "./common/sliceName";
 
 const reducer = combineReducers(ReducerList);
 
@@ -33,6 +34,7 @@ const store = configureStore({
     getDefaultMiddleware({
       serializableCheck: {
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        ignoredPaths: [SliceName.call],
       },
     }),
 });

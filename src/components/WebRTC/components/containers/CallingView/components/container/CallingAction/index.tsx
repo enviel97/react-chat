@@ -1,21 +1,17 @@
 import IconButton from "@components/WebRTC/components/ui/IconButton";
-import { FC } from "react";
+import { memo } from "react";
 import {
   CallingActionContainer,
   StatusContainer,
 } from "./styles/CallingAction.decorate";
 
-interface CallingActionProps {
-  onStop: () => void;
-}
-
-const CallingAction: FC<CallingActionProps> = ({ onStop }) => {
+const CallingAction = () => {
   return (
     <CallingActionContainer>
       <StatusContainer>Disconnect</StatusContainer>
-      <IconButton type={"Stop"} onClick={onStop} />
+      <IconButton type={"Stop"} onClick={() => {}} />
     </CallingActionContainer>
   );
 };
 
-export default CallingAction;
+export default memo(CallingAction);

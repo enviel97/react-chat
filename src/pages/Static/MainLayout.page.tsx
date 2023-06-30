@@ -10,6 +10,8 @@ import { SidebarContainer } from "@pages/Main/components/styles/Sidebar.decorate
 import useNotificationFriendToast from "@pages/Main/hooks/useNotificationFriendsToast";
 import useQuantityNotification from "@pages/Main/hooks/useQuantityNotification";
 import WebRTCProvider from "@components/WebRTC";
+import { AnimatePresence } from "framer-motion";
+
 interface Props {
   $sidebarWidth: string;
 }
@@ -37,7 +39,7 @@ const MainLayoutContainer = styled.div<Props>`
 
 const MainLayout = () => {
   useAutoScrollTop();
-  const { user, loading } = useAuthFetch();
+  const { user, loadState } = useAuthFetch();
   const location = useLocation();
   const [sidebarWidth, setSidebarWidth] = useState<string>("74px");
 
@@ -51,24 +53,24 @@ const MainLayout = () => {
     setSidebarWidth(width);
   }, []);
 
-  if (loading) {
-    return <PageLoading />;
+  if (["loading", "idle"].includes(loadState)) return <PageLoading />;
+
+  if (user) {
+    return (
+      <MainContainer id='app'>
+        <AnimatePresence>
+          <Page display='flex'>
+            <SidebarAction />
+            <MainLayoutContainer $sidebarWidth={sidebarWidth}>
+              <Outlet />
+            </MainLayoutContainer>
+            <WebRTCProvider />
+          </Page>
+        </AnimatePresence>
+      </MainContainer>
+    );
   }
-  if (!user) {
-    return <Navigate to={"/auth"} state={{ from: location }} replace />;
-  }
-  return (
-    <MainContainer id='app'>
-      <WebRTCProvider>
-        <Page display='flex'>
-          <SidebarAction />
-          <MainLayoutContainer $sidebarWidth={sidebarWidth}>
-            <Outlet />
-          </MainLayoutContainer>
-        </Page>
-      </WebRTCProvider>
-    </MainContainer>
-  );
+  return <Navigate to={"/auth"} state={{ from: location }} replace />;
 };
 
 export default MainLayout;
