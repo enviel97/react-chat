@@ -4,26 +4,30 @@ import { ProfileState } from "../state/profile";
 import { updateFriendListAction } from "./actions/updateFriendList.action";
 import { updateImageAction } from "./actions/updateImage.action";
 import { updateProfileAction } from "./actions/updateProfile.action";
-import { updateUserAction } from "./actions/updateUser.action";
+import fetchAuthUser from "./extraReducers/fetchAuthUser.thunk";
 import { getProfile } from "./extraReducers/fetchProfile.thunk";
 import { fetchProfileUpdate } from "./extraReducers/fetchProfileUpdate.thunk";
+import fetchSignIn from "./extraReducers/fetchSignIn.thunk";
 
 export const profilesSlice = createSlice({
   name: SliceName.profile,
-  initialState: {} as ProfileState,
+  initialState: { process: "idle" } as ProfileState,
   reducers: {
-    updateUser: updateUserAction,
     updateProfile: updateProfileAction,
     updateFriendList: updateFriendListAction,
     updateImage: updateImageAction,
   },
   extraReducers: (builder) => {
+    fetchAuthUser(builder);
     getProfile(builder);
+    fetchSignIn(builder);
+
+    // await bot
     fetchProfileUpdate(builder);
   },
 });
 
-export const { updateUser, updateProfile, updateImage, updateFriendList } =
+export const { updateProfile, updateImage, updateFriendList } =
   profilesSlice.actions;
 
 export { default as selectProfile } from "./selector/selectProfile";

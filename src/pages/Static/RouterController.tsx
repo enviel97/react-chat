@@ -1,10 +1,6 @@
 import client from "@core/api";
 import { safeLog, showToast, Status } from "@core/api/utils/logger";
-import {
-  isLoginRequired,
-  isRequestError,
-  isServerError,
-} from "@core/api/utils/statusValid";
+import { isLoginRequired } from "@core/api/utils/statusValid";
 import { AxiosError } from "axios";
 import { useCallback, useEffect } from "react";
 import { Outlet, useNavigate } from "react-router";
@@ -14,17 +10,7 @@ const ERR_CANCELED = "ERR_CANCELED";
 const RouterController = () => {
   const navigate = useNavigate();
 
-  const handleServerError = useCallback((error: any) => {
-    const _message = error.response?.data?.message ?? Status.get(500)!;
-    showToast(_message);
-    return Promise.reject({
-      code: error.response?.data?.code ?? error.code ?? error.status,
-      message: _message,
-      data: undefined,
-    });
-  }, []);
-
-  const handlerBadError = useCallback((error: any) => {
+  const handleNormalError = useCallback((error: any) => {
     const _message = error.response?.data?.message ?? Status.get(500)!;
     showToast(_message);
     return Promise.reject({
@@ -49,11 +35,12 @@ const RouterController = () => {
   const handlerLoginRequired = useCallback(
     (error: any) => {
       const { status } = error.response;
-      showToast(Status.get(status)!);
       navigate("auth", {
         replace: true,
         state: { from: window.location.pathname },
       });
+      showToast(Status.get(status)!);
+
       return Promise.reject(error.response?.data ?? error.response);
     },
     [navigate]
@@ -73,25 +60,18 @@ const RouterController = () => {
           });
         }
         const { status = 500 } = response;
-        console.warn({ status, response });
+        console.warn({ status });
+        safeLog({
+          response,
+          isLoginRequired: isLoginRequired(status),
+        });
         if (isLoginRequired(status)) {
           return handlerLoginRequired(error);
         }
-        if (isRequestError(status)) {
-          return handlerBadError(error);
-        }
-        if (isServerError(status)) {
-          return handleServerError(error);
-        }
+        return handleNormalError(error);
       }
     );
-  }, [
-    navigate,
-    handleServerError,
-    handlerBadError,
-    handleIgnoreCancel,
-    handlerLoginRequired,
-  ]);
+  }, [navigate, handleNormalError, handleIgnoreCancel, handlerLoginRequired]);
 
   return <Outlet />;
 };

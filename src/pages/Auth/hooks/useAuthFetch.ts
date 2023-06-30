@@ -1,26 +1,21 @@
+import useAppDispatch from "@hooks/useAppDispatch";
 import useAuthenticate from "@hooks/useAuthenticate";
-import { useEffect, useState } from "react";
-import { authStatus } from "../../../store/repo/authenticate/authenticate";
+import { useEffect } from "react";
+import { authStatus } from "@store/repo/authenticate/authenticate";
 
 const useAuthFetch = () => {
-  const { user, updateAuthUser } = useAuthenticate();
-  const [loadState, setLoadState] = useState<LoadState>("idle");
+  const { user } = useAuthenticate();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setLoadState("loading");
+    if (user) return;
+    const promise = dispatch(authStatus());
+    return () => {
+      promise.abort();
+    };
+  }, [dispatch, user]);
 
-    authStatus()
-      .then((user) => {
-        if (!!user) updateAuthUser(user);
-        setLoadState("success");
-      })
-      .catch((error) => {
-        updateAuthUser(undefined);
-        setLoadState("error");
-      });
-  }, [updateAuthUser]);
-
-  return { user, loadState };
+  return { user };
 };
 
 export default useAuthFetch;

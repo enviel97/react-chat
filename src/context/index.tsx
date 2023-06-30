@@ -23,18 +23,18 @@ const MultiProvider: FC<Components> = ({ children }) => {
 
   return (
     <ReduxProvider store={store}>
-      <AuthProvider>
-        <SocketProvider>
-          <ThemeProvider>
-            <ModalProvider>
-              <PersistGate loading={<PageLoading />} persistor={persistor}>
+      <ThemeProvider>
+        <PersistGate loading={<PageLoading />} persistor={persistor}>
+          <AuthProvider>
+            <SocketProvider>
+              <ModalProvider>
                 <RouterProvider>{children}</RouterProvider>
-              </PersistGate>
-              <ToastProvider />
-            </ModalProvider>
-          </ThemeProvider>
-        </SocketProvider>
-      </AuthProvider>
+                <ToastProvider />
+              </ModalProvider>
+            </SocketProvider>
+          </AuthProvider>
+        </PersistGate>
+      </ThemeProvider>
     </ReduxProvider>
   );
 };

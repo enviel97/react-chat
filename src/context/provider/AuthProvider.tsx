@@ -1,28 +1,21 @@
 import useAppDispatch from "@hooks/useAppDispatch";
+import useAppSelector from "@hooks/useAppSelector";
 import { fetchProfile } from "@store/repo/user";
-import { updateUser } from "@store/slices/profiles";
 import string from "@utils/string";
-import { createContext, FC, useCallback, useState, useEffect } from "react";
+import { createContext, FC, useCallback, useEffect } from "react";
 
 interface AuthenticateController {
   user?: User;
-  updateAuthUser: (user?: User) => void;
   isUser: (another: any) => boolean;
 }
 
 export const AuthContext = createContext<AuthenticateController>({
-  updateAuthUser: (user?: User) => {
-    throw new Error("Feature not implement");
-  },
   isUser: (another) => false,
 });
 
 export const AuthProvider: FC<Components> = ({ children }) => {
-  const [user, setUser] = useState<User>();
   const dispatch = useAppDispatch();
-  const updateAuthUser = useCallback((user?: User) => {
-    setUser(user);
-  }, []);
+  const user = useAppSelector((state) => state.profile.user);
 
   const isUser = useCallback(
     (another: any) => {
@@ -34,13 +27,12 @@ export const AuthProvider: FC<Components> = ({ children }) => {
 
   useEffect(() => {
     if (!user) return;
-    dispatch(updateUser(user));
     const promise = dispatch(fetchProfile());
     return () => promise.abort();
   }, [user, dispatch]);
 
   return (
-    <AuthContext.Provider value={{ user, updateAuthUser, isUser }}>
+    <AuthContext.Provider value={{ user, isUser }}>
       {children}
     </AuthContext.Provider>
   );

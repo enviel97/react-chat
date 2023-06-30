@@ -1,7 +1,5 @@
-import useAppSelector from "@hooks/useAppSelector";
-import { isError } from "@utils/validate";
 import { lazy, Suspense } from "react";
-import { Navigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ChannelSendForm from "./components/container/ChannelSendForm";
 import { AttachmentsProvider } from "./context/AttachmentProvider";
 import useConversationSocket from "./hooks/useConversationSocket";
@@ -19,14 +17,9 @@ const Header = lazy(() => import("./components/container/ChannelHeader"));
 
 const ConversationChannel = () => {
   const { id = "" } = useParams<{ id: string }>();
-  const process = useAppSelector((state) => state.message.process);
   useConversationSocket(id);
   useEmitJoinRoom(id);
   useFetchMessages(id);
-
-  if (isError(process)) {
-    return <Navigate to={"/conversation"} replace={true} />;
-  }
 
   return (
     <AttachmentsProvider accepts={["image"]}>

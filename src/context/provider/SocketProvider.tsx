@@ -18,6 +18,16 @@ export const SocketProvider = ({ children }: Components) => {
 
   useEffect(() => {
     if (!user) return;
+    if (!socket?.connected) socket.connect();
+
+    socket.once(Event.EVENT_SOCKET_CONNECTED, (payload: any) => {
+      console.log({ status: "connected", payload });
+    });
+
+    socket.once(Event.EVENT_SOCKET_ERROR, (err) => {
+      console.log(`connect_error due to ${err.message}`);
+    });
+
     // TODO: Connect socket reconnect if socket connect failure
     socket.on(Event.EVENT_SOCKET_DISCONNECT, (reason) => {
       if (!user) return;
@@ -42,26 +52,14 @@ export const SocketProvider = ({ children }: Components) => {
     return () => {
       socket.off(Event.EVENT_SOCKET_DISCONNECT);
       socket.off(Event.EVENT_SOCKET_RECONNECT);
-      socket.disconnect();
-      socket.close();
-      clearTimeout(timeOut);
-    };
-  }, [user]);
-
-  useEffect(() => {
-    socket.once(Event.EVENT_SOCKET_CONNECTED, (payload: any) => {
-      console.log({ status: "connected", payload });
-    });
-
-    socket.once(Event.EVENT_SOCKET_ERROR, (err) => {
-      console.log(`connect_error due to ${err.message}`);
-    });
-
-    return () => {
       socket.off(Event.EVENT_SOCKET_CONNECTED);
       socket.off(Event.EVENT_SOCKET_ERROR);
+      clearTimeout(timeOut);
+      if (!socket.connected) return;
+      socket.disconnect();
+      socket.close();
     };
-  }, []);
+  }, [user]);
 
   return (
     <SocketContext.Provider value={socket}>{children}</SocketContext.Provider>

@@ -5,9 +5,9 @@ import { TextFieldNeumorphism as TextField } from "@components/TextInput";
 import { forwardRef, useCallback, useImperativeHandle } from "react";
 import { signIn } from "@store/repo/authenticate/authenticate";
 import { useLocation, useNavigate } from "react-router-dom";
-import useAuthenticate from "@hooks/useAuthenticate";
 import Title from "./Title";
 import { toast } from "react-toastify";
+import useAppDispatch from "@hooks/useAppDispatch";
 
 const LoginForm = forwardRef<FormHandler>((_, ref) => {
   const {
@@ -20,9 +20,9 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
   } = useForm<Account>({
     defaultValues: { email: "nvloc.07.97@gmail.com", password: "Tester1" },
   });
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigator = useNavigate();
-  const { updateAuthUser } = useAuthenticate();
   const imperativeHandle = useCallback(
     () => ({
       reset: reset,
@@ -37,12 +37,11 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
   useImperativeHandle(ref, imperativeHandle, [imperativeHandle]);
 
   const onSubmit = async (data: Account) => {
-    const response = await signIn(data);
+    const response = await dispatch(signIn(data)).unwrap();
     if (!response.data) return;
-    updateAuthUser(response.data);
-    const from = location.state.from;
-    const pathname = from?.pathname ?? "/";
-    navigator(pathname, { replace: true });
+    const pathname = location.state?.from?.pathname;
+    console.log({ location });
+    navigator(pathname ?? "/conversation", { replace: true });
     toast.success(`Hi! ${response.data.getFullName()}`);
   };
 
