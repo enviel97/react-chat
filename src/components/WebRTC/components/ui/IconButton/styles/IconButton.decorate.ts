@@ -14,9 +14,9 @@ export const IconButtonContainer = styled(motion.div)<IconButtonDecorate>`
   justify-content: center;
   color: ${({ theme, $type }) => {
     switch ($type) {
-      case "Answer":
+      case "Phone":
         return "#09b617";
-      case "Stop":
+      case "PhoneOff":
         return `${theme.notificationColor}`;
       default:
         return `${theme.surfaceColor}`;

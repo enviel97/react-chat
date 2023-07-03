@@ -1,5 +1,4 @@
-import useAppDispatch from "@hooks/useAppDispatch";
-import { callingApi } from "@store/repo/call";
+import useCallController from "@components/WebRTC/hooks/useCallController";
 import { motion } from "framer-motion";
 import { FC, memo } from "react";
 import { BsPersonVideo, BsTelephoneForwardFill } from "react-icons/bs";
@@ -29,17 +28,11 @@ const Container = styled(motion.div)`
 
 const CallAction: FC<PhoneCallProps> = ({ friendId, type }) => {
   const theme = useTheme();
-  const dispatch = useAppDispatch();
+  const { trigger: call } = useCallController();
 
-  const handleOnClick = () => {
+  const handleOnClick = async () => {
     if (!friendId) return;
-    dispatch(
-      callingApi({
-        receiver: friendId,
-        camera: true,
-        microphone: false,
-      })
-    );
+    await call(friendId, { camera: type === "VideoCall" });
   };
 
   return (

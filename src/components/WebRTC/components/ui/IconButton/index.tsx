@@ -1,4 +1,4 @@
-import { IconButtonMap } from "@components/WebRTC/common/icon";
+import { IconBase } from "@components/Icon";
 import { FC, memo } from "react";
 import { IconButtonAnimation } from "./styles/IconButton.animation";
 import {
@@ -8,7 +8,7 @@ import {
 } from "./styles/IconButton.decorate";
 
 const IconButton: FC<IconButtonProps> = ({
-  type = "Answer",
+  type = "Phone",
   onClick,
   animation,
 }) => {
@@ -28,7 +28,7 @@ const IconButton: FC<IconButtonProps> = ({
           />
         ))}
       <IconBox {...IconButtonAnimation.iconBox} animate={animation}>
-        {IconButtonMap.get(type)?.on}
+        <IconBase name={type} color='var(--white)' size='55%' />
       </IconBox>
     </IconButtonContainer>
   );

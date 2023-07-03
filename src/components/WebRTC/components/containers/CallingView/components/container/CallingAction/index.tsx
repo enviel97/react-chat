@@ -1,4 +1,4 @@
-import IconButton from "@components/WebRTC/components/ui/IconButton";
+import StopCallButton from "@components/WebRTC/components/containers/StopCallButton";
 import { memo } from "react";
 import {
   CallingActionContainer,
@@ -9,7 +9,7 @@ const CallingAction = () => {
   return (
     <CallingActionContainer>
       <StatusContainer>Disconnect</StatusContainer>
-      <IconButton type={"Stop"} onClick={() => {}} />
+      <StopCallButton />
     </CallingActionContainer>
   );
 };

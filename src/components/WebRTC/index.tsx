@@ -5,9 +5,11 @@ import CallingView from "./components/containers/CallingView";
 import { AnimatePresence } from "framer-motion";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectCurrentCall } from "@store/slices/call";
+import usePeer from "./hooks/usePeer";
 
 const WebRTCProvider = () => {
   const selectAnswer = useAppSelector(selectCurrentCall);
+  usePeer();
 
   return (
     <WebRTCContainer>

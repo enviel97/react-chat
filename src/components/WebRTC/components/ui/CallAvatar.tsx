@@ -1,3 +1,4 @@
+import Icon from "@components/Icon/components/Icon";
 import { AvatarIconMap } from "@components/WebRTC/common/icon";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import { colorBrightness } from "@theme/helper/tools";
@@ -28,11 +29,11 @@ const Hint = styled(Tooltip)`
 `;
 
 interface CallAvatarProps {
-  type?: "VideoCall" | "PhoneCall";
+  type: CallType;
   src?: string;
 }
 
-const CallAvatar: FC<CallAvatarProps> = ({ type = "PhoneCall", src }) => {
+const CallAvatar: FC<CallAvatarProps> = ({ type, src }) => {
   const [hintContent, setHintContent] = useState<string>();
 
   useEffect(() => {
@@ -44,7 +45,10 @@ const CallAvatar: FC<CallAvatarProps> = ({ type = "PhoneCall", src }) => {
     <Container>
       <CircleAvatar src={src} viewPort='s' />
       <IconBox>
-        {AvatarIconMap.get(type)}
+        <Icon
+          name={type === "VideoCall" ? "Stream" : "PhoneFill"}
+          size={"0.6em"}
+        />
         {hintContent && (
           <Hint anchorSelect={IconBox} content={hintContent} place='bottom' />
         )}

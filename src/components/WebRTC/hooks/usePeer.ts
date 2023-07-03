@@ -1,45 +1,47 @@
 import { safeLog } from "@core/api/utils/logger";
+import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
-import { selectUser } from "@store/slices/profiles";
-import Peer from "peerjs";
-import { useEffect, useState } from "react";
+import useAuthenticate from "@hooks/useAuthenticate";
+import { initial, selectPeer } from "@store/slices/call";
+import { useEffect } from "react";
 
 const usePeer = () => {
-  const user = useAppSelector(selectUser);
+  const { userId } = useAuthenticate();
+  const peer = useAppSelector(selectPeer);
+  const dispatch = useAppDispatch();
 
   // init one
-  const [peer, setPeer] = useState<Peer>();
-
   useEffect(() => {
-    setPeer((prev) => {
-      if (!prev || prev.destroyed) return new Peer(user.getId());
-      if (prev.disconnected) prev.reconnect();
-      return prev;
-    });
-    // eslint-disable-next-line
-  }, [user.id, user._id]);
+    if (!userId) return;
+    // dispatch(initial(userId));
+  }, [dispatch, userId]);
 
   useEffect(() => {
     // Listener
     if (!peer) return;
-    peer.on("open", (id) => {
-      console.log(`Peer id: ${id}`);
-    });
-    peer.on("disconnected", (id) => {
-      console.log(`"Disconnect ${id}"`);
-    });
     peer.on("error", (error) => {
+      const peerError = error as PeerError;
+      const type = peerError.type;
       safeLog({ error });
+
+      peer.on("disconnected", (id) => {
+        if (type && type === "network") {
+          console.log(`"Disconnected ${id}"`);
+          peer.reconnect();
+          return;
+        }
+      });
     });
     return () => {
-      peer.off("open");
       peer.off("disconnected");
       peer.off("error");
+
+      // Disconnect
+      if (!peer.open) return;
+      peer.disconnect();
       peer.destroy();
     };
   }, [peer]);
-
-  return { peer };
 };
 
 export default usePeer;

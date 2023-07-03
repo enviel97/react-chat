@@ -4,7 +4,7 @@ import type { RootState } from "@store/index";
 const selectCurrentCall = createSelector(
   [(state: RootState) => state.call],
   (callState) => {
-    return callState.callAnswer;
+    return callState.currentConnectChannel;
   }
 );
 

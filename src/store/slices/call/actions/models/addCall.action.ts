@@ -1,12 +1,12 @@
 import type { CaseReducer, PayloadAction } from "@reduxjs/toolkit";
 import type { CallState } from "@store/slices/state/call";
 import type { MediaConnection } from "peerjs";
-import callsAdapter from "../adapter/call.adapter";
+import callsAdapter from "../../adapter/call.adapter";
 
 interface CallModelCreate {
-  receiver: string;
+  caller: string;
   connection: MediaConnection;
-  createdAt: Date;
+  type: CallType;
 }
 
 type AddCallActionReducer = CaseReducer<
@@ -17,9 +17,10 @@ type AddCallActionReducer = CaseReducer<
 const addCallAction: AddCallActionReducer = (state, action) => {
   const payload = action.payload;
   callsAdapter.addOne(state as any, {
-    receiver: payload.receiver,
+    caller: payload.caller,
     connection: payload.connection as any,
-    createdAt: payload.createdAt.toISOString(),
+    createdAt: new Date().toISOString(),
+    type: payload.type,
   });
 };
 

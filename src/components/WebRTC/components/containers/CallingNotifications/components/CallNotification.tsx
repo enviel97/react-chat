@@ -1,27 +1,28 @@
-import { FC, Fragment, useCallback, useEffect, useState } from "react";
+import { FC, Fragment, useEffect, useState } from "react";
 import {
   CallNotificationAction,
   CallNotificationInfo,
 } from "../styles/CallNotification.decorate";
 import CallAvatar from "@components/WebRTC/components/ui/CallAvatar";
-import IconButton from "@components/WebRTC/components/ui/IconButton";
+import AnswerCallButton from "../../AnswerCallButton";
+import StopCallButton from "../../StopCallButton";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectPeer } from "@store/slices/call";
 
 const CallNotification: FC<CallNotificationProps> = ({ connectionId }) => {
-  const peer = useAppSelector(selectPeer);
   const [name] = useState<string>("[Name]");
   const [type] = useState<CallType>("PhoneCall");
+  const peer = useAppSelector(selectPeer);
 
   useEffect(() => {
     if (!peer || !peer.id) return;
-
-    // Listener
+    peer.on("connection", (dataConnection) => {
+      console.log({ dataConnection });
+      dataConnection.on("data", (data: any) => {
+        console.log({ data });
+      });
+    });
   }, [peer]);
-
-  const handleAnswer = useCallback(async () => {}, []);
-
-  const handleReject = useCallback(async () => {}, []);
 
   // hook data in here
   return (
@@ -31,8 +32,8 @@ const CallNotification: FC<CallNotificationProps> = ({ connectionId }) => {
         <span>{name} is called</span>
       </CallNotificationInfo>
       <CallNotificationAction>
-        <IconButton type='Answer' onClick={handleAnswer} animation='ring' />
-        <IconButton type='Stop' onClick={handleReject} />
+        <AnswerCallButton callId={connectionId} />
+        <StopCallButton />
       </CallNotificationAction>
     </Fragment>
   );

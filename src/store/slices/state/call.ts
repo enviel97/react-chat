@@ -3,14 +3,17 @@ import type Peer from "peerjs";
 import type { MediaConnection } from "peerjs";
 
 export interface CallModel {
-  receiver: string;
+  caller: string;
+  type: CallType;
   readonly connection: MediaConnection;
   readonly createdAt: string;
 }
 
 export interface CallState extends EntityState<CallModel> {
-  callAnswer?: string;
+  currentConnectChannel?: string;
   peer?: Peer;
+  name?: string;
+  avatar?: string;
 }
 
 export type CallExtraBuilder = ActionReducerMapBuilder<CallState>;

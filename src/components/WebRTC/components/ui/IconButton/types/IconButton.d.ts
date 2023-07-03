@@ -1,4 +1,4 @@
-type ButtonType = "Answer" | "Stop";
+type ButtonType = "Phone" | "PhoneOff";
 
 type CallType = "VideoCall" | "PhoneCall";
 

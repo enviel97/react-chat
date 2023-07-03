@@ -1,5 +1,5 @@
+import useCallController from "@components/WebRTC/hooks/useCallController";
 import useAppDispatch from "@hooks/useAppDispatch";
-import { callingApi } from "@store/repo/call";
 import { fetchAddConversation } from "@store/repo/conversation";
 import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ const Container = styled.div`
 const FriendActions: FC<FriendAction> = ({ friendId }) => {
   const navigator = useNavigate();
   const dispatch = useAppDispatch();
+  const { trigger: call } = useCallController();
 
   const handleMessageToFriend = useCallback(async () => {
     const { conversation: response } = await dispatch(
@@ -33,23 +34,11 @@ const FriendActions: FC<FriendAction> = ({ friendId }) => {
   }, [dispatch, navigator, friendId]);
 
   const handleVideoCall = useCallback(() => {
-    dispatch(
-      callingApi({
-        receiver: friendId,
-        camera: true,
-        microphone: false,
-      })
-    );
-  }, [friendId]);
+    call(friendId, { camera: true });
+  }, [call, friendId]);
 
   const handlePhoneCall = useCallback(() => {
-    dispatch(
-      callingApi({
-        receiver: friendId,
-        camera: false,
-        microphone: false,
-      })
-    );
+    call(friendId, { camera: false });
   }, [friendId]);
 
   return (
