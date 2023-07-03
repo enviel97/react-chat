@@ -4,4 +4,5 @@ interface ButtonCircleProps {
   // pixel
   size?: string;
   disabled?: boolean;
+  onClick?: () => void;
 }

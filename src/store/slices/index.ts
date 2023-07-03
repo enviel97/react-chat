@@ -7,6 +7,15 @@ import FriendRequestReducer from "./friendRequest";
 import FriendPendingReducer from "./friendPending";
 import ProfileReducer from "./profiles";
 import CallReducer from "./call";
+import { ignoreSlice } from "@store/utils/ignoreSlice";
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+} from "redux-persist";
 
 const ReducerList = Object.freeze({
   [SliceName.conversation]: ConversationReducer,
@@ -21,5 +30,21 @@ const ReducerList = Object.freeze({
 
 export const reducerStorage = [SliceName.ui, SliceName.profile];
 
+export const ignoreChecking = {
+  paths: [SliceName.call],
+  actions: [
+    FLUSH,
+    REHYDRATE,
+    PAUSE,
+    PERSIST,
+    PURGE,
+    REGISTER,
+    ...ignoreSlice(
+      SliceName.call,
+      "addConnectionModel",
+      "deleteConnectionModel"
+    ),
+  ],
+};
 // SliceName.cache,
 export default ReducerList;

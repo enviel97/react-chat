@@ -6,8 +6,6 @@ export const Event = Object.freeze({
   EVENT_CONNECT_ROOM_CONVERSATION: "onConnectRoomConversation",
   EVENT_LEAVE_ROOM_CONVERSATION: "onLeaveRoomConversation",
   EVENT_CONVERSATION_CREATED: "onConversationCreated",
-  EVENT_CONNECTED_ROOM: "onConnectedRoom",
-  EVENT_LEAVED_ROOM: "onLeavedRoom",
   EVENT_CONVERSATION_LEAVE_GROUP: "onConversationLeaving",
   EVENT_REMOVE_NEW_MEMBERS: "onRemoveMember",
   EVENT_BANNED_USER: "onBannedUser",
@@ -26,7 +24,8 @@ export const Event = Object.freeze({
   EVENT_FRIEND_RECEIVE_REJECT_FRIEND: "onReceiveRejectFriendRequest",
   EVENT_FRIEND_RECEIVE_CANCEL_FRIEND_REQUEST: "onReceiveCancelFriendRequest",
 
-  EVENT_SOCKET_CONNECTED: "connected",
+  EVENT_SOCKET_CONNECTED: "connect",
+  EVENT_SOCKET_CONNECTION: "connection",
   EVENT_SOCKET_ERROR: "connect_error",
   EVENT_SOCKET_DISCONNECT: "disconnect",
   EVENT_SOCKET_DDOS: "ddos_warning",

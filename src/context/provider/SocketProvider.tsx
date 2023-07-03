@@ -1,5 +1,6 @@
 import { baseUrlSocket } from "@common/config.define";
 import { Event } from "@common/socket.define";
+import { safeLog } from "@core/api/utils/logger";
 import useAuthenticate from "@hooks/useAuthenticate";
 import { createContext, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
@@ -15,28 +16,28 @@ let timeOut: NodeJS.Timeout;
 export const SocketProvider = ({ children }: Components) => {
   const { user } = useAuthenticate();
   const counter = useRef(0);
+  useEffect(() => {
+    if (!socket) return;
+    if (socket.disconnected) socket.connect();
+  }, [socket]);
 
   useEffect(() => {
     if (!user) return;
-    if (!socket?.connected) socket.connect();
 
-    socket.once(Event.EVENT_SOCKET_CONNECTED, (payload: any) => {
-      console.log({ status: "connected", payload });
+    socket.on(Event.EVENT_SOCKET_CONNECTED, () => {
+      console.log(`Realtime server connection`);
     });
 
-    socket.once(Event.EVENT_SOCKET_ERROR, (err) => {
+    socket.on(Event.EVENT_SOCKET_ERROR, (err) => {
       console.log(`connect_error due to ${err.message}`);
     });
 
-    // TODO: Connect socket reconnect if socket connect failure
     socket.on(Event.EVENT_SOCKET_DISCONNECT, (reason) => {
-      if (!user) return;
       if (reason === "io server disconnect") {
-        // the disconnection was initiated by the server, you need to reconnect manually
+        console.log({ status: "io server disconnect", reason });
         socket.connect();
       }
       console.log({ status: "disconnected", reason });
-      // else the socket will automatically try to reconnect
     });
 
     socket.on(Event.EVENT_SOCKET_RECONNECT, (attemptNumber) => {
