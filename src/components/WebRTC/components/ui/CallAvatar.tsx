@@ -1,4 +1,4 @@
-import { AvatarIconMap } from "@components/WebRTC/common/icon";
+// import { AvatarIconMap } from "@components/WebRTC/common/icon";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import { colorBrightness } from "@theme/helper/tools";
 import { FC, memo, useEffect, useState } from "react";
@@ -44,7 +44,7 @@ const CallAvatar: FC<CallAvatarProps> = ({ type = "PhoneCall", src }) => {
     <Container>
       <CircleAvatar src={src} viewPort='s' />
       <IconBox>
-        {AvatarIconMap.get(type)}
+        {/* {AvatarIconMap.get(type)} */}
         {hintContent && (
           <Hint anchorSelect={IconBox} content={hintContent} place='bottom' />
         )}

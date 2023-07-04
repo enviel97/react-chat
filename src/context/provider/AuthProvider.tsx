@@ -2,15 +2,18 @@ import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
 import { fetchProfile } from "@store/repo/user";
 import string from "@utils/string";
-import { createContext, FC, useCallback, useEffect } from "react";
+import { createContext, FC, useCallback, useEffect, useMemo } from "react";
 
 interface AuthenticateController {
   user?: User;
+  userId?: string;
   isUser: (another: any) => boolean;
+  isAuthenticate: boolean;
 }
 
 export const AuthContext = createContext<AuthenticateController>({
   isUser: (another) => false,
+  isAuthenticate: false,
 });
 
 export const AuthProvider: FC<Components> = ({ children }) => {
@@ -31,9 +34,15 @@ export const AuthProvider: FC<Components> = ({ children }) => {
     return () => promise.abort();
   }, [user, dispatch]);
 
-  return (
-    <AuthContext.Provider value={{ user, isUser }}>
-      {children}
-    </AuthContext.Provider>
+  const value = useMemo(
+    () => ({
+      user,
+      isUser,
+      userId: user?.getId(),
+      isAuthenticate: !!user?.getId(),
+    }),
+    [user, isUser]
   );
+
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };

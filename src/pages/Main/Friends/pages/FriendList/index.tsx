@@ -1,3 +1,4 @@
+import { useFriendListSocket } from "@pages/Main/hooks/socket";
 import { memo, Fragment } from "react";
 import FriendList from "./components/container/FriendList";
 import FiendPending from "./components/container/FriendPending";
@@ -6,7 +7,6 @@ import {
   FriendListContainer,
   FriendPendingContainer,
 } from "./styles/FriendListTab.decorate";
-import useFriendListSocket from "./hooks/useFriendListSocket";
 
 const FriendListLayout = () => {
   useFriendListSocket();

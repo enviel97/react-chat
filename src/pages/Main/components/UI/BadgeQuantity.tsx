@@ -45,6 +45,7 @@ const BadgeQuantity: FC<BadgeQuantityProps> = ({
   }, [quantity]);
 
   const { count } = useCount({ quantity: _count });
+
   return (
     <AnimatePresence>
       {quantity && (

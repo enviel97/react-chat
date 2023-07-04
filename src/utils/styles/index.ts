@@ -36,6 +36,7 @@ export const Inline = styled.div<InlineBoxProps>`
 `;
 
 export const Placeholder = styled.div<Sized>`
+  display: block;
   height: ${({ height }) => height};
   width: ${({ width }) => width};
 `;

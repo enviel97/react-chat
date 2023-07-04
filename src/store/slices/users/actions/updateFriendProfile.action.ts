@@ -11,11 +11,9 @@ export const updateFriendProfileAction = (
   state: UserProfileState,
   action: PayloadAction<UpdateAvatarPayload>
 ) => {
-  const payload = action.payload;
+  const { id, changes } = action.payload;
   userProfilesAdapter.updateOne(state, {
-    id: payload.id,
-    changes: {
-      ...payload.changes,
-    },
+    id: id,
+    changes: changes,
   });
 };

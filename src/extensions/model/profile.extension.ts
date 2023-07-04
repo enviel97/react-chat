@@ -2,13 +2,13 @@ import string from "@utils/string";
 
 declare global {
   interface UserProfile {
-    getProfileUserName: () => string;
+    getProfileUserName: (short?: boolean) => string;
   }
 }
 
 /*eslint no-extend-native: ["error", { "exceptions": ["Object"] }]*/
 Object.defineProperty(Object.prototype, "getProfileUserName", {
-  value: function () {
+  value: function (short?: boolean) {
     if (!!this?.displayName) {
       return this.displayName;
     }
@@ -16,7 +16,7 @@ Object.defineProperty(Object.prototype, "getProfileUserName", {
       const idAccount = `${this.user}`.slice(-6);
       return `@Chat-${idAccount}`;
     }
-    return string.getFullName(this.user);
+    return string.getFullName(this.user, { short });
   },
 });
 
