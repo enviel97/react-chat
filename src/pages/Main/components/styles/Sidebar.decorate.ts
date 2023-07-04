@@ -1,3 +1,4 @@
+import { Placeholder } from "@utils/styles";
 import styled from "styled-components";
 
 export const SidebarContainer = styled.aside`
@@ -20,4 +21,8 @@ export const SidebarActionContainer = styled.div`
 
 export const ActionContainer = styled.div`
   position: relative;
+`;
+
+export const ActionPlaceHolder = styled(Placeholder)`
+  border-bottom: 3.5px solid var(--surface-color);
 `;

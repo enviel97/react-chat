@@ -1,9 +1,9 @@
 import useAppDispatch from "@hooks/useAppDispatch";
+import { useFriendListSocket } from "@pages/Main/hooks/socket";
 import { fetchListFriends } from "@store/repo/user";
 import { memo, lazy, Suspense, useEffect, Fragment } from "react";
 import FriendListTitle from "./components/containers/FriendListTitle";
 import FriendListLoading from "./components/ui/FriendListLoading";
-import useFriendListSocket from "./hooks/useFriendListSocket";
 const Body = lazy(() => import("./components/containers/FriendListBody"));
 
 const FriendList = () => {

@@ -1,8 +1,8 @@
 import useAppSelector from "@hooks/useAppSelector";
-import { Placeholder } from "@utils/styles";
 import { selectImage } from "@store/slices/profiles";
 import { memo } from "react";
 import {
+  ActionPlaceHolder,
   SidebarActionContainer,
   SidebarContainer,
 } from "../styles/Sidebar.decorate";
@@ -18,7 +18,7 @@ const ConversationAction = () => {
     <SidebarContainer>
       <SidebarActionContainer>
         <CircleAvatar size={48} src={profileAvatar} />
-        <Placeholder height='0.5em' width='auto' />
+        <ActionPlaceHolder height='0.5em' width='auto' />
         <Conversation />
         <FriendRequest />
       </SidebarActionContainer>

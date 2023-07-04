@@ -1,25 +1,39 @@
-import { FC, Fragment, lazy, Suspense, useMemo } from "react";
-import useUserProvider from "@pages/Main/Conversation/components/containers/Friends/hook/useUserProvider";
+import useAppSelector from "@hooks/useAppSelector";
+import { selectOnline } from "@store/slices/users";
+import { AnimatePresence } from "framer-motion";
+import { lazy, memo, Suspense } from "react";
+import { FriendListAnimate } from "../../styles/FriendList.animate";
+import { FriendListPartContainer } from "../../styles/FriendList.decorate";
+import { FriendListItemContainer } from "../../styles/FriendListItem.decorate";
+import FriendListEmpty from "../ui/FriendListEmpty";
 import FriendListHeader from "../ui/FriendListHeader";
 import FriendListItemLoading from "../ui/FriendListItemLoading";
 const FriendListItem = lazy(() => import("../ui/FriendListItem"));
 
-interface Props {}
-const OnlineList: FC<Props> = () => {
-  const { selectOnlineIds } = useUserProvider();
-  const ids = useMemo(selectOnlineIds, [selectOnlineIds]);
+const OnlineList = () => {
+  const ids = useAppSelector(selectOnline);
   return (
-    <Fragment>
+    <FriendListPartContainer>
       <FriendListHeader title='Online' quantity={ids.length} />
-      {ids.map((id, index) => {
-        return (
-          <Suspense key={`${id}$${index}`} fallback={<FriendListItemLoading />}>
-            <FriendListItem friendId={id} isOnline />
-          </Suspense>
-        );
-      })}
-    </Fragment>
+      {ids.length === 0 && <FriendListEmpty />}
+      <AnimatePresence mode='popLayout'>
+        {ids.map((id, index) => {
+          return (
+            <FriendListItemContainer
+              key={`${id}$${index}`}
+              {...FriendListAnimate.item}
+              custom={index}
+              layout
+            >
+              <Suspense fallback={<FriendListItemLoading />}>
+                <FriendListItem friendId={id} isOnline />
+              </Suspense>
+            </FriendListItemContainer>
+          );
+        })}
+      </AnimatePresence>
+    </FriendListPartContainer>
   );
 };
 
-export default OnlineList;
+export default memo(OnlineList);

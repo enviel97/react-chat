@@ -18,8 +18,8 @@ const useQuantityNotification = () => {
       socket.emit(
         Event.EVENT_FRIEND_REQUEST_QUANTITY,
         { quantity: quantity ?? 0 },
-        (payload?: number) => {
-          if (!payload) return;
+        (payload: number | null) => {
+          if (payload === null) return;
           dispatch(updateTotalFriendRequest(payload));
         }
       );

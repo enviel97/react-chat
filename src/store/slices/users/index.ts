@@ -1,40 +1,40 @@
-import { createSelector, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { State } from "@store/common/state";
 import SliceName from "@store/common/sliceName";
 import userProfilesAdapter from "./adapter/user.adapter";
 import fetchListFriendsThunk from "./extraReducer/fetchListFriendsThunk";
 import { addFriendAction } from "./actions/addFriend.action";
-import { RootState } from "@store/index";
 import { UserProfileState } from "../state/user";
-import string from "@utils/string";
 import { updateFriendProfileAction } from "./actions/updateFriendProfile.action";
+import { updateStatusAction } from "./actions/updateStatus.action";
 
 export const usersSlice = createSlice({
   name: SliceName.user,
   initialState: userProfilesAdapter.getInitialState({
     process: State.IDLE,
+    onlineIds: [],
   }) as UserProfileState,
   reducers: {
     addFriend: addFriendAction,
     updateFriendProfile: updateFriendProfileAction,
+    updateOnline: updateStatusAction,
   },
   extraReducers: (builder) => {
     fetchListFriendsThunk(builder);
   },
 });
 
-export const {
-  selectIds: selectUserIds,
-  selectById: selectUserById,
-  selectAll: selectUsers,
-} = userProfilesAdapter.getSelectors(
-  (state: RootState) => state[SliceName.user]
-);
+// actions
+export const { addFriend, updateFriendProfile, updateOnline } =
+  usersSlice.actions;
 
-export const selectAccountIdsFromUser = createSelector(selectUsers, (user) => {
-  return user.map(string.getId);
-});
-
-export const { addFriend, updateFriendProfile } = usersSlice.actions;
+// selector
+export {
+  selectUserIds,
+  selectUserById,
+  selectUsers,
+  selectFriendIds,
+} from "./selector/selectAdapter";
+export { selectOffline, selectOnline } from "./selector/selectStatusUser";
 
 export default usersSlice.reducer;

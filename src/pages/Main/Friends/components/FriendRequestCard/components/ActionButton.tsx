@@ -16,7 +16,7 @@ const ActionButton: FC<Props> = ({ loading, onClick, text }) => {
       icon={text}
       color={{ hex: color }}
       size='2.75rem'
-      // onClick={onClick}
+      onClick={onClick}
       disabled={loading}
     />
   );

@@ -1,20 +1,14 @@
 import { clampSize, colorBrightness } from "@theme/helper/tools";
+import { motion } from "framer-motion";
 import { Tooltip } from "react-tooltip";
 import styled, { css } from "styled-components";
 
-interface StatusProps {
-  $isOnline?: boolean;
-  $status?: UserStatus;
-}
-
-interface AvatarContainerProps {
-  $isOnline?: boolean;
-}
-
-export const FriendListItemContainer = styled.div`
+export const FriendListItemContainer = styled(motion.div)`
   display: flex;
   box-sizing: border-box;
   flex-direction: row;
+  width: 200px;
+  height: 60px;
   align-items: center;
   background-color: ${({ theme }) => theme.backgroundColor};
 `;
@@ -24,11 +18,12 @@ export const FriendListAvatarContainer = styled.div<AvatarContainerProps>`
   white-space: nowrap;
   text-overflow: ellipsis;
   ${({ $isOnline }) => {
-    if ($isOnline) return css``;
-    return css`
-      opacity: 0.5;
-      filter: alpha(opacity=50);
-    `;
+    if (!$isOnline) {
+      return css`
+        opacity: 0.5;
+        filter: alpha(50);
+      `;
+    }
   }}
   font-size: ${clampSize({
     minWidth: 100,
@@ -47,52 +42,58 @@ export const FriendListItemBody = styled.div`
   width: 100%;
 `;
 
-export const FriendListItemContent = styled.span<StatusProps>`
+export const FriendListItemContent = styled(motion.span)`
   display: flex;
   flex-direction: column;
   width: 100%;
-  & > span {
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    color: ${({ $isOnline, theme }) =>
-      $isOnline ? theme.onBackgroundColor : theme.disableColor};
-    font-size: ${clampSize({
-      minWidth: 100,
-      maxWidth: 300,
-      maxFontSize: 1,
-      minFontSize: 0.8,
-    })};
-  }
+  font-size: ${clampSize({
+    minWidth: 100,
+    maxWidth: 300,
+    maxFontSize: 1,
+    minFontSize: 0.8,
+  })};
+`;
 
-  & > span:nth-of-type(2) {
-    position: relative;
-    text-transform: capitalize;
-    text-indent: 1rem;
-    color: ${({ $status = "not-disturb", theme }) => {
-      switch ($status) {
-        case "active":
-          return theme.successColor;
-        case "not-disturb":
-          return theme.notificationColor;
-        case "waiting":
-          return theme.warningColor;
-      }
-    }};
+export const FriendListName = styled.span<NameProps>`
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color: ${({ $isOnline, theme }) => {
+    if ($isOnline) return theme.onBackgroundColor;
+    return theme.disableColor;
+  }};
+`;
 
-    &::after {
-      position: absolute;
-      content: "";
-      height: 2px;
-      width: 0.5rem;
-      background-color: currentColor;
-      left: 0;
-      top: 50%;
-      bottom: 50%;
-      transform: translateY(-50%);
-      border-radius: 50%;
+export const FriendListStatus = styled(motion.span)<StatusProps>`
+  position: relative;
+  color: currentColor;
+  white-space: normal;
+
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  ${({ $bio }) => {
+    if (!$bio) {
+      return css`
+        font-style: italic;
+      `;
     }
-  }
+  }}
+
+  color: ${({ $status = "not-disturb", theme }) => {
+    switch ($status) {
+      case "active":
+        return theme.successColor;
+      case "not-disturb":
+        return theme.notificationColor;
+      case "waiting":
+        return theme.warningColor;
+    }
+  }};
 `;
 
 export const FriendListItemHint = styled(Tooltip)`

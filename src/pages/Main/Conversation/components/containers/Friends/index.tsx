@@ -1,22 +1,33 @@
-import { memo } from "react";
+import useAppDispatch from "@hooks/useAppDispatch";
+import { useFriendListSocket } from "@pages/Main/hooks/socket";
+import { fetchListFriends } from "@store/repo/user";
+import { memo, useEffect } from "react";
 import FriendList from "./components/containers/FriendList";
 import Header from "./components/containers/Header";
 import Participants from "./components/containers/Participants";
-import UserProvider from "./context/UserProvider";
 import {
   RelationShipContainer,
   UserProfileListContainer,
 } from "./styles/Friends.decorate";
 
-const Friends = () => (
-  <RelationShipContainer>
-    <Header />
-    <UserProfileListContainer>
-      <Participants />
-      <UserProvider>
+const Friends = () => {
+  const dispatch = useAppDispatch();
+  useFriendListSocket();
+  useEffect(() => {
+    const promise = dispatch(fetchListFriends());
+    return () => {
+      promise.abort();
+    };
+  }, [dispatch]);
+
+  return (
+    <RelationShipContainer>
+      <Header />
+      <UserProfileListContainer>
+        <Participants />
         <FriendList />
-      </UserProvider>
-    </UserProfileListContainer>
-  </RelationShipContainer>
-);
+      </UserProfileListContainer>
+    </RelationShipContainer>
+  );
+};
 export default memo(Friends);

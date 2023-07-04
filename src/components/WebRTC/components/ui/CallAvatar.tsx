@@ -1,5 +1,9 @@
+<<<<<<< HEAD
 import Icon from "@components/Icon/components/Icon";
 import { AvatarIconMap } from "@components/WebRTC/common/icon";
+=======
+// import { AvatarIconMap } from "@components/WebRTC/common/icon";
+>>>>>>> a7681a0035b73b3bdfd6e24ed029d15fb864b10a
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import { colorBrightness } from "@theme/helper/tools";
 import { FC, memo, useEffect, useState } from "react";
@@ -45,10 +49,14 @@ const CallAvatar: FC<CallAvatarProps> = ({ type, src }) => {
     <Container>
       <CircleAvatar src={src} viewPort='s' />
       <IconBox>
+<<<<<<< HEAD
         <Icon
           name={type === "VideoCall" ? "Stream" : "PhoneFill"}
           size={"0.6em"}
         />
+=======
+        {/* {AvatarIconMap.get(type)} */}
+>>>>>>> a7681a0035b73b3bdfd6e24ed029d15fb864b10a
         {hintContent && (
           <Hint anchorSelect={IconBox} content={hintContent} place='bottom' />
         )}
