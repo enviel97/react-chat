@@ -1,4 +1,5 @@
 import useAppDispatch from "@hooks/useAppDispatch";
+import { useFriendListSocket } from "@pages/Main/hooks/socket";
 import { fetchListFriends } from "@store/repo/user";
 import { memo, useEffect } from "react";
 import FriendList from "./components/containers/FriendList";
@@ -11,7 +12,7 @@ import {
 
 const Friends = () => {
   const dispatch = useAppDispatch();
-
+  useFriendListSocket();
   useEffect(() => {
     const promise = dispatch(fetchListFriends());
     return () => {

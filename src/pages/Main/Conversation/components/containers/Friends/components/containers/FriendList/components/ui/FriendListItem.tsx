@@ -1,49 +1,58 @@
 import useAppSelector from "@hooks/useAppSelector";
 import useBreakpoint from "@hooks/useBreakpoint";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
-import useFriendListSocket from "@pages/Main/Friends/pages/FriendList/hooks/useFriendListSocket";
 import { selectUserById } from "@store/slices/users";
-import string from "@utils/string";
-import { FC, memo } from "react";
+import { AnimatePresence } from "framer-motion";
+import { FC, Fragment, memo } from "react";
+import { FriendListAnimate } from "../../styles/FriendList.animate";
 import {
   FriendListAvatarContainer,
   FriendListItemBody,
-  FriendListItemContainer,
   FriendListItemContent,
   FriendListItemHint,
+  FriendListName,
+  FriendListStatus,
 } from "../../styles/FriendListItem.decorate";
 import FriendListItemLoading from "./FriendListItemLoading";
 
-interface Props {
-  friendId: string;
-  isOnline?: boolean;
-}
-interface SubProps {
-  profile: UserProfile;
-  isOnline: boolean;
-}
+const Content: FC<FriendListItemSubProps> = memo(({ isOnline, profileId }) => {
+  const profile = useAppSelector((state) => selectUserById(state, profileId));
 
-const Content: FC<SubProps> = memo(({ isOnline, profile }) => {
   return (
-    <FriendListItemContent $isOnline={isOnline} $status={profile.status}>
-      <span>
-        {profile.displayName ??
-          string.getFullName(profile.user, { short: true })}
-      </span>
-      {isOnline && <span>{profile.status ?? "not-disturb"}</span>}
-    </FriendListItemContent>
+    <AnimatePresence mode='wait'>
+      {profile && (
+        <FriendListItemContent {...FriendListAnimate.name}>
+          <FriendListName $isOnline={isOnline}>
+            {profile.getProfileUserName(true)}
+          </FriendListName>
+          <AnimatePresence>
+            {isOnline && (
+              <FriendListStatus
+                {...FriendListAnimate.status}
+                $status={profile.status}
+                $bio={!!profile.bio}
+              >
+                {profile.bio || "Bio not yet."}
+              </FriendListStatus>
+            )}
+          </AnimatePresence>
+        </FriendListItemContent>
+      )}
+    </AnimatePresence>
   );
 });
 
-const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
+const FriendListItem: FC<FriendListItemProps> = ({
+  friendId,
+  isOnline = false,
+}) => {
   const breakpoint = useBreakpoint();
   const profile = useAppSelector((state) => selectUserById(state, friendId));
-  useFriendListSocket();
 
   if (!profile) return <FriendListItemLoading />;
 
   return (
-    <FriendListItemContainer>
+    <Fragment>
       <FriendListItemBody id={friendId}>
         <FriendListAvatarContainer $isOnline={isOnline}>
           <CircleAvatar
@@ -53,7 +62,7 @@ const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
           />
         </FriendListAvatarContainer>
         {breakpoint.up("laptop") && (
-          <Content isOnline={isOnline} profile={profile} />
+          <Content isOnline={isOnline} profileId={friendId} />
         )}
       </FriendListItemBody>
       {breakpoint.down("laptop") && (
@@ -63,10 +72,10 @@ const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
           place={"right"}
           delayShow={100}
         >
-          <Content isOnline={isOnline} profile={profile} />
+          <Content isOnline={isOnline} profileId={friendId} />
         </FriendListItemHint>
       )}
-    </FriendListItemContainer>
+    </Fragment>
   );
 };
 
