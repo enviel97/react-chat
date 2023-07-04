@@ -1,19 +1,8 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import {
-  FLUSH,
-  PAUSE,
-  PERSIST,
-  PersistConfig,
-  persistReducer,
-  persistStore,
-  PURGE,
-  REGISTER,
-  REHYDRATE,
-} from "redux-persist";
+import { PersistConfig, persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
-import ReducerList, { reducerStorage } from "./slices";
-import SliceName from "./common/sliceName";
+import ReducerList, { ignoreChecking, reducerStorage } from "./slices";
 
 const reducer = combineReducers(ReducerList);
 
@@ -33,8 +22,8 @@ const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-        ignoredPaths: [SliceName.call],
+        ignoredActions: ignoreChecking.actions,
+        ignoredPaths: ignoreChecking.paths,
       },
     }),
 });

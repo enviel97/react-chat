@@ -1,13 +1,13 @@
-import { FC, Fragment, lazy, Suspense, useMemo } from "react";
-import useUserProvider from "@pages/Main/Conversation/components/containers/Friends/hook/useUserProvider";
+import useAppSelector from "@hooks/useAppSelector";
+import { selectOnline } from "@store/slices/users";
+import { FC, Fragment, lazy, Suspense } from "react";
 import FriendListHeader from "../ui/FriendListHeader";
 import FriendListItemLoading from "../ui/FriendListItemLoading";
 const FriendListItem = lazy(() => import("../ui/FriendListItem"));
 
 interface Props {}
 const OnlineList: FC<Props> = () => {
-  const { selectOnlineIds } = useUserProvider();
-  const ids = useMemo(selectOnlineIds, [selectOnlineIds]);
+  const ids = useAppSelector(selectOnline);
   return (
     <Fragment>
       <FriendListHeader title='Online' quantity={ids.length} />

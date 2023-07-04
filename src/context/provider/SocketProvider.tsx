@@ -1,6 +1,5 @@
 import { baseUrlSocket } from "@common/config.define";
 import { Event } from "@common/socket.define";
-import { safeLog } from "@core/api/utils/logger";
 import useAuthenticate from "@hooks/useAuthenticate";
 import { createContext, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
@@ -8,18 +7,19 @@ import { io } from "socket.io-client";
 const socket = io(baseUrlSocket, {
   withCredentials: true,
   reconnection: true,
+  autoConnect: false,
 });
 
 export const SocketContext = createContext(socket);
 let timeOut: NodeJS.Timeout;
 
 export const SocketProvider = ({ children }: Components) => {
-  const { user } = useAuthenticate();
+  const { user, userId } = useAuthenticate();
   const counter = useRef(0);
   useEffect(() => {
     if (!socket) return;
-    if (socket.disconnected) socket.connect();
-  }, [socket]);
+    if (socket.disconnected || userId) socket.connect();
+  }, [userId]);
 
   useEffect(() => {
     if (!user) return;

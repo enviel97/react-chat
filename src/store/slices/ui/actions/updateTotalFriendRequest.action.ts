@@ -3,10 +3,9 @@ import { UiState } from "@store/slices/state/ui";
 
 const updateTotalFriendRequest = (
   state: UiState,
-  action: PayloadAction<number | undefined>
+  action: PayloadAction<number>
 ) => {
   const quantity = action.payload;
-  if (!quantity || state.totalFriendRequest === quantity) return;
   state.totalFriendRequest = quantity;
 };
 

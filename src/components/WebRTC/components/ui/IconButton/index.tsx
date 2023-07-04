@@ -1,4 +1,4 @@
-import { IconButtonMap } from "@components/WebRTC/common/icon";
+// import { IconButtonMap } from "@components/WebRTC/common/icon";
 import { FC, memo } from "react";
 import { IconButtonAnimation } from "./styles/IconButton.animation";
 import {
@@ -28,7 +28,7 @@ const IconButton: FC<IconButtonProps> = ({
           />
         ))}
       <IconBox {...IconButtonAnimation.iconBox} animate={animation}>
-        {IconButtonMap.get(type)?.on}
+        {/* {IconButtonMap.get(type)?.on} */}
       </IconBox>
     </IconButtonContainer>
   );

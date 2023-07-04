@@ -30,9 +30,7 @@ export const Event = Object.freeze({
   EVENT_SOCKET_DISCONNECT: "disconnect",
   EVENT_SOCKET_DDOS: "ddos_warning",
   EVENT_SOCKET_RECONNECT: "reconnect",
-  EVENT_FRIEND_LIST_STATUS: "onFriendListStatus",
-  EVENT_FRIEND_LIST_STATUS_RESPONSE: "onFriendListStatusResponse",
-  EVENT_FRIEND_LIST_RETRIEVE: "onFriendListRetrieve",
+  EVENT_FRIEND_LIST_STATUS: "get.friendStatus",
 
   EVENT_FRIEND_UPLOAD_IMAGE: "onFriendUploadImage",
   EVENT_FRIEND_UPDATE_PROFILE: "onFriendUploadProfile",

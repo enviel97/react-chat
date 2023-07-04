@@ -31,7 +31,7 @@ const ReducerList = Object.freeze({
 export const reducerStorage = [SliceName.ui, SliceName.profile];
 
 export const ignoreChecking = {
-  paths: [SliceName.call],
+  paths: [SliceName.call, SliceName.user],
   actions: [
     FLUSH,
     REHYDRATE,
@@ -39,10 +39,10 @@ export const ignoreChecking = {
     PERSIST,
     PURGE,
     REGISTER,
+    ...ignoreSlice(SliceName.user, "updateOnline"),
     ...ignoreSlice(
       SliceName.call,
-      "addConnectionModel",
-      "deleteConnectionModel"
+      ...["addConnectionModel", "deleteConnectionModel"]
     ),
   ],
 };

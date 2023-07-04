@@ -1,13 +1,10 @@
-import { Event } from "@common/socket.define";
 import useAppSelector from "@hooks/useAppSelector";
 import useBreakpoint from "@hooks/useBreakpoint";
-import useSocket from "@hooks/useSocket";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import useFriendListSocket from "@pages/Main/Friends/pages/FriendList/hooks/useFriendListSocket";
 import { selectUserById } from "@store/slices/users";
 import string from "@utils/string";
-import { FC, memo, useCallback, useEffect } from "react";
-import useUserProvider from "../../../../../hook/useUserProvider";
+import { FC, memo } from "react";
 import {
   FriendListAvatarContainer,
   FriendListItemBody,
@@ -40,26 +37,8 @@ const Content: FC<SubProps> = memo(({ isOnline, profile }) => {
 
 const FriendListItem: FC<Props> = ({ friendId, isOnline = false }) => {
   const breakpoint = useBreakpoint();
-  const socket = useSocket();
-  const { updateSwap } = useUserProvider();
   const profile = useAppSelector((state) => selectUserById(state, friendId));
   useFriendListSocket();
-
-  const _handleFriendListRetrieve = useCallback(
-    (payload: FriendRetrievePayload) => {
-      if (friendId === payload.userId) {
-        updateSwap({ id: payload.userId, status: payload.status });
-      }
-    },
-    [friendId, updateSwap]
-  );
-  useEffect(() => {
-    socket.on(Event.EVENT_FRIEND_LIST_RETRIEVE, _handleFriendListRetrieve);
-
-    return () => {
-      socket.off(Event.EVENT_FRIEND_LIST_RETRIEVE);
-    };
-  }, [socket, _handleFriendListRetrieve]);
 
   if (!profile) return <FriendListItemLoading />;
 
