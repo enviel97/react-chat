@@ -34,11 +34,11 @@ const FriendActions: FC<FriendAction> = ({ friendId }) => {
   }, [dispatch, navigator, friendId]);
 
   const handleVideoCall = useCallback(() => {
-    call(friendId, { camera: true });
+    call(friendId, { type: "VideoCall" });
   }, [call, friendId]);
 
   const handlePhoneCall = useCallback(() => {
-    call(friendId, { camera: false });
+    call(friendId, { type: "PhoneCall" });
   }, [friendId]);
 
   return (

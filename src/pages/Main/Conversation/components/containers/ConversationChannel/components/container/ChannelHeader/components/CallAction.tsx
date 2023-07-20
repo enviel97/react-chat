@@ -1,6 +1,6 @@
 import useCallController from "@components/WebRTC/hooks/useCallController";
 import { motion } from "framer-motion";
-import { FC, memo } from "react";
+import { FC, memo, useEffect, useState } from "react";
 import { BsPersonVideo, BsTelephoneForwardFill } from "react-icons/bs";
 import { Tooltip } from "react-tooltip";
 import styled, { useTheme } from "styled-components";
@@ -28,11 +28,18 @@ const Container = styled(motion.div)`
 
 const CallAction: FC<PhoneCallProps> = ({ friendId, type }) => {
   const theme = useTheme();
-  const { trigger: call } = useCallController();
+  const { trigger: call, disabled } = useCallController();
+  const [hint, setHint] = useState<string>();
+
+  useEffect(() => {
+    if (disabled) return setHint("User is calling");
+    const hint = type === "PhoneCall" ? "Audio call" : "Video Call";
+    setHint(hint);
+  }, [type, disabled]);
 
   const handleOnClick = async () => {
     if (!friendId) return;
-    await call(friendId, { camera: type === "VideoCall" });
+    call(friendId, { type });
   };
 
   return (
@@ -45,18 +52,22 @@ const CallAction: FC<PhoneCallProps> = ({ friendId, type }) => {
     >
       <IconBox
         variants={{
-          hover: { scale: 1.05 },
-          tap: { scale: 0.95, transition: { duration: 0 } },
+          hover: { scale: 1.05, color: "var(--white)", opacity: 0.2 },
+          tap: {
+            scale: 0.95,
+            opacity: 0.5,
+            transition: { duration: 0 },
+          },
         }}
-        whileHover='hover'
-        whileTap='tap'
+        whileHover={disabled ? undefined : "hover"}
+        whileTap={disabled ? undefined : "hover"}
       >
         {type === "PhoneCall" && <BsTelephoneForwardFill size={"1.2em"} />}
         {type === "VideoCall" && <BsPersonVideo size={"1.5em"} />}
       </IconBox>
       <Tooltip
         anchorSelect={`${Container}[role=${type}]`}
-        content={type === "PhoneCall" ? "Audio call" : "Video Call"}
+        content={hint}
         place={"bottom"}
       />
     </Container>

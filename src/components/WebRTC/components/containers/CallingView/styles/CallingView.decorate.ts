@@ -1,5 +1,6 @@
 import { zIndex } from "@common/zIndex.define";
 import { CallNotificationContainerShadow } from "@components/WebRTC/utils/shaddow";
+import { breakpoint } from "@theme/helper/breakpoint";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
@@ -36,4 +37,8 @@ export const CallingContainer = styled.div`
   width: 100%;
   gap: 1em;
   padding: 1em;
+
+  ${breakpoint.down("tablet")} {
+    flex-direction: column;
+  }
 `;

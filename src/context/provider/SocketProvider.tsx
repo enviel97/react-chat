@@ -8,6 +8,7 @@ const socket = io(baseUrlSocket, {
   withCredentials: true,
   reconnection: true,
   autoConnect: false,
+  port: 80,
 });
 
 export const SocketContext = createContext(socket);

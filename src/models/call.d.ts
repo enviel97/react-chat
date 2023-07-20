@@ -1,5 +1,7 @@
 interface CallModel {
-  receiver: string;
-  microphone?: boolean;
-  camera?: boolean;
+  connectionId: string;
+  receiverId: string;
+  name: string;
+  avatar?: string;
+  type: CallType;
 }

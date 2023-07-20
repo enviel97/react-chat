@@ -18,8 +18,8 @@ export const CallingViewAnimation = Object.freeze<Animation>({
   container: {
     layout: true,
     variants: {
-      visible: { scale: 1 },
-      hidden: { scale: 0.5 },
+      visible: { y: 0, scale: 1 },
+      hidden: { y: -100, scale: 0.5 },
     },
   },
 });

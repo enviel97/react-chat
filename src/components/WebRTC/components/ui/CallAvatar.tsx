@@ -1,4 +1,4 @@
-// import { AvatarIconMap } from "@components/WebRTC/common/icon";
+import { IconBase } from "@components/Icon";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 import { colorBrightness } from "@theme/helper/tools";
 import { FC, memo, useEffect, useState } from "react";
@@ -10,7 +10,7 @@ const Container = styled.div`
 `;
 const IconBox = styled.div`
   position: absolute;
-  height: fit-content;
+  height: 1.75rem;
   aspect-ratio: 1/1;
   bottom: 0;
   right: 0;
@@ -18,6 +18,9 @@ const IconBox = styled.div`
   color: var(--disable-color);
   background-color: ${({ theme }) =>
     colorBrightness(theme.surfaceColor, 5, 0.7)};
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: 50%;
   border: 2px solid var(--surface-color);
   padding: 0.2em;
@@ -44,7 +47,7 @@ const CallAvatar: FC<CallAvatarProps> = ({ type, src }) => {
     <Container>
       <CircleAvatar src={src} viewPort='s' />
       <IconBox>
-        {/* {AvatarIconMap.get(type)} */}
+        <IconBase name={"PhoneFill"} size={"85%"} />
         {hintContent && (
           <Hint anchorSelect={IconBox} content={hintContent} place='bottom' />
         )}

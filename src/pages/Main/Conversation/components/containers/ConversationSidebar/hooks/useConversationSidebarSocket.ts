@@ -1,16 +1,19 @@
 import { Event } from "@common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
+import useAppSelector from "@hooks/useAppSelector";
 import useSocket from "@hooks/useSocket";
 import {
   addConversation,
   removeConversation,
   updateConversation,
 } from "@store/slices/conversations";
+import { selectConversationType } from "@store/slices/ui";
 import { useCallback, useEffect } from "react";
 
-const useConversationSidebarSocket = (type: ConversationType) => {
+const useConversationSidebarSocket = () => {
   const socket = useSocket();
   const dispatch = useAppDispatch();
+  const type = useAppSelector(selectConversationType);
 
   const dispatchOnBannedUser = useCallback(
     (payload: BannedMemberPayload) => {

@@ -23,6 +23,7 @@ const MainContainer = styled.div`
   /* TODO */
   /* overflow: hidden; */
   flex-direction: row;
+  user-select: text;
 `;
 
 const MainLayoutContainer = styled.div<Props>`

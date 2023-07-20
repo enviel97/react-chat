@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { colorBrightness, pxToEm } from "@theme/helper/tools";
-import { FC, memo, useState } from "react";
+import { colorBrightness } from "@theme/helper/tools";
+import { FC, memo, useMemo, useState } from "react";
 import string from "@utils/string";
 import local from "@common/local.define";
 import { State } from "@store/common/state";
@@ -10,24 +10,25 @@ import useAvatarSrc from "@pages/Main/hooks/useAvatarSrc";
 import { CacheImage } from "@components/Image";
 
 interface CircleAvatarDecorate {
-  size?: number;
+  $size: string;
+  $mainColor?: string;
+  $online?: boolean;
+}
+
+interface CircleAvatarProps {
+  className?: string;
+  src?: string;
+  viewPort?: ViewPort;
+  size?: number | string;
   mainColor?: string;
   online?: boolean;
 }
 
-interface CircleAvatarAtr {
-  className?: string;
-  src?: string;
-  viewPort?: ViewPort;
-}
-
-type CircleAvatarProps = CircleAvatarAtr & CircleAvatarDecorate;
-
 const CircleAvatarContainer = styled.div<CircleAvatarDecorate>`
   position: relative;
-  height: ${({ size }) => pxToEm(size ?? 36)};
+  height: ${({ $size }) => $size};
   aspect-ratio: 1;
-  color: ${({ mainColor, theme }) => mainColor ?? theme.disableColor};
+  color: ${({ $mainColor, theme }) => $mainColor ?? theme.disableColor};
   border-radius: 50%;
   cursor: pointer;
   position: relative;
@@ -36,23 +37,27 @@ const CircleAvatarContainer = styled.div<CircleAvatarDecorate>`
     -0.1rem -0.1rem 0.5rem
       ${({ theme }) => colorBrightness(theme.backgroundColor, -10)};
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &.story {
     border-radius: 50%;
     border: 2px solid
-      ${({ mainColor, theme }) =>
-        colorBrightness(mainColor ?? theme.primaryColor, 50)};
+      ${({ $mainColor, theme }) =>
+        colorBrightness($mainColor ?? theme.primaryColor, 50)};
   }
 
   &.status::after {
     content: "";
     position: absolute;
-    height: ${({ size }) => pxToEm((size ?? 36) / 3)};
+    height: ${({ $size }) => `calc(${$size} / 3)`};
     aspect-ratio: 1/1;
     bottom: -0.2em;
     right: -0.2em;
     border-radius: 50%;
-    background-color: ${({ theme, online }) =>
-      online ? "#16FF00" : theme.backgroundColor};
+    background-color: ${({ theme, $online }) =>
+      $online ? "#16FF00" : theme.backgroundColor};
 
     box-shadow: 0.12em 0.12em 0.25em
         ${({ theme }) => colorBrightness(theme.backgroundColor, 15)},
@@ -73,9 +78,6 @@ const CircleAvatarContainer = styled.div<CircleAvatarDecorate>`
   }
 
   & img {
-    position: absolute;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
     border-radius: 50%;
@@ -91,15 +93,21 @@ const CircleAvatar: FC<CircleAvatarProps> = ({
   online,
 }) => {
   const [imgLoaded, setImgLoaded] = useState<State>(State.IDLE);
-  const _size = pxToEm(size ?? 36);
+
   const { avatar } = useAvatarSrc(src);
+
+  const _size = useMemo(() => {
+    if (!size) return "2.25em";
+    if (typeof size === "string") return size;
+    return size.toEm();
+  }, [size]);
 
   return (
     <CircleAvatarContainer
       className={string.classList(className)}
-      mainColor={mainColor}
-      size={size}
-      online={online}
+      $mainColor={mainColor}
+      $size={_size}
+      $online={online}
     >
       <CacheImage
         src={avatar}

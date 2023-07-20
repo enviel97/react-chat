@@ -5,7 +5,7 @@ import { RootState } from "@store/index";
 const selectImage = createSelector(
   [(state: RootState) => state.profile, (_, type: "avatar" | "banner") => type],
   (profileState, type) => {
-    const profile = profileState.profile ?? profileState.user.profile;
+    const profile = profileState.user?.profile ?? profileState.profile;
     const image = type === "avatar" ? profile?.avatar : profile?.banner;
     if (!image) return;
     if (image.includes("base64")) {

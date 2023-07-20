@@ -34,6 +34,7 @@ export {
   selectUserById,
   selectUsers,
   selectFriendIds,
+  selectOnlineIds,
 } from "./selector/selectAdapter";
 export { selectOffline, selectOnline } from "./selector/selectStatusUser";
 

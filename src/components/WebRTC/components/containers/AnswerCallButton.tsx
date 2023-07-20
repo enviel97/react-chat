@@ -3,14 +3,14 @@ import { FC, memo, useCallback } from "react";
 import IconButton from "../ui/IconButton";
 
 interface AnswerCallButtonProps {
-  callId: string;
+  callerId: string;
 }
 
-const AnswerCallButton: FC<AnswerCallButtonProps> = ({ callId }) => {
-  const { trigger } = useAnswerController(callId);
+const AnswerCallButton: FC<AnswerCallButtonProps> = ({ callerId }) => {
+  const { trigger } = useAnswerController();
   const handleAnswerCall = useCallback(() => {
-    trigger({});
-  }, []);
+    trigger(callerId, {});
+  }, [callerId]);
 
   return (
     <IconButton type='Phone' onClick={handleAnswerCall} animation='ring' />

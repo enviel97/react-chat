@@ -1,12 +1,7 @@
-import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
-import {
-  addConnectionModel,
-  selectCallIds,
-  selectPeer,
-} from "@store/slices/call";
+import { callSelector } from "@store/slices/call";
 import { AnimatePresence } from "framer-motion";
-import { memo, useEffect } from "react";
+import { memo } from "react";
 import CallNotification from "./components/CallNotification";
 import {
   CallNotificationContainer,
@@ -15,44 +10,19 @@ import {
 import { CallNotificationAnimation } from "./styles/CallNotification.animate";
 
 const CallingNotifications = () => {
-  const callingNotification = useAppSelector(selectCallIds);
-  const dispatch = useAppDispatch();
-  const peer = useAppSelector(selectPeer);
-
-  useEffect(() => {
-    if (!peer || !peer.id) return;
-
-    peer.on("call", (connection) => {
-      console.log(`Has calling`);
-      console.log({ connection });
-      dispatch(
-        addConnectionModel({
-          caller: connection.peer,
-          connection: connection,
-          type: connection.metadata["type"] ?? "VideoCall",
-        })
-      );
-
-      connection.on("close", () => {
-        console.log(`Call end`);
-        console.log({ connection });
-      });
-    });
-    // Listener
-  }, [peer, dispatch]);
-
+  const incomingCalls = useAppSelector(callSelector.selectIncomingCalls);
   return (
     <CallNotificationContainer>
       <AnimatePresence mode='popLayout'>
-        {callingNotification.map((call, index) => {
+        {incomingCalls.map((connectionId, index) => {
           return (
             <CallNotificationItem
               {...CallNotificationAnimation.item}
               layout
               custom={index}
-              key={call}
+              key={connectionId}
             >
-              <CallNotification connectionId={call.toString()} />
+              <CallNotification connectionId={`${connectionId}`} />
             </CallNotificationItem>
           );
         })}

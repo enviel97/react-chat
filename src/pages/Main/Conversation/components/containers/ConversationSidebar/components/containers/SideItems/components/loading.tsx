@@ -5,6 +5,7 @@ import styled from "styled-components";
 import {
   SideItemContainer,
   SideItemContent,
+  SideItemsContainer,
 } from "../../../../styles/Sidebar.decorate";
 
 const KSideItemContent = styled(SideItemContent)`
@@ -16,25 +17,25 @@ interface LoadingProps {
 
 const UILoading = memo(() => {
   return (
-    <SkeletonContainer>
-      <SideItemContainer>
-        <CircleAvatar className='avatar' />
-        <KSideItemContent>
-          <SkeletonElement isLoading />
-          <SkeletonElement isLoading />
-        </KSideItemContent>
-      </SideItemContainer>
-    </SkeletonContainer>
+    <SideItemContainer>
+      <CircleAvatar className='avatar' />
+      <KSideItemContent>
+        <SkeletonElement isLoading />
+        <SkeletonElement isLoading />
+      </KSideItemContent>
+    </SideItemContainer>
   );
 });
 
 const Loading: FC<LoadingProps> = ({ count = 1 }) => {
   return (
-    <>
-      {[...Array(count).keys()].map((key) => {
-        return <UILoading key={key} />;
-      })}
-    </>
+    <SkeletonContainer>
+      <SideItemsContainer>
+        {[...Array(count).keys()].map((key) => {
+          return <UILoading key={key} />;
+        })}
+      </SideItemsContainer>
+    </SkeletonContainer>
   );
 };
 

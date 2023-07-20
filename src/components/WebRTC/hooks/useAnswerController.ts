@@ -1,41 +1,41 @@
+import { Event } from "@common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
-import useAppSelector from "@hooks/useAppSelector";
-import {
-  openCallView,
-  selectCallById,
-  selectCurrentCall,
-} from "@store/slices/call";
+import useSocket from "@hooks/useSocket";
+import { connect } from "@store/repo/call";
+import { addIncomingCall, setCall } from "@store/slices/call";
 import { useCallback } from "react";
-import { toast } from "react-toastify";
-import { devicesPermission } from "../utils/permission";
 
 interface DeviceSetup {
   camera?: boolean;
 }
 
-const useAnswerController = (receiver: string) => {
+const useAnswerController = () => {
   const dispatch = useAppDispatch();
-  const currentCall = useAppSelector(selectCurrentCall);
-  const peerConnection = useAppSelector((state) =>
-    selectCallById(state, receiver)
-  );
+  const socket = useSocket();
 
   const trigger = useCallback(
-    async (callOptions: DeviceSetup) => {
-      if (!peerConnection) return;
-
-      if (currentCall) {
-        toast.error("You should end the call before answering this call");
-        return;
-      }
-
-      const mediaCall = await devicesPermission(callOptions);
-      if (!mediaCall) return;
-
-      peerConnection.connection.answer(mediaCall);
-      dispatch(openCallView(receiver));
+    async (caller: string, callOptions: DeviceSetup) => {
+      dispatch(connect())
+        .unwrap()
+        .then(() => {
+          socket.emit(
+            Event.CALL_VIDEO.EMIT.ACCEPT,
+            { caller },
+            (payload: CallPayload<IncomingCall>) => {
+              if (!payload) return;
+              const incomingCall = payload.data;
+              dispatch(setCall(incomingCall.callId));
+              dispatch(
+                addIncomingCall({
+                  ...incomingCall,
+                  callType: "VideoCall",
+                })
+              );
+            }
+          );
+        });
     },
-    [peerConnection, receiver, currentCall]
+    [socket, dispatch]
   );
 
   return { trigger };

@@ -1,55 +1,43 @@
+import { Event } from "@common/socket.define";
 import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
-import useAuthenticate from "@hooks/useAuthenticate";
-import { closeCallView, openCallView, selectPeer } from "@store/slices/call";
-import { useCallback } from "react";
-import { toast } from "react-toastify";
-import { devicesPermission } from "../utils/permission";
+import useSocket from "@hooks/useSocket";
+import { addIncomingCall, callSelector, setCall } from "@store/slices/call";
+import { useCallback, useState } from "react";
 
-interface DeviceSetup {
-  camera?: boolean;
+interface CallConfig {
+  type?: CallType;
 }
-
 const useCallController = () => {
   const dispatch = useAppDispatch();
-  const peer = useAppSelector(selectPeer);
-  const { user } = useAuthenticate();
+  const socket = useSocket();
+  const call = useAppSelector(callSelector.selectAllCall);
 
+  const [disabled, setDisabled] = useState<boolean>();
+
+  /**
+   * connection to receiver
+   */
   const trigger = useCallback(
-    async (receiver: string, callOptions: DeviceSetup) => {
-      if (!peer || !user) {
-        toast.error("Call server connect error");
-        return;
-      }
-      const mediaCall = await devicesPermission(callOptions);
-      if (!mediaCall) return;
-      dispatch(openCallView(receiver));
-      const connection = peer.connect(receiver);
-      if (!connection) {
-        toast.error("Call failure");
-        dispatch(closeCallView());
-        mediaCall.close();
-        return;
-      }
-      connection.on("open", () => {
-        connection.send({
-          name: user.getFullName(),
-          avatar: user.profile?.avatar,
-        });
+    (receiver: string, callOptions: CallConfig) => {
+      const exits = call.find(({ receiverId }) => receiver === receiverId);
+      if (exits) return setDisabled(true);
 
-        console.log({ call: "connection" });
-
-        peer.call(receiver, mediaCall, {
-          metadata: {
-            type: callOptions.camera ? "VideoCall" : "PhoneCall",
-          },
-        });
-      });
+      socket.emit(
+        Event.CALL_VIDEO.EMIT.CALLING,
+        { receiver },
+        (payload: CallPayload<IncomingCall>) => {
+          if (!payload) return;
+          const receiverInfo = payload.data;
+          dispatch(setCall(receiverInfo.callId));
+          dispatch(addIncomingCall({ ...receiverInfo, callType: "VideoCall" }));
+        }
+      );
     },
-    [peer, dispatch, user]
+    [socket, dispatch, call]
   );
 
-  return { trigger };
+  return { trigger, disabled };
 };
 
 export default useCallController;

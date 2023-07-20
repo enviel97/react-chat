@@ -59,9 +59,10 @@ const FriendListItem: FC<FriendListItemProps> = ({
             className='status'
             online={isOnline}
             src={profile.avatar}
+            size={breakpoint.down("laptop") ? 56 : 36}
           />
         </FriendListAvatarContainer>
-        {breakpoint.up("laptop") && (
+        {!breakpoint.down("laptop") && (
           <Content isOnline={isOnline} profileId={friendId} />
         )}
       </FriendListItemBody>

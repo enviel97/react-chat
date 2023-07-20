@@ -1,15 +1,26 @@
-import useAppDispatch from "@hooks/useAppDispatch";
-import { closeCallView } from "@store/slices/call";
-import { memo, useCallback } from "react";
+import useStopController from "@components/WebRTC/hooks/useStopController";
+import { FC, memo, useCallback } from "react";
 import IconButton from "../ui/IconButton";
 
-const StopCallButton = () => {
-  const dispatch = useAppDispatch();
+interface StopCallButtonProps {
+  connectionId?: string;
+}
+
+const StopCallButton: FC<StopCallButtonProps> = ({ connectionId }) => {
+  const { trigger } = useStopController();
 
   const handleReject = useCallback(async () => {
-    dispatch(closeCallView());
-  }, [dispatch]);
-  return <IconButton type='PhoneOff' onClick={handleReject} />;
+    if (!connectionId) return;
+    trigger(connectionId);
+  }, [trigger, connectionId]);
+
+  return (
+    <IconButton
+      type='PhoneOff'
+      onClick={handleReject}
+      disabled={!connectionId}
+    />
+  );
 };
 
 export default memo(StopCallButton);

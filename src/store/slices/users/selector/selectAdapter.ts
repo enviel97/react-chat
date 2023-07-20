@@ -11,3 +11,10 @@ export const {
 export const selectFriendIds = createSelector(selectUsers, (users) => {
   return users.map((profile) => profile.user.getId());
 });
+
+export const selectOnlineIds = createSelector(
+  (state: RootState) => state.user,
+  (friendsState) => {
+    return friendsState.onlineIds;
+  }
+);

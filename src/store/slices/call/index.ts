@@ -1,50 +1,36 @@
 import { createSlice } from "@reduxjs/toolkit";
 import SliceName from "@store/common/sliceName";
-import { CallState } from "../state/call";
 import callsAdapter from "./adapter/call.adapter";
-import {
-  deleteCallAction,
-  addCallAction,
-  callAction,
-  stopAction,
-} from "./actions";
-import initialWebRTC from "./actions/handles/initialWebRTC.action";
-import authenticateThunk from "./extraReducer/authenticate.thunk";
+import type { CallState } from "../state/call";
+import addIncomingCallAction from "./actions/addIncomingCall.action";
+import removeIncomingCallAction from "./actions/removeIncomingCall.action";
+import connectThunk from "./extraReducer/connect.thunk";
+import { setCallAction, setConnectionAction } from "./actions/set.action";
 
 export const callSlice = createSlice({
   name: SliceName.call,
-  initialState: callsAdapter.getInitialState() as CallState,
+  initialState: callsAdapter.getInitialState({
+    // In process call
+    localStream: null,
+    callId: null,
+    mediaConnection: null,
+  }) as CallState,
   reducers: {
     // call
-    addConnectionModel: addCallAction,
-    deleteConnectionModel: deleteCallAction,
-
-    //
-    openCallView: callAction,
-    closeCallView: stopAction,
-    initial: initialWebRTC,
+    addIncomingCall: addIncomingCallAction,
+    removeIncomingCall: removeIncomingCallAction,
+    setCall: setCallAction,
+    setConnection: setConnectionAction,
   },
   extraReducers: (builder) => {
-    authenticateThunk(builder);
+    connectThunk(builder);
   },
 });
 
-export const {
-  addConnectionModel,
-  deleteConnectionModel,
+export const { addIncomingCall, removeIncomingCall, setConnection, setCall } =
+  callSlice.actions;
 
-  openCallView,
-  closeCallView,
-  initial,
-} = callSlice.actions;
-
-export const {
-  selectById: selectCallById,
-  selectAll: selectAllCall,
-  selectIds: selectCallIds,
-} = callsAdapter.getSelectors((state: any) => state[SliceName.call]);
-
-export { default as selectCurrentCall } from "./selectors/selectCurrentAnswer";
-export { default as selectPeer } from "./selectors/selectPeer";
+export * as peerSelector from "./selectors/peer.selector";
+export * as callSelector from "./selectors/call.selector";
 
 export default callSlice.reducer;

@@ -7,9 +7,10 @@ export const FriendListItemContainer = styled(motion.div)`
   display: flex;
   box-sizing: border-box;
   flex-direction: row;
-  width: 200px;
+  max-width: 100%;
   height: 60px;
   align-items: center;
+  justify-content: center;
   background-color: ${({ theme }) => theme.backgroundColor};
 `;
 
@@ -17,6 +18,7 @@ export const FriendListAvatarContainer = styled.div<AvatarContainerProps>`
   overflow: visible;
   white-space: nowrap;
   text-overflow: ellipsis;
+
   ${({ $isOnline }) => {
     if (!$isOnline) {
       return css`
@@ -37,6 +39,7 @@ export const FriendListItemBody = styled.div`
   display: flex;
   flex-direction: row;
   align-items: center;
+  justify-content: center;
   padding: 0.5em 0.8em;
   gap: 1em;
   width: 100%;

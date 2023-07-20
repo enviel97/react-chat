@@ -4,17 +4,20 @@ import { WebRTCContainer } from "./styles/WebRTC.decorate";
 import CallingView from "./components/containers/CallingView";
 import { AnimatePresence } from "framer-motion";
 import useAppSelector from "@hooks/useAppSelector";
-import { selectCurrentCall } from "@store/slices/call";
-import usePeer from "./hooks/usePeer";
+import { callSelector } from "@store/slices/call";
+import useCallSocket from "./hooks/useCallSocket";
+import useWebRtcController from "./hooks/useWebRtcController";
 
 const WebRTCProvider = () => {
-  const selectAnswer = useAppSelector(selectCurrentCall);
-  usePeer();
+  // listen
+  useCallSocket();
+  // useWebRtcController();
+  const selectCall = useAppSelector(callSelector.selectCall);
 
   return (
     <WebRTCContainer>
       <AnimatePresence mode='wait'>
-        {selectAnswer && <CallingView callerId={selectAnswer} />}
+        {selectCall && <CallingView />}
       </AnimatePresence>
       <CallingNotifications />
     </WebRTCContainer>

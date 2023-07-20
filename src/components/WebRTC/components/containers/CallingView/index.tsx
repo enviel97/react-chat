@@ -1,9 +1,14 @@
+import { Event } from "@common/socket.define";
+import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
-import { selectCallById } from "@store/slices/call";
+import useSocket from "@hooks/useSocket";
+import { callSelector, peerSelector } from "@store/slices/call";
 import { AnimatePresence } from "framer-motion";
-import { FC, memo, useEffect, useState } from "react";
+import { FC, memo, useCallback, useEffect, useState } from "react";
 import CallingAction from "./components/container/CallingAction";
-import PersonCall from "./components/container/PersonCall";
+import LocalPersonCall from "./components/container/LocalPersonCall";
+import RemotePersonCall from "./components/container/RemotePersonCall";
+import usePeerCall from "./hooks/usePeerCall";
 import { CallingViewAnimation } from "./styles/CallingView.animate";
 import {
   CallingContainer,
@@ -11,36 +16,16 @@ import {
   CallingViewOverplay,
 } from "./styles/CallingView.decorate";
 
-const CallingView: FC<CallingViewProps> = ({ callerId }) => {
-  const [callerStream, setCallerStream] = useState<MediaStream>();
-  const [receiverStream, setReceiverStream] = useState<MediaStream>();
-  const callChannel = useAppSelector((state) =>
-    selectCallById(state, callerId)
-  );
-
-  useEffect(() => {
-    if (!callChannel || !callChannel.connection) return;
-    const connection = callChannel.connection;
-    setCallerStream(connection.localStream);
-    // receiver
-    connection.on("stream", (remoteStream) => {
-      setReceiverStream(remoteStream);
-    });
-  }, [callChannel]);
+const CallingView = () => {
+  const { localStream, remoteStream } = usePeerCall();
 
   return (
     <CallingViewOverplay {...CallingViewAnimation.overlay}>
       <AnimatePresence mode='wait'>
         <CallingViewContainer {...CallingViewAnimation.container}>
           <CallingContainer>
-            <PersonCall
-              stream={callerStream}
-              metadata={{ name: "", avatar: "" }}
-            />
-            <PersonCall
-              stream={receiverStream}
-              metadata={{ name: "", avatar: "" }}
-            />
+            <LocalPersonCall stream={localStream} />
+            <RemotePersonCall stream={remoteStream} />
           </CallingContainer>
           <CallingAction />
         </CallingViewContainer>

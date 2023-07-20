@@ -14,4 +14,5 @@ interface IconButtonProps {
   type?: ButtonType;
   animation?: IconAnimationVariants;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
+  disabled?: boolean;
 }
