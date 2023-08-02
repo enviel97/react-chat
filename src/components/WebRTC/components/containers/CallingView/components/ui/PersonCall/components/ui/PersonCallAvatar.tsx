@@ -35,7 +35,7 @@ const PersonCallAvatar: FC<PersonCallAvatarProps> = ({
         {talking && <PersonCallWave {...Animation.wave} />}
       </AnimatePresence>
       <CircleAvatar src={src} viewPort='md' size={"100%"} />
-      <AnimatePresence>{talking && <PersonCallMask />}</AnimatePresence>
+      <AnimatePresence>{!talking && <PersonCallMask />}</AnimatePresence>
     </PersonCallAvatarContainer>
   );
 };

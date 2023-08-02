@@ -1,29 +1,24 @@
 import { safeLog } from "@core/api/utils/logger";
-import { toast } from "react-toastify";
 
 export interface DevicePermission {
   camera?: boolean;
   microphone?: boolean;
 }
 
-const NOTIFICATION_DEVICES_ERROR = `You should have camera or microphone to trigger this action`;
 /**
  * Check devices permission, if haven't
  * all return undefine
  * @returns {MediaStream} microphone and video stream
  */
-export const devicesPermission = async (
-  config: DevicePermission
-): Promise<MediaStream | undefined> => {
+export const devicesPermission = async (config: DevicePermission) => {
   return await navigator.mediaDevices
     .getUserMedia({ video: config.camera, audio: true })
     .then((userDevices) => {
-      if (!userDevices.active) return undefined;
+      if (!userDevices.active) return Promise.reject("devices-permission");
       return userDevices;
     })
     .catch((error: DOMException) => {
-      toast.error(NOTIFICATION_DEVICES_ERROR);
       safeLog(error);
-      return undefined;
+      return Promise.reject("devices-permission");
     });
 };

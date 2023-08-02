@@ -10,7 +10,7 @@ import PersonCallAvatar from "../../ui/PersonCallAvatar";
 import { AnimatePresence } from "framer-motion";
 
 interface InformationCallProps {
-  name: string;
+  name?: string;
   avatar?: string;
   camera?: boolean;
   isRemote?: boolean;
@@ -47,6 +47,7 @@ const InformationCall: FC<InformationCallProps> = ({
 
       {/* Name */}
       <AnimatePresence>
+        {/* Is Calling  */}
         {(!isConnected || !camera) && (
           <PersonCallName {...PersonCallAnimation.name}>{name}</PersonCallName>
         )}

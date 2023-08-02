@@ -1,9 +1,6 @@
-import useAppDispatch from "@hooks/useAppDispatch";
 import useAppSelector from "@hooks/useAppSelector";
-import { callSelector } from "@store/slices/call";
 import { selectRemoteInfo } from "@store/slices/call/selectors/call.selector";
-import type { MediaConnection } from "peerjs";
-import { FC, memo, useCallback, useEffect, useState } from "react";
+import { FC, memo } from "react";
 import styled from "styled-components";
 import PersonCall from "../ui/PersonCall";
 
@@ -29,8 +26,6 @@ const RemotePersonCall: FC<RemotePersonCallProps> = ({ stream }) => {
         webcam={true}
         stream={stream}
         isRemote
-        isConnected={!!stream}
-        // microphone={true}
       />
     </Container>
   );

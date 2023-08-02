@@ -1,7 +1,7 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import { RootState } from "@store/index";
 
-const selectTypeConversation = createSelector(
+const selectTypeConversation = createDraftSafeSelector(
   (state: RootState) => state,
   (state) => state.ui.selectedConversationType
 );

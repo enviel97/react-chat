@@ -1,7 +1,5 @@
-import { safeLog } from "@core/api/utils/logger";
 import { AnimatePresence, motion } from "framer-motion";
-import { memo, useEffect, useRef, useCallback, FC, useState } from "react";
-import { toast } from "react-toastify";
+import { memo, useEffect, useRef, FC } from "react";
 import styled from "styled-components";
 
 interface LiveScreenProps {
@@ -13,6 +11,11 @@ const LiveScreenWrapper = styled(motion.video)`
   width: 100%;
   object-fit: contain;
 `;
+
+const variants = {
+  visible: { opacity: 1 },
+  hidden: { opacity: 0 },
+};
 
 const LiveScreen: FC<LiveScreenProps> = ({ stream }) => {
   const target = useRef<HTMLVideoElement>(null);
@@ -27,15 +30,14 @@ const LiveScreen: FC<LiveScreenProps> = ({ stream }) => {
     <AnimatePresence>
       {stream && (
         <LiveScreenWrapper
-          variants={{
-            visible: { opacity: 1 },
-            hidden: { opacity: 0 },
-          }}
+          variants={variants}
           initial='hidden'
           animate='visible'
           exit='hidden'
           autoPlay
+          playsInline
           preload='none'
+          controls={false}
           ref={target}
         />
       )}

@@ -1,7 +1,7 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import { RootState } from "@store/index";
 
-const selectTabFriends = createSelector(
+const selectTabFriends = createDraftSafeSelector(
   (state: RootState) => state,
   (state) => state.ui.totalFriendRequest
 );

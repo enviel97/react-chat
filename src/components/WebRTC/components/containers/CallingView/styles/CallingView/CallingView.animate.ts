@@ -13,7 +13,6 @@ export const CallingViewAnimation = Object.freeze<Animation>({
     },
     initial: "hidden",
     animate: "visible",
-    exit: "hidden",
   },
   container: {
     layout: true,

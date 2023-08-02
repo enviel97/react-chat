@@ -14,7 +14,7 @@ export const CallingViewOverplay = styled(motion.div)`
   height: 100%;
   width: 100%;
   background-color: ${({ theme }) => `${theme.backgroundColor}cc`};
-  pointer-events: auto;
+  pointer-events: none;
   z-index: ${zIndex.onTop};
 `;
 
@@ -29,6 +29,7 @@ export const CallingViewContainer = styled(motion.div)`
   box-shadow: ${CallNotificationContainerShadow};
   border: none;
   overflow: hidden;
+  pointer-events: auto;
 `;
 
 export const CallingContainer = styled.div`

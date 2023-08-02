@@ -1,26 +1,17 @@
 import type { ReactElement } from "react";
 import type { IconBaseProps } from "react-icons";
-import { BsFillTelephoneForwardFill, BsPersonVideo } from "react-icons/bs";
-import { FaCheck, FaTimes } from "react-icons/fa";
-import { TbPhone, TbPhoneOff } from "react-icons/tb";
+import { FaCheck, FaTimes, FaVideo } from "react-icons/fa";
+import { ImPhone, ImPhoneHangUp } from "react-icons/im";
 
-export type IconName =
-  | "Allow"
-  | "Reject"
-  | "Phone"
-  | "PhoneOff"
-  | "PhoneFill"
-  | "Stream";
+export type IconName = "Allow" | "Reject" | "Phone" | "PhoneOff" | "Stream";
 
 export const IconMapping = Object.freeze(
   (props: IconBaseProps) =>
     new Map<IconName, ReactElement>([
       ["Allow", <FaCheck {...props} />],
       ["Reject", <FaTimes size='50%' {...props} />],
-      ["Phone", <TbPhone size='50%' {...props} />],
-      ["PhoneOff", <TbPhoneOff size='50%' {...props} />],
-      ["PhoneFill", <BsFillTelephoneForwardFill {...props} />],
-
-      ["Stream", <BsPersonVideo {...props} />],
+      ["Phone", <ImPhone size='50%' {...props} />],
+      ["PhoneOff", <ImPhoneHangUp size='50%' {...props} />],
+      ["Stream", <FaVideo {...props} />],
     ])
 );

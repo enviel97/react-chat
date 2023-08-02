@@ -8,12 +8,13 @@ interface Animation {
 
 export const IconButtonAnimation: Animation = {
   container: {
-    whileHover: { y: -1, scale: 1.05, filter: "brightness(105%)" },
+    whileHover: { filter: "brightness(150%)" },
     whileTap: {
-      y: 0,
+      y: 1,
       scale: 0.98,
       transition: { duration: 0 },
     },
+
     transition: { filter: { duration: 0 } },
     style: { filter: "brightness(90%)" },
   },
@@ -49,6 +50,6 @@ export const IconButtonAnimation: Animation = {
       }),
     },
     animate: "wave",
-    style: { borderWidth: "0.15em" },
+    style: { borderWidth: "0.1em" },
   },
 };

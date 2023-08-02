@@ -11,10 +11,11 @@ const addIncomingCallAction: AddIncomingActionReducer = (state, action) => {
   const { callId, callType, user } = action.payload;
   callsAdapter.upsertOne(state, {
     connectionId: callId,
-    receiverId: user.id,
+    connecterId: user.id,
     name: user.name,
     avatar: user.avatar,
     type: callType,
+    status: "calling",
   });
 };
 

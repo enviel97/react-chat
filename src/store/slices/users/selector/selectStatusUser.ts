@@ -1,8 +1,8 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import type { RootState } from "@store/index";
 import { selectUsers } from "./selectAdapter";
 
-export const selectOnline = createSelector(
+export const selectOnline = createDraftSafeSelector(
   selectUsers,
   (state: RootState) => state.user.onlineIds,
   (profiles, onlineStatus) => {
@@ -15,7 +15,7 @@ export const selectOnline = createSelector(
   }
 );
 
-export const selectOffline = createSelector(
+export const selectOffline = createDraftSafeSelector(
   (state: RootState) => state.user.onlineIds,
   (state: RootState) => state.user.ids,
   selectUsers,

@@ -11,22 +11,15 @@ const Container = styled.div`
   overflow: hidden;
   background-color: var(--surface-color);
 `;
-interface LocalPersonCall {
+interface LocalPersonCallProps {
   stream?: MediaStream;
 }
 
-const LocalPersonCall: FC<LocalPersonCall> = ({ stream }) => {
+const LocalPersonCall: FC<LocalPersonCallProps> = ({ stream }) => {
   const localInfo = useAppSelector(callSelector.selectLocalInfo);
-  // TODO: local stream here
   return (
     <Container>
-      <PersonCall
-        metadata={localInfo}
-        stream={stream}
-        webcam={true}
-        isConnected={!!stream}
-        // microphone={true} color: "var(--white)"
-      />
+      <PersonCall metadata={localInfo} stream={stream} webcam={true} />
     </Container>
   );
 };

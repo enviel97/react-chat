@@ -40,7 +40,6 @@ const LoginForm = forwardRef<FormHandler>((_, ref) => {
     const response = await dispatch(signIn(data)).unwrap();
     if (!response.data) return;
     const pathname = location.state?.from?.pathname;
-    console.log({ location });
     navigator(pathname ?? "/conversation", { replace: true });
     toast.success(`Hi! ${response.data.getFullName()}`);
   };

@@ -1,11 +1,11 @@
 import { convertBase64ToBlob } from "@components/Image/CacheImage/utils/ImageUtils";
-import { createSelector } from "@reduxjs/toolkit";
+import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import { RootState } from "@store/index";
 
-const selectImage = createSelector(
+const selectImage = createDraftSafeSelector(
   [(state: RootState) => state.profile, (_, type: "avatar" | "banner") => type],
   (profileState, type) => {
-    const profile = profileState.user?.profile ?? profileState.profile;
+    const profile = profileState.profile;
     const image = type === "avatar" ? profile?.avatar : profile?.banner;
     if (!image) return;
     if (image.includes("base64")) {

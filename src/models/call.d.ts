@@ -1,7 +1,13 @@
+/**
+ * Call state define
+ */
+type CallStatus = "connection" | "calling" | "answer" | "ended" | "error";
+
 interface CallModel {
   connectionId: string;
-  receiverId: string;
+  connecterId: string;
   name: string;
   avatar?: string;
   type: CallType;
+  status: CallStatus;
 }

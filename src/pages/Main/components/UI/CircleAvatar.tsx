@@ -31,6 +31,7 @@ const CircleAvatarContainer = styled.div<CircleAvatarDecorate>`
   color: ${({ $mainColor, theme }) => $mainColor ?? theme.disableColor};
   border-radius: 50%;
   cursor: pointer;
+  user-select: none;
   position: relative;
   box-shadow: 0.1rem 0.1rem 0.5rem
       ${({ theme }) => colorBrightness(theme.backgroundColor, 10)},

@@ -8,7 +8,7 @@ export const CallNotificationContainer = styled.div`
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  margin: 2rem;
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
   gap: 1em;
@@ -23,7 +23,7 @@ export const CallNotificationItem = styled(motion.div)`
   justify-content: center;
   box-sizing: border-box;
   height: 4em;
-  width: min(70svw, 500px);
+  width: min(90svw, 500px);
   background-color: var(--background-color);
   border: 1px solid var(--background-color);
   box-shadow: ${CallNotificationContainerShadow};

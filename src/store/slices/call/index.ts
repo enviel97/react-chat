@@ -4,31 +4,41 @@ import callsAdapter from "./adapter/call.adapter";
 import type { CallState } from "../state/call";
 import addIncomingCallAction from "./actions/addIncomingCall.action";
 import removeIncomingCallAction from "./actions/removeIncomingCall.action";
-import connectThunk from "./extraReducer/connect.thunk";
-import { setCallAction, setConnectionAction } from "./actions/set.action";
+import {
+  setCallAction,
+  setCallErrorAction,
+  setMediaConnectionAction,
+} from "./actions/set.action";
+import { callControllerThunk } from "./extraReducer/callController.thunk";
+import initPeerThunk from "./extraReducer/initPeer.thunk";
 
 export const callSlice = createSlice({
   name: SliceName.call,
-  initialState: callsAdapter.getInitialState({
-    // In process call
-    localStream: null,
-    callId: null,
-    mediaConnection: null,
-  }) as CallState,
+  initialState: callsAdapter.getInitialState() as CallState,
   reducers: {
     // call
     addIncomingCall: addIncomingCallAction,
     removeIncomingCall: removeIncomingCallAction,
+
+    // set call
     setCall: setCallAction,
-    setConnection: setConnectionAction,
+    setMediaConnection: setMediaConnectionAction,
+    setCallError: setCallErrorAction,
   },
   extraReducers: (builder) => {
-    connectThunk(builder);
+    initPeerThunk(builder);
+    callControllerThunk(builder);
   },
 });
 
-export const { addIncomingCall, removeIncomingCall, setConnection, setCall } =
-  callSlice.actions;
+export const {
+  addIncomingCall,
+  removeIncomingCall,
+
+  setCall,
+  setMediaConnection,
+  setCallError,
+} = callSlice.actions;
 
 export * as peerSelector from "./selectors/peer.selector";
 export * as callSelector from "./selectors/call.selector";

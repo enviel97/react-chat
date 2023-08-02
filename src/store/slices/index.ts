@@ -30,11 +30,10 @@ const ReducerList = Object.freeze({
 // Ignore slice
 const IGNORE_CALL_SLICE = ignoreSlice(
   SliceName.call,
-  ...[
-    ...createThunkAction("connect"),
-    ...createThunkAction("localStream"),
-    "setConnection",
-  ]
+  ...createThunkAction("start"),
+  ...createThunkAction("ended"),
+  ...createThunkAction("peer"),
+  "setMediaConnection"
 );
 
 export const reducerStorage = [SliceName.ui, SliceName.profile];

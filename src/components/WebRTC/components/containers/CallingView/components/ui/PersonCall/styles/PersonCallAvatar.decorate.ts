@@ -29,6 +29,7 @@ export const PersonCallMask = styled(motion.div)`
   width: 100%;
   border-radius: 50%;
   background-color: var(--background-color);
+  opacity: 0.6;
 `;
 
 export const Animation = Object.freeze<PersonCallAnimation>({

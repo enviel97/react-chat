@@ -1,9 +1,16 @@
+/**
+ * Enum
+ */
 type CallType = "VideoCall" | "PhoneCall";
 
-interface CallMetaData {
-  name: string;
-  avatar?: string;
-}
+type CallErrorType =
+  | "peer-unavailable"
+  | "peer-missing"
+  | "devices-permission"
+  | "unknown"
+  | "user-unavailable"
+  | "user-disable";
+
 type FATAL_ERRORS =
   | "browser-incompatible"
   | "disconnected"
@@ -17,6 +24,16 @@ type FATAL_ERRORS =
   | "socket-closed"
   | "unavailable-id"
   | "webrtc";
+
+type CallSuccessType = "calling" | "accept" | "reject";
+
+/**
+ * Interface
+ */
+interface CallMetaData {
+  name: string;
+  avatar?: string;
+}
 
 interface PeerError extends Error {
   type: FATAL_ERRORS;
@@ -35,20 +52,19 @@ interface IncomingCall {
   callType: CallType;
 }
 
-type CallSuccess = "calling" | "accept" | "reject";
-
 interface CallPayload<Data> {
-  type: "calling" | "accept" | "reject";
+  type: CallSuccessType;
   data: Data;
 }
 
-interface CallAckPayload {
-  from: string;
-  to: string;
+interface CallErrorPayload<Data = any> {
+  type: CallErrorType;
+  data: Data;
 }
 
-interface CallAcceptPayload extends CallAckPayload {
+interface CallAcceptPayload {
   callId: string;
+  connecterId: string;
 }
 
 interface CallErrorP2PErrorPayload {
@@ -56,6 +72,10 @@ interface CallErrorP2PErrorPayload {
   callId: string;
 }
 
-type CallErrorPayload =
-  | { type: "user-unavailable" }
-  | { type: "p2p-unavailable"; data: CallErrorP2PErrorPayload };
+interface Payload {
+  callId: string;
+  from: string;
+  to: string;
+}
+
+type CallRejectPayload = { type: "reject"; data: Payload };

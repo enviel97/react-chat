@@ -22,7 +22,6 @@ const IconButton: FC<IconButtonProps> = ({
   return (
     <IconButtonContainer
       onClick={handleClick}
-      role={type}
       $type={type}
       {...IconButtonAnimation.container}
     >
@@ -35,7 +34,7 @@ const IconButton: FC<IconButtonProps> = ({
           />
         ))}
       <IconBox {...IconButtonAnimation.iconBox} animate={animation}>
-        <IconBase name={type} size='55%' />
+        <IconBase name={type} size='50%' />
       </IconBox>
     </IconButtonContainer>
   );

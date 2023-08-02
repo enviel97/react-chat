@@ -28,9 +28,9 @@ const ConversationDirectHeaderAction: FC<
 
   return (
     <Container>
-      <AddFriend friendId={friendId} />
       <CallAction type='PhoneCall' friendId={friendId} />
       <CallAction type='VideoCall' friendId={friendId} />
+      <AddFriend friendId={friendId} />
     </Container>
   );
 };

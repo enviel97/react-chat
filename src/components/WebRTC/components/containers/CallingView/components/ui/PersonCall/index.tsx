@@ -8,15 +8,13 @@ import {
 import useAudio from "./hooks/useAudio";
 import useWebcam from "./hooks/useWebcam";
 import InformationCall from "./components/container/InformationCall";
-import usePropsState from "@hooks/usePropsState";
 import LiveScreen from "./components/ui/LiveScreen";
 
 interface PersonCallProps {
   stream?: MediaStream;
   microphone?: boolean;
   webcam?: boolean;
-  metadata: CallMetaData;
-  isConnected?: boolean;
+  metadata?: CallMetaData;
   isRemote?: boolean;
 }
 
@@ -26,35 +24,33 @@ const PersonCall: FC<PersonCallProps> = ({
   webcam = false,
   metadata,
   isRemote = false,
-  isConnected = false,
 }) => {
   const { audio, handleLiveAudio } = useAudio(stream, microphone);
   const { live, handleLiveScreen } = useWebcam(stream, webcam);
-  const [connected] = usePropsState(isConnected);
 
   return (
     <PersonCallContainer>
       <LiveScreen stream={stream} />
       <PersonCallActionGroups>
         <InformationCall
-          name={metadata.name}
-          avatar={metadata.avatar}
+          name={metadata?.name}
+          avatar={metadata?.avatar}
           isRemote={isRemote}
           camera={live}
-          isConnected={connected}
+          isConnected={!!stream}
         />
         <PersonCallAction>
           <VideoAction
             type='Camera'
             on={live}
             onClick={handleLiveScreen}
-            disabled={!connected}
+            disabled={!stream}
           />
           <VideoAction
             type='Audio'
             on={audio}
             onClick={handleLiveAudio}
-            disabled={!connected}
+            disabled={!stream}
           />
           {/* TODO: Volume modified */}
         </PersonCallAction>

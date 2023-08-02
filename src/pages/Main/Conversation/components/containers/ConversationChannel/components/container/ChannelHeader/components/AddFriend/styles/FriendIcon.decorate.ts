@@ -20,10 +20,11 @@ export const IconContainer = styled(motion.div)`
 
 export const Animation: MotionProps = {
   variants: {
-    visible: (i) => ({ opacity: 1, scale: 1, transition: { delay: 0.5 * i } }),
+    visible: (i) => ({ opacity: 1, scale: 1, transition: { delay: 0.05 * i } }),
     hidden: { opacity: 0, scale: 0 },
   },
   transition: { duration: 0.5 },
+  layoutId: "relationship",
   initial: "hidden",
   animate: "visible",
   exit: "hidden",

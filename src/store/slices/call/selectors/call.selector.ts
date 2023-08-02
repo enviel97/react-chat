@@ -1,4 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import SliceName from "@store/common/sliceName";
 import type { RootState } from "@store/index";
 import callsAdapter from "../adapter/call.adapter";
@@ -9,12 +9,12 @@ export const {
   selectIds: selectCallIds,
 } = callsAdapter.getSelectors((state: RootState) => state[SliceName.call]);
 
-export const selectCall = createSelector(
+export const selectCall = createDraftSafeSelector(
   (state: RootState) => state.call,
   (callState) => callState.callId
 );
 
-export const selectIncomingCalls = createSelector(
+export const selectIncomingCalls = createDraftSafeSelector(
   selectCallIds,
   (state: RootState) => state.call.callId,
   (incomingCallIds, currentCall) => {
@@ -23,7 +23,7 @@ export const selectIncomingCalls = createSelector(
   }
 );
 
-export const selectLocalInfo = createSelector(
+export const selectLocalInfo = createDraftSafeSelector(
   (state: RootState) => state.profile.user,
   (user) => {
     return {
@@ -33,12 +33,12 @@ export const selectLocalInfo = createSelector(
   }
 );
 
-export const selectRemoteInfo = createSelector(
+export const selectRemoteInfo = createDraftSafeSelector(
   (state: RootState) => state.call,
   (callState) => {
     const callId = callState.callId;
     const currentCall = callId && callState.entities[callId];
-    if (!currentCall) return { name: "@Unknown" };
+    if (!currentCall) return;
 
     return {
       name: currentCall.name,
@@ -47,7 +47,7 @@ export const selectRemoteInfo = createSelector(
   }
 );
 
-export const selectCurrentCall = createSelector(
+export const selectCurrentCall = createDraftSafeSelector(
   (state: RootState) => state.call,
   (callState) => {
     const callId = callState.callId;
@@ -55,4 +55,9 @@ export const selectCurrentCall = createSelector(
     if (!incomingCall) return;
     return incomingCall;
   }
+);
+
+export const selectCallError = createDraftSafeSelector(
+  (state: RootState) => state.call,
+  (callState) => callState.errorMess
 );

@@ -1,7 +1,7 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import { RootState } from "@store/index";
 
-const selectProfile = createSelector(
+const selectProfile = createDraftSafeSelector(
   [(state: RootState) => state.profile],
   (profileState) => profileState.profile
 );

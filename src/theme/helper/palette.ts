@@ -16,6 +16,8 @@ declare module "styled-components" {
     themeMode: ThemeMode;
     black: string;
     white: string;
+    gray: string;
+
     disableColor: string;
     errorColor: string;
     successColor: string;
@@ -67,6 +69,7 @@ const _paletteColor = {
 export const palette: Palette = {
   dark: {
     themeMode: "dark",
+    gray: "#555555",
 
     backgroundColor: "#121212",
     onBackgroundColor: "#d6d6d6",
@@ -78,6 +81,7 @@ export const palette: Palette = {
   },
   light: {
     themeMode: "light",
+    gray: "#bababa",
 
     backgroundColor: "#eeeeee",
     onBackgroundColor: "#121212",

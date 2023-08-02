@@ -1,10 +1,9 @@
-import useCallController from "@components/WebRTC/hooks/useCallController";
+import { IconBase } from "@components/Icon";
+import useCall from "@components/WebRTC/hooks/useCall";
 import { motion } from "framer-motion";
 import { FC, memo, useEffect, useState } from "react";
-import { BsPersonVideo, BsTelephoneForwardFill } from "react-icons/bs";
 import { Tooltip } from "react-tooltip";
-import styled, { useTheme } from "styled-components";
-import { ButtonActionShadow as Shadow } from "../utils/shadow";
+import styled from "styled-components";
 
 interface PhoneCallProps {
   friendId?: string;
@@ -26,9 +25,17 @@ const Container = styled(motion.div)`
   background-color: var(--background-color);
 `;
 
+const variants = {
+  hover: { scale: 1.05, color: "var(--white)", opacity: 1 },
+  tap: {
+    scale: 0.95,
+    opacity: 0.5,
+    transition: { duration: 0 },
+  },
+};
+
 const CallAction: FC<PhoneCallProps> = ({ friendId, type }) => {
-  const theme = useTheme();
-  const { trigger: call, disabled } = useCallController();
+  const { trigger: call, disabled } = useCall(friendId);
   const [hint, setHint] = useState<string>();
 
   useEffect(() => {
@@ -39,31 +46,21 @@ const CallAction: FC<PhoneCallProps> = ({ friendId, type }) => {
 
   const handleOnClick = async () => {
     if (!friendId) return;
-    call(friendId, { type });
+    await call();
   };
 
   return (
-    <Container
-      whileTap={{ boxShadow: Shadow(theme.backgroundColor, "inset") }}
-      style={{ boxShadow: Shadow(theme.backgroundColor) }}
-      role={type}
-      transition={{ duration: 0 }}
-      onClick={handleOnClick}
-    >
+    <Container role={type} transition={{ duration: 0 }} onClick={handleOnClick}>
       <IconBox
-        variants={{
-          hover: { scale: 1.05, color: "var(--white)", opacity: 0.2 },
-          tap: {
-            scale: 0.95,
-            opacity: 0.5,
-            transition: { duration: 0 },
-          },
-        }}
-        whileHover={disabled ? undefined : "hover"}
-        whileTap={disabled ? undefined : "hover"}
+        variants={disabled ? undefined : variants}
+        whileHover={"hover"}
+        whileTap={"tap"}
+        style={{ opacity: 0.75 }}
       >
-        {type === "PhoneCall" && <BsTelephoneForwardFill size={"1.2em"} />}
-        {type === "VideoCall" && <BsPersonVideo size={"1.5em"} />}
+        <IconBase
+          name={type === "PhoneCall" ? "Phone" : "Stream"}
+          size='1.25em'
+        />
       </IconBox>
       <Tooltip
         anchorSelect={`${Container}[role=${type}]`}

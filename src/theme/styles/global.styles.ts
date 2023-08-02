@@ -13,6 +13,7 @@ const GlobalStyle = createGlobalStyle`
   :root {
     --black: ${({ theme }) => theme.black};
     --white: ${({ theme }) => theme.white};
+    --gray: ${({ theme }) => theme.gray};
     
     --primary-color: ${({ theme }) => theme.primaryColor};
     --on-primary-color: ${({ theme }) => theme.onPrimaryColor};
@@ -24,7 +25,7 @@ const GlobalStyle = createGlobalStyle`
     --on-tertiary-color: ${({ theme }) => theme.onTertiaryColor};
 
     --background-color: ${({ theme }) => theme.backgroundColor};
-    --on-primary-color: ${({ theme }) => theme.onPrimaryColor};
+    --on-background-color: ${({ theme }) => theme.onPrimaryColor};
 
     --surface-color: ${({ theme }) => theme.surfaceColor};
     --on-surface-color: ${({ theme }) => theme.onSurfaceColor};
