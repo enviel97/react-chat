@@ -7,7 +7,7 @@ import FriendRequestReducer from "./friendRequest";
 import FriendPendingReducer from "./friendPending";
 import ProfileReducer from "./profiles";
 import CallReducer from "./call";
-import { ignoreSlice } from "@store/utils/ignoreSlice";
+import { ignoreSlice, createThunkAction } from "@store/utils/ignoreSlice";
 import {
   FLUSH,
   PAUSE,
@@ -27,6 +27,14 @@ const ReducerList = Object.freeze({
   [SliceName.profile]: ProfileReducer,
   [SliceName.call]: CallReducer,
 });
+// Ignore slice
+const IGNORE_CALL_SLICE = ignoreSlice(
+  SliceName.call,
+  ...createThunkAction("start"),
+  ...createThunkAction("ended"),
+  ...createThunkAction("peer"),
+  "setMediaConnection"
+);
 
 export const reducerStorage = [SliceName.ui, SliceName.profile];
 
@@ -39,11 +47,7 @@ export const ignoreChecking = {
     PERSIST,
     PURGE,
     REGISTER,
-    ...ignoreSlice(SliceName.user, "updateOnline"),
-    ...ignoreSlice(
-      SliceName.call,
-      ...["addConnectionModel", "deleteConnectionModel"]
-    ),
+    ...IGNORE_CALL_SLICE,
   ],
 };
 // SliceName.cache,

@@ -36,3 +36,16 @@ export const CallNotificationContainerShadow = ({
     { ...color, brightness: -50, x: 0.25, y: 0.25 }
   );
 };
+
+export const CallAvatarContainerShadow = ({
+  theme,
+}: ThemeProps<DefaultTheme>) => {
+  return shaddow.boxShadow({
+    color: theme.backgroundColor,
+    brightness: -50,
+    x: 0.25,
+    y: 0.25,
+    blur: 1,
+    spread: -0.1,
+  });
+};

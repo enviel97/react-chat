@@ -1,5 +1,6 @@
 // import { IconButtonMap } from "@components/WebRTC/common/icon";
-import { FC, memo } from "react";
+import { IconBase } from "@components/Icon";
+import { FC, memo, MouseEventHandler } from "react";
 import { IconButtonAnimation } from "./styles/IconButton.animation";
 import {
   IconBox,
@@ -8,14 +9,19 @@ import {
 } from "./styles/IconButton.decorate";
 
 const IconButton: FC<IconButtonProps> = ({
-  type = "Answer",
+  type = "Phone",
   onClick,
   animation,
+  disabled,
 }) => {
+  const handleClick: MouseEventHandler<HTMLDivElement> = (event) => {
+    if (disabled) return;
+    onClick && onClick(event);
+  };
+
   return (
     <IconButtonContainer
-      onClick={onClick}
-      role={type}
+      onClick={handleClick}
       $type={type}
       {...IconButtonAnimation.container}
     >
@@ -28,7 +34,7 @@ const IconButton: FC<IconButtonProps> = ({
           />
         ))}
       <IconBox {...IconButtonAnimation.iconBox} animate={animation}>
-        {/* {IconButtonMap.get(type)?.on} */}
+        <IconBase name={type} size='50%' />
       </IconBox>
     </IconButtonContainer>
   );

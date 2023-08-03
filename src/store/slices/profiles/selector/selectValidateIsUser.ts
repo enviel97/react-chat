@@ -1,4 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import { RootState } from "@store/index";
 import string from "@utils/string";
 
@@ -8,7 +8,7 @@ const isProfile = (data: any): data is UserProfile => {
   return !!data?.user;
 };
 
-const selectValidateIsUser = createSelector(
+const selectValidateIsUser = createDraftSafeSelector(
   [
     (state: RootState, user: UserObject) => ({
       currentUser: state.profile,
@@ -19,7 +19,7 @@ const selectValidateIsUser = createSelector(
     if (isProfile(another)) {
       return currentUser.profile.getId() === another.getId();
     }
-    return currentUser.user.getId() === string.getId(another);
+    return currentUser.user?.getId() === string.getId(another);
   }
 );
 

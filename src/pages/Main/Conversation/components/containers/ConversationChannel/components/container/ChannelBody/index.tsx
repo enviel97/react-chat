@@ -12,7 +12,6 @@ import useMessageSocket from "./hooks/useMessageSocket";
 import MessageNotice from "./components/ui/MessageNotice";
 import ChannelBodyLoading from "./components/ui/ChannelBodyLoading";
 import MessageRemoved from "./components/ui/MessageRemoved";
-import useRemoveRange from "./hooks/useRemoveRange";
 import AttachmentSideProvider from "./components/container/AttachmentSideProvider";
 
 const ChannelBody = () => {
@@ -20,18 +19,12 @@ const ChannelBody = () => {
   const messages = useAppSelector(selectAllMessage);
   const status = useAppSelector((state) => state.message.process);
   const ref = useAutoScrollToBottom();
-  const { target } = useRemoveRange();
   useMessageSocket(id);
   if (isLoading(status)) return <ChannelBodyLoading />;
 
   return (
     <AttachmentSideProvider>
-      <ChannelMessageContainer
-        ref={(instance) => {
-          ref.current = instance;
-          target.current = instance;
-        }}
-      >
+      <ChannelMessageContainer ref={ref}>
         {messages.length === 0 && <ChannelEmpty id={id} />}
         {messages.length !== 0 &&
           messages.map((mess, index, arr) => {

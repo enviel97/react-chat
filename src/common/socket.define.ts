@@ -1,4 +1,5 @@
 export const Event = Object.freeze({
+  //#region Old event
   EVENT_USER_TYPING_START: "onUserTypingStart",
   EVENT_USER_TYPING_STOP: "onUserTypingStop",
   EVENT_USER_TYPED: "onUserTyping",
@@ -35,4 +36,23 @@ export const Event = Object.freeze({
   EVENT_FRIEND_UPLOAD_IMAGE: "onFriendUploadImage",
   EVENT_FRIEND_UPDATE_PROFILE: "onFriendUploadProfile",
   EVENT_FRIEND_REQUEST_QUANTITY: "get.quantity",
+  //#endregion
+
+  CALL_VIDEO: {
+    EMIT: {
+      CALLING: "call.videoCalling",
+      ACCEPT: "call.videoCalling.accept",
+      REJECT: "call.videoCalling.reject",
+      ERROR: {
+        P2P_NOT_FOUND: "call.error.p2pService",
+        DEVICE_NOT_FOUND: "call.error.userDevices",
+      },
+    },
+    LISTEN: {
+      CALLING: "onVideoCalling",
+      ACCEPT: "onVideoCallAccept",
+      REJECT: "onVideoCallReject",
+      ERROR: "onVideoCallError",
+    },
+  },
 });

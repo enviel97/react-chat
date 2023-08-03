@@ -7,10 +7,22 @@ import Friends from "./components/containers/Friends";
 import ConversationChannel from "./components/containers/ConversationChannel";
 import ConversationError from "./components/containers/ConversationError";
 import { Fragment } from "react";
+import useFriendFetch from "../hooks/useFriendFetch";
+import useConversationFetch from "../hooks/useConversationsFetch";
 
 const ConversationLayout = () => {
   const params = useParams();
   const breakpoint = useBreakpoint();
+
+  /**
+   * Fetch friends list
+   */
+  useFriendFetch();
+
+  /**
+   * Fetch conversation list
+   */
+  useConversationFetch();
 
   return (
     <Fragment>

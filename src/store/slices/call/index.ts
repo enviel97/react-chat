@@ -1,35 +1,46 @@
 import { createSlice } from "@reduxjs/toolkit";
 import SliceName from "@store/common/sliceName";
-import { CallState } from "../state/call";
-
 import callsAdapter from "./adapter/call.adapter";
-import addCallAction from "./actions/addCall.action";
-import deleteCallAction from "./actions/deleteCall.action";
-
-import { callingThunk } from "./extraReducer/calling.thunk";
-import { answerThunk } from "./extraReducer/answer.thunk";
+import type { CallState } from "../state/call";
+import addIncomingCallAction from "./actions/addIncomingCall.action";
+import removeIncomingCallAction from "./actions/removeIncomingCall.action";
+import {
+  setCallAction,
+  setCallErrorAction,
+  setMediaConnectionAction,
+} from "./actions/set.action";
+import { callControllerThunk } from "./extraReducer/callController.thunk";
+import initPeerThunk from "./extraReducer/initPeer.thunk";
 
 export const callSlice = createSlice({
   name: SliceName.call,
   initialState: callsAdapter.getInitialState() as CallState,
   reducers: {
-    addCall: addCallAction,
-    deleteCall: deleteCallAction,
+    // call
+    addIncomingCall: addIncomingCallAction,
+    removeIncomingCall: removeIncomingCallAction,
+
+    // set call
+    setCall: setCallAction,
+    setMediaConnection: setMediaConnectionAction,
+    setCallError: setCallErrorAction,
   },
   extraReducers: (builder) => {
-    callingThunk(builder);
-    answerThunk(builder);
+    initPeerThunk(builder);
+    callControllerThunk(builder);
   },
 });
 
-export const { addCall, deleteCall } = callSlice.actions;
-
 export const {
-  selectById: selectCallById,
-  selectAll: selectAllCall,
-  selectIds: selectCallIds,
-} = callsAdapter.getSelectors((state: any) => state[SliceName.call]);
-export { default as selectCurrentCall } from "./selectors/selectCurrentAnswer";
-export { default as selectPeer } from "./selectors/selectPeer";
+  addIncomingCall,
+  removeIncomingCall,
+
+  setCall,
+  setMediaConnection,
+  setCallError,
+} = callSlice.actions;
+
+export * as peerSelector from "./selectors/peer.selector";
+export * as callSelector from "./selectors/call.selector";
 
 export default callSlice.reducer;

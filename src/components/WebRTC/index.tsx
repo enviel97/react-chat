@@ -2,18 +2,20 @@ import { memo } from "react";
 import CallingNotifications from "./components/containers/CallingNotifications";
 import { WebRTCContainer } from "./styles/WebRTC.decorate";
 import CallingView from "./components/containers/CallingView";
-import { AnimatePresence } from "framer-motion";
 import useAppSelector from "@hooks/useAppSelector";
-import { selectCurrentCall } from "@store/slices/call";
+import { callSelector } from "@store/slices/call";
+import useCallSocket from "./hooks/useCallSocket";
+import useCallError from "./hooks/useCallError";
 
 const WebRTCProvider = () => {
-  const selectAnswer = useAppSelector(selectCurrentCall);
+  // listen
+  const selectCall = useAppSelector(callSelector.selectCall);
+  useCallSocket();
+  useCallError();
 
   return (
     <WebRTCContainer>
-      <AnimatePresence mode='wait'>
-        {selectAnswer && <CallingView callerId={selectAnswer} />}
-      </AnimatePresence>
+      {selectCall && <CallingView callId={selectCall} />}
       <CallingNotifications />
     </WebRTCContainer>
   );

@@ -1,16 +1,27 @@
 import type { ActionReducerMapBuilder, EntityState } from "@reduxjs/toolkit";
-import type Peer from "peerjs";
-import type { MediaConnection } from "peerjs";
+import type { MediaConnection, Peer } from "peerjs";
+/**
+ * Call error define
+ */
 
-export interface CallModel {
-  receiver: string;
-  readonly connection: MediaConnection;
-  readonly createdAt: string;
+interface CallError {
+  type: CallErrorType;
+  message: string;
 }
 
 export interface CallState extends EntityState<CallModel> {
-  callAnswer?: string;
+  /**
+   * Local person
+   */
   peer?: Peer;
+  callId?: string;
+  localStream?: MediaStream;
+  mediaConnection?: MediaConnection;
+
+  /**
+   * Status
+   */
+  errorMess?: CallError;
 }
 
 export type CallExtraBuilder = ActionReducerMapBuilder<CallState>;

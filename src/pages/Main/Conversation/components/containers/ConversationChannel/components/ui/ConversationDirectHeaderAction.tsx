@@ -22,15 +22,15 @@ const ConversationDirectHeaderAction: FC<
 
   useEffect(() => {
     if (members.length > 2) return;
-    const id = members.find((id) => !id.isSame(profile.user))?.getId();
+    const id = members.find((member) => !member.isSame(profile.user))?.getId();
     setFriendId(id);
   }, [members, profile]);
 
   return (
     <Container>
-      <AddFriend friendId={friendId} />
       <CallAction type='PhoneCall' friendId={friendId} />
       <CallAction type='VideoCall' friendId={friendId} />
+      <AddFriend friendId={friendId} />
     </Container>
   );
 };

@@ -3,9 +3,10 @@ import { PersistConfig, persistReducer, persistStore } from "redux-persist";
 import storage from "redux-persist/lib/storage";
 import autoMergeLevel2 from "redux-persist/lib/stateReconciler/autoMergeLevel2";
 import ReducerList, { ignoreChecking, reducerStorage } from "./slices";
+import { enableMapSet } from "immer";
 
 const reducer = combineReducers(ReducerList);
-
+enableMapSet();
 const persistConfig: PersistConfig<ReturnType<typeof reducer>> = {
   key: "root",
   version: 0,

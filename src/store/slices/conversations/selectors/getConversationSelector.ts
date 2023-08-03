@@ -1,4 +1,4 @@
-import { createSelector } from "@reduxjs/toolkit";
+import { createDraftSafeSelector } from "@reduxjs/toolkit";
 import SliceName from "@store/common/sliceName";
 import { RootState } from "@store/index";
 import { ConversationState } from "@store/slices/state/conversation";
@@ -23,7 +23,7 @@ const {
   return state.group;
 });
 
-export const selectAllConversation = createSelector(
+export const selectAllConversation = createDraftSafeSelector(
   selectAllDirectConversations,
   selectAllGroupConversations,
   (state: RootState) => state.ui.selectedConversationType,
@@ -33,7 +33,7 @@ export const selectAllConversation = createSelector(
   }
 );
 
-export const selectConversationById = createSelector(
+export const selectConversationById = createDraftSafeSelector(
   (state: RootState, id: string) => selectDirectConversationById(state, id),
   (state: RootState, id: string) => selectGroupConversationById(state, id),
   (direct, group) => {
@@ -41,7 +41,7 @@ export const selectConversationById = createSelector(
   }
 );
 
-export const selectAvatarConversationById = createSelector(
+export const selectAvatarConversationById = createDraftSafeSelector(
   [selectConversationById, (state: RootState) => state.profile.profile.user],
   (conversation, userProfile) => {
     const participants = conversation?.participant?.members;
@@ -54,7 +54,7 @@ export const selectAvatarConversationById = createSelector(
   }
 );
 
-export const selectConversationIds = createSelector(
+export const selectConversationIds = createDraftSafeSelector(
   selectDirectIds,
   selectGroupIds,
   (state: RootState) => state.ui.selectedConversationType,

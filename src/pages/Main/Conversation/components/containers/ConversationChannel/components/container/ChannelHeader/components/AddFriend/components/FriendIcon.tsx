@@ -8,7 +8,7 @@ import {
   NotificationContainer,
   SvgIconContainer,
 } from "../styles/FriendIcon.decorate";
-import { IconBlocked, IconCheck, IconPending, IconPlus } from "./Icon";
+import { IconRelationShip } from "./Icon";
 interface FriendIconProps {
   relationship: Relationship;
   loadState: LoadState;
@@ -26,36 +26,16 @@ const FriendIcon: FC<FriendIconProps> = ({ relationship, loadState }) => {
             </IconContainer>
           )}
           {loadState !== "loading" && (
-            <>
-              <AnimatePresence mode='wait'>
-                {relationship === "guest" && (
-                  <IconContainer {...Animation} custom={1}>
-                    <IconPlus />
-                  </IconContainer>
-                )}
-              </AnimatePresence>
-              <AnimatePresence mode='wait'>
-                {relationship === "friend" && (
-                  <IconContainer {...Animation} custom={1}>
-                    <IconCheck />
-                  </IconContainer>
-                )}
-              </AnimatePresence>
-              <AnimatePresence mode='wait'>
-                {relationship === "pending" && (
-                  <IconContainer {...Animation} custom={1}>
-                    <IconPending />
-                  </IconContainer>
-                )}
-              </AnimatePresence>
-              <AnimatePresence mode='wait'>
-                {relationship === "block" && (
-                  <IconContainer {...Animation} custom={1}>
-                    <IconBlocked />
-                  </IconContainer>
-                )}
-              </AnimatePresence>
-            </>
+            <AnimatePresence mode='popLayout'>
+              {Object.entries(IconRelationShip).map(
+                ([key, Component], index) =>
+                  relationship === key && (
+                    <IconContainer {...Animation} key={index} custom={1}>
+                      <Component />
+                    </IconContainer>
+                  )
+              )}
+            </AnimatePresence>
           )}
         </AnimatePresence>
       </NotificationContainer>

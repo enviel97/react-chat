@@ -1,3 +1,4 @@
+import { IconActionColor } from "@components/WebRTC/utils/color";
 import {
   IconButtonAfterShaddow,
   IconButtonContainerShaddow,
@@ -12,20 +13,11 @@ export const IconButtonContainer = styled(motion.div)<IconButtonDecorate>`
   display: flex;
   align-items: center;
   justify-content: center;
-  color: ${({ theme, $type }) => {
-    switch ($type) {
-      case "Answer":
-        return "#09b617";
-      case "Stop":
-        return `${theme.notificationColor}`;
-      default:
-        return `${theme.surfaceColor}`;
-    }
-  }};
   box-shadow: ${IconButtonContainerShaddow};
   border-radius: 50%;
   cursor: pointer;
-  background-color: currentColor;
+  background-color: var(--background-color);
+  color: ${IconActionColor};
 
   &::before {
     content: "";
@@ -38,7 +30,7 @@ export const IconButtonContainer = styled(motion.div)<IconButtonDecorate>`
     transform: scaleX(0.83);
     border-radius: 50%/ 59% 59% 41% 41%;
     background: linear-gradient(
-      rgba(255, 255, 255, 0.6),
+      rgba(255, 255, 255, 0.4),
       rgba(255, 255, 255, 0.1)
     );
   }
@@ -58,7 +50,7 @@ export const IconButtonContainer = styled(motion.div)<IconButtonDecorate>`
 export const IconRingWave = styled(motion.div)`
   position: absolute;
   opacity: 0.5;
-  border: solid currentColor;
+  border: solid #80808080;
   border-radius: 50%;
   height: 100%;
   width: 100%;
@@ -69,4 +61,5 @@ export const IconBox = styled(motion.div)`
   display: flex;
   align-items: center;
   justify-content: center;
+  color: currentColor;
 `;

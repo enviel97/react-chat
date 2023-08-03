@@ -1,50 +1,38 @@
 import useAppSelector from "@hooks/useAppSelector";
-import { selectCallById } from "@store/slices/call";
-import { AnimatePresence } from "framer-motion";
-import { FC, memo, useEffect, useState } from "react";
+import { callSelector, peerSelector } from "@store/slices/call";
+import { FC, memo } from "react";
 import CallingAction from "./components/container/CallingAction";
-import PersonCall from "./components/container/PersonCall";
-import { CallingViewAnimation } from "./styles/CallingView.animate";
+import LocalPersonCall from "./components/container/LocalPersonCall";
+import RemotePersonCall from "./components/container/RemotePersonCall";
+import useAutoEnded from "./hooks/useAutoEnded";
+import usePeerCall from "./hooks/usePeerCall";
+import { CallingViewAnimation } from "./styles/CallingView/CallingView.animate";
 import {
   CallingContainer,
   CallingViewContainer,
   CallingViewOverplay,
-} from "./styles/CallingView.decorate";
+} from "./styles/CallingView/CallingView.decorate";
 
-const CallingView: FC<CallingViewProps> = ({ callerId }) => {
-  const [callerStream, setCallerStream] = useState<MediaStream>();
-  const [receiverStream, setReceiverStream] = useState<MediaStream>();
-  const callChannel = useAppSelector((state) =>
-    selectCallById(state, callerId)
-  );
+interface CallingViewProps {
+  callId: string;
+}
 
-  useEffect(() => {
-    if (!callChannel || !callChannel.connection) return;
-    const connection = callChannel.connection;
-    setCallerStream(connection.localStream);
-    // receiver
-    connection.on("stream", (remoteStream) => {
-      setReceiverStream(remoteStream);
-    });
-  }, [callChannel]);
+const CallingView: FC<CallingViewProps> = ({ callId }) => {
+  const currentCall = useAppSelector(callSelector.selectCurrentCall);
+  const localStream = useAppSelector(peerSelector.selectMediaStream);
+  const remoteStream = usePeerCall(localStream);
+  const status: CallStatus = currentCall?.status ?? "connection";
+  useAutoEnded({ callId: callId, status: status });
 
   return (
     <CallingViewOverplay {...CallingViewAnimation.overlay}>
-      <AnimatePresence mode='wait'>
-        <CallingViewContainer {...CallingViewAnimation.container}>
-          <CallingContainer>
-            <PersonCall
-              stream={callerStream}
-              metadata={{ name: "", avatar: "" }}
-            />
-            <PersonCall
-              stream={receiverStream}
-              metadata={{ name: "", avatar: "" }}
-            />
-          </CallingContainer>
-          <CallingAction />
-        </CallingViewContainer>
-      </AnimatePresence>
+      <CallingViewContainer {...CallingViewAnimation.container}>
+        <CallingContainer>
+          <LocalPersonCall stream={localStream} />
+          <RemotePersonCall stream={remoteStream} />
+        </CallingContainer>
+        <CallingAction callId={callId} status={status} />
+      </CallingViewContainer>
     </CallingViewOverplay>
   );
 };

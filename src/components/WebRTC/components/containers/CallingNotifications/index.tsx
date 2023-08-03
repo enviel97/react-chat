@@ -1,5 +1,5 @@
 import useAppSelector from "@hooks/useAppSelector";
-import { selectCallIds } from "@store/slices/call";
+import { callSelector } from "@store/slices/call";
 import { AnimatePresence } from "framer-motion";
 import { memo } from "react";
 import CallNotification from "./components/CallNotification";
@@ -10,19 +10,19 @@ import {
 import { CallNotificationAnimation } from "./styles/CallNotification.animate";
 
 const CallingNotifications = () => {
-  const callingNotification = useAppSelector(selectCallIds);
+  const incomingCalls = useAppSelector(callSelector.selectIncomingCalls);
   return (
     <CallNotificationContainer>
       <AnimatePresence mode='popLayout'>
-        {callingNotification.map((call, index) => {
+        {incomingCalls.map((connectionId, index) => {
           return (
             <CallNotificationItem
               {...CallNotificationAnimation.item}
               layout
               custom={index}
-              key={call}
+              key={connectionId}
             >
-              <CallNotification connectionId={call.toString()} />
+              <CallNotification connectionId={`${connectionId}`} />
             </CallNotificationItem>
           );
         })}

@@ -1,5 +1,5 @@
+import useCall from "@components/WebRTC/hooks/useCall";
 import useAppDispatch from "@hooks/useAppDispatch";
-import { callingApi } from "@store/repo/call";
 import { fetchAddConversation } from "@store/repo/conversation";
 import { FC, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
@@ -21,6 +21,7 @@ const Container = styled.div`
 const FriendActions: FC<FriendAction> = ({ friendId }) => {
   const navigator = useNavigate();
   const dispatch = useAppDispatch();
+  const { trigger: call } = useCall(friendId);
 
   const handleMessageToFriend = useCallback(async () => {
     const { conversation: response } = await dispatch(
@@ -32,31 +33,14 @@ const FriendActions: FC<FriendAction> = ({ friendId }) => {
     navigator(`/conversation/messenger/${response.data.getId()}`);
   }, [dispatch, navigator, friendId]);
 
-  const handleVideoCall = useCallback(() => {
-    dispatch(
-      callingApi({
-        receiver: friendId,
-        camera: true,
-        microphone: false,
-      })
-    );
-  }, [friendId]);
-
-  const handlePhoneCall = useCallback(() => {
-    dispatch(
-      callingApi({
-        receiver: friendId,
-        camera: false,
-        microphone: false,
-      })
-    );
-  }, [friendId]);
+  const handleCall = useCallback(async () => {
+    await call();
+  }, [call]);
 
   return (
     <Container>
       <IconClick icon='message' onClick={handleMessageToFriend} />
-      <IconClick icon='video_call' onClick={handleVideoCall} />
-      <IconClick icon='audio_call' onClick={handlePhoneCall} />
+      <IconClick icon='video_call' onClick={handleCall} />
       <IconClick icon='unfriend' onClick={() => {}} />
     </Container>
   );

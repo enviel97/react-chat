@@ -1,4 +1,4 @@
-type ButtonType = "Answer" | "Stop";
+type ButtonType = "Phone" | "PhoneOff";
 
 type CallType = "VideoCall" | "PhoneCall";
 
@@ -14,4 +14,5 @@ interface IconButtonProps {
   type?: ButtonType;
   animation?: IconAnimationVariants;
   onClick?: React.MouseEventHandler<HTMLDivElement>;
+  disabled?: boolean;
 }

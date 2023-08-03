@@ -1,3 +1,0 @@
-interface CallingViewProps {
-  callerId: string;
-}

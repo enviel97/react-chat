@@ -19,11 +19,20 @@ export const CallNotificationInfo = styled.div`
   align-items: center;
   justify-content: flex-start;
   gap: 1em;
-  font-weight: bold;
-  font-size: ${clampSize({
-    maxWidth: 1980,
-    minWidth: 320,
-    maxFontSize: 1.25,
-    minFontSize: 1.125,
-  })};
+
+  & span {
+    color: var(--disable-color);
+    font-weight: normal;
+    font-size: ${clampSize({
+      maxWidth: 1980,
+      minWidth: 320,
+      maxFontSize: 1.25,
+      minFontSize: 1.125,
+    })};
+  }
+  & b {
+    font-weight: bold;
+    color: var(--on-background-color);
+    margin-right: 0.5ch;
+  }
 `;
