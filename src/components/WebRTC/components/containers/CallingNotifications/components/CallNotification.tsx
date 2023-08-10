@@ -1,5 +1,8 @@
 import { FC, Fragment } from "react";
-import { CallNotificationAction } from "../styles/CallNotification.decorate";
+import {
+  CallNotificationAction,
+  CallNotificationContentContainer,
+} from "../styles/CallNotification.decorate";
 import useAppSelector from "@hooks/useAppSelector";
 import { callSelector } from "@store/slices/call";
 import IconButton from "@components/WebRTC/components/ui/IconButton";
@@ -22,13 +25,13 @@ const CallNotification: FC<CallNotificationProps> = ({ connectionId }) => {
 
   // hook data in here
   return (
-    <Fragment>
+    <CallNotificationContentContainer>
       <CallInfomation name={connection.name} avatar={connection.avatar} />
       <CallNotificationAction>
         <IconButton type='Phone' onClick={handleAnswerCall} animation='ring' />
         <IconButton type='PhoneOff' onClick={handleEndedCall} />
       </CallNotificationAction>
-    </Fragment>
+    </CallNotificationContentContainer>
   );
 };
 

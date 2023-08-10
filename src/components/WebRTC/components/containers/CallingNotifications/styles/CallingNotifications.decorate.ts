@@ -18,9 +18,9 @@ export const CallNotificationContainer = styled.div`
   transform: translateX(-50%);
 
   ${breakpoint.down("tablet")} {
-    bottom: 0;
-    top: auto;
-    left: 1em;
+    top: 2rem;
+    right: 2rem;
+    left: auto;
     transform: none;
   }
 `;
