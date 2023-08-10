@@ -1,5 +1,16 @@
-import { clampSize } from "@theme/helper/tools";
+import { clampSize, textMaxLine } from "@theme/helper/tools";
 import styled from "styled-components";
+
+export const CallNotificationContentContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
+`;
 
 export const CallNotificationAction = styled.div`
   display: flex;
@@ -8,28 +19,29 @@ export const CallNotificationAction = styled.div`
   align-items: center;
   justify-content: flex-end;
   gap: 1em;
-  overflow: hidden;
-  width: 10em;
+  width: fit-content;
+  padding: 0.5em;
 `;
 
 export const CallNotificationInfo = styled.div`
-  flex: 1;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: 1em;
+  padding: 0em 0.5em;
+`;
 
-  & span {
-    color: var(--disable-color);
-    font-weight: normal;
-    font-size: ${clampSize({
-      maxWidth: 1980,
-      minWidth: 320,
-      maxFontSize: 1.25,
-      minFontSize: 1.125,
-    })};
-  }
+export const CallNotificationText = styled.span`
+  color: var(--disable-color);
+  width: 20rem;
+  font-size: ${clampSize({
+    maxWidth: 1980,
+    minWidth: 320,
+    maxFontSize: 1.125,
+    minFontSize: 1,
+  })};
+  ${textMaxLine(2)}
   & b {
     font-weight: bold;
     color: var(--on-background-color);
