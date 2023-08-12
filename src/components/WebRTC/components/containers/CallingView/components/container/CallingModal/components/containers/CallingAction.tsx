@@ -2,14 +2,14 @@ import IconButton from "@components/WebRTC/components/ui/IconButton";
 import useEndedCall from "@components/WebRTC/hooks/useEndedCall";
 import { AnimatePresence } from "framer-motion";
 import { FC, memo } from "react";
-import { CallingActionAnimation } from "../../styles/CallingAction/CallingAction.animate";
+import PersonCallTime from "../../../../ui/PersonCallTime";
+import { CallingActionAnimation } from "../../styles/CallingAction/animate";
 import {
   CallingActionContainer,
   CallingActionLight,
   CallingActionNotification,
   StatusContainer,
-} from "../../styles/CallingAction/CallingAction.decorate";
-import PersonCallTime from "../ui/PersonCallTime";
+} from "../../styles/CallingAction/decorate";
 
 interface CallingActionProps {
   callId: string;
@@ -25,9 +25,6 @@ const statusList: CallStatus[] = [
 
 const CallingAction: FC<CallingActionProps> = ({ callId, status }) => {
   const handleEndedCall = useEndedCall(callId);
-
-  // TODO: time counter
-
   return (
     <CallingActionContainer>
       <StatusContainer>

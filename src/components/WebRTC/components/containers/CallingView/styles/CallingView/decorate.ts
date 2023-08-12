@@ -1,6 +1,5 @@
 import { zIndex } from "@common/zIndex.define";
 import { CallNotificationContainerShadow } from "@components/WebRTC/utils/shaddow";
-import { breakpoint } from "@theme/helper/breakpoint";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
@@ -20,26 +19,15 @@ export const CallingViewOverplay = styled(motion.div)`
 
 export const CallingViewContainer = styled(motion.div)`
   position: relative;
-  height: clamp(80svh, 720px + 1svh, 90svh);
-  width: clamp(70svw, 1260px + 1svh, 90svw);
+  height: clamp(80svh, 720px + 1svw, 95svh);
+  width: clamp(70svw, 1260px + 1svw, 95svw);
+  aspect-ratio: 400 / 240;
   background-color: var(--background-color);
   display: block;
   box-sizing: border-box;
-  padding: 1em 1em;
-  box-shadow: ${CallNotificationContainerShadow};
   border: none;
   overflow: hidden;
   pointer-events: auto;
-`;
-
-export const CallingContainer = styled.div`
-  display: flex;
-  height: 100%;
-  width: 100%;
-  gap: 1em;
-  padding: 1em;
-
-  ${breakpoint.down("tablet")} {
-    flex-direction: column;
-  }
+  border-radius: 20px;
+  box-shadow: ${CallNotificationContainerShadow};
 `;

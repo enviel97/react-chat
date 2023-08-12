@@ -1,7 +1,7 @@
 import { CallNotificationContainerShadow } from "@components/WebRTC/utils/shaddow";
 import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
-import { acceptLight } from "./CallingAction.animate";
+import { acceptLight } from "./animate";
 
 export const CallingActionContainer = styled.div`
   position: absolute;
@@ -12,7 +12,7 @@ export const CallingActionContainer = styled.div`
   border-radius: 100px;
   margin-top: 1em;
   display: flex;
-  height: 5%;
+  height: 36px;
   width: 250px;
   border-top: 10%;
   padding: 0 1em;

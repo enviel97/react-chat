@@ -15,7 +15,6 @@ const WebRTCProvider = () => {
 
   return (
     <WebRTCContainer>
-      {/* <CallingView callId={selectCall ?? ""} /> */}
       {selectCall && <CallingView callId={selectCall} />}
       <CallingNotifications />
     </WebRTCContainer>

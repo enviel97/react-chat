@@ -9,7 +9,8 @@ interface LiveScreenProps {
 const LiveScreenWrapper = styled(motion.video)`
   height: 100%;
   width: 100%;
-  object-fit: contain;
+  object-fit: cover;
+  background-color: var(--background-color);
 `;
 
 const variants = {
@@ -24,6 +25,7 @@ const LiveScreen: FC<LiveScreenProps> = ({ stream }) => {
     const video = target.current;
     if (!stream || !video) return;
     video.srcObject = stream;
+    video.onloadedmetadata = video.play;
   }, [stream]);
 
   return (
@@ -36,7 +38,7 @@ const LiveScreen: FC<LiveScreenProps> = ({ stream }) => {
           exit='hidden'
           autoPlay
           playsInline
-          preload='none'
+          preload='auto'
           controls={false}
           ref={target}
         />

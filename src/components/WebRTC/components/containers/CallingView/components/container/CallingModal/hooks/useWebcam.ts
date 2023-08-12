@@ -1,13 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 
 const useWebcam = (stream?: MediaStream, defaultState?: boolean) => {
-  const [live, setLive] = useState(defaultState);
+  const [live, setLive] = useState<boolean>();
   const webcamTracks = useRef<MediaStreamTrack[]>();
-
-  // update state with props
-  useEffect(() => {
-    setLive(!!defaultState);
-  }, [defaultState]);
 
   useEffect(() => {
     const tracks = stream?.getVideoTracks();
@@ -16,6 +11,7 @@ const useWebcam = (stream?: MediaStream, defaultState?: boolean) => {
     tracks.forEach((track) => {
       track.enabled = !!defaultState;
     });
+    setLive(!!defaultState);
   }, [stream, defaultState]);
 
   const handleLiveScreen = useCallback(() => {

@@ -1,13 +1,13 @@
 import { FC } from "react";
-import { PersonCallAnimation } from "./styles/InformationCall.decorate";
+import { AnimatePresence } from "framer-motion";
 import {
   PersonCallAvatarContainer,
   PersonCallInfoContainer,
   PersonCallName,
   PersonConnectionWave,
-} from "./styles/InformationCall.animate";
-import PersonCallAvatar from "../../ui/PersonCallAvatar";
-import { AnimatePresence } from "framer-motion";
+} from "../../styles/InfomationCall/decorate";
+import { PersonCallAnimation } from "../../styles/InfomationCall/animate";
+import PersonCallAvatar from "../ui/PersonCallAvatar";
 
 interface InformationCallProps {
   name?: string;
@@ -18,9 +18,14 @@ interface InformationCallProps {
 }
 
 const InformationCall: FC<InformationCallProps> = ({
+  // Infomation
   name,
   avatar,
+
+  // state
   camera,
+
+  // type
   isRemote,
   isConnected,
 }) => {
