@@ -1,4 +1,4 @@
-import { IconBase } from "@components/Icon";
+import IconBase from "@components/Icon";
 import useCall from "@components/WebRTC/hooks/useCall";
 import { motion } from "framer-motion";
 import { FC, memo, useEffect, useState } from "react";

@@ -1,8 +1,16 @@
-import { FC, Fragment } from "react";
-import CallingAction from "./components/containers/CallingAction";
+import { FC } from "react";
+import CallingAction from "./components/ui/CallingAction";
 import RemotePersonCall from "./components/containers/RemotePersonCall";
 import useAutoEnded from "./hooks/useAutoEnded";
-import { CallingContainer } from "./styles/CallingModal/decorate";
+import {
+  CallingContainer,
+  CallingInfoContainer,
+} from "./styles/CallingModal/decorate";
+import Animate from "./styles/CallingModal/animate";
+import useAppSelector from "@hooks/useAppSelector";
+import { selectRemoteInfo } from "@store/slices/call/selectors/call.selector";
+import useTimer from "./hooks/useTimer";
+import LocalPersonCall from "./components/containers/LocalPersonCall";
 
 interface CallingModalProps {
   remoteStream?: MediaStream;
@@ -17,15 +25,20 @@ const CallingModal: FC<CallingModalProps> = ({
   remoteStream,
   localStream,
 }) => {
+  const remoteInfo = useAppSelector(selectRemoteInfo);
+  // const timer = useTimer(status === "answer");
+  const timer = useTimer(status === "answer");
   // useAutoEnded({ callId: callId, status: status });
   return (
-    <Fragment>
-      <CallingContainer>
-        <RemotePersonCall stream={remoteStream} />
-        {/* <LocalPersonCall stream={localStream} /> */}
-      </CallingContainer>
-      <CallingAction callId={callId} status={status} />
-    </Fragment>
+    <CallingContainer {...Animate.Container}>
+      <RemotePersonCall stream={remoteStream} avatar={remoteInfo?.avatar} />
+      <LocalPersonCall stream={localStream} />
+      <CallingInfoContainer>
+        <CallingAction callId={callId} status={status} />
+        <h6>{remoteInfo?.name ?? "@Calling"}</h6>
+        {timer && <span>{timer}</span>}
+      </CallingInfoContainer>
+    </CallingContainer>
   );
 };
 

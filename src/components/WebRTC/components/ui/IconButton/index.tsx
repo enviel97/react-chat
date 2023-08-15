@@ -1,5 +1,5 @@
 // import { IconButtonMap } from "@components/WebRTC/common/icon";
-import { IconBase } from "@components/Icon";
+import IconBase from "@components/Icon";
 import { FC, memo, MouseEventHandler } from "react";
 import { IconButtonAnimation } from "./styles/IconButton.animation";
 import {

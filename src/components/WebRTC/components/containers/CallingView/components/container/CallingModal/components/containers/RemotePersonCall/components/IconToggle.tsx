@@ -1,8 +1,8 @@
-import { IconBase } from "@components/Icon";
-import { FC, Fragment, useEffect, useState } from "react";
-import Styles from "../../styles/IconToggle.decorate";
+import IconBase from "@components/Icon";
+import { FC, useState } from "react";
+import Styles from "../styles/IconToggle.decorate";
 
-interface IconToggleProps {
+interface IconToggleProps extends Pick<KTooltip, "data-tooltip-id"> {
   name: "Audio" | "Webcam";
   disabled?: boolean;
   defaultChecked?: boolean;
@@ -14,6 +14,7 @@ const IconToggle: FC<IconToggleProps> = ({
   disabled,
   onClick,
   defaultChecked = false,
+  ...tooltip
 }) => {
   const [checked, setChecked] = useState<boolean>(defaultChecked);
 
@@ -25,25 +26,19 @@ const IconToggle: FC<IconToggleProps> = ({
   };
 
   return (
-    <Fragment>
-      <Styles.Box
+    <Styles.Box
+      {...tooltip}
+      data-tooltip-content={disabled ? "disabled" : checked ? "on" : "off"}
+    >
+      <Styles.Button
         disabled={disabled}
         onClick={handleClick}
         name={name}
         $checked={checked}
       >
         <IconBase name={name} size={"2.75em"} />
-        {disabled && (
-          <Styles.Disabled>
-            <IconBase name='Reject' size='1.5rem' />
-          </Styles.Disabled>
-        )}
-      </Styles.Box>
-      <Styles.Hint anchorSelect={`${Styles.Box}[name='${name}']`} place='left'>
-        {checked && "on"}
-        {!checked && "off"}
-      </Styles.Hint>
-    </Fragment>
+      </Styles.Button>
+    </Styles.Box>
   );
 };
 

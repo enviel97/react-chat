@@ -1,10 +1,7 @@
-import { MotionProps } from "framer-motion";
+import type { MotionProps } from "framer-motion";
 type Animate = RemotePersonAvatarAnimate<MotionProps>;
 
 const RemotePersonAvatar = Object.freeze<Animate>({
-  Container: {
-    layout: true,
-  },
   Wave: {
     variants: {
       initial: { scale: 0.75 },

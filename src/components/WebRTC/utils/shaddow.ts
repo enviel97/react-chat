@@ -63,3 +63,18 @@ export const CallAvatarContainerShadow = ({
     spread: -0.1,
   });
 };
+
+export const LocalPersonCallContainerShadow = ({
+  theme,
+}: ThemeProps<DefaultTheme>) => {
+  const colorSmooth = {
+    color: theme.backgroundColor,
+    blur: 0.5,
+    spread: -0.0625,
+  };
+
+  return shaddow.boxShadow(
+    { ...colorSmooth, x: 0.25, y: 0.25, brightness: -50 },
+    { ...colorSmooth, x: -0.25, y: -0.25, brightness: 10 }
+  );
+};

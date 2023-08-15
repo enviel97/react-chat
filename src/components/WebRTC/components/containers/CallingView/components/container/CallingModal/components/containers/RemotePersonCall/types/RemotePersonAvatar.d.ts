@@ -7,7 +7,6 @@ interface RemotePersonAvatarProps {
 }
 
 interface RemotePersonAvatarAnimate<T> {
-  Container: T;
   Wave: T;
 }
 

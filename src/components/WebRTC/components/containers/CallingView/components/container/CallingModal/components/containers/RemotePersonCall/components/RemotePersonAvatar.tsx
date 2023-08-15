@@ -1,6 +1,6 @@
 import { FC, useMemo } from "react";
-import Styles from "./styles/RemotePersonAvatar.decorate";
-import Animate from "./styles/RemotePersonAvatar.animate";
+import Styles from "../styles/RemotePersonAvatar/decorate";
+import Animate from "../styles/RemotePersonAvatar/animate";
 import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 
 const RemotePersonAvatar: FC<RemotePersonAvatarProps> = ({

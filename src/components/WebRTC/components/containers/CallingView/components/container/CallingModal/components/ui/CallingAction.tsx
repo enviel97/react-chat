@@ -2,7 +2,6 @@ import IconButton from "@components/WebRTC/components/ui/IconButton";
 import useEndedCall from "@components/WebRTC/hooks/useEndedCall";
 import { AnimatePresence } from "framer-motion";
 import { FC, memo } from "react";
-import PersonCallTime from "../../../../ui/PersonCallTime";
 import { CallingActionAnimation } from "../../styles/CallingAction/animate";
 import {
   CallingActionContainer,
@@ -37,7 +36,7 @@ const CallingAction: FC<CallingActionProps> = ({ callId, status }) => {
                   {...CallingActionAnimation.text}
                   key={value}
                 >
-                  {status === "answer" ? <PersonCallTime /> : value}
+                  {value}
                 </CallingActionNotification>
               )
           )}

@@ -119,7 +119,6 @@ const GlobalStyle = createGlobalStyle`
     text-rendering: geometricPrecision;
     fill-rule: evenodd;
     clip-rule: evenodd;
-    image-rendering: optimizeQuality;
   }
 
   img, picture, svg {

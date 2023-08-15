@@ -1,28 +1,8 @@
 import { CallNotificationContainerShadow } from "@components/WebRTC/utils/shaddow";
+import { breakpoint } from "@theme/helper/breakpoint";
 import { motion } from "framer-motion";
 import styled, { css } from "styled-components";
 import { acceptLight } from "./animate";
-
-export const CallingActionContainer = styled.div`
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translate(-50%);
-  background-color: var(--background-color);
-  border-radius: 100px;
-  margin-top: 1em;
-  display: flex;
-  height: 36px;
-  width: 250px;
-  border-top: 10%;
-  padding: 0 1em;
-  gap: 0.5rem;
-  user-select: none;
-
-  align-items: center;
-  justify-content: center;
-  box-shadow: ${CallNotificationContainerShadow};
-`;
 
 export const StatusContainer = styled(motion.div)`
   flex: 1;
@@ -35,6 +15,29 @@ export const StatusContainer = styled(motion.div)`
   font-weight: bold;
   align-items: center;
   border-right: 2px solid var(--surface-color);
+`;
+
+export const CallingActionContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 2.25em;
+  width: 16em;
+  padding: 0 1em;
+  border-radius: 100px;
+  gap: 0.5rem;
+  user-select: none;
+  background-color: var(--background-color);
+  box-shadow: ${CallNotificationContainerShadow};
+
+  ${breakpoint.down("tablet")} {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    margin: 1em 0;
+  }
 `;
 
 /**

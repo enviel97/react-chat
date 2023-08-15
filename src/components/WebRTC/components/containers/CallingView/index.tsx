@@ -25,7 +25,13 @@ const CallingView: FC<CallingViewProps> = ({ callId }) => {
     <CallingViewOverplay {...CallingViewAnimation.overlay}>
       <CallingViewContainer {...CallingViewAnimation.container}>
         <AnimatePresence>
-          {!currentCall && <CallingNotification />}
+          <CallingModal
+            remoteStream={remoteStream}
+            localStream={localStream}
+            callId={currentCall?.connectionId ?? ""}
+            status={currentCall?.status ?? "connection"}
+          />
+          {/* {!currentCall && <CallingNotification />}
           {currentCall && (
             <CallingModal
               remoteStream={remoteStream}
@@ -33,7 +39,7 @@ const CallingView: FC<CallingViewProps> = ({ callId }) => {
               callId={currentCall?.connectionId ?? ""}
               status={currentCall?.status ?? "connection"}
             />
-          )}
+          )} */}
         </AnimatePresence>
       </CallingViewContainer>
     </CallingViewOverplay>

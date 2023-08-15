@@ -1,4 +1,4 @@
-import { memo, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const format = (tick: number) => (tick < 10 ? `0${tick}` : `${tick}`);
 
@@ -9,7 +9,7 @@ const MINUTE = SECOND * 60,
 const HOUR = MINUTE * 60,
   LIMIT_HOUR = 24; // a hour
 
-const PersonCallTime = () => {
+const useTimer = (start: boolean) => {
   const [tick, setTick] = useState(0);
   const [minute, setMinute] = useState(0);
   const [second, setSecond] = useState(0);
@@ -26,6 +26,7 @@ const PersonCallTime = () => {
   }, [tick]);
 
   useEffect(() => {
+    if (!start) return;
     const id = setInterval(() => {
       setTick((prev) => prev + 1);
     }, 1000);
@@ -33,14 +34,15 @@ const PersonCallTime = () => {
     return () => {
       clearInterval(id);
     };
-  }, []);
+  }, [start]);
 
   const timer = useMemo(() => {
+    if (!start) return;
     if (!hour) return [format(minute), format(second)].join(":");
     return [format(hour), format(minute), format(second)].join(":");
-  }, [minute, second, hour]);
+  }, [minute, second, hour, start]);
 
-  return <span>{timer}</span>;
+  return timer;
 };
 
-export default memo(PersonCallTime);
+export default useTimer;

@@ -1,4 +1,3 @@
-import { Tooltip } from "react-tooltip";
 import styled from "styled-components";
 
 interface IconToggleDecorateProps {
@@ -6,16 +5,14 @@ interface IconToggleDecorateProps {
 }
 
 const IconToggleDecorate = Object.freeze({
-  Hint: styled(Tooltip)`
-    background-color: var(--background-color);
-  `,
   Disabled: styled.span`
     position: absolute;
     bottom: 0em;
     left: 50%;
     filter: drop-shadow(0 0 0.2em #212121) drop-shadow(0 0 0.4em #212121);
   `,
-  Box: styled.button<IconToggleDecorateProps>`
+  Box: styled.div``,
+  Button: styled.button<IconToggleDecorateProps>`
     position: relative;
     width: fit-content;
     height: fit-content;
