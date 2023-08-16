@@ -179,6 +179,8 @@ export const textMaxLine = (
     overflow: hidden;
     text-overflow: ${textOverflow ?? "ellipsis"};
     line-clamp: ${maxLines};
+    overflow-wrap: break-word;
+    hyphens: manual;
     -webkit-line-clamp: ${maxLines}; /* number of lines to show */
     -webkit-box-orient: vertical;
   `;

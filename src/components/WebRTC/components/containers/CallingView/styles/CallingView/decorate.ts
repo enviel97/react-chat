@@ -13,7 +13,8 @@ export const CallingViewOverplay = styled(motion.div)`
   height: 100%;
   width: 100%;
   background-color: ${({ theme }) => `${theme.backgroundColor}cc`};
-  pointer-events: none;
+  pointer-events: fill;
+  user-select: none;
   z-index: ${zIndex.onTop};
 `;
 

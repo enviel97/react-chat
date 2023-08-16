@@ -2,6 +2,7 @@ interface LocalPersonCallProps {
   stream?: MediaStream;
   camera?: boolean;
   microphone?: boolean;
+  expanded?: boolean;
 }
 
 type LocalPersonCallAnimateState = "expanded" | "collapsed";

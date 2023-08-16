@@ -14,11 +14,18 @@ import string from "@utils/string";
 interface RemotePersonCallProps {
   avatar?: string;
   stream?: MediaStream;
+  camera?: boolean;
+  microphone?: boolean;
 }
 
-const RemotePersonCall: FC<RemotePersonCallProps> = ({ stream, avatar }) => {
-  const { live, handleLiveScreen } = useWebcam(stream, true);
-  const { handleLiveAudio } = useAudio(stream);
+const RemotePersonCall: FC<RemotePersonCallProps> = ({
+  stream,
+  avatar,
+  camera,
+  microphone,
+}) => {
+  const { live, handleLiveScreen } = useWebcam(stream, camera);
+  const { handleLiveAudio } = useAudio(stream, microphone);
   const tooltipId = string.genId("LocalActionTooltip");
 
   return (

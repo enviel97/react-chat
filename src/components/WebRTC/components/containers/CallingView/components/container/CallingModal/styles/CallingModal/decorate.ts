@@ -1,5 +1,5 @@
 import { breakpoint } from "@theme/helper/breakpoint";
-import { colorBrightness, textMaxLine } from "@theme/helper/tools";
+import { textMaxLine } from "@theme/helper/tools";
 import { motion } from "framer-motion";
 import styled from "styled-components";
 
@@ -16,40 +16,39 @@ export const CallingContainer = styled(motion.div)`
   }
 `;
 
+export const CallingDisplayName = styled.span`
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+  text-align: left;
+  width: 100%;
+  font-size: 1.2rem;
+
+  & b {
+    color: var(--white);
+    font-size: 125%;
+    ${textMaxLine(2)}
+  }
+`;
 export const CallingInfoContainer = styled.div`
   display: flex;
   flex-direction: column;
-  align-items: stretch;
+  align-items: center;
   justify-content: flex-start;
   background-color: var(--background-color);
-  gap: 0.5em;
   z-index: 1;
+  color: var(--gray);
 
-  & h6 {
-    font-weight: bold;
-    color: ${({ theme }) => colorBrightness(theme.gray, -20)};
-    text-align: right;
-    ${textMaxLine(2)}
-  }
-  & > span {
-    font-weight: bold;
-    font-size: 1.5em;
-    text-align: right;
-  }
   /* Normal */
   height: 100%;
-  width: auto;
+  width: 25rem;
   padding: 1em;
   box-shadow: -1em 0 1em rgba(0, 0, 0, 0.75);
 
   ${breakpoint.down("tablet")} {
     height: auto;
-    min-height: 10rem;
+    min-height: 7em;
     width: 100%;
     box-shadow: 0 -1em 1em rgba(0, 0, 0, 0.75);
-    & h4,
-    & span {
-      text-align: left;
-    }
   }
 `;

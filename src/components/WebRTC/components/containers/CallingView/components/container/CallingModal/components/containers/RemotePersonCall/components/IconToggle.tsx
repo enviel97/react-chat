@@ -19,10 +19,9 @@ const IconToggle: FC<IconToggleProps> = ({
   const [checked, setChecked] = useState<boolean>(defaultChecked);
 
   const handleClick = () => {
-    setChecked((prev) => {
-      onClick && onClick(!prev);
-      return !prev;
-    });
+    const state = !checked;
+    onClick && onClick(state);
+    setChecked(state);
   };
 
   return (

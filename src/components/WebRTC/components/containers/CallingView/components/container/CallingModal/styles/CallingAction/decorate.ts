@@ -23,7 +23,8 @@ export const CallingActionContainer = styled.div`
   justify-content: center;
 
   height: 2.25em;
-  width: 16em;
+  width: 100%;
+  max-width: 18em;
   padding: 0 1em;
   border-radius: 100px;
   gap: 0.5rem;

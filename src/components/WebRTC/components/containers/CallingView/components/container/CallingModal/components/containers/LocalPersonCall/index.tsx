@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import Styles from "./styles/LocalPersonCall.decorate";
 import Animate from "./styles/LocalPersonCall.animate";
 import LiveScreen from "../../ui/LiveScreen";
@@ -14,12 +14,20 @@ const LocalPersonCall: FC<LocalPersonCallProps> = ({
   stream,
   microphone,
   camera,
+  expanded,
 }) => {
   const controls = useAnimationControls();
   const duration = 0.8;
   const { handleLiveScreen } = useWebcam(stream, camera);
   const { handleLiveAudio } = useAudio(stream, microphone);
   const tooltipId = string.genId("LocalActionTooltip");
+
+  useEffect(() => {
+    if (expanded) controls.set("expanded");
+    else controls.set("collapsed");
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [expanded]);
 
   const handleExpanded = (isExpanded: boolean) => {
     if (isExpanded) controls.start("collapsed");

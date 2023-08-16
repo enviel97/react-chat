@@ -4,13 +4,15 @@ import RemotePersonCall from "./components/containers/RemotePersonCall";
 import useAutoEnded from "./hooks/useAutoEnded";
 import {
   CallingContainer,
+  CallingDisplayName,
   CallingInfoContainer,
 } from "./styles/CallingModal/decorate";
 import Animate from "./styles/CallingModal/animate";
 import useAppSelector from "@hooks/useAppSelector";
 import { selectRemoteInfo } from "@store/slices/call/selectors/call.selector";
-import useTimer from "./hooks/useTimer";
+
 import LocalPersonCall from "./components/containers/LocalPersonCall";
+import Timer from "./components/ui/Timer";
 
 interface CallingModalProps {
   remoteStream?: MediaStream;
@@ -26,17 +28,28 @@ const CallingModal: FC<CallingModalProps> = ({
   localStream,
 }) => {
   const remoteInfo = useAppSelector(selectRemoteInfo);
-  // const timer = useTimer(status === "answer");
-  const timer = useTimer(status === "answer");
-  // useAutoEnded({ callId: callId, status: status });
+  useAutoEnded({ callId: callId, status: status });
   return (
     <CallingContainer {...Animate.Container}>
-      <RemotePersonCall stream={remoteStream} avatar={remoteInfo?.avatar} />
-      <LocalPersonCall stream={localStream} />
+      <RemotePersonCall
+        stream={remoteStream}
+        avatar={remoteInfo?.avatar}
+        camera={true}
+        microphone={false}
+      />
+      <LocalPersonCall
+        stream={localStream}
+        expanded={false}
+        microphone={false}
+        camera={true}
+      />
       <CallingInfoContainer>
         <CallingAction callId={callId} status={status} />
-        <h6>{remoteInfo?.name ?? "@Calling"}</h6>
-        {timer && <span>{timer}</span>}
+        <CallingDisplayName>
+          <span>Calling to</span>
+          <b>{remoteInfo?.name ?? "@DisplayName"}</b>
+        </CallingDisplayName>
+        <Timer status={"answer"} />
       </CallingInfoContainer>
     </CallingContainer>
   );
