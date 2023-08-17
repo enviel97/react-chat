@@ -5,7 +5,7 @@ type CallError = {
 export const CallErrorMapping = Object.freeze<CallError>({
   "peer-unavailable": {
     type: "peer-unavailable",
-    message: "Connect to call channel failure",
+    message: "Connect to call channel failure, please restart and try again",
   },
   "peer-missing": {
     type: "peer-missing",

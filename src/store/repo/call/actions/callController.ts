@@ -19,7 +19,7 @@ export const beginCall = createAsyncThunk<BeginCallResponse>(
       const state = getState() as RootState;
       const [peer, stream] = await Promise.all([
         getPeer(state),
-        devicesPermission({ camera: true, microphone: true }),
+        devicesPermission(),
       ]);
       // trigger
       return { localStream: stream, peer: peer };

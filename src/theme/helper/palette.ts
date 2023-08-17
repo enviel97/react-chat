@@ -61,7 +61,7 @@ const _paletteColor = {
   notificationColor: "#d42333",
   onNotificationColor: "#ffffff",
 
-  errorColor: "#ff0000",
+  errorColor: "#D00000",
   successColor: "#B1FA8E",
   warningColor: "#FCF98B",
 };
@@ -69,7 +69,7 @@ const _paletteColor = {
 export const palette: Palette = {
   dark: {
     themeMode: "dark",
-    gray: "#555555",
+    gray: "#888888",
 
     backgroundColor: "#121212",
     onBackgroundColor: "#d6d6d6",

@@ -1,4 +1,4 @@
-import { DefaultTheme } from "styled-components";
+import { css, DefaultTheme } from "styled-components";
 
 export const colorBrightness = (
   color: string,
@@ -168,4 +168,20 @@ export const imageFilter = (props?: Filter) => {
 
   return `blur(${blur}) brightness(${brightness}) contrast(${contrast}) grayscale(${grayscale})
       hue-rotate(${hueRotate}) invert(${invert}) opacity(${opacity}) saturate(${saturate}) sepia(${sepia})`;
+};
+
+export const textMaxLine = (
+  maxLines: number,
+  textOverflow?: "ellipsis" | "clip" | string
+) => {
+  return css`
+    display: -webkit-box;
+    overflow: hidden;
+    text-overflow: ${textOverflow ?? "ellipsis"};
+    line-clamp: ${maxLines};
+    overflow-wrap: break-word;
+    hyphens: manual;
+    -webkit-line-clamp: ${maxLines}; /* number of lines to show */
+    -webkit-box-orient: vertical;
+  `;
 };

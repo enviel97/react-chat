@@ -30,10 +30,24 @@ export const IconButtonAfterShaddow = (props: ThemeProps<DefaultTheme>) => {
 export const CallNotificationContainerShadow = ({
   theme,
 }: ThemeProps<DefaultTheme>) => {
-  const color = { color: theme.backgroundColor, blur: 0.5, spread: -0.1 };
+  const color = {
+    color: theme.backgroundColor,
+    blur: 0.5,
+    spread: -0.125,
+  };
   return shaddow.boxShadow(
-    { ...color, brightness: 5, x: -0.25, y: -0.25 },
-    { ...color, brightness: -50, x: 0.25, y: 0.25 }
+    {
+      ...color,
+      brightness: 25,
+      x: -0.25,
+      y: -0.25,
+    },
+    {
+      ...color,
+      brightness: -50,
+      x: 0.25,
+      y: 0.25,
+    }
   );
 };
 
@@ -48,4 +62,19 @@ export const CallAvatarContainerShadow = ({
     blur: 1,
     spread: -0.1,
   });
+};
+
+export const LocalPersonCallContainerShadow = ({
+  theme,
+}: ThemeProps<DefaultTheme>) => {
+  const colorSmooth = {
+    color: theme.backgroundColor,
+    blur: 0.5,
+    spread: -0.0625,
+  };
+
+  return shaddow.boxShadow(
+    { ...colorSmooth, x: 0.25, y: 0.25, brightness: -50 },
+    { ...colorSmooth, x: -0.25, y: -0.25, brightness: 10 }
+  );
 };

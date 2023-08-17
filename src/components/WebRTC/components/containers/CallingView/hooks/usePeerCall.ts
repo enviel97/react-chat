@@ -10,7 +10,7 @@ import {
 } from "@store/slices/call";
 import { useEffect, useState } from "react";
 
-const usePeerCall = (localStream?: MediaStream) => {
+const usePeerCall = (callId: string, localStream?: MediaStream) => {
   const socket = useSocket();
   const peer = useAppSelector(peerSelector.selectPeer);
   const dispatch = useAppDispatch();
@@ -60,6 +60,7 @@ const usePeerCall = (localStream?: MediaStream) => {
       switch (state) {
         case "disconnected": {
           dispatch(setCallError("user-unavailable"));
+          setRemoteStream(undefined);
         }
       }
     });

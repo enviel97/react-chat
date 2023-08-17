@@ -1,4 +1,4 @@
-import { IconBase } from "@components/Icon";
+import IconBase from "@components/Icon";
 import { FC, memo, useMemo } from "react";
 import { IconContext } from "react-icons/lib";
 import {
