@@ -19,12 +19,12 @@ interface CallingViewProps {
 const CallingView: FC<CallingViewProps> = ({ callId }) => {
   const currentCall = useAppSelector(callSelector.selectCurrentCall);
   const localStream = useAppSelector(peerSelector.selectMediaStream);
-  const remoteStream = usePeerCall(localStream);
+  const remoteStream = usePeerCall(callId, localStream);
 
   return (
     <CallingViewOverplay {...CallingViewAnimation.overlay}>
       <CallingViewContainer {...CallingViewAnimation.container}>
-        <AnimatePresence mode='popLayout'>
+        <AnimatePresence mode='wait'>
           {!currentCall && <CallingNotification />}
           {currentCall && (
             <CallingModal

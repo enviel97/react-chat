@@ -14,6 +14,17 @@ const LiveScreenWrapper = styled(motion.video)`
   background-color: var(--background-color);
 `;
 
+const LiveScreenLostConnection = styled(motion.span)`
+  height: 100%;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  font-weight: 300;
+  font-style: italic;
+`;
+
 const variants = {
   visible: { opacity: 1 },
   hidden: { opacity: 0 },
@@ -43,6 +54,11 @@ const LiveScreen: FC<LiveScreenProps> = ({ stream }) => {
           controls={false}
           ref={target}
         />
+      )}
+      {!stream && (
+        <LiveScreenLostConnection>
+          Calling lost connection suddenly ...
+        </LiveScreenLostConnection>
       )}
     </AnimatePresence>
   );

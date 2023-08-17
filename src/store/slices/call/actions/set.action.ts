@@ -28,4 +28,10 @@ export const setCallErrorAction: SetAction<CallErrorType> = (state, action) => {
   const payload = action.payload;
   if (!payload) return void (state.errorMess = undefined);
   state.errorMess = CallErrorMapping[payload];
+
+  const currentCall = state.callId;
+  if (!currentCall) return;
+  const normalEndCall: CallErrorType[] = ["user-unavailable"];
+  const status = normalEndCall.includes(payload) ? "ended" : "error";
+  callsAdapter.updateOne(state, { id: currentCall, changes: { status } });
 };

@@ -6,14 +6,16 @@ import CircleAvatar from "@pages/Main/components/ui/CircleAvatar";
 const RemotePersonAvatar: FC<RemotePersonAvatarProps> = ({
   src,
   variants = "webcam_on",
-  isConnected,
+  isConnecting,
 }) => {
   const Wave = useMemo(() => {
-    if (isConnected) return null;
-    return Array.from({ length: 2 }, (_, index) => {
-      return <Styles.Waiting {...Animate.Wave} key={index} custom={index} />;
-    });
-  }, [isConnected]);
+    if (isConnecting) {
+      return Array.from({ length: 2 }, (_, index) => {
+        return <Styles.Waiting {...Animate.Wave} key={index} custom={index} />;
+      });
+    }
+    return null;
+  }, [isConnecting]);
 
   return (
     <Styles.Container $animate={variants} layout>

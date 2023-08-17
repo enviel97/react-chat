@@ -3,7 +3,7 @@ type RemotePersonAvatarVariants = "webcam_on" | "webcam_off";
 interface RemotePersonAvatarProps {
   src?: string;
   variants?: RemotePersonAvatarVariants;
-  isConnected?: boolean;
+  isConnecting?: boolean;
 }
 
 interface RemotePersonAvatarAnimate<T> {

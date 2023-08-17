@@ -41,12 +41,16 @@ const LocalPersonCall: FC<LocalPersonCallProps> = ({
       transition={{ duration }}
     >
       <Styles.ActionContainer>
-        <SlideButton animateDuration={1} onClick={handleExpanded} />
+        <SlideButton
+          animateDuration={1}
+          onClick={handleExpanded}
+          defaultState={!expanded}
+        />
         <Styles.ActionStreamContainer>
           <CallingActionHint id={tooltipId}>
             <ActionButton
               iconName={"Webcam"}
-              // disabled={!stream}
+              disabled={!stream}
               defaultState={camera}
               onClick={handleLiveScreen}
               data-tooltip-id={tooltipId}

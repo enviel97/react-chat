@@ -10,12 +10,15 @@ import {
 } from "./styles/RemotePersonCall.decorate";
 import CallingActionHint from "../../ui/CallingActionHint";
 import string from "@utils/string";
+import CallingAction from "../../ui/CallingAction";
 
 interface RemotePersonCallProps {
   avatar?: string;
   stream?: MediaStream;
   camera?: boolean;
   microphone?: boolean;
+  status: CallStatus;
+  callId: string;
 }
 
 const RemotePersonCall: FC<RemotePersonCallProps> = ({
@@ -23,6 +26,8 @@ const RemotePersonCall: FC<RemotePersonCallProps> = ({
   avatar,
   camera,
   microphone,
+  status,
+  callId,
 }) => {
   const { live, handleLiveScreen } = useWebcam(stream, camera);
   const { handleLiveAudio } = useAudio(stream, microphone);
@@ -33,9 +38,10 @@ const RemotePersonCall: FC<RemotePersonCallProps> = ({
       <LiveScreen stream={stream} />
       <RemotePersonAvatar
         src={avatar}
-        isConnected={!!stream}
+        isConnecting={status === "connection"}
         variants={live ? "webcam_on" : "webcam_off"}
       />
+      <CallingAction callId={callId} status={status} />
       <PersonCallAction>
         <CallingActionHint id={tooltipId}>
           <IconToggle

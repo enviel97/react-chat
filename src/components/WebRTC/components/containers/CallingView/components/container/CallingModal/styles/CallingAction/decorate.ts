@@ -18,6 +18,11 @@ export const StatusContainer = styled(motion.div)`
 `;
 
 export const CallingActionContainer = styled.div`
+  position: absolute;
+  top: 1em;
+  left: 50%;
+  transform: translate(-50%, 0);
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -31,14 +36,7 @@ export const CallingActionContainer = styled.div`
   user-select: none;
   background-color: var(--background-color);
   box-shadow: ${CallNotificationContainerShadow};
-
-  ${breakpoint.down("tablet")} {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translate(-50%, 0);
-    margin: 1em 0;
-  }
+  margin-bottom: 1em;
 `;
 
 /**

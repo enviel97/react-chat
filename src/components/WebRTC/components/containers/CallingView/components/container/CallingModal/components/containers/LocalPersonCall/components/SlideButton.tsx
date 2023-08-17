@@ -3,7 +3,6 @@ import { FC, useState } from "react";
 import styled from "styled-components";
 
 interface SlideButtonProps {
-  size?: number;
   defaultState?: boolean;
   animateDuration: number;
   onClick?: (isExpanded: boolean) => void;
@@ -27,7 +26,6 @@ const BarContainer = styled(motion.span)`
 `;
 
 const SlideButton: FC<SlideButtonProps> = ({
-  size = 42,
   onClick,
   defaultState = false,
   animateDuration = 1, // once second,
@@ -49,7 +47,7 @@ const SlideButton: FC<SlideButtonProps> = ({
         scale: 1.1,
         transition: { color: { duration: 0 }, scale: { duration: 0.2 } },
       }}
-      style={{ height: size, color: "#454545" }}
+      style={{ height: 42, color: "#454545" }}
       onClick={handleOnToggleExpanded}
     >
       <BarContainer

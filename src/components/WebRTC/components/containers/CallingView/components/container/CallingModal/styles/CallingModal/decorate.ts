@@ -8,7 +8,6 @@ export const CallingContainer = styled(motion.div)`
   display: flex;
   height: 100%;
   width: 100%;
-  gap: auto;
   border-radius: inherit;
 
   ${breakpoint.down("tablet")} {
@@ -19,7 +18,6 @@ export const CallingContainer = styled(motion.div)`
 export const CallingDisplayName = styled.span`
   display: flex;
   flex-direction: column;
-  font-weight: bold;
   text-align: left;
   width: 100%;
   font-size: 1.2rem;
@@ -30,7 +28,7 @@ export const CallingDisplayName = styled.span`
     ${textMaxLine(2)}
   }
 `;
-export const CallingInfoContainer = styled.div`
+export const CallingInfoContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -41,14 +39,16 @@ export const CallingInfoContainer = styled.div`
 
   /* Normal */
   height: 100%;
-  width: 25rem;
+  width: 20em;
+  min-width: 15em;
   padding: 1em;
-  box-shadow: -1em 0 1em rgba(0, 0, 0, 0.75);
+  box-shadow: -0.5em 0 0.75em rgba(0, 0, 0, 0.75);
 
   ${breakpoint.down("tablet")} {
     height: auto;
     min-height: 7em;
     width: 100%;
-    box-shadow: 0 -1em 1em rgba(0, 0, 0, 0.75);
+    box-shadow: 0 -0.5em 0.75em rgba(0, 0, 0, 0.75),
+      0 1em var(--background-color);
   }
 `;
