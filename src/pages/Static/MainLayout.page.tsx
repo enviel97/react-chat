@@ -27,6 +27,7 @@ const MainContainer = styled.div`
 `;
 
 const MainLayoutContainer = styled.div<Props>`
+  position: relative;
   display: flex;
   box-sizing: border-box;
   flex: 1;

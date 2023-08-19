@@ -8,7 +8,7 @@ interface MessageContentContainerProps {
 export const MessageContentContainer = styled.div<MessageContentContainerProps>`
   position: relative;
   white-space: pre-wrap;
-  max-width: 50vw;
+  max-width: 100%;
   padding: 0.75rem 1rem;
   display: flex;
   width: 100%;
@@ -26,12 +26,7 @@ export const MessageContentContainer = styled.div<MessageContentContainerProps>`
     `;
   }}
 
-  font-size: ${clampSize({
-    minWidth: 282,
-    maxWidth: 748.4,
-    maxFontSize: 1.2,
-    minFontSize: 0.75,
-  })};
+  font-size:1em;
 
   &:focus[contenteditable="true"] {
     display: -webkit-box;

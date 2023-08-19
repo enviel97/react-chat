@@ -7,11 +7,9 @@ interface HeaderConversationProps {
   conversationId: string;
 }
 
-const HeaderConversationContainer = styled.h4`
+const HeaderConversationContainer = styled.span`
   display: -webkit-box;
-  align-items: center;
   flex: 1;
-  font-size: 0.8em;
   font-weight: bold;
   overflow: hidden;
   text-overflow: ellipsis;

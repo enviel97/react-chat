@@ -22,9 +22,9 @@ export const ChannelHeaderContainer = styled.div`
   box-shadow: 0 1rem 1rem ${({ theme }) => theme.black};
   z-index: ${zIndex.ChannelHeader};
 
-  & h4 {
+  & span {
     font-weight: normal;
-    font-size: inherit;
+    font-size: 1.2rem;
   }
 `;
 

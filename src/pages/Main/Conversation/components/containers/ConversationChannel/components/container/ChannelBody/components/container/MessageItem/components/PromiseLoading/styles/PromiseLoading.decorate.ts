@@ -8,11 +8,13 @@ export const HintContainer = styled.div`
   aspect-ratio: 1;
   right: -0.25em;
   bottom: -0.25em;
+  border-radius: 50%;
+  border: 2px solid var(--background-color);
 `;
 
 export const PromiseLoadingContainer = styled(motion.div)`
   background-color: ${({ theme }) => theme.backgroundColor};
-  border: 0.15em solid ${({ theme }) => theme.disableColor};
+  border: 0.1em solid ${({ theme }) => theme.backgroundColor};
   border-radius: 50%;
   padding: 1px;
   display: flex;
