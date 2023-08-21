@@ -9,11 +9,11 @@ type TypeDecorate = {
 export const MenuContextContainer = styled(motion.ul)<TypeDecorate>`
   position: fixed;
   background-color: ${({ theme }) => `${theme.surfaceColor}ef`};
-  border-radius: 15px;
+  border-radius: 10px;
   height: ${({ $height }) => $height ?? "fit-content"};
-  width: ${({ $width }) => `min(50%, ${$width ?? "10%"})`};
+  width: ${({ $width }) => `min(50%, ${$width ?? "180px"})`};
   z-index: ${zIndex.BaseModalBackdrop};
-  padding: 0.5em 0em;
+  padding-bottom: 0.5rem;
   border: 1px solid ${({ theme }) => `${theme.surfaceColor}ef`};
   box-shadow: 0.3em 0.5em 25px #000000ef;
 `;
@@ -22,7 +22,7 @@ export const MenuContextTitle = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.25em;
+  padding: 0.2em;
   font-weight: bold;
   border-bottom: 2px solid ${({ theme }) => theme.backgroundColor};
 `;

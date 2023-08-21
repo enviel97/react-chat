@@ -19,16 +19,18 @@ const ContextMenuItems: FC<ContextMenuItemProps> = ({
         onClick && onClick(selectedValue);
         close();
       }}
+      variants={{
+        enter: { opacity: 1 },
+        exit: { opacity: 0 },
+      }}
       whileHover={{
         scale: 1.05,
         backgroundColor:
           hoverBackgroundColor ?? colorBrightness(theme.surfaceColor, 10),
         color: hoverColor,
       }}
-      whileTap={{
-        scale: 0.98,
-      }}
-      transition={{ bounce: 0 }}
+      whileTap={{ scale: 0.98 }}
+      transition={{ bounce: 0, opacity: { delay: 0.05 } }}
     >
       <i>{icon}</i>
       <span>{label}</span>

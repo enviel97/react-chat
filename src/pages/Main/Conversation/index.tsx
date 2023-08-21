@@ -1,12 +1,15 @@
 import { Route } from "react-router-dom";
 import { Outlet, useParams } from "react-router-dom";
-import { Panel, UnselectedConversation } from "./styles/Conversation.decorate";
+import {
+  ConversationContainer,
+  ConversationMessageContainer,
+  UnselectedConversation,
+} from "./styles/Conversation.decorate";
 import useBreakpoint from "@hooks/useBreakpoint";
 import ConversationSidebar from "./components/containers/ConversationSidebar";
 import Friends from "./components/containers/Friends";
 import ConversationChannel from "./components/containers/ConversationChannel";
 import ConversationError from "./components/containers/ConversationError";
-import { Fragment } from "react";
 import useFriendFetch from "../hooks/useFriendFetch";
 import useConversationFetch from "../hooks/useConversationsFetch";
 
@@ -25,17 +28,18 @@ const ConversationLayout = () => {
   useConversationFetch();
 
   return (
-    <Fragment>
-      {!breakpoint.down("tablet") && <ConversationSidebar />}
-      <Panel>
-        {breakpoint.down("tablet") && <ConversationSidebar />}
-        {!params?.id && (
-          <UnselectedConversation>Select messenger</UnselectedConversation>
-        )}
-        {params.id && <Outlet />}
-      </Panel>
-      {breakpoint.up("tablet") && <Friends />}
-    </Fragment>
+    <ConversationContainer>
+      {/* width: 25svw;  max-width: 250px;x */}
+      <ConversationMessageContainer>
+        <ConversationSidebar />
+        <UnselectedConversation>
+          {!params?.id && "Select messenger"}
+          {params.id && <Outlet />}
+        </UnselectedConversation>
+      </ConversationMessageContainer>
+      {/* width-full: 250px; width-small: 150px */}
+      {!breakpoint.down("tablet") && <Friends />}
+    </ConversationContainer>
   );
 };
 

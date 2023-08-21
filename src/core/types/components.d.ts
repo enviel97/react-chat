@@ -4,5 +4,5 @@ interface Components {
 
 interface KTooltip {
   "data-tooltip-id": string;
-  "data-tooltip-content": string;
+  "data-tooltip-content"?: string;
 }

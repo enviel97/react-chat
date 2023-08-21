@@ -30,8 +30,12 @@ const useCLoseOnClickOutside = (
 
   const onClickEvent = useCallback(
     (event: MouseEvent | TouchEvent) => {
-      if (!ref.current || !event.target) return;
-      if (!ref.current.contains(event.target)) {
+      console.log({ current: ref.current, event: event.target });
+      if (
+        !ref.current ||
+        !event.target ||
+        !ref.current.contains(event.target)
+      ) {
         event.stopPropagation();
         setIsOpen(false);
       }
