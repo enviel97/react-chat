@@ -72,6 +72,7 @@ export const SideItemContainer = styled.div`
 
 export const SideItemContent = styled.div`
   width: 200px;
+  font-size: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;

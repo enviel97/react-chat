@@ -5,6 +5,7 @@ import DirectAvatar from "./components/DirectAvatar";
 import GroupAvatar from "./components/GroupAvatar";
 import AvatarLoading from "./components/AvatarLoading";
 import styled from "styled-components";
+import { breakpoint } from "@theme/helper/breakpoint";
 
 interface ConversationAvatarProps {
   conversationId: string;
@@ -15,8 +16,12 @@ const ConversationSize = styled.div`
   align-items: center;
   justify-content: flex-start;
   box-sizing: border-box;
-  width: 40px;
-  height: 40px;
+  height: 2.5em;
+  aspect-ratio: 1/1;
+
+  ${breakpoint.down("tablet")} {
+    height: 3em;
+  }
 `;
 
 const ConversationAvatar: FC<ConversationAvatarProps> = ({
@@ -25,6 +30,7 @@ const ConversationAvatar: FC<ConversationAvatarProps> = ({
   const conversationAvatars = useAppSelector((state) =>
     selectAvatarConversationById(state, conversationId)
   );
+
   if (!conversationAvatars) {
     return (
       <ConversationSize>
@@ -38,7 +44,7 @@ const ConversationAvatar: FC<ConversationAvatarProps> = ({
         <GroupAvatar avatarIds={conversationAvatars} />
       )}
       {conversationAvatars.length <= 1 && (
-        <DirectAvatar avatarId={conversationAvatars.at(0)} />
+        <DirectAvatar avatarId={conversationAvatars.at(0)} size={"100%"} />
       )}
     </ConversationSize>
   );

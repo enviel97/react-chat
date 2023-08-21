@@ -28,7 +28,7 @@ const ContextMenuProvider: FC<ContextMenuProviderProps> = ({
   width,
   disable,
 }) => {
-  const targetValue = useRef<any>();
+  const targetValue = useRef<HTMLUListElement>();
   const [clickPointer, setClickPointer] = useState({
     x: 0,
     y: 0,
@@ -36,10 +36,8 @@ const ContextMenuProvider: FC<ContextMenuProviderProps> = ({
   const { targetRef, isOpen, open, close } = useCLoseOnClickOutside();
   const preventContextMenu = (event: ContextMenuEvent) => {
     event.preventDefault();
-    setClickPointer({
-      x: event.pageX,
-      y: event.pageY,
-    });
+    event.stopPropagation();
+    setClickPointer({ x: event.pageX, y: event.pageY });
   };
   const onContextMenu = useCallback(
     (value: any) => {
@@ -52,13 +50,14 @@ const ContextMenuProvider: FC<ContextMenuProviderProps> = ({
   const motionProps = useMemo(() => {
     const { x, y } = clickPointer;
     return MenuContextAnimation({ top: y, left: x });
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [clickPointer.x, clickPointer.y]);
 
   useEffect(() => {
     return close;
   }, [close]);
+
+  if (disable) return <>{children}</>;
 
   return (
     <MenuContext.Provider
@@ -70,16 +69,13 @@ const ContextMenuProvider: FC<ContextMenuProviderProps> = ({
     >
       <MenuOpacity onContextMenu={preventContextMenu}>
         {children}
-        <AnimatePresence
-          initial={false}
-          mode='wait'
-          onExitComplete={() => null}
-        >
+        <AnimatePresence mode='wait' onExitComplete={() => null}>
           {isOpen && !disable && (
             <MenuContextContainer
               ref={targetRef}
               $height={height}
               $width={width}
+              key={clickPointer.x}
               {...motionProps}
             >
               <ContextMenu menuTitle={menuTitle} items={menuItem} />
